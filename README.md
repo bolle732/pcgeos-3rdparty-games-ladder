@@ -35,6 +35,4 @@ Depending on the compiled language, copy either the help file `gladhcde.000` or 
 
 ## Known issues
 
-There is a problem with the Watcom version of the SDK. The routine ChunkArrayGetElement() always returns the first element. Because to this, always the first level is loaded...
-
-With this new Watcom based SDK, I have to use the routine ChunkOf() for references to other chunks. So, maybe there is another magic I miss.
+Currently none ;-)
