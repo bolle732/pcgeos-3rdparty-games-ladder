@@ -647,7 +647,7 @@ static void _pascal DrawValue(word pos, word val)
  * SYNOPSIS:        Check if we have a new rank.
  * CALLED BY:       Internal
  * PARAMETERS:      void ( word score )
- * RETURN:          nothing
+ * RETURN:          A boolean indicating if we have a new rank or not
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ We have a new rank if the provided score is
