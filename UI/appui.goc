@@ -2033,12 +2033,12 @@
 
 @ifdef I8N_DE
 @chunk char LevelName4[] = {
- 'T', 'u', 'n', 'n', 'e', 'l', ' ', 'V', 'i', 's', 'i', 'o', 'n'
+  'T', 'u', 'n', 'n', 'e', 'l', ' ', 'V', 'i', 's', 'i', 'o', 'n'
 };
 @endif
 @ifdef I8N_EN
 @chunk char LevelName4[] = {
- 'T', 'u', 'n', 'n', 'e', 'l', ' ', 'V', 'i', 's', 'i', 'o', 'n'
+  'T', 'u', 'n', 'n', 'e', 'l', ' ', 'V', 'i', 's', 'i', 'o', 'n'
 };
 @endif
 
