@@ -7,3 +7,5 @@ Makefile
 *.obj
 *.rsc
 *.sym
+*.vm
+TODO.md
