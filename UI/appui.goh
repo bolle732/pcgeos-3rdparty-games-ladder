@@ -61,7 +61,6 @@
 @extern object LadderPlayRound;
 @extern object LadderPlayScore;
 @extern object LadderPlayTime;
-@extern object LadderEnd;
 @extern object LadderLast;
 @extern object LadderOver;
 @extern object LadderHigh;
@@ -72,28 +71,29 @@
 
 // RESOURCE Text
 @extern chunk ScreenMenu;
-@extern chunk TextMenuOff;
-@extern chunk TextMenuOn;
-@extern chunk Stim1;
-@extern chunk Stim2;
-@extern chunk Stim3;
-@extern chunk Stim4;
+@extern chunk TextSoundOff;
+@extern chunk TextSoundOn;
+@extern chunk TextStim1;
+@extern chunk TextStim2;
+@extern chunk TextStim3;
+@extern chunk TextStim4;
 @extern chunk TextMenuExit;
 
 @extern chunk ScreenHelp;
 
 @extern chunk ScreenOver;
 
-@extern chunk ScreenLast;
+@extern chunk ScreenDone;
 
 @extern chunk ScreenHigh;
-@extern chunk Comp1;
-@extern chunk Comp2;
-@extern chunk Comp3;
-@extern chunk Comp4;
-@extern chunk Comp5;
-@extern chunk Comp6;
-@extern chunk Comp7;
+@extern chunk TextComp1;
+@extern chunk TextComp2;
+@extern chunk TextComp3;
+@extern chunk TextComp4;
+@extern chunk TextComp5;
+@extern chunk TextComp6;
+@extern chunk TextComp7;
+@extern chunk TextHighNoName;
 @extern chunk TextHighSave;
 
 
@@ -103,7 +103,7 @@
 @extern chunk ScreenPlay;
 @extern chunk TextPlayReady;
 @extern chunk TextPlayHooka;
-@extern chunk TextPlayCont;
+@extern chunk TextPlayContinue;
 
 @extern chunk Levels;  // chunkArray
 @extern chunk LevelName1;

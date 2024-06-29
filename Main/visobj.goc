@@ -19,7 +19,7 @@
 
 /*
  ***************************************************************************
- * Copyright (c) 2010-2016 by YoYu-Productions
+ * Copyright (c) 2010-2024 by YoYu-Productions
  *
  * PROJECT:     GeoLadder
  * MODULE:      GOC code file
@@ -70,7 +70,6 @@ static char LEC[] =
 
 static char RFN[] = RNKS_F_NAME;
 static char RPS[] = RNKS_P_SUB;
-static char RNN[] = RNK_NO_NAME;
 
 static void _pascal DestroyGState(void);
 static void _pascal ClearText(word pos, word len);
@@ -377,6 +376,7 @@ static void _pascal DrawValue(word pos, word val)
  *      Name    Date          Description
  *      ----    ----          -----------
  *      boa     2011-01-18    Initial Revision
+ *      bos     2024-06-28    Added chunk command
  *
  ***********************************************************************/
 @method LadderScreenClass, MSG_VIS_DRAW  // 302 Bytes
@@ -399,6 +399,24 @@ static void _pascal DrawValue(word pos, word val)
     {
       // Get the command from current byte
       cmd = *p_data & TSC_M;
+      // Handle draw chunk command
+      if (cmd == TSD_T_CHNK)
+      {
+        // Check if we have valid chunks
+        if (pself->LSI_chunks != NullOptr)
+        {
+          optr o2;
+          // Get the index of the chunk
+          n++; p_data++;
+//          MemLock(OptrToHandle(o2));
+          ChunkArrayGetElement(pself->LSI_chunks, *p_data, &o2);
+          len = LMemGetChunkSize(o2);
+          DrawText(pos, LMemDeref(o2), len);
+          pos += len;
+//          MemUnlock(OptrToHandle(o2));
+        }
+        continue;
+      }
       // Handle cursor set command
       if (cmd == TSP_T_SET)
       {
@@ -710,7 +728,9 @@ static void _pascal DrawValue(word pos, word val)
       // Write the rank default score
       pself->LRI_file.ranks[i].score = PNT_TIME;
       // Write the rank no name
-      strcpy(pself->LRI_file.ranks[i].name, &RNN);
+     MemLock(OptrToHandle(@TextHighNoName));
+     memcpy(pself->LRI_file.ranks[i].name, LMemDeref(@TextHighNoName), LMemGetChunkSize(@TextHighNoName));
+     MemUnlock(OptrToHandle(@TextHighNoName));
     }
     // Create the file
     fh = FileCreate(&RFN, (FILE_ACCESS_RW | FILE_DENY_RW), FA_ARCHIVE);

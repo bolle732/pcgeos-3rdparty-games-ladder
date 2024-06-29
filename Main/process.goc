@@ -79,7 +79,7 @@ static char IKL[] = INI_KEY_LAST;
 // Lookup table for stimulis
 static optr LST[STMS] =
 {
-  @Stim1, @Stim2, @Stim3, @Stim4
+  @TextStim1, @TextStim2, @TextStim3, @TextStim4
 };
 // Lookup table for score of compliments
 static word LHS[CMPS] =
@@ -89,7 +89,7 @@ static word LHS[CMPS] =
 // Lookup table for text of compliments
 static optr LHT[CMPS] =
 {
-  @Comp1, @Comp2, @Comp3, @Comp4, @Comp5, @Comp6, @Comp7
+  @TextComp1, @TextComp2, @TextComp3, @TextComp4, @TextComp5, @TextComp6, @TextComp7
 };
 
 void _pascal StopTimer(void);
@@ -281,7 +281,7 @@ static word _pascal TicksByDifficulty(word diff)
     if (g.game.sound == PLY_SND_ON)
     {
       // Set the text
-      @send LadderMenuSound::MSG_TXT_SET_TEXT(@TextMenuOn);
+      @send LadderMenuSound::MSG_TXT_SET_TEXT(@TextSoundOn);
     }
   }
   // Get the last score from the INI file
@@ -433,14 +433,14 @@ static word _pascal TicksByDifficulty(word diff)
       // Set the sound state
       g.game.sound = PLY_SND_ON;
       // Update the text on screen
-      @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@TextMenuOn);
+      @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@TextSoundOn);
     }
     else  // PLY_SND_ON
     {
       // Set the sound state
       g.game.sound = PLY_SND_OFF;
       // Update the text on screen
-      @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@TextMenuOff);
+      @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@TextSoundOff);
     }
   }
   // Start the stimulus

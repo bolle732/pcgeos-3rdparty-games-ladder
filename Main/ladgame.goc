@@ -1223,7 +1223,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
   // Stop the play timer
   StopTimer();
   // Update the info line with the wait message
-  @send LadderInfo::MSG_TXT_UPDATE_TEXT(@TextPlayCont);
+  @send LadderInfo::MSG_TXT_UPDATE_TEXT(@TextPlayContinue);
 }
 
 /***********************************************************************

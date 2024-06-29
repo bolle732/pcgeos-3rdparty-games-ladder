@@ -19,7 +19,7 @@
 
 /*
  ***************************************************************************
- * Copyright (c) 2010-2011 by YoYu-Productions
+ * Copyright (c) 2010-2024 by YoYu-Productions
  *
  * PROJECT:     GeoLadder
  * MODULE:      GOC code file
@@ -71,16 +71,20 @@
   }
   GI_comp = @LadderPrimary;
   gcnList(MANUFACTURER_ID_GEOWORKS, GAGCNLT_WINDOWS) = @LadderPrimary;
-@ifdef I8N_DE
-  ATTR_GEN_HELP_FILE = "GeoLadder Hilfe";
-@endif
-@ifdef I8N_EN
+//  ATTR_GEN_HELP_FILE = @HelpFile;
   ATTR_GEN_HELP_FILE = "GeoLadder Help";
-@endif
   HINT_APP_IS_ENTERTAINING;
 }
 
 @visMoniker LadderTextMoniker = "GeoLadder";
+@localize "The GeoLadder application name";
+
+// I8N_DE
+/*
+"GeoLadder Hilfe"
+*/
+//@chunk char HelpFile[] = "GeoLadder Help";
+//@localize "The GeoLadder help file name" 3-32;
 
 @end APPLICATION;
 
@@ -120,45 +124,26 @@
     @LadderMenuLastScore,
     @LadderMenuInfo;
   LSI_screen = @ScreenMenu;
+  LSI_chunks = @ScreenMenuStrings;
 }
 
-@ifdef I8N_DE
 @object LadderValueClass LadderMenuDiff = {
   VI_bounds = {
+// I8N_DE    17 + SCN_COLS * 11, 0,
     17 + SCN_COLS * 11, 0,
     1, 0
   };
   LVI_value = PLY_DIFF_MIN;
 }
-@endif
-@ifdef I8N_EN
-@object LadderValueClass LadderMenuDiff = {
-  VI_bounds = {
-    15 + SCN_COLS * 11, 0,
-    1, 0
-  };
-  LVI_value = PLY_DIFF_MIN;
-}
-@endif
 
-@ifdef I8N_DE
 @object LadderTextClass LadderMenuSound = {
   VI_bounds = {
+// I8N_DE    21 + SCN_COLS * 12, 0,
     21 + SCN_COLS * 12, 0,
     3, 0
   };
-  LTI_text = @TextMenuOff;
+  LTI_text = @TextSoundOff;
 }
-@endif
-@ifdef I8N_EN
-@object LadderTextClass LadderMenuSound = {
-  VI_bounds = {
-    19 + SCN_COLS * 12, 0,
-    3, 0
-  };
-  LTI_text = @TextMenuOff;
-}
-@endif
 
 @object LadderRankClass LadderMenuRank = {
   VI_bounds = {
@@ -167,24 +152,14 @@
   };
 }
 
-@ifdef I8N_DE
 @object LadderValueClass LadderMenuLastScore = {
   VI_bounds = {
+// I8N_DE    55 + SCN_COLS * 21, 0,
     55 + SCN_COLS * 21, 0,
     4, 0
   };
   LVI_value = 1;
 }
-@endif
-@ifdef I8N_EN
-@object LadderValueClass LadderMenuLastScore = {
-  VI_bounds = {
-    52 + SCN_COLS * 21, 0,
-    4, 0
-  };
-  LVI_value = 1;
-}
-@endif
 
 @object LadderTextClass LadderMenuInfo = {
   VI_bounds = {
@@ -196,34 +171,27 @@
 // Instruction
 @object LadderScreenClass LadderHelp = {
   LSI_screen = @ScreenHelp;
+  LSI_chunks = @ScreenHelpStrings;
 }
 
 // Load level
 @object LadderScreenClass LadderLoad = {
   VCI_comp = @LadderLoadRound, @LadderLoadLevel, @LadderLoadName;
   LSI_screen = @ScreenLoad;
+  LSI_chunks = @ScreenLoadStrings;
 }
 
-@ifdef I8N_DE
 @object LadderTextClass LadderLoadName = {
   VI_bounds = {
     28  + SCN_COLS * 9, 0,
-    21, 0
-  };
-}
-@endif
-@ifdef I8N_EN
-@object LadderTextClass LadderLoadName = {
-  VI_bounds = {
-    28  + SCN_COLS * 9, 0,
+// I8N_DE    21, 0
     22, 0
   };
 }
-@endif
 
 @object LadderValueClass LadderLoadRound = {
   VI_bounds = {
-    39 + SCN_COLS * 12, 0,
+    42 + SCN_COLS * 12, 0,
     2, 0
   };
   LVI_value = 1;
@@ -231,7 +199,7 @@
 
 @object LadderValueClass LadderLoadLevel = {
   VI_bounds = {
-    39 + SCN_COLS * 13, 0,
+    42 + SCN_COLS * 13, 0,
     1, 0
   };
   LVI_value = 1;
@@ -245,6 +213,7 @@
     @LadderPlayScore, @LadderPlayTime,
     @LadderInfo;
   LSI_screen = @ScreenPlay;
+  LSI_chunks = @ScreenPlayStrings;
 }
 
 @object LadderLevelClass LadderPlayLevel = {
@@ -285,24 +254,14 @@
   LVI_value = 1;
 }
 
-@ifdef I8N_DE
 @object LadderValueClass LadderPlayScore = {
   VI_bounds = {
-    37 + SCN_COLS * 20, 0,
-    4, 0
-  };
-  LVI_value = 1;
-}
-@endif
-@ifdef I8N_EN
-@object LadderValueClass LadderPlayScore = {
-  VI_bounds = {
+// I8N_DE    55 + SCN_COLS * 21, 0,
     36 + SCN_COLS * 20, 0,
     4, 0
   };
   LVI_value = 1;
 }
-@endif
 
 @object LadderValueClass LadderPlayTime = {
   VI_bounds = {
@@ -314,12 +273,13 @@
 
 // Game end
 @object LadderScreenClass LadderLast = {
-  LSI_screen = @ScreenLast;
+  LSI_screen = @ScreenDone;
 }
 
 // Game over
 @object LadderScreenClass LadderOver = {
   LSI_screen = @ScreenOver;
+  LSI_chunks = @ScreenOverStrings;
 }
 
 // High score
@@ -328,6 +288,7 @@
     @LadderHighComp, @LadderHighName,
     @LadderInfo;
   LSI_screen = @ScreenHigh;
+  LSI_chunks = @ScreenHighStrings;
 }
 
 @object LadderTextClass LadderHighComp = {
@@ -337,22 +298,13 @@
   };
 }
 
-@ifdef I8N_DE
 @object LadderInputClass LadderHighName = {
   VI_bounds = {
-    23 + SCN_COLS * 12, 0,
+// I8N_DE    23 + SCN_COLS * 12, 0,
+    25 + SCN_COLS * 12, 0,
     RNK_NAME_LEN, 0
   };
 }
-@endif
-@ifdef I8N_EN
-@object LadderInputClass LadderHighName = {
-  VI_bounds = {
-    18 + SCN_COLS * 12, 0,
-    RNK_NAME_LEN, 0
-  };
-}
-@endif
 
 @object LadderTextClass LadderInfo = {
   VI_bounds = {
@@ -372,7 +324,62 @@
 
 @start TEXT, data;
 
-@ifdef I8N_DE
+// I8N_DE
+/*
+"Original ist (c) in 1982, 1983 Yahoo Software"
+"Adaptiert f', C_LU_DIERESIS, 'r PC/GEOS in 2011 von Andreas Bollhalder"
+"Version : 0.5"
+"Terminal: PC/GEOS"
+"Schwierigkeitsgrad"
+"Tonausgabe"
+"P = Starte Spiel"
+"D = ', C_UA_DIERESIS, 'ndere Schwierigkeitsgrad"
+"S = ', C_UA_DIERESIS, 'ndere Tonausgabe"
+"I = Zeige Instruktionen"
+"E = Beende GeoLadder"
+"W', C_LA_DIERESIS, 'hle eines von oben:"
+"Rangliste"
+"Letzte Punkte:"
+*/
+
+// Translatable strings in Ladder menu screen
+@chunk char TextMenu0[] = "Original is (c) in 1982, 1983 Yahoo Software";
+@localize { "The original copyright claim" 3-77 };
+@chunk char TextMenu1[] = "Adapted for PC/GEOS in 2011 by Andreas Bollhalder";
+@localize { "The adaption claim" 3-77 };
+@chunk char TextMenu2[] = "Version  : 0.5";  // XXX: Get number from revision file?
+@localize { "The version label and number" 3-37 };
+@chunk char TextMenu3[] = "Terminal : PC/GEOS";  // XXX: Get name from kernal?
+@localize { "The terminal label and name" 3-37 };
+@chunk char TextMenu4[] = "Difficulty Level";
+@localize { "The difficulty level label" 3-18 };
+@chunk char TextMenu5[] = "Sound Output";
+@localize { "The sound output label" 3-18 };
+@chunk char TextMenu6[] = "Play Game";
+@localize { "The play game label" 3-33 };
+@chunk char TextMenu7[] = "Change Difficulty";
+@localize { "The change difficulty label" 3-33 };
+@chunk char TextMenu8[] = "Change Sound";
+@localize { "The change sound label" 3-33 };
+@chunk char TextMenu9[] = "Show Instructions";
+@localize { "The show instructions label" 3-33 };
+@chunk char TextMenu10[] = "Exit GeoLadder";
+@localize { "The exit GeLadder label" 3-33 };
+@chunk char TextMenu11[] = "Enter one of the above:";
+@localize { "The enter one of the above label" 3-37 };
+@chunk char TextMenu12[] = "High Scores";
+@localize { "The high scores label" 3-37 };
+@chunk char TextMenu13[] = "Last Score:";
+@localize { "The last score label" 3-14 };
+
+// Lookup table for translatable strings in Ladder menu screen
+@chunkArray optr ScreenMenuStrings =
+{
+  @TextMenu0, @TextMenu1, @TextMenu2, @TextMenu3, @TextMenu4,
+  @TextMenu5, @TextMenu6, @TextMenu7, @TextMenu8, @TextMenu9,
+  @TextMenu10, @TextMenu11, @TextMenu12, @TextMenu13
+};
+
 @chunk byte ScreenMenu[] = {
   // Title
   TSPOS(0, 11),
@@ -479,62 +486,47 @@
   TSD_T_CHAR + 2, 'r', // Text "rr"
   // Informations
   TSPOS(8, 1),
-  TSD_T_TEXT, 45,
-    'O', 'r', 'i', 'g', 'i', 'n', 'a', 'l', ' ', 'i', 's', 't', ' ',
-    '(', 'c', ')', ' ', 'i', 'n', ' ', '1', '9', '8', '2', ',', ' ',
-    '1', '9', '8', '3', ' ', 'Y', 'a', 'h', 'o', 'o', ' ',
-    'S', 'o', 'f', 't', 'w', 'a', 'r', 'e',
+  TSD_T_CHNK, 0, // ScreenMenuStrings[0] / Text "Original is (c) in 1982, 1983 Yahoo Software"
   TSPOS(9, 1),
-  TSD_T_TEXT, 52,
-    'A', 'd', 'a', 'p', 't', 'i', 'e', 'r', 't', ' ', 'f', C_LU_DIERESIS, 'r', ' ',
-    'P', 'C', '/', 'G', 'E', 'O', 'S', ' ', 'i', 'n', ' ',
-    '2', '0', '1', '1', ' ', 'v', 'o', 'n', ' ',
-    'A', 'n', 'd', 'r', 'e', 'a', 's', ' ',
-    'B', 'o', 'l', 'l', 'h', 'a', 'l', 'd', 'e', 'r',
+  TSD_T_CHNK, 1, // ScreenMenuStrings[1] / Text "Adapted for PC/GEOS in 2011 by Andreas Bollhalder"
   TSPOS(11, 40),
-  TSD_T_TEXT + 13,
-    'V', 'e', 'r', 's', 'i', 'o', 'n', ' ', ':', ' ', '0', '.', '4',
+  TSD_T_CHNK, 2, // ScreenMenuStrings[2] / Text "Version : 0.4"
   TSPOS(12, 40),
-  TSD_T_TEXT, 17,
-    'T', 'e', 'r', 'm', 'i', 'n', 'a', 'l', ':', ' ',
-    'P', 'C', '/', 'G', 'E', 'O', 'S',
+  TSD_T_CHNK, 3, // ScreenMenuStrings[3] / Text "Terminal: PC/GEOS"
   TSPOS(11, 1),
-  TSD_T_TEXT, 19,
-    'S', 'c', 'h', 'w', 'i', 'e', 'r', 'i', 'g', 'k', 'e', 'i', 't', 's', 'g', 'r', 'a', 'd', ':',
+  TSD_T_CHNK, 4, // ScreenMenuStrings[4] / Text "Difficulty Level"
+  TSPOS(11, 19),
+  TSD_T_CHAR + 1, ':', // Text ":"
   TSPOS(12, 1),
-  TSD_T_TEXT + 10,
-    'T', 'o', 'n', 'a', 'u', 's', 'g', 'a', 'b', 'e',
-  TSP_T_MOVE + 8,
+  TSD_T_CHNK, 5, // ScreenMenuStrings[5] / Text "Sound Output"
+  TSPOS(12, 19),
   TSD_T_CHAR + 1, ':', // Text ":"
   // Main menu
   TSPOS(14, 1),
-  TSD_T_TEXT, 16,
-    'P', ' ', '=', ' ', 'S', 't', 'a', 'r', 't', 'e', ' ',
-    'S', 'p', 'i', 'e', 'l',
+  TSD_T_TEXT + 4,
+    'P', ' ', '=', ' ',
+  TSD_T_CHNK, 6, // ScreenMenuStrings[6] / Text "Play Game"
   TSPOS(15, 1),
-  TSD_T_TEXT, 29,
-    'D', ' ', '=', ' ', C_UA_DIERESIS, 'n', 'd', 'e', 'r', 'e', ' ',
-    'S', 'c', 'h', 'w', 'i', 'e', 'r', 'i', 'g', 'k', 'e', 'i', 't', 's', 'g', 'r', 'a', 'd',
+  TSD_T_TEXT + 4,
+    'D', ' ', '=', ' ',
+  TSD_T_CHNK, 7, // ScreenMenuStrings[7] / Text "Change Difficulty"
   TSPOS(16, 1),
-  TSD_T_TEXT, 21,
-    'S', ' ', '=', ' ', C_UA_DIERESIS, 'n', 'd', 'e', 'r', 'e', ' ',
-    'T', 'o', 'n', 'a', 'u', 's', 'g', 'a', 'b', 'e',
+  TSD_T_TEXT + 4,
+    'S', ' ', '=', ' ',
+  TSD_T_CHNK, 8, // ScreenMenuStrings[8] / Text "Change Sound"
   TSPOS(17, 1),
-  TSD_T_TEXT, 23,
-    'I', ' ', '=', ' ', 'Z', 'e', 'i', 'g', 'e', ' ',
-    'I', 'n', 's', 't', 'r', 'u', 'k', 't', 'i', 'o', 'n', 'e', 'n',
+  TSD_T_TEXT + 4,
+    'I', ' ', '=', ' ',
+  TSD_T_CHNK, 9, // ScreenMenuStrings[9] / Text "Show Instructions"
   TSPOS(18, 1),
-  TSD_T_TEXT, 20,
-    'E', ' ', '=', ' ', 'B', 'e', 'e', 'n', 'd', 'e', ' ',
-    'G', 'e', 'o', 'L', 'a', 'd', 'd', 'e', 'r',
+  TSD_T_TEXT + 4,
+    'E', ' ', '=', ' ',
+  TSD_T_CHNK, 10, // ScreenMenuStrings[10] / Text "Exit GeoLadder"
   TSPOS(21, 1),
-  TSD_T_TEXT, 21,
-    'W', C_LA_DIERESIS, 'h', 'l', 'e', ' ', 'e', 'i', 'n', 'e', 's', ' ',
-    'v', 'o', 'n', ' ', 'o', 'b', 'e', 'n', ':',
+  TSD_T_CHNK, 11, // ScreenMenuStrings[11] / Text "Enter one of the above:"
   // Ranking list and last score
   TSPOS(14, 40),
-  TSD_T_TEXT + 9,
-    'R', 'a', 'n', 'g', 'l', 'i', 's', 't', 'e',
+  TSD_T_CHNK, 12, // ScreenMenuStrings[12] / Text "High Scores"
   TSPOS(15, 40),
   TSD_T_TEXT + 2,
     '1', ')',
@@ -561,502 +553,179 @@
   TSP_T_MOVE + 6,
   TSD_T_CHAR + 2, '0', // Text "00"
   TSPOS(21, 40),
-  TSD_T_TEXT + 14,
-    'L', 'e', 't', 'z', 't', 'e', ' ', 'P', 'u', 'n', 'k', 't', 'e', ':',
-  TSP_T_MOVE + 6,
+  TSD_T_CHNK, 13, // ScreenMenuStrings[13] / Text "Last Score:"
+  TSPOS(21, 60),
   TSD_T_CHAR + 2, '0' // Text "00"
 };
-@endif
-@ifdef I8N_EN
-@chunk byte ScreenMenu[] = {
-  // Title
-  TSPOS(0, 11),
-  TSD_T_CHAR + 2, 'L', // Text "LL"
-  TSP_T_MOVE, 21,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 7,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSPOS(1, 11),
-  TSD_T_CHAR + 2, 'L', // Text "LL"
-  TSP_T_MOVE, 21,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 7,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE, 22,
-  TSD_T_TEXT + 2, 't', 'm', // Text "tm"
-  TSPOS(2, 11),
-  TSD_T_CHAR + 2, 'L', // Text "LL"
-  TSP_T_MOVE + 9,
-  TSD_T_CHAR + 4, 'a', // Text "aaaa"
-  TSP_T_MOVE + 5,
-  TSD_T_CHAR + 5, 'd', // Text "ddddd"
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 5, 'd', // Text "ddddd"
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 4, 'e', // Text "eeee"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 7, 'r', // Text "rrrrrrr"
-  TSPOS(3, 11),
-  TSD_T_CHAR + 2, 'L', // Text "LL"
-  TSP_T_MOVE + 8,
-  TSD_T_CHAR + 2, 'a', // Text "aa"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 2, 'a', // Text "aa"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 2, 'e', // Text "ee"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 2, 'e', // Text "ee"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 2, 'r', // Text "rr"
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 2, 'r', // Text "rr"
-  TSPOS(4, 11),
-  TSD_T_CHAR + 2, 'L', // Text "LL"
-  TSP_T_MOVE + 8,
-  TSD_T_CHAR + 2, 'a', // Text "aa"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 2, 'a', // Text "aa"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 6, 'e', // Text "eeeeee"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 2, 'r', // Text "rr"
-  TSPOS(5, 11),
-  TSD_T_CHAR + 2, 'L', // Text "LL"
-  TSP_T_MOVE + 8,
-  TSD_T_CHAR + 2, 'a', // Text "aa"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 2, 'a', // Text "aa"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 2, 'e', // Text "ee"
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 2, 'r', // Text "rr"
-  TSPOS(6, 11),
-  TSD_T_CHAR + 8, 'L', // Text "LLLLLLLL"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 3, 'a', // Text "aaa"
-  TSP_T_MOVE + 1,
-  TSD_T_CHAR + 2, 'a', // Text "aa"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 3, 'd', // Text "ddd"
-  TSP_T_MOVE + 1,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 3, 'd', // Text "ddd"
-  TSP_T_MOVE + 1,
-  TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 4, 'e', // Text "eeee"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 2, 'r', // Text "rr"
-  // Informations
-  TSPOS(8, 1),
-  TSD_T_TEXT, 44,
-    'O', 'r', 'i', 'g', 'i', 'n', 'a', 'l', ' ', 'i', 's', ' ',
-    '(', 'c', ')', ' ', 'i', 'n', ' ', '1', '9', '8', '2', ',', ' ',
-    '1', '9', '8', '3', ' ', 'Y', 'a', 'h', 'o', 'o', ' ',
-    'S', 'o', 'f', 't', 'w', 'a', 'r', 'e',
-  TSPOS(9, 1),
-  TSD_T_TEXT, 49,
-    'A', 'd', 'a', 'p', 't', 'e', 'd', ' ', 'f', 'o', 'r', ' ',
-    'P', 'C', '/', 'G', 'E', 'O', 'S', ' ', 'i', 'n', ' ',
-    '2', '0', '1', '1', ' ', 'b', 'y', ' ',
-    'A', 'n', 'd', 'r', 'e', 'a', 's', ' ',
-    'B', 'o', 'l', 'l', 'h', 'a', 'l', 'd', 'e', 'r',
-  TSPOS(11, 40),
-  TSD_T_TEXT + 13,
-    'V', 'e', 'r', 's', 'i', 'o', 'n', ' ', ':', ' ', '0', '.', '4',
-  TSPOS(12, 40),
-  TSD_T_TEXT, 17,
-    'T', 'e', 'r', 'm', 'i', 'n', 'a', 'l', ':', ' ',
-    'P', 'C', '/', 'G', 'E', 'O', 'S',
-  TSPOS(11, 1),
-  TSD_T_TEXT, 17,
-    'D', 'i', 'f', 'f', 'i', 'c', 'u', 'l', 't', 'y', ' ',
-    'L', 'e', 'v', 'e', 'l', ':',
-  TSPOS(12, 1),
-  TSD_T_TEXT + 12,
-    'S', 'o', 'u', 'n', 'd', ' ', 'O', 'u', 't', 'p', 'u', 't',
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 1, ':', // Text ":"
-  // Main menu
-  TSPOS(14, 1),
-  TSD_T_TEXT + 13,
-    'P', ' ', '=', ' ', 'P', 'l', 'a', 'y', ' ', 'G', 'a', 'm', 'e',
-  TSPOS(15, 1),
-  TSD_T_TEXT, 21,
-    'D', ' ', '=', ' ', 'C', 'h', 'a', 'n', 'g', 'e', ' ',
-    'D', 'i', 'f', 'f', 'i', 'c', 'u', 'l', 't', 'y',
-  TSPOS(16, 1),
-  TSD_T_TEXT, 16,
-    'S', ' ', '=', ' ', 'C', 'h', 'a', 'n', 'g', 'e', ' ',
-    'S', 'o', 'u', 'n', 'd',
-  TSPOS(17, 1),
-  TSD_T_TEXT, 21,
-    'I', ' ', '=', ' ', 'S', 'h', 'o', 'w', ' ',
-    'I', 'n', 's', 't', 'r', 'u', 'c', 't', 'i', 'o', 'n', 's',
-  TSPOS(18, 1),
-  TSD_T_TEXT, 18,
-    'E', ' ', '=', ' ', 'E', 'x', 'i', 't', ' ',
-    'G', 'e', 'o', 'L', 'a', 'd', 'd', 'e', 'r',
-  TSPOS(21, 1),
-  TSD_T_TEXT, 23,
-    'E', 'n', 't', 'e', 'r', ' ', 'o', 'n', 'e', ' ',
-    'o', 'f', ' ', 't', 'h', 'e', ' ', 'a', 'b', 'o', 'v', 'e', ':',
-  // Ranking list and last score
-  TSPOS(14, 40),
-  TSD_T_TEXT + 11,
-    'H', 'i', 'g', 'h', ' ', 'S', 'c', 'o', 'r', 'e', 's',
-  TSPOS(15, 40),
-  TSD_T_TEXT + 2,
-    '1', ')',
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 2, '0', // Text "00"
-  TSPOS(16, 40),
-  TSD_T_TEXT + 2,
-    '2', ')',
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 2, '0', // Text "00"
-  TSPOS(17, 40),
-  TSD_T_TEXT + 2,
-    '3', ')',
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 2, '0', // Text "00"
-  TSPOS(18, 40),
-  TSD_T_TEXT + 2,
-    '4', ')',
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 2, '0', // Text "00"
-  TSPOS(19, 40),
-  TSD_T_TEXT + 2,
-    '5', ')',
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 2, '0', // Text "00"
-  TSPOS(21, 40),
-  TSD_T_TEXT + 11,
-    'L', 'a', 's', 't', ' ', 'S', 'c', 'o', 'r', 'e', ':',
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 2, '0' // Text "00"
-};
-@endif
 
-@ifdef I8N_DE
-@chunk char TextMenuOff[] = {
-  'A', 'u', 's'
-};
-@endif
-@ifdef I8N_EN
-@chunk char TextMenuOff[] = {
-  'O', 'f', 'f'
-};
-@endif
 
-@ifdef I8N_DE
-@chunk char TextMenuOn[] = {
-  'E', 'i', 'n'
-};
-@endif
-@ifdef I8N_EN
-@chunk char TextMenuOn[] = {
-  'O', 'n'
-};
-@endif
+// I8N_DE  "Aus"
+@chunk char TextSoundOff[] = "Off";
+@localize { "The sound off text" 1-14 };
+// I8N_DE  "Ein"
+@chunk char TextSoundOn[] = "On";
+@localize { "The sound on text" 1-14 };
 
-@ifdef I8N_DE
-@chunk char Stim1[] = {
-  'D', 'u', ' ', 'i', 's', 's', 't', ' ', 'Q', 'u', 'i', 'c', 'h', 'e', '!'
-};
-@endif
-@ifdef I8N_EN
-@chunk char Stim1[] = {
-  'Y', 'o', 'u', ' ', 'e', 'a', 't', ' ', 'q', 'u', 'i', 'c', 'h', 'e', '!'
-};
-@endif
+// I8N_DE  "Du isst Quiche!"
+@chunk char TextStim1[] = "You eat quiche!";
+@localize { "The 1st stimulation spell" 3-77 };
+// I8N_DE  "Komm schon, wir haben nicht den ganzen Tag!"
+@chunk char TextStim2[] = "Come on, we don\'t have all day!";
+@localize { "The 2nd stimulation spell" 3-77 };
+// I8N_DE  "Fangen wir an!"
+@chunk char TextStim3[] = "Let\'s go!";
+@localize { "The 3rd stimulation spell" 3-77 };
+// I8N_DE  "Warte nicht auf GEOS32, spiel mit mir!"
+@chunk char TextStim4[] = "Don\'t wait for GEOS32, play with me!";
+@localize { "The 4th stimulation spell" 3-77 };
 
-@ifdef I8N_DE
-@chunk char Stim2[] = {
-  'K', 'o', 'm', 'm', ' ', 's', 'c', 'h', 'o', 'n', ',', ' ', 'w', 'i', 'r', ' ',
-  'h', 'a', 'b', 'e', 'n', ' ', 'n', 'i', 'c', 'h', 't', ' ', 'd', 'e', 'n', ' ',
-  'g', 'a', 'n', 'z', 'e', 'n', ' ', 'T', 'a', 'g', '!'
-};
-@endif
-@ifdef I8N_EN
-@chunk char Stim2[] = {
-  'C', 'o', 'm', 'e', ' ', 'o', 'n', ',', ' ', 'w', 'e', ' ',
-  'd', 'o', 'n', '\'', 't', ' ', 'h', 'a', 'v', 'e', ' ',
-  'a', 'l', 'l', ' ', 'd', 'a', 'y', '!'
-};
-@endif
+// I8N_DE  "Beende..."
+@chunk char TextMenuExit[] = "Exiting...";
+@localize { "The exiting text" 3-77 };
 
-@ifdef I8N_DE
-@chunk char Stim3[] = {
-  'F', 'a', 'n', 'g', 'e', 'n', ' ', 'w', 'i', 'r', ' ', 'a', 'n', '!'
-};
-@endif
-@ifdef I8N_EN
-@chunk char Stim3[] = {
-  'L', 'e', 't', '\'', 's', ' ', 'g', 'o', '!'
-};
-@endif
 
-@ifdef I8N_DE
-@chunk char Stim4[] = {
-  'W', 'a', 'r', 't', 'e', ' ', 'n', 'i', 'c', 'h', 't', ' ', 'a', 'u', 'f', ' ',
-  'G', 'E', 'O', 'S', '3', '2', ',', ' ', 's', 'p', 'i', 'e', 'l', ' ',
-  'm', 'i', 't', ' ', 'm', 'i', 'r', '!'
-};
-@endif
-@ifdef I8N_EN
-@chunk char Stim4[] = {
-  'D', 'o', 'n', '\'', 't', ' ', 'w', 'a', 'i', 't', ' ', 'f', 'o', 'r', ' ',
-  'G', 'E', 'O', 'S', '3', '2', ',', ' ', 'p', 'l', 'a', 'y', ' ',
-  'w', 'i', 't', 'h', ' ', 'm', 'e', '!'
-};
-@endif
+// I8N_DE
+/*
+"Du bist ein Lad, gefangen in einem Irrgarten.  Deine Mission ist, die"
+"noch nie gesehenen dunklen G", C_LA_DIERESIS, "nge zu erforschen und versteckte Sch", C_LA_DIERESIS, "tze"
+"und Reicht", C_LU_DIERESIS, "mmer zu finden."
 
-@ifdef I8N_DE
-@chunk char TextMenuExit[] = {
-  'B', 'e', 'e', 'n', 'd', 'e', '.', '.', '.'
-};
-@endif
-@ifdef I8N_EN
-@chunk char TextMenuExit[] = {
-  'E', 'x', 'i', 't', 'i', 'n', 'g', '.', '.', '.'
-};
-@endif
+"Du steuerst das Lad durch Dr", C_LU_DIERESIS, "cken der Pfeiltasten und l", C_LA_DIERESIS, "sst es durch"
+"Dr", C_LU_DIERESIS, "cken der Leertaste springen.  Dr", C_LU_DIERESIS, "ck eine beliebige Taste um das Lad"
+"zu stoppen.  Achte auf die fallenden Steine, auch Der Steine genannt."
+"Suche und ergreife die Sch", C_LA_DIERESIS, "tze (angezeigt als $) BEVOR die Bonuszeit"
+"abgelaufen ist."
 
-@ifdef I8N_DE
+"Ein neues Lad wird f", C_LU_DIERESIS, "r alle 10\'000 Punkte vergeben.  Extrapunkte werden"
+"f", C_LU_DIERESIS, "r das Einsammeln von Goldstatuen (angezeigt als &) vergeben.  Du"
+"erh", C_LA_DIERESIS, "lst die restliche Bonuszeit wenn Du den Level beendet hast."
+"Denk daran, viele Wege f", C_LU_DIERESIS, "hren nach Rom. (Syhra)"
+
+"Dr", C_LU_DIERESIS, "cke P um das Spiel zu pausieren oder ESCape um es zu beenden."
+
+"Viel Gl", C_LU_DIERESIS, "ck Lad."
+
+"Dr", C_LU_DIERESIS, "ck ESC um zum Hauptmen", C_LU_DIERESIS, " zur", C_LU_DIERESIS, "ckzukehren:"
+*/
+
+// Translatable strings in Ladder help screen
+@chunk char TextHelp0[] = "You are a Lad trapped in a maze.  Your mission is to explore the";
+@localize { "The 1st line in the help screen" 0-77 };
+@chunk char TextHelp1[] = "dark corridors never before seen by human eyes and find hidden";
+@localize { "The 2nd line in the help screen" 0-77 };
+@chunk char TextHelp2[] = "treasures and riches.";
+@localize { "The 3rd line in the help screen" 0-77 };
+@chunk char TextHelp3[] = "";
+@localize { "The 4th line in the help screen" 0-77 };
+@chunk char TextHelp4[] = "You control Lad by typing the direction buttons and jumping by";
+@localize { "The 5th line in the help screen" 0-77 };
+@chunk char TextHelp5[] = "typing SPACE.  Type any other key to stop Lad.  But beware of";
+@localize { "The 6th line in the help screen" 0-77 };
+@chunk char TextHelp6[] = "the falling rocks called Der rocks.  You must find and grasp the";
+@localize { "The 7th line in the help screen" 0-77 };
+@chunk char TextHelp7[] = "treasure (shown as $) BEFORE the bonus time runs out.";
+@localize { "The 8th line in the help screen" 0-77 };
+@chunk char TextHelp8[] = "";
+@localize { "The 9th line in the help screen" 0-77 };
+@chunk char TextHelp9[] = "A new Lad will be awarded for every 10\'000 points.  Extra points";
+@localize { "The 10th line in the help screen" 0-77 };
+@chunk char TextHelp10[] = "are awarded for touching the gold statues (shown as &).  You";
+@localize { "The 11th line in the help screen" 0-77 };
+@chunk char TextHelp11[] = "will receive the bonus time points that are left when you have";
+@localize { "The 12th line in the help screen" 0-77 };
+@chunk char TextHelp12[] = "finished the level.";
+@localize { "The 13th line in the help screen" 0-77 };
+@chunk char TextHelp13[] = "";
+@localize { "The 14th line in the help screen" 0-77 };
+@chunk char TextHelp14[] = "Remember, there is more than one way to skin a cat. (Chum)";
+@localize { "The 15th line in the help screen" 0-77 };
+@chunk char TextHelp15[] = "";
+@localize { "The 16th line in the help screen" 0-77 };
+@chunk char TextHelp16[] = "Type a P to pause the game or an ESCape to end it.";
+@localize { "The 17th line in the help screen" 0-77 };
+@chunk char TextHelp17[] = "";
+@localize { "The 18th line in the help screen" 0-77 };
+@chunk char TextHelp18[] = "Good luck Lad.";
+@localize { "The good wishes text" 3-77 };
+@chunk char TextHelp19[] = "Type ESC to return to main menu:";
+@localize { "The type ESC to return to main menu text" 3-77 };
+
+// Lookup table for translatable strings in Ladder help screen
+@chunkArray optr ScreenHelpStrings =
+{
+  @TextHelp0, @TextHelp1, @TextHelp2, @TextHelp3, @TextHelp4,
+  @TextHelp5, @TextHelp6, @TextHelp7, @TextHelp8, @TextHelp9,
+  @TextHelp10, @TextHelp11, @TextHelp12, @TextHelp13, @TextHelp14,
+  @TextHelp15, @TextHelp16, @TextHelp17, @TextHelp18, @TextHelp19
+};
+
 @chunk byte ScreenHelp[] = {
   TSPOS(1, 1),
-  TSD_T_TEXT, 69,
-    'D', 'u', ' ', 'b', 'i', 's', 't', ' ', 'e', 'i', 'n', ' ',
-    'L', 'a', 'd', ',', ' ', 'g', 'e', 'f', 'a', 'n', 'g', 'e', 'n', ' ',
-    'i', 'n', ' ', 'e', 'i', 'n', 'e', 'm', ' ',
-    'I', 'r', 'r', 'g', 'a', 'r', 't', 'e', 'n', '.', ' ', ' ',
-    'D', 'e', 'i', 'n', 'e', ' ', 'M', 'i', 's', 's', 'i', 'o', 'n', ' ',
-    'i', 's', 't', ',', ' ', 'd', 'i', 'e',
+  TSD_T_CHNK, 0, // ScreenHelpStrings[0] / Text "You are a Lad trapped in a maze.  Your mission is to explore the"
   TSPOS(2, 1),
-  TSD_T_TEXT, 69,
-    'n', 'o', 'c', 'h', ' ', 'n', 'i', 'e', ' ',
-    'g', 'e', 's', 'e', 'h', 'e', 'n', 'e', 'n', ' ',
-    'd', 'u', 'n', 'k', 'l', 'e', 'n', ' ',
-    'G', C_LA_DIERESIS, 'n', 'g', 'e', ' ', 'z', 'u', ' ',
-    'e', 'r', 'f', 'o', 'r', 's', 'c', 'h', 'e', 'n', ' ', 'u', 'n', 'd', ' ',
-    'v', 'e', 'r', 's', 't', 'e', 'c', 'k', 't', 'e', ' ',
-    'S', 'c', 'h', C_LA_DIERESIS, 't', 'z', 'e',
+  TSD_T_CHNK, 1, // ScreenHelpStrings[1] / Text "dark corridors never before seen by human eyes and find hidden"
   TSPOS(3, 1),
-  TSD_T_TEXT, 26,
-    'u', 'n', 'd', ' ',
-    'R', 'e', 'i', 'c', 'h', 't', C_LU_DIERESIS, 'm', 'm', 'e', 'r', ' ',
-    'z', 'u', ' ', 'f', 'i', 'n', 'd', 'e', 'n', '.',
+  TSD_T_CHNK, 2, // ScreenHelpStrings[2] / Text "treasures and riches."
+  TSPOS(4, 1),
+  TSD_T_CHNK, 3, // ScreenHelpStrings[3] / Text ""
   TSPOS(5, 1),
-  TSD_T_TEXT, 68,
-    'D', 'u', ' ', 's', 't', 'e', 'u', 'e', 'r', 's', 't', ' ',
-    'd', 'a', 's', ' ', 'L', 'a', 'd', ' ', 'd', 'u', 'r', 'c', 'h', ' ',
-    'D', 'r', C_LU_DIERESIS, 'c', 'k', 'e', 'n', ' ', 'd', 'e', 'r', ' ',
-    'P', 'f', 'e', 'i', 'l', 't', 'a', 's', 't', 'e', 'n', ' ',
-    'u', 'n', 'd', ' ', 'l', C_LA_DIERESIS, 's', 's', 't', ' ', 'e', 's', ' ',
-    'd', 'u', 'r', 'c', 'h',
+  TSD_T_CHNK, 4, // ScreenHelpStrings[4] / Text "You control Lad by typing the direction buttons and jumping by"
   TSPOS(6, 1),
-  TSD_T_TEXT, 70,
-    'D', 'r', C_LU_DIERESIS, 'c', 'k', 'e', 'n', ' ', 'd', 'e', 'r', ' ',
-    'L', 'e', 'e', 'r', 't', 'a', 's', 't', 'e', ' ',
-    's', 'p', 'r', 'i', 'n', 'g', 'e', 'n', '.', ' ', ' ',
-    'D', 'r', C_LU_DIERESIS, 'c', 'k', ' ', 'e', 'i', 'n', 'e', ' ',
-    'b', 'e', 'l', 'i', 'e', 'b', 'i', 'g', 'e', ' ',
-    'T', 'a', 's', 't', 'e', ' ', 'u', 'm', ' ', 'd', 'a', 's', ' ',
-    'L', 'a', 'd',
+  TSD_T_CHNK, 5, // ScreenHelpStrings[5] / Text "typing SPACE.  Type any other key to stop Lad.  But beware of"
   TSPOS(7, 1),
-  TSD_T_TEXT, 69,
-    'z', 'u', ' ', 's', 't', 'o', 'p', 'p', 'e', 'n', '.', ' ', ' ',
-    'A', 'c', 'h', 't', 'e', ' ', 'a', 'u', 'f', ' ', 'd', 'i', 'e', ' ',
-    'f', 'a', 'l', 'l', 'e', 'n', 'd', 'e', 'n', ' ',
-    'S', 't', 'e', 'i', 'n', 'e', ',', ' ', 'a', 'u', 'c', 'h', ' ',
-    'D', 'e', 'r', ' ', 'S', 't', 'e', 'i', 'n', 'e', ' ',
-    'g', 'e', 'n', 'a', 'n', 'n', 't', '.',
+  TSD_T_CHNK, 6, // ScreenHelpStrings[6] / Text "the falling rocks called Der rocks.  You must find and grasp the"
   TSPOS(8, 1),
-  TSD_T_TEXT, 68,
-    'S', 'u', 'c', 'h', 'e', ' ', 'u', 'n', 'd', ' ',
-    'e', 'r', 'g', 'r', 'e', 'i', 'f', 'e', ' ', 'd', 'i', 'e', ' ',
-    'S', 'c', 'h', C_LA_DIERESIS, 't', 'z', 'e', ' ',
-    '(', 'a', 'n', 'g', 'e', 'z', 'e', 'i', 'g', 't', ' ', 'a', 'l', 's', ' ',
-    '$', ')', ' ', 'B', 'E', 'V', 'O', 'R', ' ', 'd', 'i', 'e', ' ',
-    'B', 'o', 'n', 'u', 's', 'z', 'e', 'i', 't',
+  TSD_T_CHNK, 7, // ScreenHelpStrings[7] / Text "treasure (shown as $) BEFORE the bonus time runs out."
   TSPOS(9, 1),
-  TSD_T_TEXT, 15,
-    'a', 'b', 'g', 'e', 'l', 'a', 'u', 'f', 'e', 'n', ' ', 'i', 's', 't', '.',
-  TSPOS(11, 1),
-  TSD_T_TEXT, 71,
-    'E', 'i', 'n', ' ', 'n', 'e', 'u', 'e', 's', ' ', 'L', 'a', 'd', ' ',
-    'w', 'i', 'r', 'd', ' ', 'f', C_LU_DIERESIS, 'r',
-    ' ', 'a', 'l', 'l', 'e', ' ', '1', '0', '\'', '0', '0', '0', ' ',
-    'P', 'u', 'n', 'k', 't', 'e', ' ',
-    'v', 'e', 'r', 'g', 'e', 'b', 'e', 'n', '.', ' ', ' ',
-    'E', 'x', 't', 'r', 'a', 'p', 'u', 'n', 'k', 't', 'e', ' ',
-    'w', 'e', 'r', 'd', 'e', 'n',
-  TSPOS(12, 1),
-  TSD_T_TEXT, 66,
-    'f', C_LU_DIERESIS, 'r', ' ', 'd', 'a', 's', ' ',
-    'E', 'i', 'n', 's', 'a', 'm', 'm', 'e', 'l', 'n', ' ', 'v', 'o', 'n', ' ',
-    'G', 'o', 'l', 'd', 's', 't', 'a', 't', 'u', 'e', 'n', ' ',
-    '(', 'a', 'n', 'g', 'e', 'z', 'e', 'i', 'g', 't', ' ', 'a', 'l', 's', ' ',
-    '&', ')', ' ', 'v', 'e', 'r', 'g', 'e', 'b', 'e', 'n', '.', ' ', ' ',
-    'D', 'u',
-  TSPOS(13, 1),
-  TSD_T_TEXT, 63,
-    'e', 'r', 'h', C_LA_DIERESIS, 'l', 's', 't', ' ', 'd', 'i', 'e', ' ',
-    'r', 'e', 's', 't', 'l', 'i', 'c', 'h', 'e', ' ',
-    'B', 'o', 'n', 'u', 's', 'z', 'e', 'i', 't', ' ', 'w', 'e', 'n', 'n', ' ',
-    'D', 'u', ' ', 'd', 'e', 'n', ' ', 'L', 'e', 'v', 'e', 'l', ' ',
-    'b', 'e', 'e', 'n', 'd', 'e', 't', ' ', 'h', 'a', 's', 't', '.',
-  TSPOS(15, 1),
-  TSD_T_TEXT, 47,
-    'D', 'e', 'n', 'k', ' ', 'd', 'a', 'r', 'a', 'n', ',', ' ',
-    'v', 'i', 'e', 'l', 'e', ' ', 'W', 'e', 'g', 'e', ' ',
-    'f', C_LU_DIERESIS, 'h', 'r', 'e', 'n', ' ', 'n', 'a', 'c', 'h', ' ',
-    'R', 'o', 'm', '.', ' ', '(', 'S', 'y', 'h', 'r', 'a', ')',
-  TSPOS(17, 1),
-  TSD_T_TEXT, 64,
-    'D', 'r', C_LU_DIERESIS, 'c', 'k', 'e', ' ', 'P', ' ', 'u', 'm', ' ',
-    'd', 'a', 's', ' ', 'S', 'p', 'i', 'e', 'l', ' ', 'z', 'u', ' ',
-    'p', 'a', 'u', 's', 'i', 'e', 'r', 'e', 'n', ' ', 'o', 'd', 'e', 'r', ' ',
-    'E', 'S', 'C', 'a', 'p', 'e', ' ', 'u', 'm', ' ', 'e', 's', ' ',
-    'z', 'u', ' ', 'b', 'e', 'e', 'n', 'd', 'e', 'n', '.',
-  TSPOS(19, 1),
-  TSD_T_TEXT + 15,
-    'V', 'i', 'e', 'l', ' ', 'G', 'l', C_LU_DIERESIS, 'c', 'k', ' ',
-    'L', 'a', 'd', '.',
-  TSPOS(22, 1),
-  TSD_T_TEXT, 42,
-    'D', 'r', C_LU_DIERESIS, 'c', 'k', ' ', 'E', 'S', 'C', ' ', 'u', 'm', ' ',
-    'z', 'u', 'm', ' ',
-    'H', 'a', 'u', 'p', 't', 'm', 'e', 'n', C_LU_DIERESIS, ' ',
-    'z', 'u', 'r', C_LU_DIERESIS, 'c', 'k', 'z', 'u', 'k', 'e', 'h', 'r', 'e', 'n', ':'
-};
-@endif
-@ifdef I8N_EN
-@chunk byte ScreenHelp[] = {
-  TSPOS(1, 1),
-  TSD_T_TEXT, 64,
-    'Y', 'o', 'u', ' ', 'a', 'r', 'e', ' ', 'a', ' ', 'L', 'a', 'd', ' ',
-    't', 'r', 'a', 'p', 'p', 'e', 'd', ' ', 'i', 'n', ' ', 'a', ' ',
-    'm', 'a', 'z', 'e', '.', ' ', ' ',
-    'Y', 'o', 'u', 'r', ' ', 'm', 'i', 's', 's', 'i', 'o', 'n', ' ',
-    'i', 's', ' ', 't', 'o', ' ', 'e', 'x', 'p', 'l', 'o', 'r', 'e', ' ',
-    't', 'h', 'e',
-  TSPOS(2, 1),
-  TSD_T_TEXT, 62,
-    'd', 'a', 'r', 'k', ' ', 'c', 'o', 'r', 'r', 'i', 'd', 'o', 'r', 's', ' ',
-    'n', 'e', 'v', 'e', 'r', ' ', 'b', 'e', 'f', 'o', 'r', 'e', ' ',
-    's', 'e', 'e', 'n', ' ', 'b', 'y', ' ', 'h', 'u', 'm', 'a', 'n', ' ',
-    'e', 'y', 'e', 's', ' ', 'a', 'n', 'd', ' ', 'f', 'i', 'n', 'd', ' ',
-    'h', 'i', 'd', 'd', 'e', 'n',
-  TSPOS(3, 1),
-  TSD_T_TEXT, 21,
-    't', 'r', 'e', 'a', 's', 'u', 'r', 'e', 's', ' ', 'a', 'n', 'd', ' ',
-    'r', 'i', 'c', 'h', 'e', 's', '.',
-  TSPOS(5, 1),
-  TSD_T_TEXT, 62,
-    'Y', 'o', 'u', ' ', 'c', 'o', 'n', 't', 'r', 'o', 'l', ' ',
-    'L', 'a', 'd', ' ', 'b', 'y', ' ', 't', 'y', 'p', 'i', 'n', 'g', ' ',
-    't', 'h', 'e', ' ', 'd', 'i', 'r', 'e', 'c', 't', 'i', 'o', 'n', ' ',
-    'b', 'u', 't', 't', 'o', 'n', 's', ' ', 'a', 'n', 'd', ' ',
-    'j', 'u', 'm', 'p', 'i', 'n', 'g', ' ', 'b', 'y',
-  TSPOS(6, 1),
-  TSD_T_TEXT, 61,
-    't', 'y', 'p', 'i', 'n', 'g', ' ', 'S', 'P', 'A', 'C', 'E', '.', ' ', ' ',
-    'T', 'y', 'p', 'e', ' ', 'a', 'n', 'y', ' ', 'o', 't', 'h', 'e', 'r', ' ',
-    'k', 'e', 'y', ' ', 't', 'o', ' ', 's', 't', 'o', 'p', ' ',
-    'L', 'a', 'd', '.', ' ', ' ', 'B', 'u', 't', ' ',
-    'b', 'e', 'w', 'a', 'r', 'e', ' ',  'o', 'f',
-  TSPOS(7, 1),
-  TSD_T_TEXT, 64,
-    't', 'h', 'e', ' ', 'f', 'a', 'l', 'l', 'i', 'n', 'g', ' ',
-    'r', 'o', 'c', 'k', 's', ' ', 'c', 'a', 'l', 'l', 'e', 'd', ' ',
-    'D', 'e', 'r', ' ', 'r', 'o', 'c', 'k', 's', '.', ' ', ' ',
-    'Y', 'o', 'u', ' ', 'm', 'u', 's', 't', ' ', 'f', 'i', 'n', 'd', ' ',
-    'a', 'n', 'd', ' ', 'g', 'r', 'a', 's', 'p', ' ', 't', 'h', 'e',
-  TSPOS(8, 1),
-  TSD_T_TEXT, 53,
-    't', 'r', 'e', 'a', 's', 'u', 'r', 'e', ' ',
-    '(', 's', 'h', 'o', 'w', 'n', ' ', 'a', 's', ' ', '$', ')', ' ',
-    'B', 'E', 'F', 'O', 'R', 'E', ' ', 't', 'h', 'e', ' ',
-    'b', 'o', 'n', 'u', 's', ' ', 't', 'i', 'm', 'e', ' ',
-    'r', 'u', 'n', 's', ' ', 'o', 'u', 't', '.',
+  TSD_T_CHNK, 8, // ScreenHelpStrings[8] / Text ""
   TSPOS(10, 1),
-  TSD_T_TEXT, 64,
-    'A', ' ', 'n', 'e', 'w', ' ', 'L', 'a', 'd', ' ', 'w', 'i', 'l', 'l', ' ',
-    'b', 'e', ' ', 'a', 'w', 'a', 'r', 'd', 'e', 'd', ' ', 'f', 'o', 'r', ' ',
-    'e', 'v', 'e', 'r', 'y', ' ', '1', '0', '\'', '0', '0', '0', ' ',
-    'p', 'o', 'i', 'n', 't', 's', '.', ' ', ' ', 'E', 'x', 't', 'r', 'a', ' ',
-    'p', 'o', 'i', 'n', 't', 's',
+  TSD_T_CHNK, 9, // ScreenHelpStrings[9] / Text "A new Lad will be awarded for every 10\'000 points.  Extra points"
   TSPOS(11, 1),
-  TSD_T_TEXT, 60,
-    'a', 'r', 'e', ' ', 'a', 'w', 'a', 'r', 'd', 'e', 'd', ' ',
-    'f', 'o', 'r', ' ', 't', 'o', 'u', 'c', 'h', 'i', 'n', 'g', ' ',
-    't', 'h', 'e', ' ', 'g', 'o', 'l', 'd', ' ',
-    's', 't', 'a', 't', 'u', 'e', 's', ' ',
-    '(', 's', 'h', 'o', 'w', 'n', ' ', 'a', 's', ' ', '&', ')', '.', ' ', ' ',
-    'Y', 'o', 'u',
+  TSD_T_CHNK, 10, // ScreenHelpStrings[10] / Text "are awarded for touching the gold statues (shown as &).  You"
   TSPOS(12, 1),
-  TSD_T_TEXT, 62,
-    'w', 'i', 'l', 'l', ' ', 'r', 'e', 'c', 'e', 'i', 'v', 'e', ' ',
-    't', 'h', 'e', ' ', 'b', 'o', 'n', 'u', 's', ' ', 't', 'i', 'm', 'e', ' ',
-    'p', 'o', 'i', 'n', 't', 's', ' ', 't', 'h', 'a', 't', ' ',
-    'a', 'r', 'e', ' ', 'l', 'e', 'f', 't', ' ', 'w', 'h', 'e', 'n', ' ',
-    'y', 'o', 'u', ' ', 'h', 'a', 'v', 'e',
+  TSD_T_CHNK, 11, // ScreenHelpStrings[11] / Text "will receive the bonus time points that are left when you have"
   TSPOS(13, 1),
-  TSD_T_TEXT, 19,
-    'f', 'i', 'n', 'i', 's', 'h', 'e', 'd', ' ', 't', 'h', 'e', ' ',
-    'l', 'e', 'v', 'e', 'l', '.',
+  TSD_T_CHNK, 12, // ScreenHelpStrings[12] / Text "finished the level."
+  TSPOS(14, 1),
+  TSD_T_CHNK, 13, // ScreenHelpStrings[13] / Text ""
   TSPOS(15, 1),
-  TSD_T_TEXT, 58,
-    'R', 'e', 'm', 'e', 'm', 'b', 'e', 'r', ',', ' ',
-    't', 'h', 'e', 'r', 'e', ' ', 'i', 's', ' ', 'm', 'o', 'r', 'e', ' ',
-    't', 'h', 'a', 'n', ' ', 'o', 'n', 'e', ' ', 'w', 'a', 'y', ' ',
-    't', 'o', ' ', 's', 'k', 'i', 'n', ' ', 'a', ' ', 'c', 'a', 't', '.', ' ',
-    '(', 'C', 'h', 'u', 'm', ')',
+  TSD_T_CHNK, 14, // ScreenHelpStrings[14] / Text "Remember, there is more than one way to skin a cat. (Chum)"
+  TSPOS(16, 1),
+  TSD_T_CHNK, 15, // ScreenHelpStrings[15] / Text ""
   TSPOS(17, 1),
-  TSD_T_TEXT, 50,
-    'T', 'y', 'p', 'e', ' ', 'a', ' ', 'P', ' ', 't', 'o', ' ',
-    'p', 'a', 'u', 's', 'e', ' ', 't', 'h', 'e', ' ', 'g', 'a', 'm', 'e', ' ',
-    'o', 'r', ' ', 'a', 'n', ' ', 'E', 'S', 'C', 'a', 'p', 'e', ' ',
-    't', 'o', ' ', 'e', 'n', 'd', ' ', 'i', 't', '.',
+  TSD_T_CHNK, 16, // ScreenHelpStrings[16] / Text "Type a P to pause the game or an ESCape to end it."
+  TSPOS(18, 1),
+  TSD_T_CHNK, 17, // ScreenHelpStrings[17] / Text ""
   TSPOS(19, 1),
-  TSD_T_TEXT + 14,
-    'G', 'o', 'o', 'd', ' ', 'l', 'u', 'c', 'k', ' ', 'L', 'a', 'd', '.',
+  TSD_T_CHNK, 18, // ScreenHelpStrings[18] / Text "Good luck Lad."
   TSPOS(22, 1),
-  TSD_T_TEXT, 32,
-    'T', 'y', 'p', 'e', ' ', 'E', 'S', 'C', ' ', 't', 'o', ' ',
-    'r', 'e', 't', 'u', 'r', 'n', ' ', 't', 'o', ' ', 'm', 'a', 'i', 'n', ' ',
-    'm', 'e', 'n', 'u', ':'
+  TSD_T_CHNK, 19, // ScreenHelpStrings[19] / Text "Type ESC to return to main menu:"
 };
-@endif
 
-@ifdef I8N_DE
+
+// I8N_DE
+/*
+"Du hast alle Lads verloren, bevor Du den letzten Schatz gefunden hast."
+"Deshalb bleibst Du im Irrgarten gefangen und must noch einmal von Vorne"
+"beginnen."
+"Dr" C_LU_DIERESIS, 'ck ENTER um fortzufahren:"
+*/
+// Translatable strings in Ladder game over screen
+@chunk char TextOver0[] = "You lost all lads before you reached the ultimate treasure.  Hence you";
+@localize { "The 1st line of text in the game over screen" 0-77 };
+@chunk char TextOver1[] = "stay trapped in the maze and must try again from the beginning.";
+@localize { "The 2nd line of text in the game over screen" 0-77 };
+@chunk char TextOver2[] = "";
+@localize { "The 3rd line of text in the game over screen" 0-77 };
+@chunk char TextOver3[] = "Type RETURN to continue:";
+@localize { "The type RETURN to contiune text in the game over screen" 3-77 };
+
+// Lookup table for translatable strings in Ladder game over screen
+@chunkArray optr ScreenOverStrings =
+{
+  @TextOver0, @TextOver1, @TextOver2, @TextOver3
+};
+
 @chunk byte ScreenOver[] = {
   // Title
   TSPOS(1, 10),
@@ -1199,197 +868,43 @@
   TSD_T_CHAR + 1, 'R',
   // Text
   TSPOS(10, 1),
-  TSD_T_TEXT, 70,
-    'D', 'u', ' ', 'h', 'a', 's', 't', ' ', 'a', 'l', 'l', 'e', ' ',
-    'L', 'a', 'd', 's', ' ', 'v', 'e', 'r', 'l', 'o', 'r', 'e', 'n', ',', ' ',
-    'b', 'e', 'v', 'o', 'r', ' ', 'D', 'u', ' ', 'd', 'e', 'n', ' ',
-    'l', 'e', 't', 'z', 't', 'e', 'n', ' ', 'S', 'c', 'h', 'a', 't', 'z', ' ',
-    'g', 'e', 'f', 'u', 'n', 'd', 'e', 'n', ' ', 'h', 'a', 's', 't', '.',
+  TSD_T_CHNK, 0, // ScreenOverStrings[0] / Text "You lost all lads before you reached the ultimate treasure.  Hence you"
   TSPOS(11, 1),
-  TSD_T_TEXT, 71,
-  'D', 'e', 's', 'h', 'a', 'l', 'b', ' ',
-  'b', 'l', 'e', 'i', 'b', 's', 't', ' ', 'D', 'u', ' ', 'i', 'm', ' ',
-  'I', 'r', 'r', 'g', 'a', 'r', 't', 'e', 'n', ' ',
-  'g', 'e', 'f', 'a', 'n', 'g', 'e', 'n', ' ', 'u', 'n', 'd', ' ',
-  'm', 'u', 's', 't', ' ', 'n', 'o', 'c', 'h', ' ',
-  'e', 'i', 'n', 'm', 'a', 'l', ' ', 'v', 'o', 'n', ' ',
-  'V', 'o', 'r', 'n', 'e',
+  TSD_T_CHNK, 1, // ScreenOverStrings[1] / Text "stay trapped in the maze and must try again from the beginning."
   TSPOS(12, 1),
-  TSD_T_TEXT + 9,
-  'b', 'e', 'g', 'i', 'n', 'n', 'e', 'n', '.',
+  TSD_T_CHNK, 2, // ScreenOverStrings[2] / Text ""
   TSPOS(22, 1),
-  TSD_T_TEXT, 28,
-    'D', 'r', C_LU_DIERESIS, 'c', 'k', ' ', 'E', 'N', 'T', 'E', 'R', ' ',
-    'u', 'm', ' ',
-    'f', 'o', 'r', 't', 'z', 'u', 'f', 'a', 'h', 'r', 'e', 'n', ':'
+  TSD_T_CHNK, 3, // ScreenOverStrings[3] / Text "Type RETURN to continue:" 
 };
-@endif
-@ifdef I8N_EN
-@chunk byte ScreenOver[] = {
-  // Title
-  TSPOS(1, 10),
-  TSD_T_CHAR + 4, 'G', // Text 'GGGG'
-  TSP_T_MOVE, 30,
-  TSD_T_CHAR + 4, 'O', // Text 'OOOO'
-  TSPOS(2, 8),
-  TSD_T_CHAR + 2, 'G', // Text 'GG'
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 2, 'G', // Text 'GG'
-  TSP_T_MOVE, 26,
-  TSD_T_CHAR + 2, 'O', // Text 'OO'
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 2, 'O', // Text 'OO'
-  TSPOS(3, 8),
-  TSD_T_CHAR + 2, 'G', // Text 'GG'
-  TSP_T_MOVE + 10,
-  TSD_T_CHAR + 1, 'A',
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 1, 'M',
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'M',
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 5, 'E', // Text 'EEEEE'
-  TSP_T_MOVE + 5,
-  TSD_T_CHAR + 2, 'O', // Text 'OO'
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 2, 'O', // Text 'OO'
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 1, 'V',
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'V',
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 5, 'E', // Text 'EEEEE'
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 4, 'R', // Text 'RRRR'
-  TSPOS(4, 8),
-  TSD_T_CHAR + 2, 'G', // Text 'GG'
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 3, 'G', // Text 'GGG'
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 1, 'A',
-  TSP_T_MOVE + 1,
-  TSD_T_CHAR + 1, 'A',
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 2, 'M', // Text 'MM'
-  TSP_T_MOVE + 1,
-  TSD_T_CHAR + 2, 'M', // Text 'MM'
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 1, 'E',
-  TSP_T_MOVE + 9,
-  TSD_T_CHAR + 2, 'O', // Text 'OO'
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 2, 'O', // Text 'OO'
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 1, 'V',
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'V',
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 1, 'E',
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 1, 'R',
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'R',
-  TSPOS(5, 8),
-  TSD_T_CHAR + 2, 'G', // Text 'GG'
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 2, 'G', // Text 'GG'
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 3, 'A', // Text 'AAA'
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'M',
-  TSP_T_MOVE + 1,
-  TSD_T_CHAR + 1, 'M',
-  TSP_T_MOVE + 1,
-  TSD_T_CHAR + 1, 'M',
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 4, 'E', // Text 'EEEE'
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 2, 'O', // Text 'OO'
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 2, 'O', // Text 'OO'
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'V',
-  TSP_T_MOVE + 1,
-  TSD_T_CHAR + 1, 'V',
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 4, 'E', // Text 'EEEE'
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 4, 'R', // Text 'RRRR'
-  TSPOS(6, 8),
-  TSD_T_CHAR + 2, 'G', // Text 'GG'
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 2, 'G', // Text 'GG'
-  TSP_T_MOVE, 2,
-  TSD_T_CHAR + 1, 'A',
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'A',
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 1, 'M',
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'M',
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 1, 'E',
-  TSP_T_MOVE + 9,
-  TSD_T_CHAR + 2, 'O', // Text 'OO'
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 2, 'O', // Text 'OO'
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'V',
-  TSP_T_MOVE + 1,
-  TSD_T_CHAR + 1, 'V',
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'E',
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 1, 'R',
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 1, 'R',
-  TSPOS(7, 10),
-  TSD_T_CHAR + 4, 'G', // Text 'GGGG'
-  TSP_T_MOVE, 4,
-  TSD_T_CHAR + 1, 'A',
-  TSP_T_MOVE, 3,
-  TSD_T_CHAR + 1, 'A',
-  TSP_T_MOVE, 2,
-  TSD_T_CHAR + 1, 'M',
-  TSP_T_MOVE, 3,
-  TSD_T_CHAR + 1, 'M',
-  TSP_T_MOVE, 2,
-  TSD_T_CHAR + 5, 'E', // Text 'EEEEE'
-  TSP_T_MOVE, 7,
-  TSD_T_CHAR + 4, 'O', // Text 'OOOO'
-  TSP_T_MOVE, 6,
-  TSD_T_CHAR + 1, 'V',
-  TSP_T_MOVE, 4,
-  TSD_T_CHAR + 5, 'E', // Text 'EEEEE'
-  TSP_T_MOVE, 2,
-  TSD_T_CHAR + 1, 'R',
-  TSP_T_MOVE, 3,
-  TSD_T_CHAR + 1, 'R',
-  // Text
-  TSPOS(10, 1),
-  TSD_T_TEXT, 70,
-  'Y', 'o', 'u', ' ', 'l', 'o', 's', 't', ' ', 'a', 'l', 'l', ' ',
-  'l', 'a', 'd', 's', ' ', 'b', 'e', 'f', 'o', 'r', 'e', ' ',
-  'y', 'o', 'u', ' ', 'r', 'e', 'a', 'c', 'h', 'e', 'd', ' ',
-  't', 'h', 'e', ' ', 'u', 'l', 't', 'i', 'm', 'a', 't', 'e', ' ',
-  't', 'r', 'e', 'a', 's', 'u', 'r', 'e', '.', ' ', ' ',
-  'H', 'e', 'n', 'c', 'e', ' ', 'y', 'o', 'u',
-  TSPOS(11, 1),
-  TSD_T_TEXT, 63,
-  's', 't', 'a', 'y', ' ', 't', 'r', 'a', 'p', 'p', 'e', 'd', ' ',
-  'i', 'n', ' ', 't', 'h', 'e', ' ', 'm', 'a', 'z', 'e', ' ',
-  'a', 'n', 'd', ' ', 'm', 'u', 's', 't', ' ', 't', 'r', 'y', ' ',
-  'a', 'g', 'a', 'i', 'n', ' ', 'f', 'r', 'o', 'm', ' ', 't', 'h', 'e', ' ',
-  'b', 'e', 'g', 'i', 'n', 'n', 'i', 'n', 'g', '.',
-  TSPOS(22, 1),
-  TSD_T_TEXT, 24,
-  'T', 'y', 'p', 'e', ' ', 'R', 'E', 'T', 'U', 'R', 'N', ' ',
-  't', 'o', ' ', 'c', 'o', 'n', 't', 'i', 'n', 'u', 'e', ':'
-};
-@endif
 
-@ifdef I8N_DE
-@chunk byte ScreenLast[] = {
+
+// I8N_DE
+/*
+"Du bist dem Irrgarten entkommen und wieder frei.  Beim Verlassen des"
+"Irrgarten implodert es in eine wundersch", C_LO_DIERESIS, "ne, gr", C_LU_DIERESIS, "n funkelnde Geode."
+"Mit den Sch", C_LA_DIERESIS, "tzen und Reicht", C_LU_DIERESIS, "mmern kauftst du eine alte Leiternfabrik."
+"Dort wirst Du Leitern bis an das Ender der Zeit bauen."
+"Dr", C_LU_DIERESIS, "ck ENTER um fortzufahren:"
+*/
+// Translatable strings in Ladder last screen
+@chunk char TextDone0[] = "You escaped the maze and are free again.  While leaving the maze,";
+@localize { "The 1st line in the last screen" 0-77 };
+@chunk char TextDone1[] = "it imploded into a wonderful green sparkling geode.";
+@localize { "The 2nd line in the last screen" 0-77 };
+@chunk char TextDone2[] = "With the treasures and riches you bought an old factory of ladders.";
+@localize { "The 3rd line in the last screen" 0-77 };
+@chunk char TextDone3[] = "There you will assemble ladders until the end of time.";
+@localize { "The 4th line in the last screen" 0-77 };
+@chunk char TextDone4[] = "Type RETURN to continue:";
+@localize { "The type RETURN to contiune text in the last screen" 3-77 };
+
+// Lookup table for translatable strings in Ladder last screen
+@chunkArray optr ScreenDoneStrings =
+{
+  @TextDone0, @TextDone1, @TextDone2, @TextDone3, @TextDone4
+};
+
+@chunk byte ScreenDone[] = {
   // Title
   TSPOS(1, 15),
   TSD_T_CHAR + 8, 'T', // Text "TTTTTTTT"
@@ -1482,324 +997,90 @@
   TSD_T_CHAR + 2, 'T', // Text "TT"
   TSP_T_MOVE, 22,
   TSD_T_CHAR + 8, 'E', // Text "EE"
+  // Text
   TSPOS(10, 1),
-  TSD_T_TEXT, 68,
-    'D', 'u', ' ', 'b', 'i', 's', 't', ' ', 'd', 'e', 'm', ' ',
-    'I', 'r', 'r', 'g', 'a', 'r', 't', 'e', 'n', ' ',
-    'e', 'n', 't', 'k', 'o', 'm', 'm', 'e', 'n', ' ', 'u', 'n', 'd', ' ',
-    'w', 'i', 'e', 'd', 'e', 'r', ' ', 'f', 'r', 'e', 'i', '.', ' ', ' ',
-    'B', 'e', 'i', 'm', ' ', 'V', 'e', 'r', 'l', 'a', 's', 's', 'e', 'n', ' ',
-    'd', 'e', 's',
+  TSD_T_CHNK, 0, // ScreenDoneStrings[0] / Text "You escaped the maze and are free again.  While leaving the maze,"
   TSPOS(11, 1),
-  TSD_T_TEXT, 66,
-    'I', 'r', 'r', 'g', 'a', 'r', 't', 'e', 'n', ' ',
-    'i', 'm', 'p', 'l', 'o', 'd', 'e', 'r', 't', ' ', 'e', 's', ' ',
-    'i', 'n', ' ', 'e', 'i', 'n', 'e', ' ',
-    'w', 'u', 'n', 'd', 'e', 'r', 's', 'c', 'h', C_LO_DIERESIS, 'n', 'e', ',', ' ',
-    'g', 'r', C_LU_DIERESIS, 'n', ' ',
-    'f', 'u', 'n', 'k', 'e', 'l', 'n', 'd', 'e', ' ',
-    'G', 'e', 'o', 'd', 'e', '.',
+  TSD_T_CHNK, 1, // ScreenDoneStrings[1] / Text "it imploded into a wonderful green sparkling geode."
   TSPOS(13, 1),
-  TSD_T_TEXT, 69,
-    'M', 'i', 't', ' ', 'd', 'e', 'n', ' ',
-    'S', 'c', 'h', C_LA_DIERESIS, 't', 'z', 'e', 'n', ' ', 'u', 'n', 'd', ' ',
-    'R', 'e', 'i', 'c', 'h', 't', C_LU_DIERESIS, 'm', 'm', 'e', 'r', 'n', ' ',
-    'k', 'a', 'u', 'f', 't', 's', 't', ' ', 'd', 'u', ' ',
-    'e', 'i', 'n', 'e', ' ', 'a', 'l', 't', 'e', ' ',
-    'L', 'e', 'i', 't', 'e', 'r', 'n', 'f', 'a', 'b', 'r', 'i', 'k', '.',
+  TSD_T_CHNK, 2, // ScreenDoneStrings[2] / Text "With the treasures and riches you bought an old factory of ladders."
   TSPOS(14, 1),
-  TSD_T_TEXT, 54,
-    'D', 'o', 'r', 't', ' ', 'w', 'i', 'r', 's', 't', ' ', 'D', 'u', ' ',
-    'L', 'e', 'i', 't', 'e', 'r', 'n', ' ', 'b', 'i', 's', ' ', 'a', 'n', ' ',
-    'd', 'a', 's', ' ', 'E', 'n', 'd', 'e', 'r', ' ', 'd', 'e', 'r', ' ',
-    'Z', 'e', 'i', 't', ' ', 'b', 'a', 'u', 'e', 'n', '.',
+  TSD_T_CHNK, 3, // ScreenDoneStrings[3] / Text "There you will assemble ladders until the end of time."
   TSPOS(22, 1),
-  TSD_T_TEXT, 28,
-    'D', 'r', C_LU_DIERESIS, 'c', 'k', ' ', 'E', 'N', 'T', 'E', 'R', ' ',
-    'u', 'm', ' ',
-    'f', 'o', 'r', 't', 'z', 'u', 'f', 'a', 'h', 'r', 'e', 'n', ':'
+  TSD_T_CHNK, 4, // ScreenDoneStrings[4] / Text "Type RETURN to continue:"
 };
-@endif
-@ifdef I8N_EN
-@chunk byte ScreenLast[] = {
-  // Title
-  TSPOS(1, 15),
-  TSD_T_CHAR + 8, 'T', // Text "TTTTTTTT"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 1, 'H', // Text "H"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'H', // Text "H"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 5, 'E', // Text "EEEEE"
-  TSP_T_MOVE + 5,
-  TSD_T_CHAR + 8, 'E', // Text "EEEEEEEE"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 1, 'N', // Text "N"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'N', // Text "N"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 4, 'D', // Text "DDDD"
-  TSPOS(2, 18),
-  TSD_T_CHAR + 2, 'T', // Text "TT"
-  TSP_T_MOVE + 5,
-  TSD_T_CHAR + 1, 'H', // Text "H"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'H', // Text "H"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 1, 'E', // Text "E"
-  TSP_T_MOVE + 9,
-  TSD_T_CHAR + 2, 'E', // Text "EE"
-  TSP_T_MOVE + 8,
-  TSD_T_CHAR + 2, 'N', // Text "NN"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 1, 'N', // Text "N"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 1, 'D', // Text "D"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'D', // Text "D"
-  TSPOS(3, 18),
-  TSD_T_CHAR + 2, 'T', // Text "TT"
-  TSP_T_MOVE + 5,
-  TSD_T_CHAR + 5, 'H', // Text "HHHHH"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 4, 'E', // Text "EEEE"
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 2, 'E', // Text "EE"
-  TSP_T_MOVE + 8,
-  TSD_T_TEXT + 5,
-    'N', ' ', 'N', ' ', 'N',
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 1, 'D', // Text "D"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'D', // Text "D"
-  TSPOS(4, 18),
-  TSD_T_CHAR + 2, 'T', // Text "TT"
-  TSP_T_MOVE + 5,
-  TSD_T_CHAR + 1, 'H', // Text "H"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'H', // Text "H"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 1, 'E', // Text "E"
-  TSP_T_MOVE + 9,
-  TSD_T_CHAR + 6, 'E', // Text "EEEEEEEE"
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 1, 'N', // Text "N"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 2, 'N', // Text "NN"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 1, 'D', // Text "D"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'D', // Text "D"
-  TSPOS(5, 18),
-  TSD_T_CHAR + 2, 'T', // Text "TT"
-  TSP_T_MOVE + 5,
-  TSD_T_CHAR + 1, 'H', // Text "H"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'H', // Text "H"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 5, 'E', // Text "EEEEE"
-  TSP_T_MOVE + 5,
-  TSD_T_CHAR + 2, 'E', // Text "EE"
-  TSP_T_MOVE + 8,
-  TSD_T_CHAR + 1, 'N', // Text "N"
-  TSP_T_MOVE + 3,
-  TSD_T_CHAR + 1, 'N', // Text "N"
-  TSP_T_MOVE + 2,
-  TSD_T_CHAR + 4, 'D', // Text "DDDD"
-  TSPOS(6, 18),
-  TSD_T_CHAR + 2, 'T', // Text "TT"
-  TSP_T_MOVE, 22,
-  TSD_T_CHAR + 2, 'E', // Text "EE"
-  TSPOS(7, 18),
-  TSD_T_CHAR + 2, 'T', // Text "TT"
-  TSP_T_MOVE, 22,
-  TSD_T_CHAR + 8, 'E', // Text "EE"
-  TSPOS(10, 1),
-  TSD_T_TEXT, 65,
-    'Y', 'o', 'u', ' ', 'e', 's', 'c', 'a', 'p', 'e', 'd', ' ',
-    't', 'h', 'e', ' ', 'm', 'a', 'z', 'e', ' ', 'a', 'n', 'd', ' ',
-    'a', 'r', 'e', ' ', 'f', 'r', 'e', 'e', ' ',
-    'a', 'g', 'a', 'i', 'n', '.', ' ', ' ',
-    'W', 'h', 'i', 'l', 'e', ' ', 'l', 'e', 'a', 'v', 'i', 'n', 'g', ' ',
-    't', 'h', 'e', ' ', 'm', 'a', 'z', 'e', ',',
-  TSPOS(11, 1),
-  TSD_T_TEXT, 51,
-    'i', 't', ' ', 'i', 'm', 'p', 'l', 'o', 'd', 'e', 'd', ' ',
-    'i', 'n', 't', 'o', ' ', 'a', ' ',
-    'w', 'o', 'n', 'd', 'e', 'r', 'f', 'u', 'l', ' ',
-    'g', 'r', 'e', 'e', 'n', ' ',
-    's', 'p', 'a', 'r', 'k', 'l', 'i', 'n', 'g', ' ',
-    'g', 'e', 'o', 'd', 'e', '.',
-  TSPOS(13, 1),
-  TSD_T_TEXT, 67,
-    'W', 'i', 't', 'h', ' ', 't', 'h', 'e', ' ',
-    't', 'r', 'e', 'a', 's', 'u', 'r', 'e', 's', ' ', 'a', 'n', 'd', ' ',
-    'r', 'i', 'c', 'h', 'e', 's', ' ', 'y', 'o', 'u', ' ',
-    'b', 'o', 'u', 'g', 'h', 't', ' ', 'a', 'n', ' ', 'o', 'l', 'd', ' ',
-    'f', 'a', 'c', 't', 'o', 'r', 'y', ' ', 'o', 'f', ' ',
-    'l', 'a', 'd', 'd', 'e', 'r', 's', '.',
-  TSPOS(14, 1),
-  TSD_T_TEXT, 54,
-    'T', 'h', 'e', 'r', 'e', ' ', 'y', 'o', 'u', ' ',
-    'w', 'i', 'l', 'l', ' ', 'a', 's', 's', 'e', 'm', 'b', 'l', 'e', ' ',
-    'l', 'a', 'd', 'd', 'e', 'r', 's', ' ', 'u', 'n', 't', 'i', 'l', ' ',
-    't', 'h', 'e', ' ', 'e', 'n', 'd', ' ', 'o', 'f', ' ',
-    't', 'i', 'm', 'e', '.',
-  TSPOS(22, 1),
-  TSD_T_TEXT, 24,
-    'T', 'y', 'p', 'e', ' ', 'R', 'E', 'T', 'U', 'R', 'N', ' ',
-    't', 'o', ' ', 'c', 'o', 'n', 't', 'i', 'n', 'u', 'e', ':'
-};
-@endif
 
-@ifdef I8N_DE
+
+// I8N_DE
+/*
+"YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO!"
+"Gib deinen Namen ein"
+"Dr", C_LU_DIERESIS, "ck ENTER um zu speichern oder ESC um zu ", C_LU_DIERESIS, "berspringen:"
+*/
+// Translatable strings in Ladder high score screen
+@chunk char TextHigh0[] = "YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO!";
+//@localize { "The YAHOO text in the high score screen" 45-55 };
+@localize not;
+@chunk char TextHigh1[] = "Enter your name";
+@localize { "The enter your name label in the high score screen" 3-21 };
+@chunk char TextHigh2[] = "Type RETURN to save or type ESC to skip:";
+@localize { "The type RETURN to save or ESC to skip text in the high score screen" 3-77 };
+
+// Lookup table for translatable strings in Ladder high score screen
+@chunkArray optr ScreenHighStrings =
+{
+  @TextHigh0, @TextHigh1, @TextHigh2
+};
+
 @chunk byte ScreenHigh[] = {
   // Title
   TSPOS(6, 15),
-  TSD_T_TEXT, 48,
-    'Y', 'A', 'H', 'O', 'O', '!', ' ',
-    'Y', 'A', 'H', 'O', 'O', '!', ' ',
-    'Y', 'A', 'H', 'O', 'O', '!', ' ',
-    'Y', 'A', 'H', 'O', 'O', '!', ' ',
-    'Y', 'A', 'H', 'O', 'O', '!', ' ',
-    'Y', 'A', 'H', 'O', 'O', '!', ' ',
-    'Y', 'A', 'H', 'O', 'O', '!',
+  TSD_T_CHNK, 0, // ScreenHighStrings[0] / Text "YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO!"
   // Text
   TSPOS(12, 1),
-  TSD_T_TEXT, 21,
-    'G', 'i', 'b', ' ', 'd', 'e', 'i', 'n', 'e', 'n', ' ', 'N', 'a', 'm', 'e', 'n', ' ', 'e', 'i', 'n', ':'
+  TSD_T_CHNK, 1, // ScreenHighStrings[1] / Text "Enter your name"
+  TSPOS(12, 23),
+  TSD_T_CHAR + 1, ':', // Text ":"
+  TSPOS(22, 1),
+  TSD_T_CHNK, 2, // ScreenHighStrings[2] / Text "Type RETURN to save or type ESC to skip:"
 };
-@endif
-@ifdef I8N_EN
-@chunk byte ScreenHigh[] = {
-  // Title
-  TSPOS(6, 15),
-  TSD_T_TEXT, 48,
-    'Y', 'A', 'H', 'O', 'O', '!', ' ',
-    'Y', 'A', 'H', 'O', 'O', '!', ' ',
-    'Y', 'A', 'H', 'O', 'O', '!', ' ',
-    'Y', 'A', 'H', 'O', 'O', '!', ' ',
-    'Y', 'A', 'H', 'O', 'O', '!', ' ',
-    'Y', 'A', 'H', 'O', 'O', '!', ' ',
-    'Y', 'A', 'H', 'O', 'O', '!',
-  // Text
-  TSPOS(12, 1),
-  TSD_T_TEXT, 16,
-    'E', 'n', 't', 'e', 'r', ' ', 'y', 'o', 'u', 'r', ' ',
-    'n', 'a', 'm', 'e', ':'
-};
-@endif
 
-@ifdef I8N_DE
-@chunk char Comp1[] = {
-  'D', 'u', ' ', 'h', 'a', 's', 't', ' ', 'd', 'a', 's', ' ',
-  'w', 'i', 'r', 'k', 'l', 'i', 'c', 'h', ' ', 'n', 'i', 'c', 'h', 't', ' ',
-  'v', 'e', 'r', 'd', 'i', 'e', 'n', 't', ' ', 'a', 'b', 'e', 'r', '.', '.', '.'
-};
-@endif
-@ifdef I8N_EN
-@chunk char Comp1[] = {
-  'Y', 'o', 'u', ' ', 'r', 'e', 'a', 'l', 'l', 'y', ' ',
-  'd', 'o', 'n', '\'', 't', ' ', 'd', 'e', 's', 'e', 'r', 'v', 'e', ' ',
-  't', 'h', 'i', 's', ' ', 'b', 'u', 't', '.', '.', '.'
-};
-@endif
 
-@ifdef I8N_DE
-@chunk char Comp2[] = {
-  'N', 'i', 'c', 'h', 't', ' ', 's', 'c', 'h', 'l', 'e', 'c', 'h', 't', ' ',
-  'f', C_LU_DIERESIS, 'r', ' ', 'e', 'i', 'n', ' ', 'j', 'u', 'n', 'g', 'e', 's', ' ',
-  'L', 'a', 'd', '.'
-};
-@endif
-@ifdef I8N_EN
-@chunk char Comp2[] = {
-  'N', 'o', 't', ' ', 'b', 'a', 'd', ' ', 'f', 'o', 'r', ' ', 'a', ' ',
-  'y', 'o', 'u', 'n', 'g', ' ', 'L', 'a', 'd', '.'
-};
-@endif
+// I8N_DE
+/*
+"Du hast das wirklich nicht verdient aber..."
+"Nicht schlecht f", C_LU_DIERESIS, "r ein junges Lad."
+"Fantastisch!  Du z", C_LA_DIERESIS, "hlst!!"
+"Sieht aus als h", C_LA_DIERESIS, "tten wir hier einen Lad-Der!'
+"Super!  Du bist nun ein Lad-Wiz!"
+"Wow!  Du bist nun ein Lad-Guru!"
+"Du bist ein wahrer Lad-Meister!!!"
+*/
+@chunk char TextComp1[] = "You really don\'t deserve this but...";
+@localize { "The 1st level of compliment text in the high score screen" 3-77 };
+@chunk char TextComp2[] = "Not bad for a young Lad.";
+@localize { "The 2nd level of compliment text in the high score screen" 3-77 };
+@chunk char TextComp3[] = "Amazing!  You rate!!";
+@localize { "The 3rd level of compliment text in the high score screen" 3-77 };
+@chunk char TextComp4[] = "Looks like we have a Lad-Der here!";
+@localize { "The 4th level of compliment text in the high score screen" 3-77 };
+@chunk char TextComp5[] = "Yeah!  Now you are a Lad-Wiz!";
+@localize { "The 5th level of compliment text in the high score screen" 3-77 };
+@chunk char TextComp6[] = "Wow!  You are now a Lad-Guru!";
+@localize { "The 6th level of compliment text in the high score screen" 3-77 };
+@chunk char TextComp7[] = "You are a true Lad-Master!!!";
+@localize { "The 7th level of compliment text in the high score screen" 3-77 };
 
-@ifdef I8N_DE
-@chunk char Comp3[] = {
-  'F', 'a', 'n', 't', 'a', 's', 't', 'i', 's', 'c', 'h', '!', ' ', ' ',
-  'D', 'u', ' ', 'z', C_LA_DIERESIS, 'h', 'l', 's', 't', '!', '!'
-};
-@endif
-@ifdef I8N_EN
-@chunk char Comp3[] = {
-  'A', 'm', 'a', 'z', 'i', 'n', 'g', '!', ' ', ' ', 'Y', 'o', 'u', ' ',
-  'r', 'a', 't', 'e', '!', '!'
-};
-@endif
+// I8N_DE
+/*
+"Kein Name"
+*/
+@chunk char TextHighNoName[] = "No name";
+@localize { "The no name text in the high score list" 3-20 };
 
-@ifdef I8N_DE
-@chunk char Comp4[] = {
-  'S', 'i', 'e', 'h', 't', ' ', 'a', 'u', 's', ' ', 'a', 'l', 's', ' ',
-  'h', C_LA_DIERESIS, 't', 't', 'e', 'n', ' ', 'w', 'i', 'r', ' ', 'h', 'i', 'e', 'r', ' ',
-  'e', 'i', 'n', 'e', 'n', ' ', 'L', 'a', 'd', '-', 'D', 'e', 'r', ' ', '!'
-};
-@endif
-@ifdef I8N_EN
-@chunk char Comp4[] = {
-  'L', 'o', 'o', 'k', 's', ' ', 'l', 'i', 'k', 'e', ' ', 'w', 'e', ' ',
-  'h', 'a', 'v', 'e', ' ', 'a', ' ', 'L', 'a', 'd', '-', 'D', 'e', 'r', ' ',
-  'h', 'e', 'r', 'e', '!'
-};
-@endif
-
-@ifdef I8N_DE
-@chunk char Comp5[] = {
-  'S', 'u', 'p', 'e', 'r', '!', ' ', ' ', 'D', 'u', ' ', 'b', 'i', 's', 't', ' ',
-  'n', 'u', 'n', ' ', 'e', 'i', 'n', ' ', 'L', 'a', 'd', '-', 'W', 'i', 'z', '!'
-};
-@endif
-@ifdef I8N_EN
-@chunk char Comp5[] = {
-  'Y', 'e', 'a', 'h', '!', ' ', ' ', 'N', 'o', 'w', ' ', 'y', 'o', 'u', ' ',
-  'a', 'r', 'e', ' ', 'a', ' ', 'L', 'a', 'd', '-', 'W', 'i', 'z', '!'
-};
-@endif
-
-@ifdef I8N_DE
-@chunk char Comp6[] = {
-  'W', 'o', 'w', '!', ' ', ' ', 'D', 'u', ' ', 'b', 'i', 's', 't', ' ',
-  'n', 'u', 'n', ' ', 'e', 'i', 'n', ' ',
-  'L', 'a', 'd', '-', 'G', 'u', 'r', 'u', '!'
-};
-@endif
-@ifdef I8N_EN
-@chunk char Comp6[] = {
-  'W', 'o', 'w', '!', ' ', ' ', 'Y', 'o', 'u', ' ', 'a', 'r', 'e', ' ',
-  'n', 'o', 'w', ' ', 'a', ' ', 'L', 'a', 'd', '-', 'G', 'u', 'r', 'u', '!'
-};
-@endif
-
-@ifdef I8N_DE
-@chunk char Comp7[] = {
-  'D', 'u', ' ', 'b', 'i', 's', 't', ' ', 'e', 'i', 'n', ' ',
-  'w', 'a', 'h', 'r', 'e', 'r', ' ',
-  'L', 'a', 'd', '-', 'M', 'e', 'i', 's', 't', 'e', 'r', '!', '!', '!'
-};
-@endif
-@ifdef I8N_EN
-@chunk char Comp7[] = {
-  'Y', 'o', 'u', ' ', 'a', 'r', 'e', ' ', 'a', ' ', 't', 'r', 'u', 'e', ' ',
-  'L', 'a', 'd', '-', 'M', 'a', 's', 't', 'e', 'r', '!', '!', '!'
-};
-@endif
-
-@ifdef I8N_DE
-@chunk char TextHighSave[] = {
-  'A', 'k', 't', 'u', 'a', 'l', 'i', 's', 'i', 'e', 'r', 'e', ' ',
-  'R', 'a', 'n', 'g', 'l', 'i', 's', 't', 'e', '.', '.', '.'
-};
-@endif
-@ifdef I8N_EN
-@chunk char TextHighSave[] = {
-  'U', 'p', 'd', 'a', 't', 'i', 'n', 'g', ' ', 'h', 'i', 'g', 'h', ' ',
-  's', 'c', 'o', 'r', 'e', 's', '.', '.', '.'
-};
-@endif
+// I8N_DE  "Aktualisiere Rangliste..."
+@chunk char TextHighSave[] = "Updating high scores...";
+@localize { "The updating high scores text in the high score screen" 3-77 };
 
 @end TEXT;
 
@@ -1812,134 +1093,130 @@
 
 @start PLAY, data;
 
-@ifdef I8N_DE
-@chunk byte ScreenLoad[] = {
-  TSPOS(6, 30),
-  TSD_T_TEXT, 18,
-    '.', ':', ':', ' ', 'L', 'A', 'D', 'E', ' ',
-    'L', 'E', 'V', 'E', 'L', ' ', ':', ':', '.',
-  TSPOS(9, 23),
-  TSD_T_CHAR + 3, '<', // Text "<<<"
-  TSPOS(9, 53),
-  TSD_T_CHAR + 3, '>', // Text ">>>"
-  TSPOS(12, 34),
-  TSD_T_TEXT + 6,
-    'R', 'u', 'n', 'd', 'e', ':',
-  TSPOS(13, 34),
-  TSD_T_TEXT + 6,
-    'L', 'e', 'v', 'e', 'l', ':',
-  TSPOS(16, 32),
-  TSD_T_TEXT + 12,
-    'B', 'i', 't', 't', 'e', ' ', 'w', 'a', 'r', 't', 'e', 'n',
-  TSD_T_CHAR + 3, '.' // Text "..."
+// I8N_DE
+/*
+".:: LADE LEVEL ::."
+"Runde"
+"Level"
+"Bitte warten"
+*/
+// Translatable strings in Ladder load screen
+@chunk char TextLoad0[] = ".:: LOADING LEVEL ::.";
+@localize { "The loading level text in the load screen" 18-24 };
+@chunk char TextLoad1[] = "Round";
+@localize { "The round label in the load screen" 3-8 };
+@chunk char TextLoad2[] = "Level";
+@localize { "The level label in the load screen" 3-8 };
+@chunk char TextLoad3[] = "Please wait...";
+@localize { "The please wait text in the load screen" 3-15 };
+
+// Lookup table for translatable strings in Ladder load screen
+@chunkArray optr ScreenLoadStrings =
+{
+  @TextLoad0, @TextLoad1, @TextLoad2, @TextLoad3
 };
-@endif
-@ifdef I8N_EN
+
 @chunk byte ScreenLoad[] = {
   TSPOS(6, 29),
-  TSD_T_TEXT, 21,
-    '.', ':', ':', ' ', 'L', 'O', 'A', 'D', 'I', 'N', 'G', ' ',
-    'L', 'E', 'V', 'E', 'L', ' ', ':', ':', '.',
+  TSD_T_CHNK, 0, // ScreenLoadStrings[0] / Text ".:: LOADING LEVEL ::."
   TSPOS(9, 23),
   TSD_T_CHAR + 3, '<', // Text "<<<"
   TSPOS(9, 53),
   TSD_T_CHAR + 3, '>', // Text ">>>"
   TSPOS(12, 34),
-  TSD_T_TEXT + 6,
-    'R', 'o', 'u', 'n', 'd', ':',
+  TSD_T_CHNK, 1, // ScreenLoadStrings[1] / Text "Round:"
+  TSPOS(12, 43),
+  TSD_T_CHAR + 1, ':', // Text ":"
   TSPOS(13, 34),
-  TSD_T_TEXT + 6,
-    'L', 'e', 'v', 'e', 'l', ':',
+  TSD_T_CHNK, 2, // ScreenLoadStrings[2] / Text "Level:"
+  TSPOS(13, 43),
+  TSD_T_CHAR + 1, ':', // Text ":"
   TSPOS(16, 32),
-  TSD_T_TEXT + 11,
-    'P', 'l', 'e', 'a', 's', 'e', ' ', 'w', 'a', 'i', 't',
-  TSD_T_CHAR + 3, '.' // Text "..."
+  TSD_T_CHNK, 3, // ScreenLoadStrings[0] / Text "Please wait..."
 };
-@endif
 
-@ifdef I8N_DE
+
+// I8N_DE
+/*
+"Lads"
+"Runde"
+"Punkte"
+"Bonuszeit"
+*/
+// Translatable strings in Ladder play screen
+@chunk char TextPlay0[] = "Lads";
+@localize { "The Lads label in the play screen" 3-5 };
+@chunk char TextPlay1[] = "Round";
+@localize { "The round label in the play screen" 3-6 };
+@chunk char TextPlay2[] = "Score";
+@localize { "The score label in the play screen" 3-6 };
+@chunk char TextPlay3[] = "Bonus time";
+@localize { "The bonus time label in the play screen" 3-10 };
+
+// Lookup table for translatable strings in Ladder play screen
+@chunkArray optr ScreenPlayStrings =
+{
+  @TextPlay0, @TextPlay1, @TextPlay2, @TextPlay3
+};
+
 @chunk byte ScreenPlay[] = {
   TSPOS(20, 1),
-  TSD_T_TEXT + 4,
-    'L', 'a', 'd', 's',
-  TSP_T_MOVE + 10,
-  TSD_T_TEXT + 5,
-    'R', 'u', 'n', 'd' ,'e',
-  TSP_T_MOVE + 10,
-  TSD_T_TEXT + 6,
-    'P', 'u', 'n', 'k', 't', 'e',
-  TSP_T_MOVE + 6,
+  TSD_T_CHNK, 0, // ScreenPlayStrings[0] / Text "Lads"
+  TSPOS(20, 15),
+  TSD_T_CHNK, 1, // ScreenPlayStrings[1] / Text "Round"
+  TSPOS(20, 30),
+  TSD_T_CHNK, 2, // ScreenPlayStrings[2] / Text "Score"
+  TSPOS(20, 41),
   TSD_T_CHAR + 2, '0', // Text "00"
-  TSP_T_MOVE, 19,
-  TSD_T_TEXT + 9,
-    'B', 'o', 'n', 'u', 's', 'z', 'e', 'i', 't',
-  TSP_T_MOVE + 4,
+  TSPOS(20, 63),
+  TSD_T_CHNK, 3, // ScreenPlayStrings[3] / Text "Bonus time"
+  TSPOS(20, 76),
   TSD_T_CHAR + 2, '0' // Text "00"
 };
-@endif
-@ifdef I8N_EN
-@chunk byte ScreenPlay[] = {
-  TSPOS(20, 1),
-  TSD_T_TEXT + 4,
-    'L', 'a', 'd', 's',
-  TSP_T_MOVE + 10,
-  TSD_T_TEXT + 5,
-    'R', 'o', 'u', 'n' ,'d',
-  TSP_T_MOVE + 10,
-  TSD_T_TEXT + 5,
-    'S', 'c', 'o', 'r', 'e',
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 2, '0', // Text "00"
-  TSP_T_MOVE, 19,
-  TSD_T_TEXT + 10,
-    'B', 'o', 'n', 'u', 's', ' ', 't', 'i', 'm', 'e',
-  TSP_T_MOVE + 4,
-  TSD_T_CHAR + 2, '0' // Text "00"
-};
-@endif
 
-@ifdef I8N_DE
-@chunk char TextPlayReady[] = {
-  'B', 'e', 'r', 'e', 'i', 't', 'm', 'a', 'c', 'h', 'e', 'n', '!'
-};
-@endif
-@ifdef I8N_EN
-@chunk char TextPlayReady[] = {
-  'G', 'e', 't', ' ', 'r', 'e', 'a', 'd', 'y', '!'
-};
-@endif
 
-@ifdef I8N_DE
-@chunk char TextPlayHooka[] = {
-  'S', 'h', 'i', 's', 'h', 'a', '!'
-};
-@endif
-@ifdef I8N_EN
-@chunk char TextPlayHooka[] = {
-  'H', 'o', 'o', 'k', 'a', '!'
-};
-@endif
+// I8N_DE  "Bereitmachen!"
+@chunk char TextPlayReady[] = "Get ready!";
+@localize { "The get ready text in the play screen" 3-77 };
+// I8N_DE  "Shisha!"
+@chunk char TextPlayHooka[] = "Hooka!";
+@localize { "The hooka text in the play screen" 3-77 };
+// I8N_DE  "Dr', C_LU_DIERESIS, "ck ENTER um weiterzumachen:",
+@chunk char TextPlayContinue[] = "Type RETURN to continue:";
+@localize { "The type RETURN to contiune text in the play screen" 3-77 };
 
-@ifdef I8N_DE
-@chunk char TextPlayCont[] = {
-  'D', 'r', C_LU_DIERESIS, 'c', 'k', ' ', 'E', 'N', 'T', 'E', 'R', ' ',
-  'u', 'm', ' ',
-  // XXX: -> "Warning fixing up unused space in lmem resource play" without last space !!!
-  'w', 'e', 'i', 't', 'e', 'r', 'z', 'u', 'm', 'a', 'c', 'h', 'e', 'n', ':', ' '
-};
-@endif
-@ifdef I8N_EN
-@chunk char TextPlayCont[] = {
-  'T', 'y', 'p', 'e', ' ', 'R', 'E', 'T', 'U', 'R', 'N', ' ', 't', 'o', ' ',
-  'c', 'o', 'n', 't', 'i', 'n', 'u', 'e', ':'
-};
-@endif
+
+// I8N_DE
+/*
+"Einfache Strasse"
+"Lange Insel"
+"Geister Dorf"
+"Tunnel Vision"
+"Punkt ohne Wiederkehr"
+"K", C_LA_DIERESIS, "fer Stadt"
+"Rotten Land"
+*/
+@chunk char LevelName1[] = "Easy Street";
+@localize { "The name of the 1st level" 3-22 };
+@chunk char LevelName2[] = "Long Island";
+@localize { "The name of the 2nd level" 3-22 };
+@chunk char LevelName3[] = "Ghost Town";
+@localize { "The name of the 3rd level" 3-22 };
+@chunk char LevelName4[] = "Tunnel Vision";
+@localize { "The name of the 4th level" 3-22 };
+@chunk char LevelName5[] = "Point of No Return";
+@localize { "The name of the 5th level" 3-22 };
+@chunk char LevelName6[] = "Bug City";
+@localize { "The name of the 6th level" 3-22 };
+@chunk char LevelName7[] = "Gang Land";
+@localize { "The name of the 7th level" 3-22 };
 
 // Name, Bonus Time, Lad Start Position,
 // { Number of Emitters, { Positions of Emitters } },
 // Maximum Ders,
 // Level Data
-@chunkArray Level Levels = {
+@chunkArray Level Levels =
+{
   {
     ChunkOf(@LevelName1), 35, 5 + 18 * LVL_COLS,
     {
@@ -1997,85 +1274,6 @@
     ChunkOf(@LevelData7)
   }
 };
-
-@ifdef I8N_DE
-@chunk char LevelName1[] = {
-  'E', 'i', 'n', 'f', 'a', 'c', 'h', 'e', ' ', 'S', 't', 'r', 'a', 's', 's', 'e'
-};
-@endif
-@ifdef I8N_EN
-@chunk char LevelName1[] = {
-  'E', 'a', 's', 'y', ' ', 'S', 't', 'r', 'e', 'e', 't'
-};
-@endif
-
-@ifdef I8N_DE
-@chunk char LevelName2[] = {
-  'L', 'a', 'n', 'g', 'e', ' ', 'I', 'n', 's', 'e', 'l'
-};
-@endif
-@ifdef I8N_EN
-@chunk char LevelName2[] = {
-  'L', 'o', 'n', 'g', ' ', 'I', 's', 'l', 'a', 'n', 'd'
-};
-@endif
-
-@ifdef I8N_DE
-@chunk char LevelName3[] = {
-  'G', 'e', 'i', 's', 't', 'e', 'r', ' ', 'D', 'o', 'r', 'f'
-};
-@endif
-@ifdef I8N_EN
-@chunk char LevelName3[] = {
-  'G', 'h', 'o', 's', 't', ' ', 'T', 'o', 'w', 'n'
-};
-@endif
-
-@ifdef I8N_DE
-@chunk char LevelName4[] = {
- 'T', 'u', 'n', 'n', 'e', 'l', ' ', 'V', 'i', 's', 'i', 'o', 'n'
-};
-@endif
-@ifdef I8N_EN
-@chunk char LevelName4[] = {
- 'T', 'u', 'n', 'n', 'e', 'l', ' ', 'V', 'i', 's', 'i', 'o', 'n'
-};
-@endif
-
-@ifdef I8N_DE
-@chunk char LevelName5[] = {
-  'P', 'u', 'n', 'k', 't', ' ', 'o', 'h', 'n', 'e', ' ',
-  'W', 'i', 'e', 'd', 'e', 'r', 'k', 'e', 'h', 'r'
-};
-@endif
-@ifdef I8N_EN
-@chunk char LevelName5[] = {
-  'P', 'o', 'i', 'n', 't', ' ', 'o', 'f', ' ', 'N', 'o', ' ',
-  'R', 'e', 't', 'u', 'r', 'n'
-};
-@endif
-
-@ifdef I8N_DE
-@chunk char LevelName6[] = {
-  'K', C_LA_DIERESIS, 'f', 'e', 'r', ' ', 'S', 't', 'a', 'd', 't'
-};
-@endif
-@ifdef I8N_EN
-@chunk char LevelName6[] = {
-  'B', 'u', 'g', ' ', 'C', 'i', 't', 'y'
-};
-@endif
-
-@ifdef I8N_DE
-@chunk char LevelName7[] = {
-  'R', 'o', 't', 't', 'e', 'n', ' ', 'L', 'a', 'n', 'd'
-};
-@endif
-@ifdef I8N_EN
-@chunk char LevelName7[] = {
-  'G', 'a', 'n', 'g', ' ', 'L', 'a', 'n', 'd'
-};
-@endif
 
 // Data of Level 1
 @chunk byte LevelData1[] = {
@@ -2740,9 +1938,8 @@
 };
 
 // This chunk is only a place holder. It will be resized during startup.
-@chunk char LevelBuffer[] = {
-  ""
-};
+@chunk char LevelBuffer[] = "";
+@localize not;
 
 @end PLAY;
 
