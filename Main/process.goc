@@ -256,6 +256,15 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderProcessClass, MSG_GEN_PROCESS_OPEN_APPLICATION  // 280 Bytes
 {
   word state;
+  static char hfn[32] = "";
+  // Lock and dereference the help file name
+  MemLock(OptrToHandle(@HelpFile));
+  // Copy the help file name to a buffer
+  memcpy(hfn, LMemDeref(@HelpFile), LMemGetChunkSize(@HelpFile));
+  // Set help file name of application
+  @call LadderApplication::MSG_META_SET_HELP_FILE(hfn);
+  // Unlock the help file name
+  MemUnlock(OptrToHandle(@HelpFile));
   // Lock and dereference the level buffer
   MemLock(OptrToHandle(@LevelBuffer));
   // Resize the level buffer

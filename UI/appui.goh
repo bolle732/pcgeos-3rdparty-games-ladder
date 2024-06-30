@@ -33,6 +33,7 @@
 // RESOURCE Application
 @extern object LadderApplication;
 @extern visMoniker LadderTextMoniker;
+@extern chunk HelpFile;
 
 
 // RESOURCE Icon

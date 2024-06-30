@@ -71,8 +71,7 @@
   }
   GI_comp = @LadderPrimary;
   gcnList(MANUFACTURER_ID_GEOWORKS, GAGCNLT_WINDOWS) = @LadderPrimary;
-//  ATTR_GEN_HELP_FILE = @HelpFile;
-  ATTR_GEN_HELP_FILE = "GeoLadder Help";
+//  ATTR_GEN_HELP_FILE = "GeoLadder Help";
   HINT_APP_IS_ENTERTAINING;
 }
 
@@ -83,8 +82,8 @@
 /*
 "GeoLadder Hilfe"
 */
-//@chunk char HelpFile[] = "GeoLadder Help";
-//@localize "The GeoLadder help file name" 3-32;
+@chunk char HelpFile[] = "GeoLadder Help";
+@localize { "The GeoLadder help file name" 3-32 };
 
 @end APPLICATION;
 
