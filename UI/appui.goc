@@ -614,7 +614,7 @@
 @localize { "The 2nd line in the help screen" 0-77 };
 @chunk char TextHelp2[] = "treasures and riches.";
 @localize { "The 3rd line in the help screen" 0-77 };
-@chunk char TextHelp3[] = "";
+@chunk char TextHelp3[] = " ";
 @localize { "The 4th line in the help screen" 0-77 };
 @chunk char TextHelp4[] = "You control Lad by typing the direction buttons and jumping by";
 @localize { "The 5th line in the help screen" 0-77 };
@@ -624,7 +624,7 @@
 @localize { "The 7th line in the help screen" 0-77 };
 @chunk char TextHelp7[] = "treasure (shown as $) BEFORE the bonus time runs out.";
 @localize { "The 8th line in the help screen" 0-77 };
-@chunk char TextHelp8[] = "";
+@chunk char TextHelp8[] = " ";
 @localize { "The 9th line in the help screen" 0-77 };
 @chunk char TextHelp9[] = "A new Lad will be awarded for every 10\'000 points.  Extra points";
 @localize { "The 10th line in the help screen" 0-77 };
@@ -634,15 +634,15 @@
 @localize { "The 12th line in the help screen" 0-77 };
 @chunk char TextHelp12[] = "finished the level.";
 @localize { "The 13th line in the help screen" 0-77 };
-@chunk char TextHelp13[] = "";
+@chunk char TextHelp13[] = " ";
 @localize { "The 14th line in the help screen" 0-77 };
 @chunk char TextHelp14[] = "Remember, there is more than one way to skin a cat. (Chum)";
 @localize { "The 15th line in the help screen" 0-77 };
-@chunk char TextHelp15[] = "";
+@chunk char TextHelp15[] = " ";
 @localize { "The 16th line in the help screen" 0-77 };
 @chunk char TextHelp16[] = "Type a P to pause the game or an ESCape to end it.";
 @localize { "The 17th line in the help screen" 0-77 };
-@chunk char TextHelp17[] = "";
+@chunk char TextHelp17[] = " ";
 @localize { "The 18th line in the help screen" 0-77 };
 @chunk char TextHelp18[] = "Good luck Lad.";
 @localize { "The good wishes text" 3-77 };
@@ -714,7 +714,7 @@
 @localize { "The 1st line of text in the game over screen" 0-77 };
 @chunk char TextOver1[] = "stay trapped in the maze and must try again from the beginning.";
 @localize { "The 2nd line of text in the game over screen" 0-77 };
-@chunk char TextOver2[] = "";
+@chunk char TextOver2[] = " ";
 @localize { "The 3rd line of text in the game over screen" 0-77 };
 @chunk char TextOver3[] = "Type RETURN to continue:";
 @localize { "The type RETURN to contiune text in the game over screen" 3-77 };
