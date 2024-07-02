@@ -74,6 +74,8 @@
 @extern chunk ScreenMenu;
 @extern chunk MenuSoundOff;
 @extern chunk MenuSoundOn;
+@extern chunk MenuVersion;
+@extern chunk MenuTerminal;
 @extern chunk MenuStimulation1;
 @extern chunk MenuStimulation2;
 @extern chunk MenuStimulation3;

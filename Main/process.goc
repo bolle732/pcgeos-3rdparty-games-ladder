@@ -52,6 +52,7 @@
 #include "initfile.h"
 #include <sound.h>
 #include <Ansi/ctype.h>
+#include <Ansi/stdio.h>
 #include <Ansi/string.h>
 
 
@@ -255,16 +256,29 @@ static word _pascal TicksByDifficulty(word diff)
  ***********************************************************************/
 @method LadderProcessClass, MSG_GEN_PROCESS_OPEN_APPLICATION  // 280 Bytes
 {
+  ReleaseNumber rn;
   word state;
-  static char hfn[32] = "";
+  static char buf[32] = "";
   // Lock and dereference the help file name
   MemLock(OptrToHandle(@LadderHelpFile));
   // Copy the help file name to a buffer
-  memcpy(hfn, LMemDeref(@LadderHelpFile), LMemGetChunkSize(@LadderHelpFile));
+  memcpy(buf, LMemDeref(@LadderHelpFile), LMemGetChunkSize(@LadderHelpFile));
   // Set help file name of application
-  @call LadderApplication::MSG_META_SET_HELP_FILE(hfn);
+  @call LadderApplication::MSG_META_SET_HELP_FILE(buf);
   // Unlock the help file name
   MemUnlock(OptrToHandle(@LadderHelpFile));
+  // Get the version number
+  GeodeGetInfo(GeodeGetProcessHandle(), GGIT_GEODE_RELEASE, &rn);
+  // Lock and dereference the version number
+  MemLock(OptrToHandle(@MenuVersion));
+  // Resize the version number
+  LMemReAlloc(@MenuVersion, 23);
+  // Fill the version number with spaces
+  memset(LMemDeref(@MenuVersion), ' ', 23);
+  // Copy the version number to a buffer
+  sprintf(LMemDeref(@MenuVersion), "%u.%u %u-%u", rn.RN_major, rn.RN_minor, rn.RN_change, rn.RN_engineering);
+  // Unlock the version number
+  MemUnlock(OptrToHandle(@MenuVersion));
   // Lock and dereference the level buffer
   MemLock(OptrToHandle(@GameLevelBuffer));
   // Resize the level buffer

@@ -327,8 +327,10 @@
 /*
 "Original ist (c) in 1982, 1983 Yahoo Software"
 "Adaptiert für PC/GEOS in 2011 von Andreas Bollhalder"
-"Version   : 0.5"
-"Terminal  : PC/GEOS"
+"Version"
+""
+"Terminal"
+""
 "Schwierigkeitsgrad"
 "Tonausgabe"
 "P = Starte Spiel"
@@ -340,16 +342,22 @@
 "Rangliste"
 "Letzte Punkte:"
 */
-
 // Translatable strings in Ladder menu screen
 @chunk char MenuText0[] = "Original is (c) in 1982, 1983 Yahoo Software";
 @localize { "The original copyright claim" 3-77 };
 @chunk char MenuText1[] = "Adapted for PC/GEOS in 2011 by Andreas Bollhalder";
 @localize { "The adaption claim" 3-77 };
-@chunk char MenuText2[] = "Version   : 0.5";  // XXX: Get number from revision file?
-@localize { "The version label and number" 3-37 };
-@chunk char MenuText3[] = "Terminal  : FreeGEOS";  // XXX: Get name from kernal?
-@localize { "The terminal label and name" 3-37 };
+@chunk char MenuText2[] = "Version";  // XXX: Get number from revision file?
+@localize { "The version label" 3-9 };
+// This chunk is only a place holder. It will be resized and filled during startup.
+@chunk char MenuVersion[] = "";
+@localize not;
+
+@chunk char MenuText3[] = "Terminal";  // XXX: Get name from kernal?
+@localize { "The terminal label" 3-9 };
+@chunk char MenuTerminal[] = "FreeGEOS";
+@localize not;
+
 @chunk char MenuText4[] = "Difficulty Level";
 @localize { "The difficulty level label" 3-18 };
 @chunk char MenuText5[] = "Sound Output";
@@ -374,7 +382,7 @@
 // Lookup table for translatable strings in Ladder menu screen
 @chunkArray optr ScreenMenuStrings =
 {
-  @MenuText0, @MenuText1, @MenuText2, @MenuText3, @MenuText4,
+  @MenuText0, @MenuText1, @MenuText2, @MenuVersion, @MenuText3, @MenuTerminal, @MenuText4,
   @MenuText5, @MenuText6, @MenuText7, @MenuText8, @MenuText9,
   @MenuText10, @MenuText11, @MenuText12, @MenuText13
 };
@@ -489,43 +497,60 @@
   TSPOS(9, 1),
   TSD_T_CHNK, 1, // ScreenMenuStrings[1] / Text "Adapted for PC/GEOS in 2011 by Andreas Bollhalder"
   TSPOS(11, 40),
-  TSD_T_CHNK, 2, // ScreenMenuStrings[2] / Text "Version  : 0.5"
+  TSD_T_CHNK, 2, // ScreenMenuStrings[2] / Text "Version"
+  TSPOS(11, 50),
+  TSD_T_CHAR + 1, ':', // Text ":"
+  TSPOS(11, 52),
+  TSD_T_CHNK, 3, // ScreenMenuStrings[3] / Text "0.5 0-22"
+
+
+
+
   TSPOS(12, 40),
-  TSD_T_CHNK, 3, // ScreenMenuStrings[3] / Text "Terminal : FreeGEOS"
+  TSD_T_CHNK, 4, // ScreenMenuStrings[4] / Text "Terminal"
+  TSPOS(12, 50),
+  TSD_T_CHAR + 1, ':', // Text ":"
+
+  TSPOS(12, 52),
+  TSD_T_CHNK, 5, // ScreenMenuStrings[5] / Text "FreeGEOS"
+
+
+
+
   TSPOS(11, 1),
-  TSD_T_CHNK, 4, // ScreenMenuStrings[4] / Text "Difficulty Level"
+  TSD_T_CHNK, 6, // ScreenMenuStrings[6] / Text "Difficulty Level"
   TSPOS(11, 19),
   TSD_T_CHAR + 1, ':', // Text ":"
   TSPOS(12, 1),
-  TSD_T_CHNK, 5, // ScreenMenuStrings[5] / Text "Sound Output"
+  TSD_T_CHNK, 7, // ScreenMenuStrings[7] / Text "Sound Output"
   TSPOS(12, 19),
   TSD_T_CHAR + 1, ':', // Text ":"
   // Main menu
   TSPOS(14, 1),
   TSD_T_TEXT + 4,
     'P', ' ', '=', ' ',
-  TSD_T_CHNK, 6, // ScreenMenuStrings[6] / Text "Play Game"
+  TSD_T_CHNK, 8, // ScreenMenuStrings[8] / Text "Play Game"
   TSPOS(15, 1),
   TSD_T_TEXT + 4,
     'D', ' ', '=', ' ',
-  TSD_T_CHNK, 7, // ScreenMenuStrings[7] / Text "Change Difficulty"
+  TSD_T_CHNK, 9, // ScreenMenuStrings[9] / Text "Change Difficulty"
   TSPOS(16, 1),
   TSD_T_TEXT + 4,
     'S', ' ', '=', ' ',
-  TSD_T_CHNK, 8, // ScreenMenuStrings[8] / Text "Change Sound"
+  TSD_T_CHNK, 10, // ScreenMenuStrings[10] / Text "Change Sound"
   TSPOS(17, 1),
   TSD_T_TEXT + 4,
     'I', ' ', '=', ' ',
-  TSD_T_CHNK, 9, // ScreenMenuStrings[9] / Text "Show Instructions"
+  TSD_T_CHNK, 11, // ScreenMenuStrings[11] / Text "Show Instructions"
   TSPOS(18, 1),
   TSD_T_TEXT + 4,
     'E', ' ', '=', ' ',
-  TSD_T_CHNK, 10, // ScreenMenuStrings[10] / Text "Exit GeoLadder"
+  TSD_T_CHNK, 12, // ScreenMenuStrings[12] / Text "Exit GeoLadder"
   TSPOS(21, 1),
-  TSD_T_CHNK, 11, // ScreenMenuStrings[11] / Text "Enter one of the above:"
+  TSD_T_CHNK, 13, // ScreenMenuStrings[13] / Text "Enter one of the above:"
   // Ranking list and last score
   TSPOS(14, 40),
-  TSD_T_CHNK, 12, // ScreenMenuStrings[12] / Text "High Scores"
+  TSD_T_CHNK, 14, // ScreenMenuStrings[14] / Text "High Scores"
   TSPOS(15, 40),
   TSD_T_TEXT + 2,
     '1', ')',
@@ -552,7 +577,7 @@
   TSP_T_MOVE + 6,
   TSD_T_CHAR + 2, '0', // Text "00"
   TSPOS(21, 40),
-  TSD_T_CHNK, 13, // ScreenMenuStrings[13] / Text "Last Score:"
+  TSD_T_CHNK, 15, // ScreenMenuStrings[15] / Text "Last Score:"
   TSPOS(21, 60),
   TSD_T_CHAR + 2, '0' // Text "00"
 };
@@ -588,22 +613,22 @@
 "Du bist ein Lad, gefangen in einem Irrgarten.  Deine Mission ist, die"
 "noch nie gesehenen dunklen Gänge zu erforschen und versteckte Schätze"
 "und Reichtümmer zu finden."
-
+""
 "Du steuerst das Lad durch Drücken der Pfeiltasten und lässt es durch"
 "Drücken der Leertaste springen.  Drück eine beliebige Taste um das Lad"
 "zu stoppen.  Achte auf die fallenden Steine, auch Der Steine genannt."
 "Suche und ergreife die Schätze (angezeigt als $) BEVOR die Bonuszeit"
 "abgelaufen ist."
-
+""
 "Ein neues Lad wird für alle 10\'000 Punkte vergeben.  Extrapunkte werden"
 "für das Einsammeln von Goldstatuen (angezeigt als &) vergeben.  Du"
 "erhälst die restliche Bonuszeit wenn Du den Level beendet hast."
 "Denk daran, viele Wege führen nach Rom. (Syhra)"
-
+""
 "Drücke P um das Spiel zu pausieren oder ESCape um es zu beenden."
-
+""
 "Viel Glück Lad."
-
+""
 "Drück ESC um zum Hauptmenü zurückzukehren:"
 */
 
@@ -707,6 +732,7 @@
 "Du hast alle Lads verloren, bevor Du den letzten Schatz gefunden hast."
 "Deshalb bleibst Du im Irrgarten gefangen und must noch einmal von Vorne"
 "beginnen."
+""
 "Drück ENTER um fortzufahren:"
 */
 // Translatable strings in Ladder game over screen
