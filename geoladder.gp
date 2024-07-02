@@ -17,7 +17,7 @@
 
 ##############################################################################
 #
-# Copyright (c) 2013 by YoYu-Productions
+# Copyright (c) 2010-2024 by YoYu-Productions
 #
 # PROJECT:      GeoLadder
 # MODULE:       GLUE parameter file

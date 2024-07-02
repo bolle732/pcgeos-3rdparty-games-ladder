@@ -19,7 +19,7 @@
 
 /*
  ***************************************************************************
- * Copyright (c) 2010-2013 by YoYu-Productions
+ * Copyright (c) 2010-2024 by YoYu-Productions
  *
  * PROJECT:     GeoLadder
  * MODULE:      GOC code file
@@ -870,14 +870,14 @@ static void _pascal MoveDers(void)  // 319 Bytes
   // Set the value of the current level
   @send LadderLoadLevel::MSG_VAL_SET_VALUE(g.game.level);
   // Lock the level headers
-  MemLock(OptrToHandle(@Levels));
+  MemLock(OptrToHandle(@GameLevels));
   // Get the level header
-  ChunkArrayGetElement(@Levels, g.game.level - 1, &g.level);
+  ChunkArrayGetElement(@GameLevels, g.game.level - 1, &g.level);
   // No need to MemLock because the resource is already locked
   // Set the text of the level name
-  @call LadderLoadName::MSG_TXT_SET_TEXT(ConstructOptr(OptrToHandle(@Levels), g.level.name));
+  @call LadderLoadName::MSG_TXT_SET_TEXT(ConstructOptr(OptrToHandle(@GameLevels), g.level.name));
   // Unlock the level headers
-  MemUnlock(OptrToHandle(@Levels));
+  MemUnlock(OptrToHandle(@GameLevels));
   // Show the loading screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderLoad);
   // Start the timer for the initialization of the round
@@ -906,12 +906,12 @@ static void _pascal MoveDers(void)  // 319 Bytes
 @extern method LadderProcessClass, MSG_LAD_GAME_LOAD_DATA  // 183 Bytes
 {
   // Lock the level headers
-  MemLock(OptrToHandle(@Levels));
+  MemLock(OptrToHandle(@GameLevels));
   // No need to MemLock because the resource is already locked
   // Load the level data
-  @call LadderPlayLevel::MSG_LVL_LOAD_LEVEL(ConstructOptr(OptrToHandle(@Levels), g.level.data));
+  @call LadderGameLevel::MSG_LVL_LOAD_LEVEL(ConstructOptr(OptrToHandle(@GameLevels), g.level.data));
   // Unlock the level headers
-  MemUnlock(OptrToHandle(@Levels));
+  MemUnlock(OptrToHandle(@GameLevels));
   // Set the value of the current lads
   @send LadderPlayLads::MSG_VAL_SET_VALUE(g.game.lads);
   // Set the value of the current round
@@ -1002,7 +1002,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
 @extern method LadderProcessClass, MSG_LAD_GAME_READY  // 52 Bytes
 {
   // Update the info line with the get ready text
-  @send LadderInfo::MSG_TXT_UPDATE_TEXT(@TextPlayReady);
+  @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayReady);
   // Start the timer for end of get ready
   g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_READY, MSG_LAD_GAME_START, 0, &g.timerId);
 }
@@ -1070,9 +1070,9 @@ static void _pascal MoveDers(void)  // 319 Bytes
   // Reset the actors
   @send LadderPlayActors::MSG_ACT_RESET();
   // Lock and dereference the level buffer
-  MemLock(OptrToHandle(@LevelBuffer));
+  MemLock(OptrToHandle(@GameLevelBuffer));
   // Get the pointer of the level buffer
-  g.levelPtr = LMemDeref(@LevelBuffer);
+  g.levelPtr = LMemDeref(@GameLevelBuffer);
   // ::: HANDLE LAD :::
   // Move the Lad
   MoveLad();
@@ -1153,7 +1153,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
     }
   }
   // Unlock the level buffer
-  MemUnlock(OptrToHandle(@LevelBuffer));
+  MemUnlock(OptrToHandle(@GameLevelBuffer));
   // Draw the actors
   @send LadderPlayActors::MSG_ACT_DRAW();
   // ::: HANDLE POINTS :::
@@ -1223,7 +1223,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
   // Stop the play timer
   StopTimer();
   // Update the info line with the wait message
-  @send LadderInfo::MSG_TXT_UPDATE_TEXT(@TextPlayContinue);
+  @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayContinue);
 }
 
 /***********************************************************************
@@ -1341,8 +1341,8 @@ static void _pascal MoveDers(void)  // 319 Bytes
   // Reset the actors
   @send LadderPlayActors::MSG_ACT_RESET();
   // Lock and dereference the level buffer
-  MemLock(OptrToHandle(@LevelBuffer));
-  p_level = LMemDeref(@LevelBuffer);
+  MemLock(OptrToHandle(@GameLevelBuffer));
+  p_level = LMemDeref(@GameLevelBuffer);
   // Restore background of Ders
   for (i = 0; i < g.level.ders; i++)
   {
@@ -1354,7 +1354,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
   // Restore background of Lad
   @send LadderPlayActors::MSG_ACT_ADD(POS_NONE, 0, g.lad.cpos, *(p_level + g.lad.cpos));
   // Unlock the level buffer
-  MemUnlock(OptrToHandle(@LevelBuffer));
+  MemUnlock(OptrToHandle(@GameLevelBuffer));
   // Draw the background of the actors
   @send LadderPlayActors::MSG_ACT_DRAW();
   // Restart the level
@@ -1406,7 +1406,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
     {
       g.triState = TRI_S_ON;
       // Update the info line with the hooka text
-      o = @TextPlayHooka;
+      o = @PlayHooka;
     }
     else
     {

@@ -82,7 +82,7 @@
 /*
 "GeoLadder Hilfe"
 */
-@chunk char HelpFile[] = "GeoLadder Help";
+@chunk char LadderHelpFile[] = "GeoLadder Help";
 @localize { "The GeoLadder help file name" 3-32 };
 
 @end APPLICATION;
@@ -141,7 +141,7 @@
     21 + SCN_COLS * 12, 0,
     3, 0
   };
-  LTI_text = @TextSoundOff;
+  LTI_text = @MenuSoundOff;
 }
 
 @object LadderRankClass LadderMenuRank = {
@@ -207,7 +207,7 @@
 // Play
 @object LadderScreenClass LadderPlay = {
   VCI_comp =
-    @LadderPlayLevel, @LadderPlayActors,
+    @LadderGameLevel, @LadderPlayActors,
     @LadderPlayLads, @LadderPlayRound,
     @LadderPlayScore, @LadderPlayTime,
     @LadderInfo;
@@ -215,12 +215,12 @@
   LSI_chunks = @ScreenPlayStrings;
 }
 
-@object LadderLevelClass LadderPlayLevel = {
+@object LadderLevelClass LadderGameLevel = {
   VI_bounds = {
     0, 0,
     SCN_COLS * FNT_WIDTH, LVL_ROWS * FNT_HEIGHT
   };
-  LLI_buffer = @LevelBuffer;
+  LLI_buffer = @GameLevelBuffer;
 }
 
 @object LadderActorsClass LadderPlayActors = {
@@ -284,13 +284,13 @@
 // High score
 @object LadderScreenClass LadderHigh = {
   VCI_comp =
-    @LadderHighComp, @LadderHighName,
+    @LadderHighCompliment, @LadderHighName,
     @LadderInfo;
   LSI_screen = @ScreenHigh;
   LSI_chunks = @ScreenHighStrings;
 }
 
-@object LadderTextClass LadderHighComp = {
+@object LadderTextClass LadderHighCompliment = {
   VI_bounds = {
     1 + SCN_COLS * 10, 0,
     40, 0
@@ -326,57 +326,57 @@
 // I8N_DE
 /*
 "Original ist (c) in 1982, 1983 Yahoo Software"
-"Adaptiert f', C_LU_DIERESIS, 'r PC/GEOS in 2011 von Andreas Bollhalder"
-"Version : 0.5"
-"Terminal: PC/GEOS"
+"Adaptiert für PC/GEOS in 2011 von Andreas Bollhalder"
+"Version   : 0.5"
+"Terminal  : PC/GEOS"
 "Schwierigkeitsgrad"
 "Tonausgabe"
 "P = Starte Spiel"
-"D = ', C_UA_DIERESIS, 'ndere Schwierigkeitsgrad"
-"S = ', C_UA_DIERESIS, 'ndere Tonausgabe"
+"D = Ändere Schwierigkeitsgrad"
+"S = Ändere Tonausgabe"
 "I = Zeige Instruktionen"
 "E = Beende GeoLadder"
-"W', C_LA_DIERESIS, 'hle eines von oben:"
+"Wähle eines von oben:"
 "Rangliste"
 "Letzte Punkte:"
 */
 
 // Translatable strings in Ladder menu screen
-@chunk char TextMenu0[] = "Original is (c) in 1982, 1983 Yahoo Software";
+@chunk char MenuText0[] = "Original is (c) in 1982, 1983 Yahoo Software";
 @localize { "The original copyright claim" 3-77 };
-@chunk char TextMenu1[] = "Adapted for PC/GEOS in 2011 by Andreas Bollhalder";
+@chunk char MenuText1[] = "Adapted for PC/GEOS in 2011 by Andreas Bollhalder";
 @localize { "The adaption claim" 3-77 };
-@chunk char TextMenu2[] = "Version  : 0.5";  // XXX: Get number from revision file?
+@chunk char MenuText2[] = "Version   : 0.5";  // XXX: Get number from revision file?
 @localize { "The version label and number" 3-37 };
-@chunk char TextMenu3[] = "Terminal : PC/GEOS";  // XXX: Get name from kernal?
+@chunk char MenuText3[] = "Terminal  : FreeGEOS";  // XXX: Get name from kernal?
 @localize { "The terminal label and name" 3-37 };
-@chunk char TextMenu4[] = "Difficulty Level";
+@chunk char MenuText4[] = "Difficulty Level";
 @localize { "The difficulty level label" 3-18 };
-@chunk char TextMenu5[] = "Sound Output";
+@chunk char MenuText5[] = "Sound Output";
 @localize { "The sound output label" 3-18 };
-@chunk char TextMenu6[] = "Play Game";
+@chunk char MenuText6[] = "Play Game";
 @localize { "The play game label" 3-33 };
-@chunk char TextMenu7[] = "Change Difficulty";
+@chunk char MenuText7[] = "Change Difficulty";
 @localize { "The change difficulty label" 3-33 };
-@chunk char TextMenu8[] = "Change Sound";
+@chunk char MenuText8[] = "Change Sound";
 @localize { "The change sound label" 3-33 };
-@chunk char TextMenu9[] = "Show Instructions";
+@chunk char MenuText9[] = "Show Instructions";
 @localize { "The show instructions label" 3-33 };
-@chunk char TextMenu10[] = "Exit GeoLadder";
+@chunk char MenuText10[] = "Exit GeoLadder";
 @localize { "The exit GeLadder label" 3-33 };
-@chunk char TextMenu11[] = "Enter one of the above:";
+@chunk char MenuText11[] = "Enter one of the above:";
 @localize { "The enter one of the above label" 3-37 };
-@chunk char TextMenu12[] = "High Scores";
+@chunk char MenuText12[] = "High Scores";
 @localize { "The high scores label" 3-37 };
-@chunk char TextMenu13[] = "Last Score:";
+@chunk char MenuText13[] = "Last Score:";
 @localize { "The last score label" 3-14 };
 
 // Lookup table for translatable strings in Ladder menu screen
 @chunkArray optr ScreenMenuStrings =
 {
-  @TextMenu0, @TextMenu1, @TextMenu2, @TextMenu3, @TextMenu4,
-  @TextMenu5, @TextMenu6, @TextMenu7, @TextMenu8, @TextMenu9,
-  @TextMenu10, @TextMenu11, @TextMenu12, @TextMenu13
+  @MenuText0, @MenuText1, @MenuText2, @MenuText3, @MenuText4,
+  @MenuText5, @MenuText6, @MenuText7, @MenuText8, @MenuText9,
+  @MenuText10, @MenuText11, @MenuText12, @MenuText13
 };
 
 @chunk byte ScreenMenu[] = {
@@ -489,9 +489,9 @@
   TSPOS(9, 1),
   TSD_T_CHNK, 1, // ScreenMenuStrings[1] / Text "Adapted for PC/GEOS in 2011 by Andreas Bollhalder"
   TSPOS(11, 40),
-  TSD_T_CHNK, 2, // ScreenMenuStrings[2] / Text "Version : 0.4"
+  TSD_T_CHNK, 2, // ScreenMenuStrings[2] / Text "Version  : 0.5"
   TSPOS(12, 40),
-  TSD_T_CHNK, 3, // ScreenMenuStrings[3] / Text "Terminal: PC/GEOS"
+  TSD_T_CHNK, 3, // ScreenMenuStrings[3] / Text "Terminal : FreeGEOS"
   TSPOS(11, 1),
   TSD_T_CHNK, 4, // ScreenMenuStrings[4] / Text "Difficulty Level"
   TSPOS(11, 19),
@@ -559,103 +559,103 @@
 
 
 // I8N_DE  "Aus"
-@chunk char TextSoundOff[] = "Off";
+@chunk char MenuSoundOff[] = "Off";
 @localize { "The sound off text" 1-14 };
 // I8N_DE  "Ein"
-@chunk char TextSoundOn[] = "On";
+@chunk char MenuSoundOn[] = "On";
 @localize { "The sound on text" 1-14 };
 
 // I8N_DE  "Du isst Quiche!"
-@chunk char TextStim1[] = "You eat quiche!";
+@chunk char MenuStimulation1[] = "You eat quiche!";
 @localize { "The 1st stimulation spell" 3-77 };
 // I8N_DE  "Komm schon, wir haben nicht den ganzen Tag!"
-@chunk char TextStim2[] = "Come on, we don\'t have all day!";
+@chunk char MenuStimulation2[] = "Come on, we don\'t have all day!";
 @localize { "The 2nd stimulation spell" 3-77 };
 // I8N_DE  "Fangen wir an!"
-@chunk char TextStim3[] = "Let\'s go!";
+@chunk char MenuStimulation3[] = "Let\'s go!";
 @localize { "The 3rd stimulation spell" 3-77 };
 // I8N_DE  "Warte nicht auf GEOS32, spiel mit mir!"
-@chunk char TextStim4[] = "Don\'t wait for GEOS32, play with me!";
+@chunk char MenuStimulation4[] = "Don\'t wait for GEOS32, play with me!";
 @localize { "The 4th stimulation spell" 3-77 };
 
 // I8N_DE  "Beende..."
-@chunk char TextMenuExit[] = "Exiting...";
+@chunk char MenuExit[] = "Exiting...";
 @localize { "The exiting text" 3-77 };
 
 
 // I8N_DE
 /*
 "Du bist ein Lad, gefangen in einem Irrgarten.  Deine Mission ist, die"
-"noch nie gesehenen dunklen G", C_LA_DIERESIS, "nge zu erforschen und versteckte Sch", C_LA_DIERESIS, "tze"
-"und Reicht", C_LU_DIERESIS, "mmer zu finden."
+"noch nie gesehenen dunklen Gänge zu erforschen und versteckte Schätze"
+"und Reichtümmer zu finden."
 
-"Du steuerst das Lad durch Dr", C_LU_DIERESIS, "cken der Pfeiltasten und l", C_LA_DIERESIS, "sst es durch"
-"Dr", C_LU_DIERESIS, "cken der Leertaste springen.  Dr", C_LU_DIERESIS, "ck eine beliebige Taste um das Lad"
+"Du steuerst das Lad durch Drücken der Pfeiltasten und lässt es durch"
+"Drücken der Leertaste springen.  Drück eine beliebige Taste um das Lad"
 "zu stoppen.  Achte auf die fallenden Steine, auch Der Steine genannt."
-"Suche und ergreife die Sch", C_LA_DIERESIS, "tze (angezeigt als $) BEVOR die Bonuszeit"
+"Suche und ergreife die Schätze (angezeigt als $) BEVOR die Bonuszeit"
 "abgelaufen ist."
 
-"Ein neues Lad wird f", C_LU_DIERESIS, "r alle 10\'000 Punkte vergeben.  Extrapunkte werden"
-"f", C_LU_DIERESIS, "r das Einsammeln von Goldstatuen (angezeigt als &) vergeben.  Du"
-"erh", C_LA_DIERESIS, "lst die restliche Bonuszeit wenn Du den Level beendet hast."
-"Denk daran, viele Wege f", C_LU_DIERESIS, "hren nach Rom. (Syhra)"
+"Ein neues Lad wird für alle 10\'000 Punkte vergeben.  Extrapunkte werden"
+"für das Einsammeln von Goldstatuen (angezeigt als &) vergeben.  Du"
+"erhälst die restliche Bonuszeit wenn Du den Level beendet hast."
+"Denk daran, viele Wege führen nach Rom. (Syhra)"
 
-"Dr", C_LU_DIERESIS, "cke P um das Spiel zu pausieren oder ESCape um es zu beenden."
+"Drücke P um das Spiel zu pausieren oder ESCape um es zu beenden."
 
-"Viel Gl", C_LU_DIERESIS, "ck Lad."
+"Viel Glück Lad."
 
-"Dr", C_LU_DIERESIS, "ck ESC um zum Hauptmen", C_LU_DIERESIS, " zur", C_LU_DIERESIS, "ckzukehren:"
+"Drück ESC um zum Hauptmenü zurückzukehren:"
 */
 
 // Translatable strings in Ladder help screen
-@chunk char TextHelp0[] = "You are a Lad trapped in a maze.  Your mission is to explore the";
+@chunk char HelpText0[] = "You are a Lad trapped in a maze.  Your mission is to explore the";
 @localize { "The 1st line in the help screen" 0-77 };
-@chunk char TextHelp1[] = "dark corridors never before seen by human eyes and find hidden";
+@chunk char HelpText1[] = "dark corridors never before seen by human eyes and find hidden";
 @localize { "The 2nd line in the help screen" 0-77 };
-@chunk char TextHelp2[] = "treasures and riches.";
+@chunk char HelpText2[] = "treasures and riches.";
 @localize { "The 3rd line in the help screen" 0-77 };
-@chunk char TextHelp3[] = " ";
+@chunk char HelpText3[] = " ";
 @localize { "The 4th line in the help screen" 0-77 };
-@chunk char TextHelp4[] = "You control Lad by typing the direction buttons and jumping by";
+@chunk char HelpText4[] = "You control Lad by typing the direction buttons and jumping by";
 @localize { "The 5th line in the help screen" 0-77 };
-@chunk char TextHelp5[] = "typing SPACE.  Type any other key to stop Lad.  But beware of";
+@chunk char HelpText5[] = "typing SPACE.  Type any other key to stop Lad.  But beware of";
 @localize { "The 6th line in the help screen" 0-77 };
-@chunk char TextHelp6[] = "the falling rocks called Der rocks.  You must find and grasp the";
+@chunk char HelpText6[] = "the falling rocks called Der rocks.  You must find and grasp the";
 @localize { "The 7th line in the help screen" 0-77 };
-@chunk char TextHelp7[] = "treasure (shown as $) BEFORE the bonus time runs out.";
+@chunk char HelpText7[] = "treasure (shown as $) BEFORE the bonus time runs out.";
 @localize { "The 8th line in the help screen" 0-77 };
-@chunk char TextHelp8[] = " ";
+@chunk char HelpText8[] = " ";
 @localize { "The 9th line in the help screen" 0-77 };
-@chunk char TextHelp9[] = "A new Lad will be awarded for every 10\'000 points.  Extra points";
+@chunk char HelpText9[] = "A new Lad will be awarded for every 10\'000 points.  Extra points";
 @localize { "The 10th line in the help screen" 0-77 };
-@chunk char TextHelp10[] = "are awarded for touching the gold statues (shown as &).  You";
+@chunk char HelpText10[] = "are awarded for touching the gold statues (shown as &).  You";
 @localize { "The 11th line in the help screen" 0-77 };
-@chunk char TextHelp11[] = "will receive the bonus time points that are left when you have";
+@chunk char HelpText11[] = "will receive the bonus time points that are left when you have";
 @localize { "The 12th line in the help screen" 0-77 };
-@chunk char TextHelp12[] = "finished the level.";
+@chunk char HelpText12[] = "finished the level.";
 @localize { "The 13th line in the help screen" 0-77 };
-@chunk char TextHelp13[] = " ";
+@chunk char HelpText13[] = " ";
 @localize { "The 14th line in the help screen" 0-77 };
-@chunk char TextHelp14[] = "Remember, there is more than one way to skin a cat. (Chum)";
+@chunk char HelpText14[] = "Remember, there is more than one way to skin a cat. (Chum)";
 @localize { "The 15th line in the help screen" 0-77 };
-@chunk char TextHelp15[] = " ";
+@chunk char HelpText15[] = " ";
 @localize { "The 16th line in the help screen" 0-77 };
-@chunk char TextHelp16[] = "Type a P to pause the game or an ESCape to end it.";
+@chunk char HelpText16[] = "Type a P to pause the game or an ESCape to end it.";
 @localize { "The 17th line in the help screen" 0-77 };
-@chunk char TextHelp17[] = " ";
+@chunk char HelpText17[] = " ";
 @localize { "The 18th line in the help screen" 0-77 };
-@chunk char TextHelp18[] = "Good luck Lad.";
+@chunk char HelpText18[] = "Good luck Lad.";
 @localize { "The good wishes text" 3-77 };
-@chunk char TextHelp19[] = "Type ESC to return to main menu:";
+@chunk char HelpText19[] = "Type ESC to return to main menu:";
 @localize { "The type ESC to return to main menu text" 3-77 };
 
 // Lookup table for translatable strings in Ladder help screen
 @chunkArray optr ScreenHelpStrings =
 {
-  @TextHelp0, @TextHelp1, @TextHelp2, @TextHelp3, @TextHelp4,
-  @TextHelp5, @TextHelp6, @TextHelp7, @TextHelp8, @TextHelp9,
-  @TextHelp10, @TextHelp11, @TextHelp12, @TextHelp13, @TextHelp14,
-  @TextHelp15, @TextHelp16, @TextHelp17, @TextHelp18, @TextHelp19
+  @HelpText0, @HelpText1, @HelpText2, @HelpText3, @HelpText4,
+  @HelpText5, @HelpText6, @HelpText7, @HelpText8, @HelpText9,
+  @HelpText10, @HelpText11, @HelpText12, @HelpText13, @HelpText14,
+  @HelpText15, @HelpText16, @HelpText17, @HelpText18, @HelpText19
 };
 
 @chunk byte ScreenHelp[] = {
@@ -666,7 +666,7 @@
   TSPOS(3, 1),
   TSD_T_CHNK, 2, // ScreenHelpStrings[2] / Text "treasures and riches."
   TSPOS(4, 1),
-  TSD_T_CHNK, 3, // ScreenHelpStrings[3] / Text ""
+  TSD_T_CHNK, 3, // ScreenHelpStrings[3] / Text " "
   TSPOS(5, 1),
   TSD_T_CHNK, 4, // ScreenHelpStrings[4] / Text "You control Lad by typing the direction buttons and jumping by"
   TSPOS(6, 1),
@@ -676,7 +676,7 @@
   TSPOS(8, 1),
   TSD_T_CHNK, 7, // ScreenHelpStrings[7] / Text "treasure (shown as $) BEFORE the bonus time runs out."
   TSPOS(9, 1),
-  TSD_T_CHNK, 8, // ScreenHelpStrings[8] / Text ""
+  TSD_T_CHNK, 8, // ScreenHelpStrings[8] / Text " "
   TSPOS(10, 1),
   TSD_T_CHNK, 9, // ScreenHelpStrings[9] / Text "A new Lad will be awarded for every 10\'000 points.  Extra points"
   TSPOS(11, 1),
@@ -686,15 +686,15 @@
   TSPOS(13, 1),
   TSD_T_CHNK, 12, // ScreenHelpStrings[12] / Text "finished the level."
   TSPOS(14, 1),
-  TSD_T_CHNK, 13, // ScreenHelpStrings[13] / Text ""
+  TSD_T_CHNK, 13, // ScreenHelpStrings[13] / Text " "
   TSPOS(15, 1),
   TSD_T_CHNK, 14, // ScreenHelpStrings[14] / Text "Remember, there is more than one way to skin a cat. (Chum)"
   TSPOS(16, 1),
-  TSD_T_CHNK, 15, // ScreenHelpStrings[15] / Text ""
+  TSD_T_CHNK, 15, // ScreenHelpStrings[15] / Text " "
   TSPOS(17, 1),
   TSD_T_CHNK, 16, // ScreenHelpStrings[16] / Text "Type a P to pause the game or an ESCape to end it."
   TSPOS(18, 1),
-  TSD_T_CHNK, 17, // ScreenHelpStrings[17] / Text ""
+  TSD_T_CHNK, 17, // ScreenHelpStrings[17] / Text " "
   TSPOS(19, 1),
   TSD_T_CHNK, 18, // ScreenHelpStrings[18] / Text "Good luck Lad."
   TSPOS(22, 1),
@@ -707,22 +707,22 @@
 "Du hast alle Lads verloren, bevor Du den letzten Schatz gefunden hast."
 "Deshalb bleibst Du im Irrgarten gefangen und must noch einmal von Vorne"
 "beginnen."
-"Dr" C_LU_DIERESIS, 'ck ENTER um fortzufahren:"
+"Drück ENTER um fortzufahren:"
 */
 // Translatable strings in Ladder game over screen
-@chunk char TextOver0[] = "You lost all lads before you reached the ultimate treasure.  Hence you";
+@chunk char OverText0[] = "You lost all lads before you reached the ultimate treasure.  Hence you";
 @localize { "The 1st line of text in the game over screen" 0-77 };
-@chunk char TextOver1[] = "stay trapped in the maze and must try again from the beginning.";
+@chunk char OverText1[] = "stay trapped in the maze and must try again from the beginning.";
 @localize { "The 2nd line of text in the game over screen" 0-77 };
-@chunk char TextOver2[] = " ";
+@chunk char OverText2[] = " ";
 @localize { "The 3rd line of text in the game over screen" 0-77 };
-@chunk char TextOver3[] = "Type RETURN to continue:";
+@chunk char OverText3[] = "Type RETURN to continue:";
 @localize { "The type RETURN to contiune text in the game over screen" 3-77 };
 
 // Lookup table for translatable strings in Ladder game over screen
 @chunkArray optr ScreenOverStrings =
 {
-  @TextOver0, @TextOver1, @TextOver2, @TextOver3
+  @OverText0, @OverText1, @OverText2, @OverText3
 };
 
 @chunk byte ScreenOver[] = {
@@ -871,7 +871,7 @@
   TSPOS(11, 1),
   TSD_T_CHNK, 1, // ScreenOverStrings[1] / Text "stay trapped in the maze and must try again from the beginning."
   TSPOS(12, 1),
-  TSD_T_CHNK, 2, // ScreenOverStrings[2] / Text ""
+  TSD_T_CHNK, 2, // ScreenOverStrings[2] / Text " "
   TSPOS(22, 1),
   TSD_T_CHNK, 3, // ScreenOverStrings[3] / Text "Type RETURN to continue:" 
 };
@@ -880,27 +880,27 @@
 // I8N_DE
 /*
 "Du bist dem Irrgarten entkommen und wieder frei.  Beim Verlassen des"
-"Irrgarten implodert es in eine wundersch", C_LO_DIERESIS, "ne, gr", C_LU_DIERESIS, "n funkelnde Geode."
-"Mit den Sch", C_LA_DIERESIS, "tzen und Reicht", C_LU_DIERESIS, "mmern kauftst du eine alte Leiternfabrik."
+"Irrgarten implodert es in eine wunderschöne, grün funkelnde Geode."
+"Mit den Schätzen und Reichtümmern kauftst du eine alte Leiternfabrik."
 "Dort wirst Du Leitern bis an das Ender der Zeit bauen."
-"Dr", C_LU_DIERESIS, "ck ENTER um fortzufahren:"
+"Drück ENTER um fortzufahren:"
 */
 // Translatable strings in Ladder last screen
-@chunk char TextDone0[] = "You escaped the maze and are free again.  While leaving the maze,";
+@chunk char DoneText0[] = "You escaped the maze and are free again.  While leaving the maze,";
 @localize { "The 1st line in the last screen" 0-77 };
-@chunk char TextDone1[] = "it imploded into a wonderful green sparkling geode.";
+@chunk char DoneText1[] = "it imploded into a wonderful green sparkling geode.";
 @localize { "The 2nd line in the last screen" 0-77 };
-@chunk char TextDone2[] = "With the treasures and riches you bought an old factory of ladders.";
+@chunk char DoneText2[] = "With the treasures and riches you bought an old factory of ladders.";
 @localize { "The 3rd line in the last screen" 0-77 };
-@chunk char TextDone3[] = "There you will assemble ladders until the end of time.";
+@chunk char DoneText3[] = "There you will assemble ladders until the end of time.";
 @localize { "The 4th line in the last screen" 0-77 };
-@chunk char TextDone4[] = "Type RETURN to continue:";
+@chunk char DoneText4[] = "Type RETURN to continue:";
 @localize { "The type RETURN to contiune text in the last screen" 3-77 };
 
 // Lookup table for translatable strings in Ladder last screen
 @chunkArray optr ScreenDoneStrings =
 {
-  @TextDone0, @TextDone1, @TextDone2, @TextDone3, @TextDone4
+  @DoneText0, @DoneText1, @DoneText2, @DoneText3, @DoneText4
 };
 
 @chunk byte ScreenDone[] = {
@@ -1014,21 +1014,21 @@
 /*
 "YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO!"
 "Gib deinen Namen ein"
-"Dr", C_LU_DIERESIS, "ck ENTER um zu speichern oder ESC um zu ", C_LU_DIERESIS, "berspringen:"
+"Drück ENTER um zu speichern oder ESC um zu überspringen:"
 */
 // Translatable strings in Ladder high score screen
-@chunk char TextHigh0[] = "YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO!";
+@chunk char HighText0[] = "YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO!";
 //@localize { "The YAHOO text in the high score screen" 45-55 };
 @localize not;
-@chunk char TextHigh1[] = "Enter your name";
+@chunk char HighText1[] = "Enter your name";
 @localize { "The enter your name label in the high score screen" 3-21 };
-@chunk char TextHigh2[] = "Type RETURN to save or type ESC to skip:";
+@chunk char HighText2[] = "Type RETURN to save or type ESC to skip:";
 @localize { "The type RETURN to save or ESC to skip text in the high score screen" 3-77 };
 
 // Lookup table for translatable strings in Ladder high score screen
 @chunkArray optr ScreenHighStrings =
 {
-  @TextHigh0, @TextHigh1, @TextHigh2
+  @HighText0, @HighText1, @HighText2
 };
 
 @chunk byte ScreenHigh[] = {
@@ -1048,37 +1048,37 @@
 // I8N_DE
 /*
 "Du hast das wirklich nicht verdient aber..."
-"Nicht schlecht f", C_LU_DIERESIS, "r ein junges Lad."
-"Fantastisch!  Du z", C_LA_DIERESIS, "hlst!!"
-"Sieht aus als h", C_LA_DIERESIS, "tten wir hier einen Lad-Der!'
+"Nicht schlecht für ein junges Lad."
+"Fantastisch!  Du zählst!!"
+"Sieht aus als hätten wir hier einen Lad-Der!'
 "Super!  Du bist nun ein Lad-Wiz!"
 "Wow!  Du bist nun ein Lad-Guru!"
 "Du bist ein wahrer Lad-Meister!!!"
 */
-@chunk char TextComp1[] = "You really don\'t deserve this but...";
+@chunk char HighCompliment1[] = "You really don\'t deserve this but...";
 @localize { "The 1st level of compliment text in the high score screen" 3-77 };
-@chunk char TextComp2[] = "Not bad for a young Lad.";
+@chunk char HighCompliment2[] = "Not bad for a young Lad.";
 @localize { "The 2nd level of compliment text in the high score screen" 3-77 };
-@chunk char TextComp3[] = "Amazing!  You rate!!";
+@chunk char HighCompliment3[] = "Amazing!  You rate!!";
 @localize { "The 3rd level of compliment text in the high score screen" 3-77 };
-@chunk char TextComp4[] = "Looks like we have a Lad-Der here!";
+@chunk char HighCompliment4[] = "Looks like we have a Lad-Der here!";
 @localize { "The 4th level of compliment text in the high score screen" 3-77 };
-@chunk char TextComp5[] = "Yeah!  Now you are a Lad-Wiz!";
+@chunk char HighCompliment5[] = "Yeah!  Now you are a Lad-Wiz!";
 @localize { "The 5th level of compliment text in the high score screen" 3-77 };
-@chunk char TextComp6[] = "Wow!  You are now a Lad-Guru!";
+@chunk char HighCompliment6[] = "Wow!  You are now a Lad-Guru!";
 @localize { "The 6th level of compliment text in the high score screen" 3-77 };
-@chunk char TextComp7[] = "You are a true Lad-Master!!!";
+@chunk char HighCompliment7[] = "You are a true Lad-Master!!!";
 @localize { "The 7th level of compliment text in the high score screen" 3-77 };
 
 // I8N_DE
 /*
 "Kein Name"
 */
-@chunk char TextHighNoName[] = "No name";
+@chunk char HighNoName[] = "No name";
 @localize { "The no name text in the high score list" 3-20 };
 
 // I8N_DE  "Aktualisiere Rangliste..."
-@chunk char TextHighSave[] = "Updating high scores...";
+@chunk char HighSave[] = "Updating high scores...";
 @localize { "The updating high scores text in the high score screen" 3-77 };
 
 @end TEXT;
@@ -1100,19 +1100,19 @@
 "Bitte warten"
 */
 // Translatable strings in Ladder load screen
-@chunk char TextLoad0[] = ".:: LOADING LEVEL ::.";
+@chunk char LoadText0[] = ".:: LOADING LEVEL ::.";
 @localize { "The loading level text in the load screen" 18-24 };
-@chunk char TextLoad1[] = "Round";
+@chunk char LoadText1[] = "Round";
 @localize { "The round label in the load screen" 3-8 };
-@chunk char TextLoad2[] = "Level";
+@chunk char LoadText2[] = "Level";
 @localize { "The level label in the load screen" 3-8 };
-@chunk char TextLoad3[] = "Please wait...";
+@chunk char LoadText3[] = "Please wait...";
 @localize { "The please wait text in the load screen" 3-15 };
 
 // Lookup table for translatable strings in Ladder load screen
 @chunkArray optr ScreenLoadStrings =
 {
-  @TextLoad0, @TextLoad1, @TextLoad2, @TextLoad3
+  @LoadText0, @LoadText1, @LoadText2, @LoadText3
 };
 
 @chunk byte ScreenLoad[] = {
@@ -1143,19 +1143,19 @@
 "Bonuszeit"
 */
 // Translatable strings in Ladder play screen
-@chunk char TextPlay0[] = "Lads";
+@chunk char PlayLads[] = "Lads";
 @localize { "The Lads label in the play screen" 3-5 };
-@chunk char TextPlay1[] = "Round";
+@chunk char PlayRound[] = "Round";
 @localize { "The round label in the play screen" 3-6 };
-@chunk char TextPlay2[] = "Score";
+@chunk char PlayScore[] = "Score";
 @localize { "The score label in the play screen" 3-6 };
-@chunk char TextPlay3[] = "Bonus time";
+@chunk char PlayBonusTime[] = "Bonus time";
 @localize { "The bonus time label in the play screen" 3-10 };
 
 // Lookup table for translatable strings in Ladder play screen
 @chunkArray optr ScreenPlayStrings =
 {
-  @TextPlay0, @TextPlay1, @TextPlay2, @TextPlay3
+  @PlayLads, @PlayRound, @PlayScore, @PlayBonusTime
 };
 
 @chunk byte ScreenPlay[] = {
@@ -1175,13 +1175,13 @@
 
 
 // I8N_DE  "Bereitmachen!"
-@chunk char TextPlayReady[] = "Get ready!";
+@chunk char PlayReady[] = "Get ready!";
 @localize { "The get ready text in the play screen" 3-77 };
 // I8N_DE  "Shisha!"
-@chunk char TextPlayHooka[] = "Hooka!";
+@chunk char PlayHooka[] = "Hooka!";
 @localize { "The hooka text in the play screen" 3-77 };
-// I8N_DE  "Dr', C_LU_DIERESIS, "ck ENTER um weiterzumachen:",
-@chunk char TextPlayContinue[] = "Type RETURN to continue:";
+// I8N_DE  "Drück ENTER um weiterzumachen:",
+@chunk char PlayContinue[] = "Type RETURN to continue:";
 @localize { "The type RETURN to contiune text in the play screen" 3-77 };
 
 
@@ -1192,90 +1192,90 @@
 "Geister Dorf"
 "Tunnel Vision"
 "Punkt ohne Wiederkehr"
-"K", C_LA_DIERESIS, "fer Stadt"
+"Käfer Stadt"
 "Rotten Land"
 */
-@chunk char LevelName1[] = "Easy Street";
+@chunk char GameLevelName1[] = "Easy Street";
 @localize { "The name of the 1st level" 3-22 };
-@chunk char LevelName2[] = "Long Island";
+@chunk char GameLevelName2[] = "Long Island";
 @localize { "The name of the 2nd level" 3-22 };
-@chunk char LevelName3[] = "Ghost Town";
+@chunk char GameLevelName3[] = "Ghost Town";
 @localize { "The name of the 3rd level" 3-22 };
-@chunk char LevelName4[] = "Tunnel Vision";
+@chunk char GameLevelName4[] = "Tunnel Vision";
 @localize { "The name of the 4th level" 3-22 };
-@chunk char LevelName5[] = "Point of No Return";
+@chunk char GameLevelName5[] = "Point of No Return";
 @localize { "The name of the 5th level" 3-22 };
-@chunk char LevelName6[] = "Bug City";
+@chunk char GameLevelName6[] = "Bug City";
 @localize { "The name of the 6th level" 3-22 };
-@chunk char LevelName7[] = "Gang Land";
+@chunk char GameLevelName7[] = "Gang Land";
 @localize { "The name of the 7th level" 3-22 };
 
 // Name, Bonus Time, Lad Start Position,
 // { Number of Emitters, { Positions of Emitters } },
 // Maximum Ders,
 // Level Data
-@chunkArray Level Levels =
+@chunkArray Level GameLevels =
 {
   {
-    ChunkOf(@LevelName1), 35, 5 + 18 * LVL_COLS,
+    ChunkOf(@GameLevelName1), 35, 5 + 18 * LVL_COLS,
     {
       1, { 39 }
     },
     5,
-    ChunkOf(@LevelData1)
+    ChunkOf(@GameLevelData1)
   },
   {
-    ChunkOf(@LevelName2), 45, 17 + 18 * LVL_COLS,
+    ChunkOf(@GameLevelName2), 45, 17 + 18 * LVL_COLS,
     {
       2, { 13 + 2 * LVL_COLS, 67 + 2 * LVL_COLS }
     },
     8,
-    ChunkOf(@LevelData2)
+    ChunkOf(@GameLevelData2)
   },
   {
-    ChunkOf(@LevelName3), 33, 5 + 2 * LVL_COLS,
+    ChunkOf(@GameLevelName3), 33, 5 + 2 * LVL_COLS,
     {
       3, { 28, 44, 56 }
     },
     5,
-    ChunkOf(@LevelData3)
+    ChunkOf(@GameLevelData3)
   },
   {
-    ChunkOf(@LevelName4), 32, 77 + 16 * LVL_COLS,
+    ChunkOf(@GameLevelName4), 32, 77 + 16 * LVL_COLS,
     {
       2, { 44, 68 }
     },
     5,
-    ChunkOf(@LevelData4)
+    ChunkOf(@GameLevelData4)
   },
   {
-    ChunkOf(@LevelName5), 29, 74 + 3 * LVL_COLS,
+    ChunkOf(@GameLevelName5), 29, 74 + 3 * LVL_COLS,
     {
       2, { 61 + LVL_COLS, 29 + 4 * LVL_COLS }
     },
     7,
-    ChunkOf(@LevelData5)
+    ChunkOf(@GameLevelData5)
   },
   {
-    ChunkOf(@LevelName6), 29, 33 + 8 * LVL_COLS,
+    ChunkOf(@GameLevelName6), 29, 33 + 8 * LVL_COLS,
     {
       2, { 63, 44 + 4 * LVL_COLS }
     },
     6,
-    ChunkOf(@LevelData6)
+    ChunkOf(@GameLevelData6)
   },
   {
-    ChunkOf(@LevelName7), 22, 6 + 2 * LVL_COLS,
+    ChunkOf(@GameLevelName7), 22, 6 + 2 * LVL_COLS,
     {
       2, { 60, 6 + 4 * LVL_COLS }
     },
     6,
-    ChunkOf(@LevelData7)
+    ChunkOf(@GameLevelData7)
   }
 };
 
 // Data of Level 1
-@chunk byte LevelData1[] = {
+@chunk byte GameLevelData1[] = {
   // Horizontal drawings
   LSPOS(LSP_T_SET | LSO_T_H, 0, 39),
   LSD_T_EMIT + 1,
@@ -1325,7 +1325,7 @@
 };
 
 // Data of Level 2
-@chunk byte LevelData2[] = {
+@chunk byte GameLevelData2[] = {
   // Horizontal drawings
   LSPOS(LSP_T_SET | LSO_T_H, 1, 67),
   LSD_T_GOLD + 1,
@@ -1412,7 +1412,7 @@
 };
 
 // Data of Level 3
-@chunk byte LevelData3[] = {
+@chunk byte GameLevelData3[] = {
   // Horizontal drawings
   LSPOS(LSP_T_SET | LSO_T_H, 0, 28),
   LSD_T_EMIT + 1,
@@ -1503,7 +1503,7 @@
 };
 
 // Data of Level 4
-@chunk byte LevelData4[] = {
+@chunk byte GameLevelData4[] = {
   // Horizontal drawings
   LSPOS(LSP_T_SET | LSO_T_H, 0, 44),
   LSD_T_EMIT + 1,
@@ -1610,7 +1610,7 @@
 };
 
 // Data of Level 5
-@chunk byte LevelData5[] = {
+@chunk byte GameLevelData5[] = {
   // Horizontal drawings
   LSPOS(LSP_T_SET | LSO_T_H, 1, 61),
   LSD_T_EMIT + 1,
@@ -1702,7 +1702,7 @@
 };
 
 // Data of Level 6
-@chunk byte LevelData6[] = {
+@chunk byte GameLevelData6[] = {
   // Horizontal drawings
   LSPOS(LSP_T_SET | LSO_T_H, 0, 8),
   LSD_T_TEXT + 8, 'B', 'u', 'g', ' ', 'C', 'i', 't', 'y',
@@ -1792,7 +1792,7 @@
 };
 
 // Data of Level 7
-@chunk byte LevelData7[] = {
+@chunk byte GameLevelData7[] = {
   // Horizontal drawings
   LSPOS(LSP_T_SET | LSO_T_H, 0, 20),
   LSD_T_BASE + 1,
@@ -1937,7 +1937,7 @@
 };
 
 // This chunk is only a place holder. It will be resized during startup.
-@chunk char LevelBuffer[] = "";
+@chunk char GameLevelBuffer[] = "";
 @localize not;
 
 @end PLAY;

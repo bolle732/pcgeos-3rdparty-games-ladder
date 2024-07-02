@@ -19,7 +19,7 @@
 
 /*
  ***************************************************************************
- * Copyright (c) 2010-2011 by YoYu-Productions
+ * Copyright (c) 2010-2024 by YoYu-Productions
  *
  * PROJECT:     GeoLadder
  * MODULE:      GOC definition file
@@ -33,7 +33,7 @@
 // RESOURCE Application
 @extern object LadderApplication;
 @extern visMoniker LadderTextMoniker;
-@extern chunk HelpFile;
+@extern chunk LadderHelpFile;
 
 
 // RESOURCE Icon
@@ -56,7 +56,7 @@
 @extern object LadderLoadLevel;
 @extern object LadderLoadName;
 @extern object LadderPlay;
-@extern object LadderPlayLevel;
+@extern object LadderGameLevel;
 @extern object LadderPlayActors;
 @extern object LadderPlayLads;
 @extern object LadderPlayRound;
@@ -65,20 +65,20 @@
 @extern object LadderLast;
 @extern object LadderOver;
 @extern object LadderHigh;
-@extern object LadderHighComp;
+@extern object LadderHighCompliment;
 @extern object LadderHighName;
 @extern object LadderInfo;
 
 
 // RESOURCE Text
 @extern chunk ScreenMenu;
-@extern chunk TextSoundOff;
-@extern chunk TextSoundOn;
-@extern chunk TextStim1;
-@extern chunk TextStim2;
-@extern chunk TextStim3;
-@extern chunk TextStim4;
-@extern chunk TextMenuExit;
+@extern chunk MenuSoundOff;
+@extern chunk MenuSoundOn;
+@extern chunk MenuStimulation1;
+@extern chunk MenuStimulation2;
+@extern chunk MenuStimulation3;
+@extern chunk MenuStimulation4;
+@extern chunk MenuExit;
 
 @extern chunk ScreenHelp;
 
@@ -87,42 +87,42 @@
 @extern chunk ScreenDone;
 
 @extern chunk ScreenHigh;
-@extern chunk TextComp1;
-@extern chunk TextComp2;
-@extern chunk TextComp3;
-@extern chunk TextComp4;
-@extern chunk TextComp5;
-@extern chunk TextComp6;
-@extern chunk TextComp7;
-@extern chunk TextHighNoName;
-@extern chunk TextHighSave;
+@extern chunk HighCompliment1;
+@extern chunk HighCompliment2;
+@extern chunk HighCompliment3;
+@extern chunk HighCompliment4;
+@extern chunk HighCompliment5;
+@extern chunk HighCompliment6;
+@extern chunk HighCompliment7;
+@extern chunk HighNoName;
+@extern chunk HighSave;
 
 
 // RESOURCE Play
 @extern chunk ScreenLoad;
 
 @extern chunk ScreenPlay;
-@extern chunk TextPlayReady;
-@extern chunk TextPlayHooka;
-@extern chunk TextPlayContinue;
+@extern chunk PlayReady;
+@extern chunk PlayHooka;
+@extern chunk PlayContinue;
 
-@extern chunk Levels;  // chunkArray
-@extern chunk LevelName1;
-@extern chunk LevelName2;
-@extern chunk LevelName3;
-@extern chunk LevelName4;
-@extern chunk LevelName5;
-@extern chunk LevelName6;
-@extern chunk LevelName7;
-@extern chunk LevelData1;
-@extern chunk LevelData2;
-@extern chunk LevelData3;
-@extern chunk LevelData4;
-@extern chunk LevelData5;
-@extern chunk LevelData6;
-@extern chunk LevelData7;
+@extern chunk GameLevels;  // chunkArray
+@extern chunk GameLevelName1;
+@extern chunk GameLevelName2;
+@extern chunk GameLevelName3;
+@extern chunk GameLevelName4;
+@extern chunk GameLevelName5;
+@extern chunk GameLevelName6;
+@extern chunk GameLevelName7;
+@extern chunk GameLevelData1;
+@extern chunk GameLevelData2;
+@extern chunk GameLevelData3;
+@extern chunk GameLevelData4;
+@extern chunk GameLevelData5;
+@extern chunk GameLevelData6;
+@extern chunk GameLevelData7;
 
-@extern chunk LevelBuffer;
+@extern chunk GameLevelBuffer;
 
 
 /* End of 'appui.goh' */

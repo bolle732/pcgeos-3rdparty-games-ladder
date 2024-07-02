@@ -19,7 +19,7 @@
 
 /*
  ***************************************************************************
- * Copyright (c) 2010-2013 by YoYu-Productions
+ * Copyright (c) 2010-2024 by YoYu-Productions
  *
  * PROJECT:     GeoLadder
  * MODULE:      GOC code file
@@ -79,7 +79,7 @@ static char IKL[] = INI_KEY_LAST;
 // Lookup table for stimulis
 static optr LST[STMS] =
 {
-  @TextStim1, @TextStim2, @TextStim3, @TextStim4
+  @MenuStimulation1, @MenuStimulation2, @MenuStimulation3, @MenuStimulation4
 };
 // Lookup table for score of compliments
 static word LHS[CMPS] =
@@ -89,7 +89,7 @@ static word LHS[CMPS] =
 // Lookup table for text of compliments
 static optr LHT[CMPS] =
 {
-  @TextComp1, @TextComp2, @TextComp3, @TextComp4, @TextComp5, @TextComp6, @TextComp7
+  @HighCompliment1, @HighCompliment2, @HighCompliment3, @HighCompliment4, @HighCompliment5, @HighCompliment6, @HighCompliment7
 };
 
 void _pascal StopTimer(void);
@@ -258,19 +258,19 @@ static word _pascal TicksByDifficulty(word diff)
   word state;
   static char hfn[32] = "";
   // Lock and dereference the help file name
-  MemLock(OptrToHandle(@HelpFile));
+  MemLock(OptrToHandle(@LadderHelpFile));
   // Copy the help file name to a buffer
-  memcpy(hfn, LMemDeref(@HelpFile), LMemGetChunkSize(@HelpFile));
+  memcpy(hfn, LMemDeref(@LadderHelpFile), LMemGetChunkSize(@LadderHelpFile));
   // Set help file name of application
   @call LadderApplication::MSG_META_SET_HELP_FILE(hfn);
   // Unlock the help file name
-  MemUnlock(OptrToHandle(@HelpFile));
+  MemUnlock(OptrToHandle(@LadderHelpFile));
   // Lock and dereference the level buffer
-  MemLock(OptrToHandle(@LevelBuffer));
+  MemLock(OptrToHandle(@GameLevelBuffer));
   // Resize the level buffer
-  LMemReAlloc(@LevelBuffer, LVL_M_SIZE);
+  LMemReAlloc(@GameLevelBuffer, LVL_M_SIZE);
   // Unlock the level buffer
-  MemUnlock(OptrToHandle(@LevelBuffer));
+  MemUnlock(OptrToHandle(@GameLevelBuffer));
   // Allocate a MemHandle for the noise
   SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.noiseHandle);
   // Get the state from the INI file
@@ -290,7 +290,7 @@ static word _pascal TicksByDifficulty(word diff)
     if (g.game.sound == PLY_SND_ON)
     {
       // Set the text
-      @send LadderMenuSound::MSG_TXT_SET_TEXT(@TextSoundOn);
+      @send LadderMenuSound::MSG_TXT_SET_TEXT(@MenuSoundOn);
     }
   }
   // Get the last score from the INI file
@@ -442,14 +442,14 @@ static word _pascal TicksByDifficulty(word diff)
       // Set the sound state
       g.game.sound = PLY_SND_ON;
       // Update the text on screen
-      @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@TextSoundOn);
+      @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@MenuSoundOn);
     }
     else  // PLY_SND_ON
     {
       // Set the sound state
       g.game.sound = PLY_SND_OFF;
       // Update the text on screen
-      @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@TextSoundOff);
+      @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@MenuSoundOff);
     }
   }
   // Start the stimulus
@@ -485,7 +485,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Set the application state for the handling of key presses
   g.appState = APP_I_EXIT;
   // Update the info line with the exit text
-  @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(@TextMenuExit);
+  @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(@MenuExit);
   // Start the timer for the exit
   TimerStart(TIMER_EVENT_ONE_SHOT, @LadderApplication, DLY_T_EXIT, MSG_META_QUIT, 0, &g.timerId);
 }
@@ -760,7 +760,7 @@ static word _pascal TicksByDifficulty(word diff)
     if (g.game.score >= LHS[i - 1])
     {
       // Set the text of the compliment
-      @send LadderHighComp::MSG_TXT_SET_TEXT(LHT[i - 1]);
+      @send LadderHighCompliment::MSG_TXT_SET_TEXT(LHT[i - 1]);
       break;
     }
   }
@@ -793,7 +793,7 @@ static word _pascal TicksByDifficulty(word diff)
 {
   static char lhs[RNK_NAME_LEN];
   // Set the text of the info line
-  @send LadderInfo::MSG_TXT_UPDATE_TEXT(@TextHighSave);
+  @send LadderInfo::MSG_TXT_UPDATE_TEXT(@HighSave);
   // Get the name from the imput
   @call LadderHighName::MSG_INP_GET_INPUT(&lhs);
   // Add the rank to the ranks

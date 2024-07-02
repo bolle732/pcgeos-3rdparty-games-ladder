@@ -728,9 +728,9 @@ static void _pascal DrawValue(word pos, word val)
       // Write the rank default score
       pself->LRI_file.ranks[i].score = PNT_TIME;
       // Write the rank no name
-     MemLock(OptrToHandle(@TextHighNoName));
-     memcpy(pself->LRI_file.ranks[i].name, LMemDeref(@TextHighNoName), LMemGetChunkSize(@TextHighNoName));
-     MemUnlock(OptrToHandle(@TextHighNoName));
+     MemLock(OptrToHandle(@HighNoName));
+     memcpy(pself->LRI_file.ranks[i].name, LMemDeref(@HighNoName), LMemGetChunkSize(@HighNoName));
+     MemUnlock(OptrToHandle(@HighNoName));
     }
     // Create the file
     fh = FileCreate(&RFN, (FILE_ACCESS_RW | FILE_DENY_RW), FA_ARCHIVE);
