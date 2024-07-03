@@ -622,7 +622,6 @@
 ""
 "Viel Glück Lad."
 */
-
 // Translatable strings in Ladder help screen
 @chunk char HelpText0[] = "You are a Lad trapped in a maze.  Your mission is to explore the";
 @localize { "The 1st line in the help screen" 0-77 };
@@ -1065,7 +1064,7 @@
 "Nicht schlecht für ein junges Lad."
 "Fantastisch!  Du zählst!!"
 "Sieht aus als hätten wir hier einen Lad-Der!'
-"Super!  Du bist nun ein Lad-Wiz!"
+"Super!  Du bist jetzt ein Lad-Wiz!"
 "Wow!  Du bist nun ein Lad-Guru!"
 "Du bist ein wahrer Lad-Meister!!!"
 */
@@ -1186,7 +1185,6 @@
   TSPOS(20, 76),
   TSD_T_CHAR + 2, '0' // Text "00"
 };
-
 
 // I8N_DE  "Bereitmachen!"
 @chunk char PlayReady[] = "Get ready!";

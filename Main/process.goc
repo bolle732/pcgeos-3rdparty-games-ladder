@@ -275,7 +275,6 @@ static word _pascal TicksByDifficulty(word diff)
   @call LadderApplication::MSG_META_SET_HELP_FILE(buf);
   // Unlock the help file name
   MemUnlock(OptrToHandle(@LadderHelpFile));
-
   // Get the version number
   GeodeGetInfo(GeodeGetProcessHandle(), GGIT_GEODE_RELEASE, &rn);
   // Lock and dereference the version number
@@ -303,7 +302,7 @@ static word _pascal TicksByDifficulty(word diff)
     // Copy the product name to the terminal name
     memcpy(LMemDeref(@MenuTerminal), name, size);
     // Unlock and free the memory handle
-    MemUnlock(mh);
+//    MemUnlock(mh);
     MemFree(mh);
     // Unlock the terminal name
     MemUnlock(OptrToHandle(@MenuTerminal));
