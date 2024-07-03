@@ -351,15 +351,16 @@
 @localize { "The original copyright claim" 3-77 };
 @chunk char MenuText1[] = "Adapted for PC/GEOS in 2011 by Andreas Bollhalder";
 @localize { "The adaption claim" 3-77 };
-@chunk char MenuText2[] = "Version";  // XXX: Get number from revision file?
+@chunk char MenuText2[] = "Version";
 @localize { "The version label" 3-9 };
 // This chunk is only a place holder. It will be resized and filled during startup.
 @chunk char MenuVersion[] = "";
 @localize not;
-@chunk char MenuText3[] = "Terminal";  // XXX: Get name from kernal?
+@chunk char MenuText3[] = "Terminal";
 @localize { "The terminal label" 3-9 };
-@chunk char MenuTerminal[] = "FreeGEOS";
-@localize not;
+// This chunk will be resized and filled during startup with the product name from the INI file.
+@chunk char MenuTerminal[] = "Not found";
+@localize { "The terminal name if not found" 3-23 };
 @chunk char MenuText4[] = "Difficulty Level";
 @localize { "The difficulty level label" 3-18 };
 @chunk char MenuText5[] = "Sound Output";

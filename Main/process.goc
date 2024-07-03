@@ -73,9 +73,12 @@ extern word _pascal Random(word max);
  ***************************************************************************
  */
 
-static char ICL[] = INI_CATEGORY;
+static char ICA[] = INI_CAT_APP;
 static char IKS[] = INI_KEY_STATE;
 static char IKL[] = INI_KEY_LAST;
+
+static char ICU[] = INI_CAT_UI;
+static char IKP[] = INI_KEY_PRODUCT;
 
 // Lookup table for stimulis
 static optr LST[STMS] =
@@ -237,16 +240,19 @@ static word _pascal TicksByDifficulty(word diff)
  * SIDE EFFECTS:    If the reallocation of memory for the level buffer
  *                  fails, unexpected behaviour will happen.
  *
- * STRATEGY:        1/ Reallocate the full space for the level buffer.
- *                  2/ Allocate a MemHandle for playing noises.
- *                  3/ Load the difficulty, sound and last score from
+ * STRATEGY:        1/ Set the help file name from localized chunk.
+ *                  2/ Get the our version number from the system.
+ *                  3/ Get the GEOS product name from the INI file.
+ *                  4/ Reallocate level buffer to the full space.
+ *                  5/ Allocate a MemHandle for playing noises.
+ *                  6/ Load the difficulty, sound and last score from
  *                     the INI file and set the objects to display them.
  *                     If the values can't be read from the INI file,
  *                     set default values.
- *                  4/ Send message to the LadderRank object to read in
+ *                  7/ Send message to the LadderRank object to read in
  *                     the ranking list from his file.
- *                  5/ Call super to do the default behaviour.
- *                  6/ Start the menu.
+ *                  8/ Call super to do the default behaviour.
+ *                  9/ Start the menu.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
@@ -256,9 +262,11 @@ static word _pascal TicksByDifficulty(word diff)
  ***********************************************************************/
 @method LadderProcessClass, MSG_GEN_PROCESS_OPEN_APPLICATION  // 280 Bytes
 {
-  ReleaseNumber rn;
-  word state;
   static char buf[32] = "";
+  char *name;
+  word size, state;
+  MemHandle mh;
+  ReleaseNumber rn;
   // Lock and dereference the help file name
   MemLock(OptrToHandle(@LadderHelpFile));
   // Copy the help file name to a buffer
@@ -267,6 +275,7 @@ static word _pascal TicksByDifficulty(word diff)
   @call LadderApplication::MSG_META_SET_HELP_FILE(buf);
   // Unlock the help file name
   MemUnlock(OptrToHandle(@LadderHelpFile));
+
   // Get the version number
   GeodeGetInfo(GeodeGetProcessHandle(), GGIT_GEODE_RELEASE, &rn);
   // Lock and dereference the version number
@@ -279,6 +288,26 @@ static word _pascal TicksByDifficulty(word diff)
   sprintf(LMemDeref(@MenuVersion), "%u.%u %u-%u", rn.RN_major, rn.RN_minor, rn.RN_change, rn.RN_engineering);
   // Unlock the version number
   MemUnlock(OptrToHandle(@MenuVersion));
+  // Read the product name
+  if (!InitFileReadStringBlock(&ICU, &IKP, &mh, 0, &size))
+  {
+    if (size > 23) size = 23;
+    // Lock and dereference the terminal name
+    MemLock(OptrToHandle(@MenuTerminal));
+    // Resize the terminal name
+    LMemReAlloc(@MenuTerminal, size);
+    // Fill the terminal name with spaces
+    memset(LMemDeref(@MenuTerminal), ' ', size);
+    // Get the pointer to the product name
+    name = MemLock(mh);
+    // Copy the product name to the terminal name
+    memcpy(LMemDeref(@MenuTerminal), name, size);
+    // Unlock and free the memory handle
+    MemUnlock(mh);
+    MemFree(mh);
+    // Unlock the terminal name
+    MemUnlock(OptrToHandle(@MenuTerminal));
+  }
   // Lock and dereference the level buffer
   MemLock(OptrToHandle(@GameLevelBuffer));
   // Resize the level buffer
@@ -288,7 +317,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Allocate a MemHandle for the noise
   SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.noiseHandle);
   // Get the state from the INI file
-  if (InitFileReadInteger(&ICL, &IKS, &state))
+  if (InitFileReadInteger(&ICA, &IKS, &state))
   {
     g.game.diff = 1;
     g.game.sound = PLY_SND_OFF;
@@ -308,7 +337,7 @@ static word _pascal TicksByDifficulty(word diff)
     }
   }
   // Get the last score from the INI file
-  if (InitFileReadInteger(&ICL, &IKL, &g.game.score))
+  if (InitFileReadInteger(&ICA, &IKL, &g.game.score))
   {
     g.game.score = 0;
   }
@@ -359,9 +388,9 @@ static word _pascal TicksByDifficulty(word diff)
   // Stop the noise
   StopAndFreeNoise();
   // Write the state to the INI file
-  InitFileWriteInteger(&ICL, &IKS, (g.game.diff << 8) | (g.game.sound & 0x0F));
+  InitFileWriteInteger(&ICA, &IKS, (g.game.diff << 8) | (g.game.sound & 0x0F));
   // Write the last score to the INI file
-  InitFileWriteInteger(&ICL, &IKL, g.game.score);
+  InitFileWriteInteger(&ICA, &IKL, g.game.score);
   // Do super
   @callsuper();
   // We do not have an extra state

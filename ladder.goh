@@ -68,9 +68,12 @@
 #define APP_I_EXIT          9  // Application input state exit
 
 // INI file entries
-#define INI_CATEGORY        APP_NAME  // Category in the GEOS.INI
+#define INI_CAT_APP         APP_NAME  // Category in the GEOS.INI
 #define INI_KEY_STATE       "state"   // Key to save the state of difficulty and sound
 #define INI_KEY_LAST        "last"    // Key to save the last score
+
+#define INI_CAT_UI          "ui"  // Category in the GEOS.INI
+#define INI_KEY_PRODUCT     "productName"  // Key of the product name
 
 // Font
 #define FNT_TYPE            FID_BISON  // The font used
