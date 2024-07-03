@@ -729,7 +729,7 @@ static void _pascal DrawValue(word pos, word val)
       pself->LRI_file.ranks[i].score = PNT_TIME;
       // Write the rank no name
      MemLock(OptrToHandle(@HighNoName));
-     memcpy(pself->LRI_file.ranks[i].name, LMemDeref(@HighNoName), LMemGetChunkSize(@HighNoName));
+     memcpy(&pself->LRI_file.ranks[i].name, LMemDeref(@HighNoName), LMemGetChunkSize(@HighNoName));
      MemUnlock(OptrToHandle(@HighNoName));
     }
     // Create the file

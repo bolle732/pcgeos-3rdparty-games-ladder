@@ -262,7 +262,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Lock and dereference the help file name
   MemLock(OptrToHandle(@LadderHelpFile));
   // Copy the help file name to a buffer
-  memcpy(buf, LMemDeref(@LadderHelpFile), LMemGetChunkSize(@LadderHelpFile));
+  memcpy(&buf, LMemDeref(@LadderHelpFile), LMemGetChunkSize(@LadderHelpFile));
   // Set help file name of application
   @call LadderApplication::MSG_META_SET_HELP_FILE(buf);
   // Unlock the help file name
@@ -613,6 +613,8 @@ static word _pascal TicksByDifficulty(word diff)
   g.appState = APP_I_HELP;
   // Show the help screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderHelp);
+  // Set the text of the info line
+  @send LadderInfo::MSG_TXT_UPDATE_TEXT(@HelpInfo);
 }
 
 /***********************************************************************
@@ -684,7 +686,7 @@ static word _pascal TicksByDifficulty(word diff)
 }
 
 /***********************************************************************
- *                  MSG_LAD_LAST
+ *                  MSG_LAD_DONE
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        The user finished the last level.
@@ -702,12 +704,14 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_LAST  // 30 Bytes
+@method LadderProcessClass, MSG_LAD_DONE  // 30 Bytes
 {
   // Set the application state for the handling of key presses
   g.appState = APP_I_LAST;
-  // Show the game last screen
-  @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderLast);
+  // Show the game done screen
+  @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderDone);
+  // Set the text of the info line
+  @send LadderInfo::MSG_TXT_UPDATE_TEXT(@DoneInfo);
 }
 
 /***********************************************************************
@@ -735,6 +739,8 @@ static word _pascal TicksByDifficulty(word diff)
   g.appState = APP_I_OVER;
   // Show the game over screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderOver);
+  // Set the text of the info line
+  @send LadderInfo::MSG_TXT_UPDATE_TEXT(@OverInfo);
 }
 
 /***********************************************************************
@@ -780,6 +786,8 @@ static word _pascal TicksByDifficulty(word diff)
   }
   // Show the high score screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderHigh);
+  // Set the text of the info line
+  @send LadderInfo::MSG_TXT_UPDATE_TEXT(@HighInfo);
 }
 
 /***********************************************************************

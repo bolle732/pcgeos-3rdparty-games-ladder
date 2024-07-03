@@ -56,13 +56,13 @@
 @extern object LadderLoadLevel;
 @extern object LadderLoadName;
 @extern object LadderPlay;
-@extern object LadderGameLevel;
+@extern object LadderPlayLevel;
 @extern object LadderPlayActors;
 @extern object LadderPlayLads;
 @extern object LadderPlayRound;
 @extern object LadderPlayScore;
 @extern object LadderPlayTime;
-@extern object LadderLast;
+@extern object LadderDone;
 @extern object LadderOver;
 @extern object LadderHigh;
 @extern object LadderHighCompliment;
@@ -83,10 +83,13 @@
 @extern chunk MenuExit;
 
 @extern chunk ScreenHelp;
+@extern chunk HelpInfo;
 
 @extern chunk ScreenOver;
+@extern chunk OverInfo;
 
 @extern chunk ScreenDone;
+@extern chunk DoneInfo;
 
 @extern chunk ScreenHigh;
 @extern chunk HighCompliment1;
@@ -96,6 +99,7 @@
 @extern chunk HighCompliment5;
 @extern chunk HighCompliment6;
 @extern chunk HighCompliment7;
+@extern chunk HighInfo;
 @extern chunk HighNoName;
 @extern chunk HighSave;
 

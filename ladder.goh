@@ -355,7 +355,7 @@ typedef struct                 // Global structure
   @message (MSG_LAD_PROTO) MSG_LAD_GAME_HOOKA;
   @message (MSG_LAD_PROTO) MSG_LAD_GAME_NEXT;
   @message (MSG_LAD_PROTO) MSG_LAD_GAME_QUIT;
-  @message (MSG_LAD_PROTO) MSG_LAD_LAST;
+  @message (MSG_LAD_PROTO) MSG_LAD_DONE;
   @message (MSG_LAD_PROTO) MSG_LAD_OVER;
   @message (MSG_LAD_PROTO) MSG_LAD_HIGH;
   @message (MSG_LAD_PROTO) MSG_LAD_HIGH_SAVE;
