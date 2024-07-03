@@ -735,7 +735,7 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderProcessClass, MSG_LAD_DONE  // 30 Bytes
 {
   // Set the application state for the handling of key presses
-  g.appState = APP_I_LAST;
+  g.appState = APP_I_DONE;
   // Show the game done screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderDone);
   // Set the text of the info line
@@ -998,7 +998,7 @@ static word _pascal TicksByDifficulty(word diff)
 //      break;
       }
       break;
-    case APP_I_LAST:
+    case APP_I_DONE:
     case APP_I_OVER:
       // Key 'Enter'
       if (character == 0xFF0D)
