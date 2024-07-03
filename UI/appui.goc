@@ -78,10 +78,7 @@
 @visMoniker LadderTextMoniker = "GeoLadder";
 @localize "The GeoLadder application name";
 
-// I8N_DE
-/*
-"GeoLadder Hilfe"
-*/
+// I8N_DE  "GeoLadder Hilfe"
 @chunk char LadderHelpFile[] = "GeoLadder Help";
 @localize { "The GeoLadder help file name" 3-32 };
 
@@ -355,38 +352,38 @@
 // This chunk is only a place holder. It will be resized and filled during startup.
 @chunk char MenuVersion[] = "";
 @localize not;
-@chunk char MenuText3[] = "Terminal";
+@chunk char MenuText4[] = "Terminal";
 @localize { "The terminal label" 3-9 };
-// This chunk will be resized and filled during startup with the product name from the INI file.
+// This chunk will be resized and filled during startup if the product name is found the INI file.
 @chunk char MenuTerminal[] = "Not found";
 @localize { "The terminal name if no product name is found in the INI file" 3-23 };
-@chunk char MenuText4[] = "Difficulty Level";
+@chunk char MenuText6[] = "Difficulty Level";
 @localize { "The difficulty level label" 3-18 };
-@chunk char MenuText5[] = "Sound Output";
+@chunk char MenuText7[] = "Sound Output";
 @localize { "The sound output label" 3-18 };
-@chunk char MenuText6[] = "Play Game";
+@chunk char MenuText8[] = "Play Game";
 @localize { "The play game label" 3-33 };
-@chunk char MenuText7[] = "Change Difficulty";
+@chunk char MenuText9[] = "Change Difficulty";
 @localize { "The change difficulty label" 3-33 };
-@chunk char MenuText8[] = "Change Sound";
+@chunk char MenuText10[] = "Change Sound";
 @localize { "The change sound label" 3-33 };
-@chunk char MenuText9[] = "Show Instructions";
+@chunk char MenuText11[] = "Show Instructions";
 @localize { "The show instructions label" 3-33 };
-@chunk char MenuText10[] = "Exit GeoLadder";
+@chunk char MenuText12[] = "Exit GeoLadder";
 @localize { "The exit GeLadder label" 3-33 };
-@chunk char MenuText11[] = "Enter one of the above:";
+@chunk char MenuText13[] = "Enter one of the above:";
 @localize { "The enter one of the above label" 3-37 };
-@chunk char MenuText12[] = "High Scores";
+@chunk char MenuText14[] = "High Scores";
 @localize { "The high scores label" 3-37 };
-@chunk char MenuText13[] = "Last Score:";
+@chunk char MenuText15[] = "Last Score:";
 @localize { "The last score label" 3-14 };
 
 // Lookup table for translatable strings in Ladder menu screen
 @chunkArray optr ScreenMenuStrings =
 {
-  @MenuText0, @MenuText1, @MenuText2, @MenuVersion, @MenuText3, @MenuTerminal, @MenuText4,
-  @MenuText5, @MenuText6, @MenuText7, @MenuText8, @MenuText9,
-  @MenuText10, @MenuText11, @MenuText12, @MenuText13
+  @MenuText0, @MenuText1, @MenuText2, @MenuVersion, @MenuText4, @MenuTerminal, @MenuText6,
+  @MenuText7, @MenuText8, @MenuText9, @MenuText10, @MenuText11,
+  @MenuText12, @MenuText13, @MenuText14, @MenuText15
 };
 
 @chunk byte ScreenMenu[] = {
@@ -509,7 +506,7 @@
   TSPOS(12, 50),
   TSD_T_CHAR + 1, ':', // Text ":"
   TSPOS(12, 52),
-  TSD_T_CHNK, 5, // ScreenMenuStrings[5] / Text "FreeGEOS"
+  TSD_T_CHNK, 5, // ScreenMenuStrings[5] / Text "PC/GEOS"
   TSPOS(11, 1),
   TSD_T_CHNK, 6, // ScreenMenuStrings[6] / Text "Difficulty Level"
   TSPOS(11, 19),
