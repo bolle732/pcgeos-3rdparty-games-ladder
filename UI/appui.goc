@@ -255,7 +255,6 @@
 
 @object LadderValueClass LadderPlayScore = {
   VI_bounds = {
-// I8N_DE    55 + SCN_COLS * 21, 0,
     36 + SCN_COLS * 20, 0,
     4, 0
   };
@@ -330,7 +329,7 @@
 // I8N_DE
 /*
 "Original ist (c) in 1982, 1983 Yahoo Software"
-"Adaptiert für PC/GEOS in 2011 von Andreas Bollhalder"
+"Adaptiert für PC/GEOS in 2011, 2024 von Andreas Bollhalder"
 "Version"
 ""
 "Terminal"
@@ -349,7 +348,7 @@
 // Translatable strings in Ladder menu screen
 @chunk char MenuText0[] = "Original is (c) in 1982, 1983 Yahoo Software";
 @localize { "The original copyright claim" 3-77 };
-@chunk char MenuText1[] = "Adapted for PC/GEOS in 2011 by Andreas Bollhalder";
+@chunk char MenuText1[] = "Adapted for PC/GEOS in 2011, 2024 by Andreas Bollhalder";
 @localize { "The adaption claim" 3-77 };
 @chunk char MenuText2[] = "Version";
 @localize { "The version label" 3-9 };
@@ -360,7 +359,7 @@
 @localize { "The terminal label" 3-9 };
 // This chunk will be resized and filled during startup with the product name from the INI file.
 @chunk char MenuTerminal[] = "Not found";
-@localize { "The terminal name if not found" 3-23 };
+@localize { "The terminal name if no product name is found in the INI file" 3-23 };
 @chunk char MenuText4[] = "Difficulty Level";
 @localize { "The difficulty level label" 3-18 };
 @chunk char MenuText5[] = "Sound Output";
@@ -622,8 +621,6 @@
 "Drücke P um das Spiel zu pausieren oder ESCape um es zu beenden."
 ""
 "Viel Glück Lad."
-""
-"Drück ESC um zum Hauptmenü zurückzukehren:"
 */
 
 // Translatable strings in Ladder help screen
@@ -663,7 +660,7 @@
 @localize { "The 17th line in the help screen" 0-77 };
 @chunk char HelpText17[] = " ";
 @localize { "The 18th line in the help screen" 0-77 };
-@chunk char HelpText18[] = "Good luck Lad.";
+@chunk char HelpTextWish[] = "Good luck Lad.";
 @localize { "The good wishes text" 3-77 };
 
 // Lookup table for translatable strings in Ladder help screen
@@ -672,7 +669,7 @@
   @HelpText0, @HelpText1, @HelpText2, @HelpText3, @HelpText4,
   @HelpText5, @HelpText6, @HelpText7, @HelpText8, @HelpText9,
   @HelpText10, @HelpText11, @HelpText12, @HelpText13, @HelpText14,
-  @HelpText15, @HelpText16, @HelpText17, @HelpText18
+  @HelpText15, @HelpText16, @HelpText17, @HelpTextWish
 };
 
 @chunk byte ScreenHelp[] = {
@@ -716,6 +713,7 @@
   TSD_T_CHNK, 18, // ScreenHelpStrings[18] / Text "Good luck Lad."
 };
 
+// I8N_DE  "Drück ESC um zum Hauptmenü zurückzukehren:"
 @chunk char HelpInfo[] = "Type ESC to return to main menu:";
 @localize { "The type ESC to return to main menu text" 3-77 };
 
@@ -725,8 +723,6 @@
 "Du hast alle Lads verloren, bevor Du den letzten Schatz gefunden hast."
 "Deshalb bleibst Du im Irrgarten gefangen und must noch einmal von Vorne"
 "beginnen."
-""
-"Drück ENTER um fortzufahren:"
 */
 // Translatable strings in Ladder game over screen
 @chunk char OverText0[] = "You lost all lads before you reached the ultimate treasure.  Hence you";
@@ -891,6 +887,7 @@
   TSD_T_CHNK, 2, // ScreenOverStrings[2] / Text " "
 };
 
+// I8N_DE  "Drück ENTER um fortzufahren:"
 @chunk char OverInfo[] = "Type RETURN to continue:";
 @localize { "The type RETURN to contiune text in the game over screen" 3-77 };
 
@@ -1023,6 +1020,7 @@
   TSD_T_CHNK, 3, // ScreenDoneStrings[3] / Text "There you will assemble ladders until the end of time."
 };
 
+// I8N_DE  "Drück ENTER um fortzufahren:"
 @chunk char DoneInfo[] = "Type RETURN to continue:";
 @localize { "The type RETURN to contiune text in the done screen" 3-77 };
 
@@ -1031,7 +1029,6 @@
 /*
 "YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO!"
 "Gib deinen Namen ein"
-"Drück ENTER um zu speichern oder ESC um zu überspringen:"
 */
 // Translatable strings in Ladder high score screen
 @chunk char HighText0[] = "YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO!";
@@ -1057,6 +1054,7 @@
   TSD_T_CHAR + 1, ':', // Text ":"
 };
 
+// I8N_DE  "Drück ENTER um zu speichern oder ESC um zu überspringen:"
 @chunk char HighInfo[] = "Type RETURN to save or type ESC to skip:";
 @localize { "The type RETURN to save or ESC to skip text in the high score screen" 3-77 };
 
@@ -1196,7 +1194,7 @@
 // I8N_DE  "Shisha!"
 @chunk char PlayHooka[] = "Hooka!";
 @localize { "The hooka text in the play screen" 3-77 };
-// I8N_DE  "Drück ENTER um weiterzumachen:",
+// I8N_DE  "Drück ENTER um weiterzumachen:"
 @chunk char PlayContinue[] = "Type RETURN to continue:";
 @localize { "The type RETURN to contiune text in the play screen" 3-77 };
 

@@ -45,10 +45,6 @@
  ***************************************************************************
  */
 
-// Language compile options
-// I8N_DE (german) or I8N_EN (english)
-@define I8N_EN                 // The language to compile
-
 #define L_FALSE             0  // False value used for functions
 #define L_TRUE              1  // True value used for functions
 
