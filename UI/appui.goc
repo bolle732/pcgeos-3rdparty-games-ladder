@@ -1132,11 +1132,11 @@
   TSD_T_CHAR + 3, '<', // Text "<<<"
   TSPOS(9, 53),
   TSD_T_CHAR + 3, '>', // Text ">>>"
-  TSPOS(12, 34),
+  TSPOS(12, 33),
   TSD_T_CHNK, 1, // ScreenLoadStrings[1] / Text "Round:"
   TSPOS(12, 43),
   TSD_T_CHAR + 1, ':', // Text ":"
-  TSPOS(13, 34),
+  TSPOS(13, 33),
   TSD_T_CHNK, 2, // ScreenLoadStrings[2] / Text "Level:"
   TSPOS(13, 43),
   TSD_T_CHAR + 1, ':', // Text ":"
