@@ -411,6 +411,11 @@ static void _pascal DrawValue(word pos, word val)
 //          MemLock(OptrToHandle(o2));
           ChunkArrayGetElement(pself->LSI_chunks, *p_data, &o2);
           len = LMemGetChunkSize(o2);
+          // Handle center alignment
+          if ((*(p_data - 1) & TSA_M) == TSD_A_CENTER)
+          {
+            pos -= len / 2;
+          }
           DrawText(pos, LMemDeref(o2), len);
           pos += len;
 //          MemUnlock(OptrToHandle(o2));
@@ -429,7 +434,7 @@ static void _pascal DrawValue(word pos, word val)
         continue;
       }
       // Get the length from current byte
-      len = *p_data & LSL_M;
+      len = *p_data & TSL_M;
       // If the length is 0, get the length from next byte
       if (len == 0)
       {
@@ -500,14 +505,24 @@ static void _pascal DrawValue(word pos, word val)
 @method LadderTextClass, MSG_VIS_DRAW  // 84 Bytes
 {
   optr o;
+  word l, p;
   o = pself->LTI_text;
   // Check if we have valid data
   if (o != NullOptr)
   {
     // Lock and dereference the text
     MemLock(OptrToHandle(o));
+    // Get the length of the text
+    l = LMemGetChunkSize(o);
+    // Get position of text
+    p = pself->VI_bounds.R_left;
+    // Handle center alignment
+    if ((pself->LTI_alignment & TSA_M) == TSD_A_CENTER)
+    {
+      p -= l / 2;
+    }
     // Draw the text
-    DrawText(pself->VI_bounds.R_left, LMemDeref(o), LMemGetChunkSize(o));
+    DrawText(p, LMemDeref(o), l);
     // Unlock the text
     MemUnlock(OptrToHandle(o));
   }

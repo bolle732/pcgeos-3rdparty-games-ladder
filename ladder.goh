@@ -127,9 +127,10 @@
 #define PNT_LAD           100  // Points needed for new Lad
 
 // Text string bit masks
-#define TSC_M            0xF0  // Command
-#define TSL_M            0x0F  // Length
-#define TSO_M            0x08  // Orientation
+#define TSC_M            0xF0  // Command mask
+#define TSL_M            0x0F  // Length mask
+#define TSA_M            0x03  // Alignment mask
+#define TSO_M            0x0C  // Orientation mask
 #define TSP_M_HI         0x07  // Position high bits
 #define TSP_M_LO         0xFF  // Position low bits
 
@@ -137,6 +138,9 @@
 #define TSD_T_TEXT       0xA0  // Draw text
 #define TSD_T_CHAR       0xB0  // Draw character
 #define TSD_T_CHNK       0xC0  // Draw text from chunk
+
+// Text string attributes
+#define TSD_A_CENTER     0x01  // Draw text alignment center
 
 // Text string position types
 #define TSP_T_MOVE       0xD0  // Move cursor in current orientation
@@ -400,6 +404,7 @@ typedef struct                 // Global structure
     | VGA_NO_SIZE_HINTS
     | VGA_ONLY_RECALC_SIZE_WHEN_INVALID;
   @instance optr LTI_text = NullOptr;
+  @instance byte LTI_alignment = 0;
   @prototype void MSG_TXT_PROTO(optr text);
   @message (MSG_TXT_PROTO) MSG_TXT_SET_TEXT;
   @message (MSG_TXT_PROTO) MSG_TXT_UPDATE_TEXT;

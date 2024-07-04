@@ -180,9 +180,10 @@
 
 @object LadderTextClass LadderLoadName = {
   VI_bounds = {
-    28  + SCN_COLS * 9, 0,
+    40 + SCN_COLS * 9, 0,
     22, 0
   };
+  LTI_alignment = TSD_A_CENTER;
 }
 
 @object LadderValueClass LadderLoadRound = {
@@ -1126,8 +1127,8 @@
 };
 
 @chunk byte ScreenLoad[] = {
-  TSPOS(6, 29),
-  TSD_T_CHNK, 0, // ScreenLoadStrings[0] / Text ".:: LOADING LEVEL ::."
+  TSPOS(6, 40),
+  TSD_T_CHNK | TSD_A_CENTER, 0, // ScreenLoadStrings[0] / Text ".:: LOADING LEVEL ::."
   TSPOS(9, 23),
   TSD_T_CHAR + 3, '<', // Text "<<<"
   TSPOS(9, 53),
@@ -1140,8 +1141,8 @@
   TSD_T_CHNK, 2, // ScreenLoadStrings[2] / Text "Level:"
   TSPOS(13, 43),
   TSD_T_CHAR + 1, ':', // Text ":"
-  TSPOS(16, 32),
-  TSD_T_CHNK, 3, // ScreenLoadStrings[0] / Text "Please wait..."
+  TSPOS(16, 40),
+  TSD_T_CHNK | TSD_A_CENTER, 3, // ScreenLoadStrings[0] / Text "Please wait..."
 };
 
 
