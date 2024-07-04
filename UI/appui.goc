@@ -293,9 +293,10 @@
 
 @object LadderTextClass LadderHighCompliment = {
   VI_bounds = {
-    1 + SCN_COLS * 10, 0,
+    40 + SCN_COLS * 9, 0,
     40, 0
   };
+  LTI_alignment = TSD_A_CENTER;
 }
 
 @object LadderInputClass LadderHighName = {
