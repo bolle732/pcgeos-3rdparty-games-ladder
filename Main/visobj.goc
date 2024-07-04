@@ -405,8 +405,8 @@ static void _pascal DrawValue(word pos, word val)
         // Check if we have valid chunks
         if (pself->LSI_chunks != NullOptr)
         {
+          byte a;
           optr o2;
-          word a;
           // Get the alignment 
           a = *p_data & TSA_M;
           // Get the index of the chunk
