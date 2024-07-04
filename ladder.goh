@@ -140,6 +140,7 @@
 #define TSD_T_CHNK       0xC0  // Draw text from chunk
 
 // Text string attributes
+#define TSD_A_LEFT       0x00  // Draw text alignment left
 #define TSD_A_CENTER     0x01  // Draw text alignment center
 
 // Text string position types
@@ -404,7 +405,7 @@ typedef struct                 // Global structure
     | VGA_NO_SIZE_HINTS
     | VGA_ONLY_RECALC_SIZE_WHEN_INVALID;
   @instance optr LTI_text = NullOptr;
-  @instance byte LTI_alignment = 0;
+  @instance byte LTI_alignment = TSD_A_LEFT;
   @prototype void MSG_TXT_PROTO(optr text);
   @message (MSG_TXT_PROTO) MSG_TXT_SET_TEXT;
   @message (MSG_TXT_PROTO) MSG_TXT_UPDATE_TEXT;
