@@ -406,18 +406,32 @@ static void _pascal DrawValue(word pos, word val)
         if (pself->LSI_chunks != NullOptr)
         {
           optr o2;
+          word a;
+          // Get the alignment 
+          a = *p_data & TSA_M;
           // Get the index of the chunk
           n++; p_data++;
 //          MemLock(OptrToHandle(o2));
           ChunkArrayGetElement(pself->LSI_chunks, *p_data, &o2);
           len = LMemGetChunkSize(o2);
-          // Handle center alignment
-          if ((*(p_data - 1) & TSA_M) == TSD_A_CENTER)
+          // Handle alignment
+          switch (a)
           {
+          // Handle center alignment
+          case TSD_A_CENTER:
             pos -= len / 2;
+            break;
+          // Handle right alignment
+          case TSD_A_RIGHT:
+            pos -= (len - 1);
+//          break;
           }
           DrawText(pos, LMemDeref(o2), len);
-          pos += len;
+          // Fixup the position
+          if (a != TSD_A_RIGHT)
+          {
+            pos += len;
+          }
 //          MemUnlock(OptrToHandle(o2));
         }
         continue;

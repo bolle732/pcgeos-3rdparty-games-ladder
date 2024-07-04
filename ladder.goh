@@ -142,6 +142,7 @@
 // Text string attributes
 #define TSD_A_LEFT       0x00  // Draw text alignment left
 #define TSD_A_CENTER     0x01  // Draw text alignment center
+#define TSD_A_RIGHT      0x02  // Draw text alignment right
 
 // Text string position types
 #define TSP_T_MOVE       0xD0  // Move cursor in current orientation
