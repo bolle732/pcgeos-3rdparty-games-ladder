@@ -1042,8 +1042,8 @@
 
 @chunk byte ScreenHigh[] = {
   // Title
-  TSPOS(6, 15),
-  TSD_T_CHNK, 0, // ScreenHighStrings[0] / Text "YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO!"
+  TSPOS(6, 40),
+  TSD_T_CHNK | TSD_A_CENTER, 0, // ScreenHighStrings[0] / Text "YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO!"
   // Text
   TSPOS(12, 21),
 // XXX: Verify code and position
