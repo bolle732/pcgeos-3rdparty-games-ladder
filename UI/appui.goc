@@ -1172,16 +1172,16 @@
 };
 
 @chunk byte ScreenPlay[] = {
-  TSPOS(20, 1),
-  TSD_T_CHNK, 0, // ScreenPlayStrings[0] / Text "Lads"
-  TSPOS(20, 15),
-  TSD_T_CHNK, 1, // ScreenPlayStrings[1] / Text "Round"
-  TSPOS(20, 30),
-  TSD_T_CHNK, 2, // ScreenPlayStrings[2] / Text "Score"
+  TSPOS(20, 5),
+  TSD_T_CHNK | TSD_A_RIGHT, 0, // ScreenPlayStrings[0] / Text "Lads"
+  TSPOS(20, 20),
+  TSD_T_CHNK | TSD_A_RIGHT, 1, // ScreenPlayStrings[1] / Text "Round"
+  TSPOS(20, 35),
+  TSD_T_CHNK | TSD_A_RIGHT, 2, // ScreenPlayStrings[2] / Text "Score"
   TSPOS(20, 41),
   TSD_T_CHAR + 2, '0', // Text "00"
-  TSPOS(20, 63),
-  TSD_T_CHNK, 3, // ScreenPlayStrings[3] / Text "Bonus time"
+  TSPOS(20, 73),
+  TSD_T_CHNK | TSD_A_RIGHT, 3, // ScreenPlayStrings[3] / Text "Bonus time"
   TSPOS(20, 76),
   TSD_T_CHAR + 2, '0' // Text "00"
 };
