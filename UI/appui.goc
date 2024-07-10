@@ -275,6 +275,7 @@
   VCI_comp =
     @LadderInfo;
   LSI_screen = @ScreenDone;
+  LSI_chunks = @ScreenDoneStrings;
 }
 
 // Game over
