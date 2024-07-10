@@ -425,6 +425,7 @@ typedef struct                 // Global structure
     | VGA_NO_SIZE_HINTS
     | VGA_ONLY_RECALC_SIZE_WHEN_INVALID;
   @instance word LVI_value = 0;
+  @instance word LVI_suffix = FALSE;
   @prototype void MSG_VAL_PROTO(word value);
   @message (MSG_VAL_PROTO) MSG_VAL_SET_VALUE;
   @message (MSG_VAL_PROTO) MSG_VAL_UPDATE_VALUE;

@@ -152,6 +152,7 @@
     4, 0
   };
   LVI_value = 1;
+  LVI_suffix = TRUE;
 }
 
 @object LadderTextClass LadderMenuInfo = {
@@ -257,6 +258,7 @@
     4, 0
   };
   LVI_value = 1;
+  LVI_suffix = TRUE;
 }
 
 @object LadderValueClass LadderPlayTime = {
@@ -265,6 +267,7 @@
     2, 0
   };
   LVI_value = 32;
+  LVI_suffix = TRUE;
 }
 
 // Game end
@@ -546,32 +549,20 @@
   TSPOS(15, 40),
   TSD_T_TEXT + 2,
     '1', ')',
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 2, '0', // Text "00"
   TSPOS(16, 40),
   TSD_T_TEXT + 2,
     '2', ')',
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 2, '0', // Text "00"
   TSPOS(17, 40),
   TSD_T_TEXT + 2,
     '3', ')',
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 2, '0', // Text "00"
   TSPOS(18, 40),
   TSD_T_TEXT + 2,
     '4', ')',
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 2, '0', // Text "00"
   TSPOS(19, 40),
   TSD_T_TEXT + 2,
     '5', ')',
-  TSP_T_MOVE + 6,
-  TSD_T_CHAR + 2, '0', // Text "00"
   TSPOS(21, 40),
   TSD_T_CHNK, 15, // ScreenMenuStrings[15] / Text "Last Score:"
-  TSPOS(21, 60),
-  TSD_T_CHAR + 2, '0' // Text "00"
 };
 
 
@@ -1178,12 +1169,8 @@
   TSD_T_CHNK | TSD_A_RIGHT, 1, // ScreenPlayStrings[1] / Text "Round"
   TSPOS(20, 35),
   TSD_T_CHNK | TSD_A_RIGHT, 2, // ScreenPlayStrings[2] / Text "Score"
-  TSPOS(20, 41),
-  TSD_T_CHAR + 2, '0', // Text "00"
   TSPOS(20, 73),
   TSD_T_CHNK | TSD_A_RIGHT, 3, // ScreenPlayStrings[3] / Text "Bonus time"
-  TSPOS(20, 76),
-  TSD_T_CHAR + 2, '0' // Text "00"
 };
 
 // I8N_DE  "Bereitmachen!"

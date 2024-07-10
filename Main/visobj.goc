@@ -75,7 +75,7 @@ static void _pascal DestroyGState(void);
 static void _pascal ClearText(word pos, word len);
 static void _pascal DrawChar(word pos, char character);
 static void _pascal DrawText(word pos, char *text, sword len);
-static void _pascal DrawValue(word pos, word val);
+static void _pascal DrawValue(word pos, word val, word suf);
 
 
 /*
@@ -229,13 +229,15 @@ static void _pascal DrawText(word pos, char *text, sword len)
  * SYNOPSIS:        Draw a value into the view.
  * CALLED BY:       Internal
  * PARAMETERS:      void ( word pos,
- *                         word val )
+ *                         word val,
+ *                         word suf )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ Use the C function sprintf() to render the value
- *                     into the string representation.
- *                  2/ Call DrawText() to draw the value into the view.
+ *                     with the '00' suffix into a string representation.
+ *                  2/ Shorten the length if no '00' suffix is needed
+ *                  3/ Call DrawText() to draw the value into the view.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
@@ -244,11 +246,17 @@ static void _pascal DrawText(word pos, char *text, sword len)
  *      boa     2016-01-21    Fixed sprintf formating
  *
  ***********************************************************************/
-static void _pascal DrawValue(word pos, word val)
+static void _pascal DrawValue(word pos, word val, word suf)
 {
-  static char ldv[5 + 1];
-  sprintf(&ldv, "%5u", val);
-  DrawText(pos, &ldv, sizeof(ldv));
+  static char ldv[5 + 2 + 1];
+  word l;
+  l = sizeof(ldv);
+  sprintf(&ldv, "%5u00", val);
+  if (suf == FALSE)
+  {
+    l -= 3;
+  }
+  DrawText(pos, &ldv, l);
 }
 
 
@@ -619,7 +627,7 @@ static void _pascal DrawValue(word pos, word val)
  ***********************************************************************/
 @method LadderValueClass, MSG_VIS_DRAW  // 22 Bytes
 {
-  DrawValue(pself->VI_bounds.R_left, pself->LVI_value);
+  DrawValue(pself->VI_bounds.R_left, pself->LVI_value, pself->LVI_suffix);
 }
 
 /***********************************************************************
@@ -692,7 +700,7 @@ static void _pascal DrawValue(word pos, word val)
   for (i = 0; i < RNKS; i++)
   {
     pos = pself->VI_bounds.R_left + i * SCN_COLS;
-    DrawValue(pos, pself->LRI_file.ranks[i].score);
+    DrawValue(pos, pself->LRI_file.ranks[i].score, TRUE);
     DrawText(pos + 9, &pself->LRI_file.ranks[i].name, RNK_NAME_LEN);
   }
 }
