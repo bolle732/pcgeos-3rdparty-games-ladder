@@ -244,6 +244,7 @@ static void _pascal DrawText(word pos, char *text, sword len)
  *      ----    ----          -----------
  *      boa     2011-01-18    Initial Revision
  *      boa     2016-01-21    Fixed sprintf formating
+ *      boa     2024-08-10    Added support for '00' suffix
  *
  ***********************************************************************/
 static void _pascal DrawValue(word pos, word val, word suf)
@@ -253,12 +254,10 @@ static void _pascal DrawValue(word pos, word val, word suf)
   l = sprintf(&ldv, "%5u", val);
   if (suf == TRUE)
   {
-    char *s = "00";
-    l += sprintf(ldv + l, "%s", s);  // XXX: With &ldv -> W115 -> Bug in Open Watcom?
+    l += sprintf(ldv + l, "%s", "00");
   }
   DrawText(pos, &ldv, l);
 }
-
 
 
 /*
