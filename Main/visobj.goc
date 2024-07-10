@@ -250,11 +250,11 @@ static void _pascal DrawValue(word pos, word val, word suf)
 {
   static char ldv[5 + 2 + 1];
   word l;
-  l = sizeof(ldv);
-  sprintf(&ldv, "%5u00", val);
-  if (suf == FALSE)
+  l = sprintf(&ldv, "%5u", val);
+  if (suf == TRUE)
   {
-    l -= 3;
+    char *s = "00";
+    l += sprintf(ldv + l, "%s", s);  // XXX: With &ldv -> W115 -> Bug in Open Watcom?
   }
   DrawText(pos, &ldv, l);
 }
