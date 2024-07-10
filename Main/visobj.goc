@@ -235,8 +235,8 @@ static void _pascal DrawText(word pos, char *text, sword len)
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ Use the C function sprintf() to render the value
- *                     with the '00' suffix into a string representation.
- *                  2/ Shorten the length if no '00' suffix is needed
+ *                     into a string representation.
+ *                  2/ Add '00' suffix if requested
  *                  3/ Call DrawText() to draw the value into the view.
  *
  * REVISION HISTORY:
