@@ -1309,7 +1309,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
   else
   {
     // The game is over
-    msg = MSG_LAD_OVER;
+    msg = MSG_LAD_PLAY_OVER;
   }
   @send oself:: {MSG_LAD_PROTO} msg();
 }
@@ -1455,7 +1455,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
   if (g.game.level > LVLS)
   {
     // Show the last screen
-    @send oself::MSG_LAD_DONE();
+    @send oself::MSG_LAD_PLAY_DONE();
   }
   else
   {

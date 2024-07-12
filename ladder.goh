@@ -358,11 +358,11 @@ typedef struct                 // Global structure
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_CLEAR;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HOOKA;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_NEXT;
-  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_QUIT;
-  @message (MSG_LAD_PROTO) MSG_LAD_DONE;
-  @message (MSG_LAD_PROTO) MSG_LAD_OVER;
-  @message (MSG_LAD_PROTO) MSG_LAD_HIGH;
-  @message (MSG_LAD_PROTO) MSG_LAD_HIGH_SAVE;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_STOP;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_DONE;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_OVER;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HIGH;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_SAVE;
 @endc
 
 
