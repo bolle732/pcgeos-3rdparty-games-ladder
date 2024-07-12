@@ -646,11 +646,14 @@ static word _pascal TicksByDifficulty(word diff)
 }
 
 /***********************************************************************
- *                  MSG_LAD_PLAY
+ *                  MSG_LAD_DEMO, MSG_LAD_PLAY
  *                  for LadderProcessClass
  ***********************************************************************
- * SYNOPSIS:        Start a new game.
- * CALLED BY:       User by pressing the key 'p' in the menu.
+ * SYNOPSIS:        Start the demo or a new game.
+ * CALLED BY:       MSG_LAD_DEMO:
+ *                    From MSG_LAD_MENU_AUTO
+ *                  MSG_LAD_PLAY:
+ *                    User by pressing the key 'p' in the menu.
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -687,9 +690,13 @@ static word _pascal TicksByDifficulty(word diff)
  *                  MSG_LAD_DEMO_STOP, MSG_LAD_PLAY_STOP
  *                  for LadderProcessClass
  ***********************************************************************
- * SYNOPSIS:        Abort a game.
- * CALLED BY:       User by pressing the key 'ESC' during the game or
- *                  when returning from a finished game.
+ * SYNOPSIS:        Abort the demo or a game.
+ * CALLED BY:       MSG_LAD_DEMO_STOP:
+ *                    From MSG_LAD_DEMO_EXEC or user by pressing the
+ *                    kex 'ESC' during the demo
+ *                  MSG_LAD_PLAY_STOP:
+ *                    User by pressing the key 'ESC' during a game or
+ *                    when returning from a finished game.
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none

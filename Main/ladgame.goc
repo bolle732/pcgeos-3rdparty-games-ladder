@@ -889,7 +889,10 @@ static void _pascal MoveDers(void)
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Load the level data.
- * CALLED BY:       MSG_LAD_PLAY_LOAD_INFO
+ * CALLED BY:       MSG_LAD_DEMO_LOAD_DATA:
+ *                    From MSG_LAD_DEMO
+ *                  MSG_LAD_PLAY_LOAD_DATA:
+ *                    From MSG_LAD_PLAY_LOAD_INFO
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -934,8 +937,11 @@ static void _pascal MoveDers(void)
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Initialize the round.
- * CALLED BY:       One shot timer from MSG_LAD_PLAY_LOAD_DATA or
- *                  MSG_LAD_PLAY_CLEAR
+ * CALLED BY:       MSG_LAD_DEMO_INIT:
+ *                    From MSG_LAD_DEMO_LOAD_DATA
+ *                  MSG_LAD_PLAY_INIT:
+ *                    One shot timer from MSG_LAD_PLAY_LOAD_DATA or
+ *                    MSG_LAD_PLAY_CLEAR
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -1014,8 +1020,11 @@ static void _pascal MoveDers(void)
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Clear info line and start the round execution.
- * CALLED BY:       One shot timer from MSG_LAD_PLAY_READY or user by
- *                  pressing the key 'ENTER' when game is paused.
+ * CALLED BY:       MSG_LAD_DEMO_START:
+ *                    From MSG_LAD_DEMO_INIT
+ *                  MSG_LAD_PLAY_START:
+ *                    One shot timer from MSG_LAD_PLAY_READY or user by
+ *                    pressing the key 'ENTER' when game is paused.
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -1045,7 +1054,10 @@ static void _pascal MoveDers(void)
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Execute a frame of the round.
- * CALLED BY:       Continual timer from MSG_LAD_PLAY_START
+ * CALLED BY:       MSG_LAD_DEMO_EXEC:
+ *                    Continual timer from MSG_LAD_DEMO_START
+ *                  MSG_LAD_PLAY_EXEC:
+ *                    Continual timer from MSG_LAD_PLAY_START
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
