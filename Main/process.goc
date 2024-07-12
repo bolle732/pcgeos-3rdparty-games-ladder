@@ -212,18 +212,18 @@ static word _pascal TicksByDifficulty(word diff)
 
 @classdecl LadderProcessClass, neverSaved;
 
-@extern method LadderProcessClass, MSG_LAD_GAME_LOAD_INFO;
-@extern method LadderProcessClass, MSG_LAD_GAME_LOAD_DATA;
-@extern method LadderProcessClass, MSG_LAD_GAME_INIT;
-@extern method LadderProcessClass, MSG_LAD_GAME_READY;
-@extern method LadderProcessClass, MSG_LAD_GAME_START;
-@extern method LadderProcessClass, MSG_LAD_GAME_EXEC;
-@extern method LadderProcessClass, MSG_LAD_GAME_WAIT;
-@extern method LadderProcessClass, MSG_LAD_GAME_FAIL;
-@extern method LadderProcessClass, MSG_LAD_GAME_DIES;
-@extern method LadderProcessClass, MSG_LAD_GAME_CLEAR;
-@extern method LadderProcessClass, MSG_LAD_GAME_HOOKA;
-@extern method LadderProcessClass, MSG_LAD_GAME_NEXT;
+@extern method LadderProcessClass, MSG_LAD_PLAY_LOAD_INFO;
+@extern method LadderProcessClass, MSG_LAD_PLAY_LOAD_DATA;
+@extern method LadderProcessClass, MSG_LAD_PLAY_INIT;
+@extern method LadderProcessClass, MSG_LAD_PLAY_READY;
+@extern method LadderProcessClass, MSG_LAD_PLAY_START;
+@extern method LadderProcessClass, MSG_LAD_PLAY_EXEC;
+@extern method LadderProcessClass, MSG_LAD_PLAY_WAIT;
+@extern method LadderProcessClass, MSG_LAD_PLAY_FAIL;
+@extern method LadderProcessClass, MSG_LAD_PLAY_DIES;
+@extern method LadderProcessClass, MSG_LAD_PLAY_CLEAR;
+@extern method LadderProcessClass, MSG_LAD_PLAY_HOOKA;
+@extern method LadderProcessClass, MSG_LAD_PLAY_NEXT;
 
 
 /***********************************************************************
@@ -671,7 +671,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Stop the stimulus
   StopTimer();
   // Set the appplication state for the handling of key presses
-  g.appState = APP_I_PLAY;
+  g.appState = APP_I_NONE;
   // Initialize the game
   g.game.lads = LAD_D_LIVES;
   g.game.round = 1; // 1, 2, 5, 9, 14, 20, 27
@@ -679,11 +679,11 @@ static word _pascal TicksByDifficulty(word diff)
   g.game.score = PNT_TIME;
   g.game.delay = TicksByDifficulty(g.game.diff);
   // Start the first level
-  @send oself::MSG_LAD_GAME_LOAD_INFO();
+  @send oself::MSG_LAD_PLAY_LOAD_INFO();
 }
 
 /***********************************************************************
- *                  MSG_LAD_GAME_QUIT
+ *                  MSG_LAD_PLAY_QUIT
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Abort a game.
@@ -703,7 +703,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_GAME_QUIT  // 46 Bytes
+@method LadderProcessClass, MSG_LAD_PLAY_QUIT  // 46 Bytes
 {
   // Stop the play timer
   StopTimer();
@@ -849,7 +849,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Add the rank to the ranks
   @call LadderMenuRank::MSG_RNK_SAVE_RANK(g.game.score, &lhs);
   // Start the timer to quit to main menu
-  g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_SAVE, MSG_LAD_GAME_QUIT, 0, &g.timerId);
+  g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_SAVE, MSG_LAD_PLAY_QUIT, 0, &g.timerId);
 }
 
 
@@ -903,13 +903,13 @@ static word _pascal TicksByDifficulty(word diff)
       }
       else
       {
-        msg = MSG_LAD_GAME_QUIT;
+        msg = MSG_LAD_PLAY_QUIT;
       }
     }
     // Handle the keys according the application states
     switch (g.appState)
     {
-    case APP_I_EXEC:
+    case APP_I_PLAY:
       // Handle the key press
       switch (character)
       {
@@ -934,7 +934,7 @@ static word _pascal TicksByDifficulty(word diff)
         return;
       case C_SMALL_P:
       case C_CAP_P:
-        msg = MSG_LAD_GAME_WAIT;
+        msg = MSG_LAD_PLAY_WAIT;
         break;
       // Any other key
       default:
@@ -972,7 +972,7 @@ static word _pascal TicksByDifficulty(word diff)
       // Key 'Enter'
       if (character == 0xFF0D)
       {
-        msg = MSG_LAD_GAME_START;
+        msg = MSG_LAD_PLAY_START;
       }
       break;
     case APP_I_HIGH:
@@ -1010,7 +1010,7 @@ static word _pascal TicksByDifficulty(word diff)
         }
         else
         {
-          msg = MSG_LAD_GAME_QUIT;
+          msg = MSG_LAD_PLAY_QUIT;
         }
       }
 //    break;

@@ -55,13 +55,13 @@
 #define APP_I_NONE          0  // Application input state none
 #define APP_I_MENU          1  // Application input state menu
 #define APP_I_HELP          2  // Application input state instruction
-#define APP_I_PLAY          3  // Application input state play
-#define APP_I_EXEC          4  // Application input state exec
+#define APP_I_DEMO          3  // Application input state demo
+#define APP_I_PLAY          4  // Application input state play
 #define APP_I_WAIT          5  // Application input state wait
 #define APP_I_DONE          6  // Application input state done (the end)
 #define APP_I_OVER          7  // Application input state over
 #define APP_I_HIGH          8  // Application input state high score
-#define APP_I_EXIT          9  // Application input state exit
+#define APP_I_EXIT          0  // Application input state exit
 
 // INI file entries
 #define INI_CAT_APP         APP_NAME  // Category in the GEOS.INI
@@ -347,19 +347,19 @@ typedef struct                 // Global structure
   @message (MSG_LAD_PROTO) MSG_LAD_MENU_STIM_END;
   @message (MSG_LAD_PROTO) MSG_LAD_HELP;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY;
-  @message (MSG_LAD_PROTO) MSG_LAD_GAME_LOAD_INFO;
-  @message (MSG_LAD_PROTO) MSG_LAD_GAME_LOAD_DATA;
-  @message (MSG_LAD_PROTO) MSG_LAD_GAME_INIT;
-  @message (MSG_LAD_PROTO) MSG_LAD_GAME_READY;
-  @message (MSG_LAD_PROTO) MSG_LAD_GAME_START;
-  @message (MSG_LAD_PROTO) MSG_LAD_GAME_EXEC;
-  @message (MSG_LAD_PROTO) MSG_LAD_GAME_WAIT;
-  @message (MSG_LAD_PROTO) MSG_LAD_GAME_FAIL;
-  @message (MSG_LAD_PROTO) MSG_LAD_GAME_DIES;
-  @message (MSG_LAD_PROTO) MSG_LAD_GAME_CLEAR;
-  @message (MSG_LAD_PROTO) MSG_LAD_GAME_HOOKA;
-  @message (MSG_LAD_PROTO) MSG_LAD_GAME_NEXT;
-  @message (MSG_LAD_PROTO) MSG_LAD_GAME_QUIT;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_LOAD_INFO;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_LOAD_DATA;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_INIT;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_READY;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_START;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_EXEC;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_WAIT;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_FAIL;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_DIES;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_CLEAR;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HOOKA;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_NEXT;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_QUIT;
   @message (MSG_LAD_PROTO) MSG_LAD_DONE;
   @message (MSG_LAD_PROTO) MSG_LAD_OVER;
   @message (MSG_LAD_PROTO) MSG_LAD_HIGH;

@@ -843,11 +843,11 @@ static void _pascal MoveDers(void)  // 319 Bytes
  */
 
 /***********************************************************************
- *                  MSG_LAD_GAME_LOAD_INFO
+ *                  MSG_LAD_PLAY_LOAD_INFO
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Load the level info and show the loading screen.
- * CALLED BY:       MSG_LAD_PLAY or MSG_LAD_GAME_NEXT
+ * CALLED BY:       MSG_LAD_PLAY or MSG_LAD_PLAY_NEXT
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -863,7 +863,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_GAME_LOAD_INFO  // 153 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_LOAD_INFO  // 153 Bytes
 {
   // Set the value of the current round
   @send LadderLoadRound::MSG_VAL_SET_VALUE(g.game.round);
@@ -881,15 +881,15 @@ static void _pascal MoveDers(void)  // 319 Bytes
   // Show the loading screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderLoad);
   // Start the timer for the initialization of the round
-  @send oself::MSG_LAD_GAME_LOAD_DATA();
+  @send oself::MSG_LAD_PLAY_LOAD_DATA();
 }
 
 /***********************************************************************
- *                  MSG_LAD_GAME_LOAD_DATA
+ *                  MSG_LAD_PLAY_LOAD_DATA
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Load the level data.
- * CALLED BY:       MSG_LAD_GAME_LOAD_INFO
+ * CALLED BY:       MSG_LAD_PLAY_LOAD_INFO
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -903,7 +903,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_GAME_LOAD_DATA  // 183 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_LOAD_DATA  // 183 Bytes
 {
   // Lock the level headers
   MemLock(OptrToHandle(@GameLevels));
@@ -925,16 +925,16 @@ static void _pascal MoveDers(void)  // 319 Bytes
   // Set the value of the current bonus time
   @send LadderPlayTime::MSG_VAL_SET_VALUE(g.game.time);
   // Start the timer for the initialization of the round
-  g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_LOAD, MSG_LAD_GAME_INIT, 0, &g.timerId);
+  g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_LOAD, MSG_LAD_PLAY_INIT, 0, &g.timerId);
 }
 
 /***********************************************************************
- *                  MSG_LAD_GAME_INIT
+ *                  MSG_LAD_PLAY_INIT
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Initialize the round.
- * CALLED BY:       One shot timer from MSG_LAD_GAME_LOAD_DATA or
- *                  MSG_LAD_GAME_CLEAR
+ * CALLED BY:       One shot timer from MSG_LAD_PLAY_LOAD_DATA or
+ *                  MSG_LAD_PLAY_CLEAR
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -949,7 +949,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_GAME_INIT  // 193 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_INIT  // 193 Bytes
 {
   word i;
   // Initialize Lad
@@ -977,15 +977,15 @@ static void _pascal MoveDers(void)  // 319 Bytes
   // Show the play screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderPlay);
   // Do the get ready
-  @send oself::MSG_LAD_GAME_READY();
+  @send oself::MSG_LAD_PLAY_READY();
 }
 
 /***********************************************************************
- *                  MSG_LAD_GAME_READY
+ *                  MSG_LAD_PLAY_READY
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Show get ready message.
- * CALLED BY:       MSG_LAD_GAME_INIT
+ * CALLED BY:       MSG_LAD_PLAY_INIT
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -999,20 +999,20 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_GAME_READY  // 52 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_READY  // 52 Bytes
 {
   // Update the info line with the get ready text
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayReady);
   // Start the timer for end of get ready
-  g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_READY, MSG_LAD_GAME_START, 0, &g.timerId);
+  g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_READY, MSG_LAD_PLAY_START, 0, &g.timerId);
 }
 
 /***********************************************************************
- *                  MSG_LAD_GAME_START
+ *                  MSG_LAD_PLAY_START
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Clear info line and start the round execution.
- * CALLED BY:       One shot timer from MSG_LAD_GAME_READY or user by
+ * CALLED BY:       One shot timer from MSG_LAD_PLAY_READY or user by
  *                  pressing the key 'ENTER' when game is paused.
  * PARAMETERS:      void (  )
  * RETURN:          nothing
@@ -1027,22 +1027,22 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_GAME_START  // 59 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_START  // 59 Bytes
 {
   // Set the application state for the handling of key presses
-  g.appState = APP_I_EXEC;
+  g.appState = APP_I_PLAY;
   // Clear the text in the info line
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
   // Start the timer for the play
-  g.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.game.delay, MSG_LAD_GAME_EXEC, g.game.delay, &g.timerId);
+  g.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.game.delay, MSG_LAD_PLAY_EXEC, g.game.delay, &g.timerId);
 }
 
 /***********************************************************************
- *                  MSG_LAD_GAME_EXEC
+ *                  MSG_LAD_PLAY_EXEC
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Execute a frame of the round.
- * CALLED BY:       Continual timer from MSG_LAD_GAME_START
+ * CALLED BY:       Continual timer from MSG_LAD_PLAY_START
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -1058,7 +1058,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_GAME_EXEC  // 766 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_EXEC  // 766 Bytes
 {
   char f;
   word i, pnts, secs;
@@ -1090,10 +1090,10 @@ static void _pascal MoveDers(void)  // 319 Bytes
     *(g.levelPtr + g.lad.cpos) = LSD_C_SPACE;
     break;
   case LSD_C_EXIT:
-    msg = MSG_LAD_GAME_HOOKA;
+    msg = MSG_LAD_PLAY_HOOKA;
     break;
   case LSD_C_TRAP:
-    msg = MSG_LAD_GAME_FAIL;
+    msg = MSG_LAD_PLAY_FAIL;
     break;
   case LSD_C_BALL:
     if (g.lad.cjump == 0)
@@ -1129,13 +1129,13 @@ static void _pascal MoveDers(void)  // 319 Bytes
     // Handle collision of Lad and Der
     if (g.lad.cpos == g.ders[i].cpos)
     {
-      msg = MSG_LAD_GAME_FAIL;
+      msg = MSG_LAD_PLAY_FAIL;
     }
     if ((g.lad.cpos == g.ders[i].lpos) && (g.lad.lpos == g.ders[i].cpos))
     {
       g.ders[i].cpos = g.ders[i].lpos;
 //      g.lad.cpos = g.lad.lpos;
-      msg = MSG_LAD_GAME_FAIL;
+      msg = MSG_LAD_PLAY_FAIL;
     }
     // Add the Der and its last background to the actors
     f = *(g.levelPtr + g.ders[i].lpos);
@@ -1182,7 +1182,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
   // Check for bonus time exhausted
   if (g.game.time == 0)
   {
-    msg = MSG_LAD_GAME_FAIL;
+    msg = MSG_LAD_PLAY_FAIL;
   }
   // ::: HANDLE ROUND NEXT AND FAIL :::
   // Handle the result
@@ -1198,7 +1198,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
 }
 
 /***********************************************************************
- *                  MSG_LAD_GAME_WAIT
+ *                  MSG_LAD_PLAY_WAIT
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Pause the game.
@@ -1216,7 +1216,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_GAME_WAIT  // 35 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_WAIT  // 35 Bytes
 {
   // Set the application state for the handling of key presses
   g.appState = APP_I_WAIT;
@@ -1227,12 +1227,12 @@ static void _pascal MoveDers(void)  // 319 Bytes
 }
 
 /***********************************************************************
- *                  MSG_LAD_GAME_FAIL
+ *                  MSG_LAD_PLAY_FAIL
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        The Lad collided with a Der, touched a trap or run
  *                  out of bonus time.
- * CALLED BY:       MSG_LAD_GAME_EXEC
+ * CALLED BY:       MSG_LAD_PLAY_EXEC
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -1248,7 +1248,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_GAME_FAIL  // 71 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_FAIL  // 71 Bytes
 {
   // Decrease the Lads
   g.game.lads--;
@@ -1259,15 +1259,15 @@ static void _pascal MoveDers(void)  // 319 Bytes
   // Clear the actors
   @send LadderPlayActors::MSG_ACT_RESET();
   // Do the lad death
-  @send oself::MSG_LAD_GAME_DIES();
+  @send oself::MSG_LAD_PLAY_DIES();
 }
 
 /***********************************************************************
- *                  MSG_LAD_GAME_DIES
+ *                  MSG_LAD_PLAY_DIES
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        The Lad has died.
- * CALLED BY:       MSG_LAD_GAME_FAIL
+ * CALLED BY:       MSG_LAD_PLAY_FAIL
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -1282,7 +1282,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_GAME_DIES  // 135 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_DIES  // 135 Bytes
 {
   Message msg;
   // Check the Lad state
@@ -1304,7 +1304,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
   if (g.game.lads > 0)
   {
     // Clear the actors in the level
-    msg = MSG_LAD_GAME_CLEAR;
+    msg = MSG_LAD_PLAY_CLEAR;
   }
   else
   {
@@ -1315,11 +1315,11 @@ static void _pascal MoveDers(void)  // 319 Bytes
 }
 
 /***********************************************************************
- *                  MSG_LAD_GAME_CLEAR
+ *                  MSG_LAD_PLAY_CLEAR
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Reset and clear the actors.
- * CALLED BY:       MSG_LAD_GAME_DIES
+ * CALLED BY:       MSG_LAD_PLAY_DIES
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -1334,7 +1334,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_GAME_CLEAR  // 198 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_CLEAR  // 198 Bytes
 {
   char *p_level;
   word i;
@@ -1358,15 +1358,15 @@ static void _pascal MoveDers(void)  // 319 Bytes
   // Draw the background of the actors
   @send LadderPlayActors::MSG_ACT_DRAW();
   // Restart the level
-  @send oself::MSG_LAD_GAME_INIT();
+  @send oself::MSG_LAD_PLAY_INIT();
 }
 
 /***********************************************************************
- *                  MSG_LAD_GAME_HOOKA
+ *                  MSG_LAD_PLAY_HOOKA
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Handle bonus time.
- * CALLED BY:       MSG_LAD_GAME_EXEC or one shot timer from self
+ * CALLED BY:       MSG_LAD_PLAY_EXEC or one shot timer from self
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -1382,7 +1382,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_GAME_HOOKA  // 222 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_HOOKA  // 222 Bytes
 {
   optr o;
   // Do the hooka
@@ -1421,16 +1421,16 @@ static void _pascal MoveDers(void)  // 319 Bytes
   }
   else
   {
-    @send oself::MSG_LAD_GAME_NEXT();
+    @send oself::MSG_LAD_PLAY_NEXT();
   }
 }
 
 /***********************************************************************
- *                  MSG_LAD_GAME_NEXT
+ *                  MSG_LAD_PLAY_NEXT
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Prepare the next round.
- * CALLED BY:       MSG_LAD_GAME_HOOKA
+ * CALLED BY:       MSG_LAD_PLAY_HOOKA
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -1445,7 +1445,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_GAME_NEXT  // 57 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_NEXT  // 57 Bytes
 {
   // Increase the round
   g.game.round++;
@@ -1460,7 +1460,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
   else
   {
     // Start next level
-    @send oself::MSG_LAD_GAME_LOAD_INFO();
+    @send oself::MSG_LAD_PLAY_LOAD_INFO();
   }
 }
 
