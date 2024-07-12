@@ -525,7 +525,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Stop the stimulus
   StopTimer();
   // Set the application state for the handling of key presses
-  g.appState = APP_I_EXIT;
+  g.appState = APP_I_NONE;
   // Update the info line with the exit text
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(@MenuExit);
   // Start the timer for the exit
@@ -890,7 +890,7 @@ static word _pascal TicksByDifficulty(word diff)
 {
   Message msg;
   // Handle only key presses
-  if (!(flags & CF_RELEASE) && (g.appState != APP_I_NONE) && (g.appState != APP_I_EXIT))
+  if (!(flags & CF_RELEASE) && (g.appState != APP_I_NONE))
   {
     // Set the default message to nothing
     msg = NULL;
