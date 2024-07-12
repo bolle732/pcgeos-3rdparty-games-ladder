@@ -87,7 +87,7 @@
 #define TRI_S_OFF           2  // Tri state off
 
 // Delay
-#define DLY_T_IDLE        600  // Delay ticks for menu idle
+#define DLY_T_MENU        600  // Delay ticks for menu auto tasks
 #define DLY_T_READY        75  // Delay ticks for the get ready message
 #define DLY_T_HOOKA        15  // Delay ticks for the Hooka message
 #define DLY_T_DIES         10  // Delay ticks for the Lad dies
@@ -342,8 +342,8 @@ typedef struct                 // Global structure
   @message (MSG_LAD_PROTO) MSG_LAD_MENU_SOUND;
   @message (MSG_LAD_PROTO) MSG_LAD_MENU_DIFF;
   @message (MSG_LAD_PROTO) MSG_LAD_MENU_EXIT;
-  @message (MSG_LAD_PROTO) MSG_LAD_MENU_IDLE;
-  @message (MSG_LAD_PROTO) MSG_LAD_MENU_STIM_END;
+  @message (MSG_LAD_PROTO) MSG_LAD_MENU_AUTO;
+  @message (MSG_LAD_PROTO) MSG_LAD_MENU_STOP;
   @message (MSG_LAD_PROTO) MSG_LAD_HELP;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_LOAD_INFO;

@@ -428,7 +428,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Show the menu screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderMenu);
   // Start the stimulus
-  @send oself::MSG_LAD_MENU_IDLE();
+  @send oself::MSG_LAD_MENU_AUTO();
 }
 
 /***********************************************************************
@@ -461,7 +461,7 @@ static word _pascal TicksByDifficulty(word diff)
                             MSG_LAD_MENU_SOUND
 {
   // Stop the stimulus
-  @send process::MSG_LAD_MENU_STIM_END();
+  @send process::MSG_LAD_MENU_STOP();
   // Handle the message
   if (message == MSG_LAD_MENU_DIFF)
   {
@@ -494,7 +494,7 @@ static word _pascal TicksByDifficulty(word diff)
     }
   }
   // Start the stimulus
-  @send process::MSG_LAD_MENU_IDLE();
+  @send process::MSG_LAD_MENU_AUTO();
 }
 
 /***********************************************************************
@@ -532,10 +532,11 @@ static word _pascal TicksByDifficulty(word diff)
 }
 
 /***********************************************************************
- *                  MSG_LAD_MENU_IDLE
+ *                  MSG_LAD_MENU_AUTO
  *                  for LadderProcessClass
  ***********************************************************************
- * SYNOPSIS:        Show a random message in the info line.
+ * SYNOPSIS:        Show a random message in the info line or start the
+ *                  demo game.
  * CALLED BY:       Internal or by our self
  * PARAMETERS:      void (  )
  * RETURN:          nothing
@@ -553,7 +554,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_MENU_IDLE  // 131 Bytes
+@method LadderProcessClass, MSG_LAD_MENU_AUTO  // 131 Bytes
 {
   word d;
   optr o;
@@ -571,7 +572,7 @@ static word _pascal TicksByDifficulty(word diff)
     break;
   case TRI_S_NONE:
     // We are called the first time
-    d = DLY_T_IDLE;
+    d = DLY_T_MENU;
 //  break;
   default:  // TRI_S_NONE | TRI_S_OFF
     g.triState = TRI_S_ON;
@@ -583,7 +584,7 @@ static word _pascal TicksByDifficulty(word diff)
 }
 
 /***********************************************************************
- *                  MSG_LAD_MENU_STIM_END
+ *                  MSG_LAD_MENU_STOP
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Stop the stimuli.
@@ -602,7 +603,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_MENU_STIM_END  // 32 Bytes
+@method LadderProcessClass, MSG_LAD_MENU_STOP  // 32 Bytes
 {
   // Stop the stimulus timer
   StopTimer();
