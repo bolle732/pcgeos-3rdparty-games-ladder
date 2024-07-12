@@ -130,7 +130,7 @@ Globals g;
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-word _pascal Random(word max) // 24 Bytes
+word _pascal Random(word max)
 {
   // Calculate a random number
   FloatWordToFloat(max); // S1 = m
@@ -159,7 +159,7 @@ word _pascal Random(word max) // 24 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-static void _pascal PlayNoise(word noise)  // 73 Bytes
+static void _pascal PlayNoise(word noise)
 {
   MemHandle mh;
   if (g.game.sound == PLY_SND_ON)
@@ -193,7 +193,7 @@ static void _pascal PlayNoise(word noise)  // 73 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-static word _pascal LevelAndTimeReductionByRound(word round)  // 69 Bytes
+static word _pascal LevelAndTimeReductionByRound(word round)
 {
   word i, f, l, m, t;
   f = 0;
@@ -245,7 +245,7 @@ static word _pascal LevelAndTimeReductionByRound(word round)  // 69 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-static byte _pascal NewLadByScoreIncrease(word incr)  // 34 Bytes
+static byte _pascal NewLadByScoreIncrease(word incr)
 {
   sword l;
   l = (g.game.score % PNT_LAD) + incr - (PNT_LAD - 1);
@@ -289,7 +289,7 @@ static byte _pascal NewLadByScoreIncrease(word incr)  // 34 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-static byte _pascal CanMove(word cpos, word npos)  // 98 Bytes
+static byte _pascal CanMove(word cpos, word npos)
 {
   char t;
   sword d;
@@ -336,7 +336,7 @@ static byte _pascal CanMove(word cpos, word npos)  // 98 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-static byte _pascal CanStay(word pos)  // 50 Bytes
+static byte _pascal CanStay(word pos)
 {
   char t;
   // Get the target character
@@ -387,7 +387,7 @@ static byte _pascal CanStay(word pos)  // 50 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-static byte _pascal LadCanClimb(void)  // 51 Bytes
+static byte _pascal LadCanClimb(void)
 {
   char t;
   // Check for top row or not on ladder
@@ -426,7 +426,7 @@ static byte _pascal LadCanClimb(void)  // 51 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-static byte _pascal LadCanStartJump(void)  // 32 Bytes
+static byte _pascal LadCanStartJump(void)
 {
   // Check for rubber ball or not on ladder and Lad can stay
   if ((*(g.levelPtr + g.lad.cpos) == LSD_C_BALL) || (CanStay(g.lad.cpos) == L_TRUE))
@@ -467,7 +467,7 @@ static byte _pascal LadCanStartJump(void)  // 32 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-static byte _pascal DerCanChangeOver(word cpos, sbyte dir)  // 92 Bytes
+static byte _pascal DerCanChangeOver(word cpos, sbyte dir)
 {
   sword d;
   word npos;
@@ -506,7 +506,7 @@ static byte _pascal DerCanChangeOver(word cpos, sbyte dir)  // 92 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-static byte _pascal DerCanDescend(word cpos)  // 20 Bytes
+static byte _pascal DerCanDescend(word cpos)
 {
   // Check for ladder
   if (*(g.levelPtr + cpos + LVL_COLS) == LSD_C_LADDER)
@@ -580,7 +580,7 @@ static byte _pascal DerCanDescend(word cpos)  // 20 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-static void _pascal MoveLad(void)  // 427 Bytes
+static void _pascal MoveLad(void)
 {
   char face;
   sbyte cdir, ndir;
@@ -746,7 +746,7 @@ static void _pascal MoveLad(void)  // 427 Bytes
  *      boa     2011-01-21    Reworked logic and implemented temporaries
  *
  ***********************************************************************/
-static void _pascal MoveDers(void)  // 319 Bytes
+static void _pascal MoveDers(void)
 {
   sbyte dir;
   word i, cpos, npos;
@@ -863,7 +863,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_PLAY_LOAD_INFO  // 153 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_LOAD_INFO
 {
   // Set the value of the current round
   @send LadderLoadRound::MSG_VAL_SET_VALUE(g.game.round);
@@ -903,7 +903,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_DEMO_LOAD_DATA,  // 183 Bytes
+@extern method LadderProcessClass, MSG_LAD_DEMO_LOAD_DATA,
                                    MSG_LAD_PLAY_LOAD_DATA
 {
   // Lock the level headers
@@ -950,7 +950,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_DEMO_INIT,  // 193 Bytes
+@extern method LadderProcessClass, MSG_LAD_DEMO_INIT,
                                    MSG_LAD_PLAY_INIT
 {
   word i;
@@ -1001,7 +1001,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_PLAY_READY  // 52 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_READY
 {
   // Update the info line with the get ready text
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayReady);
@@ -1029,7 +1029,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_DEMO_START,  // 59 Bytes
+@extern method LadderProcessClass, MSG_LAD_DEMO_START,
                                    MSG_LAD_PLAY_START
 {
   // Set the application state for the handling of key presses
@@ -1061,7 +1061,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_DEMO_EXEC,  // 766 Bytes
+@extern method LadderProcessClass, MSG_LAD_DEMO_EXEC,
                                    MSG_LAD_PLAY_EXEC
 {
   char f;
@@ -1220,7 +1220,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_PLAY_WAIT  // 35 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_WAIT
 {
   // Set the application state for the handling of key presses
   g.appState = APP_I_WAIT;
@@ -1252,7 +1252,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_PLAY_FAIL  // 71 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_FAIL
 {
   // Decrease the Lads
   g.game.lads--;
@@ -1286,7 +1286,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_PLAY_DIES  // 135 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_DIES
 {
   Message msg;
   // Check the Lad state
@@ -1338,7 +1338,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_PLAY_CLEAR  // 198 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_CLEAR
 {
   char *p_level;
   word i;
@@ -1386,7 +1386,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_PLAY_HOOKA  // 222 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_HOOKA
 {
   optr o;
   // Do the hooka
@@ -1449,7 +1449,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_PLAY_NEXT  // 57 Bytes
+@extern method LadderProcessClass, MSG_LAD_PLAY_NEXT
 {
   // Increase the round
   g.game.round++;

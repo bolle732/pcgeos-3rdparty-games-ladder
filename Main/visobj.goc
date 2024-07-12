@@ -293,7 +293,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderScreenClass, MSG_META_CONTENT_VIEW_WIN_OPENED  // 97 Bytes
+@method LadderScreenClass, MSG_META_CONTENT_VIEW_WIN_OPENED
 {
   // Initialize the global GState
   g_gstateHandle = GrCreateState(viewWindow);
@@ -326,7 +326,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderScreenClass, MSG_META_CONTENT_VIEW_WIN_CLOSED  // 23 Bytes
+@method LadderScreenClass, MSG_META_CONTENT_VIEW_WIN_CLOSED
 {
   // Destroy the global GState
   DestroyGState();
@@ -355,7 +355,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderScreenClass, MSG_META_CONTENT_VIEW_CLOSING  // 20 Bytes
+@method LadderScreenClass, MSG_META_CONTENT_VIEW_CLOSING
 {
   // Destroy the global GState
   DestroyGState();
@@ -386,7 +386,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      bos     2024-06-28    Added chunk command
  *
  ***********************************************************************/
-@method LadderScreenClass, MSG_VIS_DRAW  // 302 Bytes
+@method LadderScreenClass, MSG_VIS_DRAW
 {
   byte i, cmd, len, *p_data;
   char c;
@@ -525,7 +525,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderTextClass, MSG_VIS_DRAW  // 84 Bytes
+@method LadderTextClass, MSG_VIS_DRAW
 {
   optr o;
   word l, p;
@@ -579,7 +579,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderTextClass, MSG_TXT_SET_TEXT,  // 71 Bytes
+@method LadderTextClass, MSG_TXT_SET_TEXT,
                          MSG_TXT_UPDATE_TEXT
 {
   // Set the new text
@@ -624,7 +624,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderValueClass, MSG_VIS_DRAW  // 22 Bytes
+@method LadderValueClass, MSG_VIS_DRAW
 {
   DrawValue(pself->VI_bounds.R_left, pself->LVI_value, pself->LVI_suffix);
 }
@@ -649,7 +649,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderValueClass, MSG_VAL_SET_VALUE,  // 79 Bytes
+@method LadderValueClass, MSG_VAL_SET_VALUE,
                           MSG_VAL_UPDATE_VALUE
 {
   // Set the new value
@@ -693,7 +693,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderRankClass, MSG_VIS_DRAW  // 78 Bytes
+@method LadderRankClass, MSG_VIS_DRAW
 {
   word i, pos;
   for (i = 0; i < RNKS; i++)
@@ -723,7 +723,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderRankClass, MSG_RNK_IS_NEW_RANK  // 28 Bytes
+@method LadderRankClass, MSG_RNK_IS_NEW_RANK
 {
   return (score > pself->LRI_file.ranks[RNKS - 1].score) ? L_TRUE : L_FALSE;
 }
@@ -752,7 +752,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderRankClass, MSG_RNK_LOAD  // 203 Bytes
+@method LadderRankClass, MSG_RNK_LOAD
 {
   // XXX: -> Move to MSG_VIS_OPEN / MSG_META_INITIALIZE ?!?
   word i, id;
@@ -828,7 +828,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderRankClass, MSG_RNK_SAVE_RANK  // 230 Bytes
+@method LadderRankClass, MSG_RNK_SAVE_RANK
 {
   word i, id, pos;
   FileHandle fh;
@@ -909,7 +909,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderLevelClass, MSG_VIS_DRAW  // 80 Bytes
+@method LadderLevelClass, MSG_VIS_DRAW
 {
   optr o;
   o = pself->LLI_buffer;
@@ -945,7 +945,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderLevelClass, MSG_LVL_LOAD_LEVEL  // 463 Bytes
+@method LadderLevelClass, MSG_LVL_LOAD_LEVEL
 {
   byte i, cmd, len, *p_data;
   char c, *p_buffer;
@@ -1074,7 +1074,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderActorsClass, MSG_VIS_DRAW  // 66 Bytes
+@method LadderActorsClass, MSG_VIS_DRAW
 {
   word i, pos;
   // Draw the actors
@@ -1104,7 +1104,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderActorsClass, MSG_ACT_DRAW  // 30 Bytes
+@method LadderActorsClass, MSG_ACT_DRAW
 {
   @send oself::MSG_VIS_DRAW(0, g_gstateHandle);
 }
@@ -1135,7 +1135,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************/
 #define ACT_ADD_NOT_FOUND 0
 #define ACT_ADD_FOUND 1
-@method LadderActorsClass, MSG_ACT_ADD  // 190 Bytes
+@method LadderActorsClass, MSG_ACT_ADD
 {
   word i, ce, le, pos;
   ce = ACT_ADD_NOT_FOUND;
@@ -1187,7 +1187,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderActorsClass, MSG_ACT_RESET  // 9 Bytes
+@method LadderActorsClass, MSG_ACT_RESET
 {
   // Reset the counter
   pself->LAI_count = 0;
@@ -1222,7 +1222,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderInputClass, MSG_VIS_DRAW  // 32 Bytes
+@method LadderInputClass, MSG_VIS_DRAW
 {
   // Draw the text
   DrawText(pself->VI_bounds.R_left, &pself->LII_text, pself->LII_pos);
@@ -1247,7 +1247,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderInputClass, MSG_INP_ADD_CHAR  // 59 Bytes
+@method LadderInputClass, MSG_INP_ADD_CHAR
 {
   word pos;
   pos = pself->LII_pos;
@@ -1287,7 +1287,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderInputClass, MSG_INP_DEL_CHAR,  // 84 Bytes
+@method LadderInputClass, MSG_INP_DEL_CHAR,
                           MSG_INP_RESET
 {
   word pos;
@@ -1336,7 +1336,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderInputClass, MSG_INP_GET_INPUT  // 28 Bytes
+@method LadderInputClass, MSG_INP_GET_INPUT
 {
   memcpy(buffer, &pself->LII_text, RNK_NAME_LEN);
 }

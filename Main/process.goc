@@ -260,7 +260,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_GEN_PROCESS_OPEN_APPLICATION  // 280 Bytes
+@method LadderProcessClass, MSG_GEN_PROCESS_OPEN_APPLICATION
 {
   static char buf[32] = "";
   char *name;
@@ -380,7 +380,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_GEN_PROCESS_CLOSE_APPLICATION  // 91 Bytes
+@method LadderProcessClass, MSG_GEN_PROCESS_CLOSE_APPLICATION
 {
   // Stop the current timer
   StopTimer();
@@ -417,7 +417,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_MENU  // 54 Bytes
+@method LadderProcessClass, MSG_LAD_MENU
 {
   // Set the application state for the handling of key presses
   g.appState = APP_I_MENU;
@@ -457,7 +457,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_MENU_DIFF,  // 120 Bytes
+@method LadderProcessClass, MSG_LAD_MENU_DIFF,
                             MSG_LAD_MENU_SOUND
 {
   // Stop the stimulus
@@ -519,7 +519,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_MENU_EXIT  // 57 Bytes
+@method LadderProcessClass, MSG_LAD_MENU_EXIT
 {
   // Stop the stimulus
   StopTimer();
@@ -554,7 +554,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_MENU_AUTO  // 131 Bytes
+@method LadderProcessClass, MSG_LAD_MENU_AUTO
 {
   word d;
   optr o;
@@ -603,7 +603,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_MENU_STOP  // 32 Bytes
+@method LadderProcessClass, MSG_LAD_MENU_STOP
 {
   // Stop the stimulus timer
   StopTimer();
@@ -633,7 +633,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_HELP  // 30 Bytes
+@method LadderProcessClass, MSG_LAD_HELP
 {
   // Stop the stimulus
   StopTimer();
@@ -666,7 +666,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_DEMO,  // 78 Bytes
+@method LadderProcessClass, MSG_LAD_DEMO,
                             MSG_LAD_PLAY
 {
   // Stop the stimulus
@@ -704,7 +704,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_DEMO_STOP,  // 46 Bytes
+@method LadderProcessClass, MSG_LAD_DEMO_STOP,
                             MSG_LAD_PLAY_STOP
 {
   // Stop the play timer
@@ -734,7 +734,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_PLAY_DONE  // 30 Bytes
+@method LadderProcessClass, MSG_LAD_PLAY_DONE
 {
   // Set the application state for the handling of key presses
   g.appState = APP_I_DONE;
@@ -763,7 +763,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_PLAY_OVER  // 30 Bytes
+@method LadderProcessClass, MSG_LAD_PLAY_OVER
 {
   // Set the application state for the handling of key presses
   g.appState = APP_I_OVER;
@@ -795,7 +795,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_PLAY_HIGH  // 132 Bytes
+@method LadderProcessClass, MSG_LAD_PLAY_HIGH
 {
   word i;
   // Set the application state for the handling of key presses
@@ -841,7 +841,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_PLAY_SAVE  // 104 Bytes
+@method LadderProcessClass, MSG_LAD_PLAY_SAVE
 {
   static char lhs[RNK_NAME_LEN];
   // Set the text of the info line
@@ -888,7 +888,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderApplicationClass, MSG_META_KBD_CHAR  // 491 Bytes
+@method LadderApplicationClass, MSG_META_KBD_CHAR
 {
   Message msg;
   // Handle only key presses
