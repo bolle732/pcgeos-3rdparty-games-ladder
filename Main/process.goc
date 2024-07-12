@@ -423,13 +423,12 @@ static word _pascal TicksByDifficulty(word diff)
   g.appState = APP_I_MENU;
   // Reset the tri state
   g.triState = TRI_S_NONE;
-  // XXX: -> Really needed ??? Or switch the last 2 ones.
   // Clear the text in the info line
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
   // Show the menu screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderMenu);
   // Start the stimulus
-  @send oself::MSG_LAD_MENU_STIM();
+  @send oself::MSG_LAD_MENU_IDLE();
 }
 
 /***********************************************************************
@@ -495,7 +494,7 @@ static word _pascal TicksByDifficulty(word diff)
     }
   }
   // Start the stimulus
-  @send process::MSG_LAD_MENU_STIM();
+  @send process::MSG_LAD_MENU_IDLE();
 }
 
 /***********************************************************************
@@ -533,7 +532,7 @@ static word _pascal TicksByDifficulty(word diff)
 }
 
 /***********************************************************************
- *                  MSG_LAD_MENU_STIM
+ *                  MSG_LAD_MENU_IDLE
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Show a random message in the info line.
@@ -554,7 +553,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_MENU_STIM  // 131 Bytes
+@method LadderProcessClass, MSG_LAD_MENU_IDLE  // 131 Bytes
 {
   word d;
   optr o;
@@ -572,7 +571,7 @@ static word _pascal TicksByDifficulty(word diff)
     break;
   case TRI_S_NONE:
     // We are called the first time
-    d = DLY_T_STIM;
+    d = DLY_T_IDLE;
 //  break;
   default:  // TRI_S_NONE | TRI_S_OFF
     g.triState = TRI_S_ON;
@@ -605,10 +604,10 @@ static word _pascal TicksByDifficulty(word diff)
  ***********************************************************************/
 @method LadderProcessClass, MSG_LAD_MENU_STIM_END  // 32 Bytes
 {
-  // Reset the stimulus state
-  g.triState = TRI_S_NONE;
   // Stop the stimulus timer
   StopTimer();
+  // Reset the stimulus state
+  g.triState = TRI_S_NONE;
   // Clear the text in the info line
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
 }
