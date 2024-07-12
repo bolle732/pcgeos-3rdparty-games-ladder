@@ -213,11 +213,11 @@ static word _pascal TicksByDifficulty(word diff)
 @classdecl LadderProcessClass, neverSaved;
 
 @extern method LadderProcessClass, MSG_LAD_PLAY_LOAD_INFO;
-@extern method LadderProcessClass, MSG_LAD_PLAY_LOAD_DATA;
-@extern method LadderProcessClass, MSG_LAD_PLAY_INIT;
+@extern method LadderProcessClass, MSG_LAD_DEMO_LOAD_DATA, MSG_LAD_PLAY_LOAD_DATA;
+@extern method LadderProcessClass, MSG_LAD_DEMO_INIT, MSG_LAD_PLAY_INIT;
 @extern method LadderProcessClass, MSG_LAD_PLAY_READY;
-@extern method LadderProcessClass, MSG_LAD_PLAY_START;
-@extern method LadderProcessClass, MSG_LAD_PLAY_EXEC;
+@extern method LadderProcessClass, MSG_LAD_DEMO_START, MSG_LAD_PLAY_START;
+@extern method LadderProcessClass, MSG_LAD_DEMO_EXEC, MSG_LAD_PLAY_EXEC;
 @extern method LadderProcessClass, MSG_LAD_PLAY_WAIT;
 @extern method LadderProcessClass, MSG_LAD_PLAY_FAIL;
 @extern method LadderProcessClass, MSG_LAD_PLAY_DIES;
@@ -666,7 +666,8 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_PLAY  // 78 Bytes
+@method LadderProcessClass, MSG_LAD_DEMO,  // 78 Bytes
+                            MSG_LAD_PLAY
 {
   // Stop the stimulus
   StopTimer();
@@ -683,7 +684,7 @@ static word _pascal TicksByDifficulty(word diff)
 }
 
 /***********************************************************************
- *                  MSG_LAD_PLAY_STOP
+ *                  MSG_LAD_DEMO_STOP, MSG_LAD_PLAY_STOP
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Abort a game.
@@ -703,7 +704,8 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_PLAY_STOP  // 46 Bytes
+@method LadderProcessClass, MSG_LAD_DEMO_STOP,  // 46 Bytes
+                            MSG_LAD_PLAY_STOP
 {
   // Stop the play timer
   StopTimer();

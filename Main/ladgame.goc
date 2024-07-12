@@ -885,7 +885,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
 }
 
 /***********************************************************************
- *                  MSG_LAD_PLAY_LOAD_DATA
+ *                  MSG_LAD_DEMO_LOAD_DATA, MSG_LAD_PLAY_LOAD_DATA
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Load the level data.
@@ -903,7 +903,8 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_PLAY_LOAD_DATA  // 183 Bytes
+@extern method LadderProcessClass, MSG_LAD_DEMO_LOAD_DATA,  // 183 Bytes
+                                   MSG_LAD_PLAY_LOAD_DATA
 {
   // Lock the level headers
   MemLock(OptrToHandle(@GameLevels));
@@ -929,7 +930,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
 }
 
 /***********************************************************************
- *                  MSG_LAD_PLAY_INIT
+ *                  MSG_LAD_DEMO_INIT, MSG_LAD_PLAY_INIT
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Initialize the round.
@@ -949,7 +950,8 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_PLAY_INIT  // 193 Bytes
+@extern method LadderProcessClass, MSG_LAD_DEMO_INIT,  // 193 Bytes
+                                   MSG_LAD_PLAY_INIT
 {
   word i;
   // Initialize Lad
@@ -1008,7 +1010,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
 }
 
 /***********************************************************************
- *                  MSG_LAD_PLAY_START
+ *                  MSG_LAD_DEMO_START, MSG_LAD_PLAY_START
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Clear info line and start the round execution.
@@ -1027,7 +1029,8 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_PLAY_START  // 59 Bytes
+@extern method LadderProcessClass, MSG_LAD_DEMO_START,  // 59 Bytes
+                                   MSG_LAD_PLAY_START
 {
   // Set the application state for the handling of key presses
   g.appState = APP_I_PLAY;
@@ -1038,7 +1041,7 @@ static void _pascal MoveDers(void)  // 319 Bytes
 }
 
 /***********************************************************************
- *                  MSG_LAD_PLAY_EXEC
+ *                  MSG_LAD_DEMO_EXEC, MSG_LAD_PLAY_EXEC
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Execute a frame of the round.
@@ -1058,7 +1061,8 @@ static void _pascal MoveDers(void)  // 319 Bytes
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_PLAY_EXEC  // 766 Bytes
+@extern method LadderProcessClass, MSG_LAD_DEMO_EXEC,  // 766 Bytes
+                                   MSG_LAD_PLAY_EXEC
 {
   char f;
   word i, pnts, secs;
