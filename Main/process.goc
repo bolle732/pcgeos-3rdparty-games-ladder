@@ -214,6 +214,7 @@ static word _pascal TicksByDifficulty(word diff)
 
 @extern method LadderProcessClass, MSG_LAD_DEMO_LOAD_HEAD, MSG_LAD_PLAY_LOAD_HEAD;
 @extern method LadderProcessClass, MSG_LAD_DEMO_LOAD_DATA, MSG_LAD_PLAY_LOAD_DATA;
+@extern method LadderProcessClass, MSG_LAD_PLAY_LOAD_SHOW;
 @extern method LadderProcessClass, MSG_LAD_DEMO_INIT, MSG_LAD_PLAY_INIT;
 @extern method LadderProcessClass, MSG_LAD_PLAY_READY;
 @extern method LadderProcessClass, MSG_LAD_DEMO_START, MSG_LAD_PLAY_START;
@@ -986,8 +987,8 @@ static word _pascal TicksByDifficulty(word diff)
         msg = MSG_LAD_MENU_SOUND;
         break;
       case C_SMALL_P:
-//        msg = MSG_LAD_PLAY;
-        msg = MSG_LAD_DEMO;
+        msg = MSG_LAD_PLAY;
+//        msg = MSG_LAD_DEMO;
         break;
       case C_SMALL_I:
         msg = MSG_LAD_HELP;
