@@ -1098,8 +1098,8 @@
 @start PLAY, data;
 
 // I8N_DE  "Drück beliebige Taste um die Demo abzubrechen:"
-@chunk char DemoInfo[] = "Type any key to abort the demo:";
-@localize { "The type any key to abort the demo text in the play screen" 3-77 };
+@chunk char DemoInfo[] = "Type ANY key to abort the demo:";
+@localize { "The type ANY key to abort the demo text in the play screen" 3-77 };
 
 
 // I8N_DE

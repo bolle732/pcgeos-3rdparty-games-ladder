@@ -212,7 +212,7 @@ static word _pascal TicksByDifficulty(word diff)
 
 @classdecl LadderProcessClass, neverSaved;
 
-@extern method LadderProcessClass, MSG_LAD_PLAY_LOAD_INFO;
+@extern method LadderProcessClass, MSG_LAD_DEMO_LOAD_INFO, MSG_LAD_PLAY_LOAD_INFO;
 @extern method LadderProcessClass, MSG_LAD_DEMO_LOAD_DATA, MSG_LAD_PLAY_LOAD_DATA;
 @extern method LadderProcessClass, MSG_LAD_DEMO_INIT, MSG_LAD_PLAY_INIT;
 @extern method LadderProcessClass, MSG_LAD_PLAY_READY;
@@ -686,8 +686,8 @@ static word _pascal TicksByDifficulty(word diff)
   switch (message)
   {
   case MSG_LAD_DEMO:
-    // Skipping load screen, directly load data
-    @send oself::MSG_LAD_DEMO_LOAD_DATA();
+    // Start the demo level
+    @send oself::MSG_LAD_DEMO_LOAD_INFO();
     break;
   case MSG_LAD_PLAY:
     // Start the first level

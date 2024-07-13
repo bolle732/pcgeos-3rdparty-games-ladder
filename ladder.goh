@@ -346,6 +346,7 @@ typedef struct                 // Global structure
   @message (MSG_LAD_PROTO) MSG_LAD_MENU_STOP;
   @message (MSG_LAD_PROTO) MSG_LAD_HELP;
   @message (MSG_LAD_PROTO) MSG_LAD_DEMO;
+  @message (MSG_LAD_PROTO) MSG_LAD_DEMO_LOAD_INFO;
   @message (MSG_LAD_PROTO) MSG_LAD_DEMO_LOAD_DATA;
   @message (MSG_LAD_PROTO) MSG_LAD_DEMO_INIT;
   @message (MSG_LAD_PROTO) MSG_LAD_DEMO_START;
