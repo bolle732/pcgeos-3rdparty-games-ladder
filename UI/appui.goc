@@ -203,18 +203,18 @@
   LVI_value = 1;
 }
 
-// Play
-@object LadderScreenClass LadderPlay = {
+// Game
+@object LadderScreenClass LadderGame = {
   VCI_comp =
-    @LadderPlayLevel, @LadderPlayActors,
-    @LadderPlayLads, @LadderPlayRound,
-    @LadderPlayScore, @LadderPlayTime,
+    @LadderGameLevel, @LadderGameActors,
+    @LadderGameLads, @LadderGameRound,
+    @LadderGameScore, @LadderGameTime,
     @LadderInfo;
-  LSI_screen = @ScreenPlay;
-  LSI_chunks = @ScreenPlayStrings;
+  LSI_screen = @ScreenGame;
+  LSI_chunks = @ScreenGameStrings;
 }
 
-@object LadderLevelClass LadderPlayLevel = {
+@object LadderLevelClass LadderGameLevel = {
   VI_bounds = {
     0, 0,
     SCN_COLS * FNT_WIDTH, LVL_ROWS * FNT_HEIGHT
@@ -222,7 +222,7 @@
   LLI_buffer = @GameLevelBuffer;
 }
 
-@object LadderActorsClass LadderPlayActors = {
+@object LadderActorsClass LadderGameActors = {
   VI_bounds = {
     0, 0,
     SCN_COLS * FNT_WIDTH, LVL_ROWS * FNT_HEIGHT
@@ -236,7 +236,7 @@
 */
 }
 
-@object LadderValueClass LadderPlayLads = {
+@object LadderValueClass LadderGameLads = {
   VI_bounds = {
     5 + SCN_COLS * 20, 0,
     3, 0
@@ -244,7 +244,7 @@
   LVI_value = LAD_D_LIVES;
 }
 
-@object LadderValueClass LadderPlayRound = {
+@object LadderValueClass LadderGameRound = {
   VI_bounds = {
     20 + SCN_COLS * 20, 0,
     2 * FNT_WIDTH, 0
@@ -252,7 +252,7 @@
   LVI_value = 1;
 }
 
-@object LadderValueClass LadderPlayScore = {
+@object LadderValueClass LadderGameScore = {
   VI_bounds = {
     36 + SCN_COLS * 20, 0,
     4, 0
@@ -261,7 +261,7 @@
   LVI_suffix = TRUE;
 }
 
-@object LadderValueClass LadderPlayTime = {
+@object LadderValueClass LadderGameTime = {
   VI_bounds = {
     71 + SCN_COLS * 20, 0,
     2, 0
@@ -1163,20 +1163,20 @@
 @localize { "The bonus time label in the play screen" 3-10 };
 
 // Lookup table for translatable strings in Ladder play screen
-@chunkArray optr ScreenPlayStrings =
+@chunkArray optr ScreenGameStrings =
 {
   @PlayLads, @PlayRound, @PlayScore, @PlayBonusTime
 };
 
-@chunk byte ScreenPlay[] = {
+@chunk byte ScreenGame[] = {
   TSPOS(20, 5),
-  TSD_T_CHNK | TSD_A_RIGHT, 0, // ScreenPlayStrings[0] / Text "Lads"
+  TSD_T_CHNK | TSD_A_RIGHT, 0, // ScreenGameStrings[0] / Text "Lads"
   TSPOS(20, 20),
-  TSD_T_CHNK | TSD_A_RIGHT, 1, // ScreenPlayStrings[1] / Text "Round"
+  TSD_T_CHNK | TSD_A_RIGHT, 1, // ScreenGameStrings[1] / Text "Round"
   TSPOS(20, 35),
-  TSD_T_CHNK | TSD_A_RIGHT, 2, // ScreenPlayStrings[2] / Text "Score"
+  TSD_T_CHNK | TSD_A_RIGHT, 2, // ScreenGameStrings[2] / Text "Score"
   TSPOS(20, 73),
-  TSD_T_CHNK | TSD_A_RIGHT, 3, // ScreenPlayStrings[3] / Text "Bonus time"
+  TSD_T_CHNK | TSD_A_RIGHT, 3, // ScreenGameStrings[3] / Text "Bonus time"
 };
 
 // I8N_DE  "Bereitmachen!"

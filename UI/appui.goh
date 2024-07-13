@@ -55,13 +55,13 @@
 @extern object LadderLoadRound;
 @extern object LadderLoadLevel;
 @extern object LadderLoadName;
-@extern object LadderPlay;
-@extern object LadderPlayLevel;
-@extern object LadderPlayActors;
-@extern object LadderPlayLads;
-@extern object LadderPlayRound;
-@extern object LadderPlayScore;
-@extern object LadderPlayTime;
+@extern object LadderGame;
+@extern object LadderGameLevel;
+@extern object LadderGameActors;
+@extern object LadderGameLads;
+@extern object LadderGameRound;
+@extern object LadderGameScore;
+@extern object LadderGameTime;
 @extern object LadderDone;
 @extern object LadderOver;
 @extern object LadderHigh;
@@ -107,7 +107,7 @@
 // RESOURCE Game
 @extern chunk ScreenLoad;
 
-@extern chunk ScreenPlay;
+@extern chunk ScreenGame;
 @extern chunk DemoInfo;
 @extern chunk PlayReady;
 @extern chunk PlayHooka;
