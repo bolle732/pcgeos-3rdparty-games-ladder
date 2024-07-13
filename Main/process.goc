@@ -212,7 +212,7 @@ static word _pascal TicksByDifficulty(word diff)
 
 @classdecl LadderProcessClass, neverSaved;
 
-@extern method LadderProcessClass, MSG_LAD_DEMO_LOAD_INFO, MSG_LAD_PLAY_LOAD_INFO;
+@extern method LadderProcessClass, MSG_LAD_DEMO_LOAD_HEAD, MSG_LAD_PLAY_LOAD_HEAD;
 @extern method LadderProcessClass, MSG_LAD_DEMO_LOAD_DATA, MSG_LAD_PLAY_LOAD_DATA;
 @extern method LadderProcessClass, MSG_LAD_DEMO_INIT, MSG_LAD_PLAY_INIT;
 @extern method LadderProcessClass, MSG_LAD_PLAY_READY;
@@ -462,9 +462,10 @@ static word _pascal TicksByDifficulty(word diff)
 {
   // Stop the stimulus
   @send process::MSG_LAD_MENU_STOP();
-  // Handle the message
-  if (message == MSG_LAD_MENU_DIFF)
+  // Handle message type
+  switch (message)
   {
+  case MSG_LAD_MENU_DIFF:
     // Increase the difficulty
     g.game.diff++;
     // On overflow set it to the minimum
@@ -474,9 +475,8 @@ static word _pascal TicksByDifficulty(word diff)
     }
     // Update the value on screen
     @send LadderMenuDiff::MSG_VAL_UPDATE_VALUE(g.game.diff);
-  }
-  else  // MSG_LAD_MENU_SOUND
-  {
+    break;
+  case MSG_LAD_MENU_SOUND:
     // Switch the sound state
     if (g.game.sound == PLY_SND_OFF)
     {
@@ -492,6 +492,7 @@ static word _pascal TicksByDifficulty(word diff)
       // Update the text on screen
       @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@MenuSoundOff);
     }
+//  break;
   }
   // Start the stimulus
   @send process::MSG_LAD_MENU_AUTO();
@@ -687,11 +688,11 @@ static word _pascal TicksByDifficulty(word diff)
   {
   case MSG_LAD_DEMO:
     // Start the demo level
-    @send oself::MSG_LAD_DEMO_LOAD_INFO();
+    @send oself::MSG_LAD_DEMO_LOAD_HEAD();
     break;
   case MSG_LAD_PLAY:
     // Start the first level
-    @send oself::MSG_LAD_PLAY_LOAD_INFO();
+    @send oself::MSG_LAD_PLAY_LOAD_HEAD();
 //  break;
   }
 }
@@ -985,7 +986,8 @@ static word _pascal TicksByDifficulty(word diff)
         msg = MSG_LAD_MENU_SOUND;
         break;
       case C_SMALL_P:
-        msg = MSG_LAD_PLAY;
+//        msg = MSG_LAD_PLAY;
+        msg = MSG_LAD_DEMO;
         break;
       case C_SMALL_I:
         msg = MSG_LAD_HELP;

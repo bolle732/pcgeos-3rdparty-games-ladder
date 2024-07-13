@@ -843,11 +843,60 @@ static void _pascal MoveDers(void)
  */
 
 /***********************************************************************
- *                  MSG_LAD_DEMO_LOAD_INFO, MSG_LAD_PLAY_LOAD_INFO
+ *                  MSG_LAD_DEMO_LOAD_HEAD, MSG_LAD_PLAY_LOAD_HEAD
  *                  for LadderProcessClass
  ***********************************************************************
- * SYNOPSIS:        Load the level info and show the loading screen.
- * CALLED BY:       MSG_LAD_PLAY or MSG_LAD_PLAY_NEXT
+ * SYNOPSIS:        Load the level header and show the loading screen
+ *                  or load the level data.
+ * CALLED BY:       MSG_LAD_DEMO_LOAD_HEAD:
+ *                    From MSG_LAD_DEMO
+ *                  MSG_LAD_PLAY_LOAD_HEAD
+ *                    From MSG_LAD_PLAY or MSG_LAD_PLAY_NEXT
+ * PARAMETERS:      void (  )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ Load the level header.
+ *                  2/ Cntinue with loading screen or load level data
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-07-13    Initial Revision
+ *
+ ***********************************************************************/
+@extern method LadderProcessClass, MSG_LAD_DEMO_LOAD_HEAD,
+                                   MSG_LAD_PLAY_LOAD_HEAD
+{
+  // Lock the level headers
+  MemLock(OptrToHandle(@GameLevels));
+  // Get the level header
+  ChunkArrayGetElement(@GameLevels, g.game.level - 1, &g.level);
+  // Unlock the level headers
+  MemUnlock(OptrToHandle(@GameLevels));
+  // Handle message type
+  switch (message)
+  {
+  case MSG_LAD_DEMO_LOAD_HEAD:
+    // Load the level data
+    @send oself::MSG_LAD_DEMO_LOAD_DATA();
+    break;
+  case MSG_LAD_PLAY_LOAD_HEAD:
+    // Show the loading screen
+    @send oself::MSG_LAD_PLAY_LOAD_SHOW();
+//  break;
+  }
+}
+
+/***********************************************************************
+ *                  MSG_LAD_PLAY_LOAD_SHOW
+ *                  for LadderProcessClass
+ ***********************************************************************
+ * SYNOPSIS:        Load the level header and show the loading screen.
+ * CALLED BY:       MSG_LAD_DEMO_LOAD_HEAD:
+ *                    From MSG_LAD_DEMO
+ *                  MSG_LAD_PLAY_LOAD_HEAD
+ *                    From MSG_LAD_PLAY or MSG_LAD_PLAY_NEXT
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -863,34 +912,22 @@ static void _pascal MoveDers(void)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_DEMO_LOAD_INFO,
-                                   MSG_LAD_PLAY_LOAD_INFO
+@extern method LadderProcessClass, MSG_LAD_PLAY_LOAD_SHOW
 {
+  // Set the value of the current round
+  @send LadderLoadRound::MSG_VAL_SET_VALUE(g.game.round);
+  // Set the value of the current level
+  @send LadderLoadLevel::MSG_VAL_SET_VALUE(g.game.level);
   // Lock the level headers
   MemLock(OptrToHandle(@GameLevels));
-  // Get the level header
-  ChunkArrayGetElement(@GameLevels, g.game.level - 1, &g.level);
-  //
-  if (message == MSG_LAD_PLAY_LOAD_INFO)
-  {
-    // Set the text of the level name
-    @call LadderLoadName::MSG_TXT_SET_TEXT(ConstructOptr(OptrToHandle(@GameLevels), g.level.name));
-    // Set the value of the current round
-    @send LadderLoadRound::MSG_VAL_SET_VALUE(g.game.round);
-    // Set the value of the current level
-    @send LadderLoadLevel::MSG_VAL_SET_VALUE(g.game.level);
-    // Show the loading screen
-    @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderLoad);
-    // Start the timer for the initialization of the round
-    @send oself::MSG_LAD_PLAY_LOAD_DATA();
-  }
-  else
-  {
-    // Start the timer for the initialization of the round
-    @send oself::MSG_LAD_DEMO_LOAD_DATA();
-  }
+  // Set the text of the level name
+  @call LadderLoadName::MSG_TXT_SET_TEXT(ConstructOptr(OptrToHandle(@GameLevels), g.level.name));
   // Unlock the level headers
   MemUnlock(OptrToHandle(@GameLevels));
+  // Show the loading screen
+  @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderLoad);
+  // Load the level data
+  @send oself::MSG_LAD_PLAY_LOAD_DATA();
 }
 
 /***********************************************************************
@@ -899,9 +936,9 @@ static void _pascal MoveDers(void)
  ***********************************************************************
  * SYNOPSIS:        Load the level data.
  * CALLED BY:       MSG_LAD_DEMO_LOAD_DATA:
- *                    From MSG_LAD_DEMO_LOAD_INFO
+ *                    From MSG_LAD_DEMO_LOAD_HEAD
  *                  MSG_LAD_PLAY_LOAD_DATA:
- *                    From MSG_LAD_PLAY_LOAD_INFO
+ *                    From MSG_LAD_PLAY_LOAD_HEAD
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -1525,7 +1562,7 @@ static void _pascal MoveDers(void)
   else
   {
     // Start next level
-    @send oself::MSG_LAD_PLAY_LOAD_INFO();
+    @send oself::MSG_LAD_PLAY_LOAD_HEAD();
   }
 }
 
