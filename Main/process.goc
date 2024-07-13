@@ -545,7 +545,8 @@ static word _pascal TicksByDifficulty(word diff)
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ Depending on the global state, show a random
- *                     message in the info line or clear it.
+ *                     message in the info line, clear it or start
+ *                     the demo.
  *                     When called the first time, we wait a longer
  *                     time.
  *                  2/ Use a timer to call our self.
@@ -563,7 +564,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Check for not first time and demo time
   if (g.ctlState != 0 && (g.ctlState % 8 == 0))
   {
-    // Reset next control state
+    // Reset control state
     g.ctlState = 0;
     // Run the demo
     @send oself::MSG_LAD_DEMO();
@@ -571,10 +572,10 @@ static word _pascal TicksByDifficulty(word diff)
   // Handle stimuli
   else
   {
-    // Set emtpy text
-    o = NullOptr;
     // Set default delay
     d = DLY_T_MENU;
+    // Set emtpy text
+    o = NullOptr;
     // Check for not first time
     if (g.ctlState != 0)
     {
