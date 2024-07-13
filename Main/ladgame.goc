@@ -1504,15 +1504,16 @@ static void _pascal MoveDers(void)
     @send LadderGameTime::MSG_VAL_UPDATE_VALUE(g.game.time);
     // Clear the info line
     o = NullOptr;
-    if (g.triState == TRI_S_OFF)
+    // Update state
+    if (g.ctlState == TRI_S_OFF)
     {
-      g.triState = TRI_S_ON;
+      g.ctlState = TRI_S_ON;
       // Update the info line with the hooka text
       o = @PlayHooka;
     }
     else
     {
-      g.triState = TRI_S_OFF;
+      g.ctlState = TRI_S_OFF;
     }
     // Update the status line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(o);

@@ -317,8 +317,8 @@ typedef struct                 // Actor data
 
 typedef struct                 // Global structure
 {
-  byte appState;               //   1B+1 - Current application state
-  byte triState;               //   1B+1 - Tri state
+  byte appState;               //   1B+1 - Application state (key handling)
+  word ctlState;               //   2B+0 - Control state
   TimerHandle timerHandle;     //   2B+0 - Timer handle
   word timerId;                //   2B+0 - Timer id
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle

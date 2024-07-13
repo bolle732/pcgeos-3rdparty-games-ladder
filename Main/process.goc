@@ -410,7 +410,7 @@ static word _pascal TicksByDifficulty(word diff)
  * STRATEGY:        1/ Set the global states.
  *                  2/ Clear the info line.
  *                  3/ Set the content.
- *                  4/ Start the stimuli.
+ *                  4/ Disarm the stimuli or demo.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
@@ -423,12 +423,12 @@ static word _pascal TicksByDifficulty(word diff)
   // Set the application state for the handling of key presses
   g.appState = APP_I_MENU;
   // Reset the tri state
-  g.triState = TRI_S_NONE;
+  g.ctlState = TRI_S_NONE;
   // Clear the text in the info line
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
   // Show the menu screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderMenu);
-  // Start the stimulus
+  // Disarm the stimuli or demo
   @send oself::MSG_LAD_MENU_AUTO();
 }
 
@@ -442,7 +442,7 @@ static word _pascal TicksByDifficulty(word diff)
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
- * STRATEGY:        1/ Stop the stimuli.
+ * STRATEGY:        1/ Stop the stimuli or demo.
  *                  2/ (a) MSG_LAD_MENU_DIFF:
  *                         Increase the difficulty. If we are over the
  *                         maximum difficulty, set it to the minimum.
@@ -450,7 +450,7 @@ static word _pascal TicksByDifficulty(word diff)
  *                  3/ (b) MSG_LAD_MENU_SOUND:
  *                         Enable or disable the sound.
  *                         Update the screen.
- *                  4/ Start the stimuli.
+ *                  4/ Disarm the stimuli or demo.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
@@ -461,7 +461,7 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderProcessClass, MSG_LAD_MENU_DIFF,
                             MSG_LAD_MENU_SOUND
 {
-  // Stop the stimulus
+  // Stop the stimuli od demo
   @send process::MSG_LAD_MENU_STOP();
   // Handle message type
   switch (message)
@@ -495,7 +495,7 @@ static word _pascal TicksByDifficulty(word diff)
     }
 //  break;
   }
-  // Start the stimulus
+  // Disarm the stimuli or demo
   @send process::MSG_LAD_MENU_AUTO();
 }
 
@@ -523,7 +523,7 @@ static word _pascal TicksByDifficulty(word diff)
  ***********************************************************************/
 @method LadderProcessClass, MSG_LAD_MENU_EXIT
 {
-  // Stop the stimulus
+  // Stop the timer
   StopTimer();
   // Set the application state for the handling of key presses
   g.appState = APP_I_NONE;
@@ -560,43 +560,54 @@ static word _pascal TicksByDifficulty(word diff)
 {
   word d;
   optr o;
-  // Calculate the default delay
-  d = 151 + Random(113);
-  // Set the default text of the info line
-  o = NullOptr;
-  switch (g.triState)
+  // Check for not first time and demo time
+  if (g.ctlState != 0 && (g.ctlState % 8 == 0))
   {
-  case TRI_S_ON:
-    // Set the tri state
-    g.triState = TRI_S_OFF;
-    // Set the text of the stimulus
-    o = LST[Random(STMS)];
-    break;
-  case TRI_S_NONE:
-    // We are called the first time
-    d = DLY_T_MENU;
-//  break;
-  default:  // TRI_S_NONE | TRI_S_OFF
-    g.triState = TRI_S_ON;
-//  break;
+    // Reset next control state
+    g.ctlState = 0;
+    // Run the demo
+    @send oself::MSG_LAD_DEMO();
   }
-  @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(o);
-  // Start the timer for the stimulus
-  g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, d, message, 0, &g.timerId);
+  // Handle stimuli
+  else
+  {
+    // Set emtpy text
+    o = NullOptr;
+    // Set default delay
+    d = DLY_T_MENU;
+    // Check for not first time
+    if (g.ctlState != 0)
+    {
+      // Calculate the delay
+      d = 151 + Random(113);
+      // Check show time
+      if (g.ctlState % 2 == 0)
+      {
+        // Set the text of the stimuli
+        o = LST[Random(STMS)];
+      }
+    }
+    // Increase control state
+    g.ctlState++;
+    // Set the text in the info line
+    @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(o);
+    // Start the timer
+    g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, d, message, 0, &g.timerId);
+  }
 }
 
 /***********************************************************************
  *                  MSG_LAD_MENU_STOP
  *                  for LadderProcessClass
  ***********************************************************************
- * SYNOPSIS:        Stop the stimuli.
+ * SYNOPSIS:        Stop the stimuli or demo.
  * CALLED BY:       Internal
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
- * STRATEGY:        1/ Set the global state.
- *                  2/ Stop any potentially running timer.
+ * STRATEGY:        1/ Stop any potentially running timer.
+ *                  2/ Reset the control state.
  *                  3/ Clear the info line.
  *
  * REVISION HISTORY:
@@ -607,10 +618,10 @@ static word _pascal TicksByDifficulty(word diff)
  ***********************************************************************/
 @method LadderProcessClass, MSG_LAD_MENU_STOP
 {
-  // Stop the stimulus timer
+  // Stop the timer
   StopTimer();
-  // Reset the stimulus state
-  g.triState = TRI_S_NONE;
+  // Reset the control state
+  g.ctlState = TRI_S_NONE;
   // Clear the text in the info line
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
 }
@@ -637,7 +648,7 @@ static word _pascal TicksByDifficulty(word diff)
  ***********************************************************************/
 @method LadderProcessClass, MSG_LAD_HELP
 {
-  // Stop the stimulus
+  // Stop the timer
   StopTimer();
   // Set the application state for the handling of key presses
   g.appState = APP_I_HELP;
@@ -661,7 +672,7 @@ static word _pascal TicksByDifficulty(word diff)
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ Stop any potentially running timer.
- *                  2/ Set the application state.
+ *                  2/ Reset the application state.
  *                  3/ Initialize the global variabels.
  *                  4/ Start loading the level info.
  *
@@ -674,9 +685,9 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderProcessClass, MSG_LAD_DEMO,
                             MSG_LAD_PLAY
 {
-  // Stop the stimulus
+  // Stop the timer
   StopTimer();
-  // Set the appplication state for the handling of key presses
+  // Reset the appplication state for the handling of key presses
   g.appState = APP_I_NONE;
   // Initialize the game
   g.game.lads = LAD_D_LIVES;
@@ -988,7 +999,6 @@ static word _pascal TicksByDifficulty(word diff)
         break;
       case C_SMALL_P:
         msg = MSG_LAD_PLAY;
-//        msg = MSG_LAD_DEMO;
         break;
       case C_SMALL_I:
         msg = MSG_LAD_HELP;
