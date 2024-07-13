@@ -682,8 +682,18 @@ static word _pascal TicksByDifficulty(word diff)
   g.game.level = 1; // 1, 2, 3, 4, 5, 6, 7
   g.game.score = PNT_TIME;
   g.game.delay = TicksByDifficulty(g.game.diff);
-  // Start the first level
-  @send oself::MSG_LAD_PLAY_LOAD_INFO();
+  // Handle message type
+  switch (message)
+  {
+  case MSG_LAD_DEMO:
+    // Skipping load screen, directly load data
+    @send oself::MSG_LAD_DEMO_LOAD_DATA();
+    break;
+  case MSG_LAD_PLAY:
+    // Start the first level
+    @send oself::MSG_LAD_PLAY_LOAD_INFO();
+//  break;
+  }
 }
 
 /***********************************************************************
@@ -716,8 +726,12 @@ static word _pascal TicksByDifficulty(word diff)
 {
   // Stop the play timer
   StopTimer();
-  // Update last score
-  @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.game.score);
+  // Handle message type
+  if (message == MSG_LAD_PLAY_STOP)
+  {
+    // Update last score
+    @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.game.score);
+  }
   // Show main menu
   @send oself::MSG_LAD_MENU();
 }
@@ -918,6 +932,10 @@ static word _pascal TicksByDifficulty(word diff)
     // Handle the keys according the application states
     switch (g.appState)
     {
+    case APP_I_DEMO:
+      // Handle the key press
+      msg = MSG_LAD_DEMO_STOP;
+      break;
     case APP_I_PLAY:
       // Handle the key press
       switch (character)

@@ -928,8 +928,18 @@ static void _pascal MoveDers(void)
   g.game.time = g.level.time;
   // Set the value of the current bonus time
   @send LadderPlayTime::MSG_VAL_SET_VALUE(g.game.time);
-  // Start the timer for the initialization of the round
-  g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_LOAD, MSG_LAD_PLAY_INIT, 0, &g.timerId);
+  // Handle message type
+  switch (message)
+  {
+  case MSG_LAD_DEMO_LOAD_DATA:
+    // Start the timer for the initialization of the round
+    g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_LOAD, MSG_LAD_DEMO_INIT, 0, &g.timerId);
+    break;
+  case MSG_LAD_PLAY_LOAD_DATA:
+    // Start the timer for the initialization of the round
+    g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_LOAD, MSG_LAD_PLAY_INIT, 0, &g.timerId);
+//  break;
+  }
 }
 
 /***********************************************************************
@@ -984,8 +994,18 @@ static void _pascal MoveDers(void)
   @send LadderPlayActors::MSG_ACT_ADD(POS_NONE, 0, g.lad.cpos, g.lad.face);
   // Show the play screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderPlay);
-  // Do the get ready
-  @send oself::MSG_LAD_PLAY_READY();
+  // Handle message type
+  switch (message)
+  {
+  case MSG_LAD_DEMO_INIT:
+    // Skip get ready, directly start the demo
+    @send oself::MSG_LAD_DEMO_START();
+    break;
+  case MSG_LAD_PLAY_INIT:
+    // Do the get ready
+    @send oself::MSG_LAD_PLAY_READY();
+//  break;
+  }
 }
 
 /***********************************************************************
@@ -1041,12 +1061,24 @@ static void _pascal MoveDers(void)
 @extern method LadderProcessClass, MSG_LAD_DEMO_START,
                                    MSG_LAD_PLAY_START
 {
-  // Set the application state for the handling of key presses
-  g.appState = APP_I_PLAY;
   // Clear the text in the info line
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
-  // Start the timer for the play
-  g.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.game.delay, MSG_LAD_PLAY_EXEC, g.game.delay, &g.timerId);
+  // Handle message type
+  switch (message)
+  {
+  case MSG_LAD_DEMO_START:
+    // Set the application state for the handling of key presses
+    g.appState = APP_I_DEMO;
+    // Start the timer for the demo
+    g.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.game.delay, MSG_LAD_DEMO_EXEC, g.game.delay, &g.timerId);
+    break;
+  case MSG_LAD_PLAY_START:
+    // Set the application state for the handling of key presses
+    g.appState = APP_I_PLAY;
+    // Start the timer for the play
+    g.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.game.delay, MSG_LAD_PLAY_EXEC, g.game.delay, &g.timerId);
+//  break;
+  }
 }
 
 /***********************************************************************
@@ -1208,6 +1240,12 @@ static void _pascal MoveDers(void)
     StopTimer();
     // Set the application state for the handling of key presses
     g.appState = APP_I_NONE;
+    // Handle demo mode
+    if (message == MSG_LAD_DEMO_EXEC)
+    {
+      // Stop the demo in all cases
+      msg = MSG_LAD_DEMO_STOP;
+    }
     // Send the message
     @send process:: {MSG_LAD_PROTO} msg();
   }

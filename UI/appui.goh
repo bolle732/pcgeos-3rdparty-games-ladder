@@ -108,6 +108,7 @@
 @extern chunk ScreenLoad;
 
 @extern chunk ScreenPlay;
+@extern chunk DemoInfo;
 @extern chunk PlayReady;
 @extern chunk PlayHooka;
 @extern chunk PlayContinue;
