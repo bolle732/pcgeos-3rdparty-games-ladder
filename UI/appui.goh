@@ -104,7 +104,7 @@
 @extern chunk HighSave;
 
 
-// RESOURCE Play
+// RESOURCE Game
 @extern chunk ScreenLoad;
 
 @extern chunk ScreenPlay;
