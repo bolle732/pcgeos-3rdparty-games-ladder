@@ -95,8 +95,8 @@
 #define DLY_T_LOAD        150  // Delay ticks for the level load message
 #define DLY_T_SAVE         75  // Delay ticks for the high score save message
 
-// Stimuli
-#define STMS                4  // Number of stimuli
+// Joke
+#define JOKS                4  // Number of jokes
 
 // Compliment
 #define CMPS                7  // Number of compliments

@@ -76,10 +76,10 @@
 @extern chunk MenuSoundOn;
 @extern chunk MenuVersion;
 @extern chunk MenuTerminal;
-@extern chunk MenuStimulation1;
-@extern chunk MenuStimulation2;
-@extern chunk MenuStimulation3;
-@extern chunk MenuStimulation4;
+@extern chunk MenuJoke1;
+@extern chunk MenuJoke2;
+@extern chunk MenuJoke3;
+@extern chunk MenuJoke4;
 @extern chunk MenuExit;
 
 @extern chunk ScreenHelp;

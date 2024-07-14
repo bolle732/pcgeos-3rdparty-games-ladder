@@ -575,17 +575,17 @@
 @localize { "The sound on text" 1-14 };
 
 // I8N_DE  "Du isst Quiche!"
-@chunk char MenuStimulation1[] = "You eat quiche!";
-@localize { "The 1st stimulation spell" 3-77 };
+@chunk char MenuJoke1[] = "You eat quiche!";
+@localize { "The 1st joke" 3-77 };
 // I8N_DE  "Komm schon, wir haben nicht den ganzen Tag!"
-@chunk char MenuStimulation2[] = "Come on, we don\'t have all day!";
-@localize { "The 2nd stimulation spell" 3-77 };
+@chunk char MenuJoke2[] = "Come on, we don\'t have all day!";
+@localize { "The 2nd joke" 3-77 };
 // I8N_DE  "Fangen wir an!"
-@chunk char MenuStimulation3[] = "Let\'s go!";
-@localize { "The 3rd stimulation spell" 3-77 };
+@chunk char MenuJoke3[] = "Let\'s go!";
+@localize { "The 3rd joke" 3-77 };
 // I8N_DE  "Warte nicht auf GEOS32, spiel mit mir!"
-@chunk char MenuStimulation4[] = "Don\'t wait for GEOS32, play with me!";
-@localize { "The 4th stimulation spell" 3-77 };
+@chunk char MenuJoke4[] = "Don\'t wait for GEOS32, play with me!";
+@localize { "The 4th joke" 3-77 };
 
 // I8N_DE  "Beende..."
 @chunk char MenuExit[] = "Exiting...";

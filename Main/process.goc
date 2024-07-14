@@ -80,10 +80,10 @@ static char IKL[] = INI_KEY_LAST;
 static char ICU[] = INI_CAT_UI;
 static char IKP[] = INI_KEY_PRODUCT;
 
-// Lookup table for stimulis
-static optr LST[STMS] =
+// Lookup table for jokes
+static optr LJK[JOKS] =
 {
-  @MenuStimulation1, @MenuStimulation2, @MenuStimulation3, @MenuStimulation4
+  @MenuJoke1, @MenuJoke2, @MenuJoke3, @MenuJoke4
 };
 // Lookup table for score of compliments
 static word LHS[CMPS] =
@@ -410,7 +410,7 @@ static word _pascal TicksByDifficulty(word diff)
  * STRATEGY:        1/ Set the global states.
  *                  2/ Clear the info line.
  *                  3/ Set the content.
- *                  4/ Disarm the stimuli or demo.
+ *                  4/ Disarm the jokes or demo.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
@@ -428,7 +428,7 @@ static word _pascal TicksByDifficulty(word diff)
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
   // Show the menu screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderMenu);
-  // Disarm the stimuli or demo
+  // Disarm the jokes or demo
   @send oself::MSG_LAD_MENU_AUTO();
 }
 
@@ -442,7 +442,7 @@ static word _pascal TicksByDifficulty(word diff)
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
- * STRATEGY:        1/ Stop the stimuli or demo.
+ * STRATEGY:        1/ Stop the jokes or demo.
  *                  2/ (a) MSG_LAD_MENU_DIFF:
  *                         Increase the difficulty. If we are over the
  *                         maximum difficulty, set it to the minimum.
@@ -450,7 +450,7 @@ static word _pascal TicksByDifficulty(word diff)
  *                  3/ (b) MSG_LAD_MENU_SOUND:
  *                         Enable or disable the sound.
  *                         Update the screen.
- *                  4/ Disarm the stimuli or demo.
+ *                  4/ Disarm the jokes or demo.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
@@ -461,7 +461,7 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderProcessClass, MSG_LAD_MENU_DIFF,
                             MSG_LAD_MENU_SOUND
 {
-  // Stop the stimuli od demo
+  // Stop the jokes od demo
   @send process::MSG_LAD_MENU_STOP();
   // Handle message type
   switch (message)
@@ -495,7 +495,7 @@ static word _pascal TicksByDifficulty(word diff)
     }
 //  break;
   }
-  // Disarm the stimuli or demo
+  // Disarm the jokes or demo
   @send process::MSG_LAD_MENU_AUTO();
 }
 
@@ -569,7 +569,7 @@ static word _pascal TicksByDifficulty(word diff)
     // Run the demo
     @send oself::MSG_LAD_DEMO();
   }
-  // Handle stimuli
+  // Handle joke
   else
   {
     // Set default delay
@@ -584,8 +584,8 @@ static word _pascal TicksByDifficulty(word diff)
       // Check show time
       if (g.ctlState % 2 == 0)
       {
-        // Set the text of the stimuli
-        o = LST[Random(STMS)];
+        // Set the text of the joke
+        o = LJK[Random(JOKS)];
       }
     }
     // Increase control state
@@ -601,7 +601,7 @@ static word _pascal TicksByDifficulty(word diff)
  *                  MSG_LAD_MENU_STOP
  *                  for LadderProcessClass
  ***********************************************************************
- * SYNOPSIS:        Stop the stimuli or demo.
+ * SYNOPSIS:        Stop the jokes or demo.
  * CALLED BY:       Internal
  * PARAMETERS:      void (  )
  * RETURN:          nothing
