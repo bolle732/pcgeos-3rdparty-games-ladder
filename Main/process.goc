@@ -934,6 +934,7 @@ static word _pascal TicksByDifficulty(word diff)
     // Handle escape key if not in menu
     if ((character == 0xFF1B) && (g.appState != APP_I_MENU))
     {
+/*
       if (g.appState == APP_I_HELP)
       {
         msg = MSG_LAD_MENU;
@@ -942,14 +943,27 @@ static word _pascal TicksByDifficulty(word diff)
       {
         msg = MSG_LAD_PLAY_STOP;
       }
+*/
+      switch (g.appState)
+      {
+      case APP_I_HELP:
+        // Return to menu
+        msg = MSG_LAD_MENU;
+        break;
+      case APP_I_DEMO:
+        // Stop demo
+        msg = MSG_LAD_DEMO_STOP;
+        break;
+      default:
+        // Stop play
+        msg = MSG_LAD_PLAY_STOP;
+      }
+
+
     }
     // Handle the keys according the application states
     switch (g.appState)
     {
-    case APP_I_DEMO:
-      // Handle the key press
-      msg = MSG_LAD_DEMO_STOP;
-      break;
     case APP_I_PLAY:
       // Handle the key press
       switch (character)
