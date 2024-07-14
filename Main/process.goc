@@ -422,8 +422,8 @@ static word _pascal TicksByDifficulty(word diff)
 {
   // Set the application state for the handling of key presses
   g.appState = APP_I_MENU;
-  // Reset the tri state
-  g.ctlState = TRI_S_NONE;
+  // Reset the control state
+  g.ctlState = 0;
   // Clear the text in the info line
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
   // Show the menu screen
