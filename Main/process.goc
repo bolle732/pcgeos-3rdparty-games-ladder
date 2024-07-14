@@ -622,7 +622,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Stop the timer
   StopTimer();
   // Reset the control state
-  g.ctlState = TRI_S_NONE;
+  g.ctlState = 0;
   // Clear the text in the info line
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
 }
