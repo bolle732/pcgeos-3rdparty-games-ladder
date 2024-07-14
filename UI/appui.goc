@@ -1941,6 +1941,23 @@
   LSD_T_LADDER + 10
 };
 
+
+
+
+// Demo moves of Level 1
+@chunk Move GameLevelMove1[] = {
+  { 1427, DIR_E, L_FALSE }, { 1462, DIR_E, L_TRUE }, { 1479, DIR_N, L_FALSE },
+  { 1163, DIR_W, L_FALSE }, { 1156, DIR_W, L_TRUE }, { 1134, DIR_W, L_TRUE },
+  { 1123, DIR_N, L_FALSE }, { 806, DIR_E, L_FALSE }, { 809, DIR_W, L_TRUE },
+  { 803, DIR_E, L_FALSE }, { 814, DIR_N, L_TRUE }, { 501, DIR_W, L_FALSE },
+  { 490, DIR_N, L_FALSE }, { 174, DIR_E, L_FALSE }, { 212, DIR_N, L_TRUE }
+};
+
+// TSPOS(10, 1)
+
+
+
+
 // This chunk is only a place holder. It will be resized during startup.
 @chunk char GameLevelBuffer[] = "";
 @localize not;

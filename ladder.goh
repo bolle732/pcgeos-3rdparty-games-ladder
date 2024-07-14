@@ -329,6 +329,13 @@ typedef struct                 // Global structure
   Lad lad;                     //  12B+0 - Lad data
 } Globals;                     // 114B+2 = 116 Bytes used
 
+typedef struct                 // Lad demo move
+{
+  word tpos;                   //   2B+0 - Trigger position
+  sbyte ndir;                  //   1B+0 - Next direction
+  byte njump;                  //   1B+0 - Start a new jump
+} Move;                        //   4B+0 = 4 Bytes used
+
 
 /*
  ***************************************************************************

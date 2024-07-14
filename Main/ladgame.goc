@@ -1044,6 +1044,8 @@ static void _pascal MoveDers(void)
   switch (message)
   {
   case MSG_LAD_DEMO_INIT:
+    // 
+    g.ctlState = 0;
     // Skip get ready, directly start the demo
     @send oself::MSG_LAD_DEMO_START();
     break;
@@ -1165,7 +1167,31 @@ static void _pascal MoveDers(void)
   pnts = 0;
   // Reset the actors
   @send LadderGameActors::MSG_ACT_RESET();
-  // Lock and dereference the level buffer
+  // Handle demo moves
+  if (message == MSG_LAD_DEMO_EXEC)
+  {
+    // Lock the demo moves
+    MemLock(OptrToHandle(@GameLevelMove1));
+    // Verify we don't read beyond
+    if (g.ctlState < (LMemGetChunkSize(@GameLevelMove1) / sizeof(Move)))
+    {
+      Move *move;
+      // Get the pointer of the demo moves
+      move = LMemDeref(@GameLevelMove1);
+      // Check if we are at the right position
+      if (g.lad.cpos == move[g.ctlState].tpos)
+      {
+        // Update Lad movement
+        g.lad.ndir = move[g.ctlState].ndir;
+        g.lad.njump = move[g.ctlState].njump;
+        // Point to the next move
+        g.ctlState++;
+      }
+    }
+    // Unlock the demo move
+    MemUnlock(OptrToHandle(@GameLevelMove1));
+  }
+  // Lock the level buffer
   MemLock(OptrToHandle(@GameLevelBuffer));
   // Get the pointer of the level buffer
   g.levelPtr = LMemDeref(@GameLevelBuffer);
