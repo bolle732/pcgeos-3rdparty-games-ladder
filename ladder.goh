@@ -247,6 +247,8 @@
  *                  TYPE DEFINITIONS
  ***************************************************************************
  */
+ 
+ // Alignment of struct members is always 16-bit
 
 typedef struct                 // Game data
 {
