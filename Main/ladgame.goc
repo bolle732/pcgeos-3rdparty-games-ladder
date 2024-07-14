@@ -1306,7 +1306,7 @@ static void _pascal MoveDers(void)
   {
     msg = MSG_LAD_PLAY_FAIL;
   }
-  // ::: HANDLE ROUND NEXT AND FAIL :::
+  // ::: HANDLE HOOKA, FAIL OR DEMO STOP :::
   // Handle the result
   if (msg != NULL)
   {
