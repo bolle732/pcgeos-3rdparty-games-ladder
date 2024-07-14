@@ -1346,10 +1346,10 @@ static void _pascal MoveDers(void)
  ***********************************************************************/
 @extern method LadderProcessClass, MSG_LAD_PLAY_WAIT
 {
-  // Set the application state for the handling of key presses
-  g.appState = APP_I_WAIT;
   // Stop the play timer
   StopTimer();
+  // Set the application state for the handling of key presses
+  g.appState = APP_I_WAIT;
   // Update the info line with the wait message
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayContinue);
 }

@@ -256,6 +256,7 @@ typedef struct                 // Game data
   word round;                  //   2B+0 - Round
   word level;                  //   2B+0 - Level
   word score;                  //   2B+0 - Score
+  word lastScore;              //   2B+0 - Last score
   word time;                   //   2B+0 - Remaining bonus time
   word ticks;                  //   2B+0 - Executed ticks
   word delay;                  //   2B+0 - Ticks per frame

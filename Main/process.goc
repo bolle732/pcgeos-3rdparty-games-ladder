@@ -337,14 +337,14 @@ static word _pascal TicksByDifficulty(word diff)
     }
   }
   // Get the last score from the INI file
-  if (InitFileReadInteger(&ICA, &IKL, &g.game.score))
+  if (InitFileReadInteger(&ICA, &IKL, &g.game.lastScore))
   {
-    g.game.score = 0;
+    g.game.lastScore = 0;
   }
   else
   {
     // Set the value
-    @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.game.score);
+    @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.game.lastScore);
   }
   // Load the scores from the file
   @send LadderMenuRank::MSG_RNK_LOAD();
@@ -390,7 +390,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Write the state to the INI file
   InitFileWriteInteger(&ICA, &IKS, (g.game.diff << 8) | (g.game.sound & 0x0F));
   // Write the last score to the INI file
-  InitFileWriteInteger(&ICA, &IKL, g.game.score);
+  InitFileWriteInteger(&ICA, &IKL, g.game.lastScore);
   // Do super
   @callsuper();
   // We do not have an extra state
@@ -740,11 +740,14 @@ static word _pascal TicksByDifficulty(word diff)
 {
   // Stop the play timer
   StopTimer();
+  // Set the application state for the handling of key presses
+  g.appState = APP_I_NONE;
   // Handle message type
   if (message == MSG_LAD_PLAY_STOP)
   {
     // Update last score
-    @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.game.score);
+    g.game.lastScore = g.game.score;
+    @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.game.lastScore);
   }
   // Show main menu
   @send oself::MSG_LAD_MENU();
