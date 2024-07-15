@@ -93,7 +93,7 @@
 
 @start INTERFACE;
 
-@object GenPrimaryClass LadderPrimary = {
+@object LadderPrimaryClass LadderPrimary = {
   GI_comp = @LadderView;
   ATTR_GEN_DISPLAY_NOT_MAXIMIZABLE;
   ATTR_GEN_HELP_CONTEXT = "TOC";

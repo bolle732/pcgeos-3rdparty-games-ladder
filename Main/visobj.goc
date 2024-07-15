@@ -260,6 +260,54 @@ static void _pascal DrawValue(word pos, word val, word suf)
 }
 
 
+
+
+
+
+
+
+/*
+ ***************************************************************************
+ *                  CODE for LadderPrimaryClass
+ ***************************************************************************
+ */
+
+@classdecl LadderPrimaryClass;
+
+@method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_MINIMIZED
+{
+  @send process::MSG_LAD_PLAY_WAIT();
+/*
+  switch (g.appState)
+  {
+  case APP_I_DEMO:
+    // Stop demo
+    @send process::MSG_LAD_DEMO_STOP();
+    break;
+  case APP_I_PLAY:
+    // Stop play
+    @send process::MSG_LAD_PLAY_WAIT();
+    break;
+  default:
+    break;
+  }
+*/
+  // Do super
+  @callsuper();
+}
+
+
+
+
+@method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_NOT_MINIMIZED
+{
+  // Do super
+  @callsuper();
+}
+
+
+
+
 /*
  ***************************************************************************
  *                  CODE for LadderScreenClass

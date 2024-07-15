@@ -56,6 +56,7 @@ resource GAME lmem
 resource TEXT lmem
 
 export LadderApplicationClass
+export LadderPrimaryClass
 
 export LadderScreenClass
 export LadderTextClass
