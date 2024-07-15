@@ -738,7 +738,7 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderProcessClass, MSG_LAD_DEMO_STOP,
                             MSG_LAD_PLAY_STOP
 {
-  // Stop the play timer
+  // Stop the game timer
   StopTimer();
   // Set the application state for the handling of key presses
   g.appState = APP_I_NONE;
@@ -950,6 +950,7 @@ static word _pascal TicksByDifficulty(word diff)
       default:
         // Stop play
         msg = MSG_LAD_PLAY_STOP;
+//      break;
       }
     }
     // Handle the keys according the application states
