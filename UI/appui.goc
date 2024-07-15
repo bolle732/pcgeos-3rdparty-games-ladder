@@ -1098,8 +1098,8 @@
 @start GAME, data;
 
 // I8N_DE  "Drück ESC um die Vorführung abzubrechen:"
-@chunk char DemoInfo[] = "Type ESC to abort the demontration:";
-@localize { "The type ESC to abort the demontration text in the play screen" 3-77 };
+@chunk char DemoInfo[] = "Type ESC to abort the demonstration:";
+@localize { "The type ESC to abort the demonstration text in the play screen" 3-77 };
 
 
 // I8N_DE
