@@ -1323,6 +1323,19 @@ static void _pascal MoveDers(void)
     // Send the message
     @send process:: {MSG_LAD_PROTO} msg();
   }
+  // Handle window minimize
+  else if (g.winState == WIN_S_MINI)
+  {
+    switch (message)
+    {
+    case MSG_LAD_DEMO_EXEC:
+      @send process::MSG_LAD_DEMO_STOP();
+      break;
+    case MSG_LAD_PLAY_EXEC:
+      @send process::MSG_LAD_PLAY_WAIT();
+//    break;
+    }
+  }
 }
 
 /***********************************************************************

@@ -225,6 +225,7 @@ static word _pascal TicksByDifficulty(word diff)
 @extern method LadderProcessClass, MSG_LAD_PLAY_CLEAR;
 @extern method LadderProcessClass, MSG_LAD_PLAY_HOOKA;
 @extern method LadderProcessClass, MSG_LAD_PLAY_NEXT;
+@extern method LadderProcessClass, MSG_LAD_WIN_MIN;
 
 
 /***********************************************************************
@@ -890,6 +891,47 @@ static word _pascal TicksByDifficulty(word diff)
   @call LadderMenuRank::MSG_RNK_SAVE_RANK(g.game.score, &lhs);
   // Start the timer to quit to main menu
   g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_SAVE, MSG_LAD_PLAY_STOP, 0, &g.timerId);
+}
+
+/***********************************************************************
+ *                  MSG_LAD_WIN_MIN
+ *                  for LadderProcessClass
+ ***********************************************************************
+ * SYNOPSIS:        Handle window minimized and notminimized.
+
+ * CALLED BY:       System with intercepted message of primary
+ *                  MSG_GEN_DISPLAY_SET_MINIMIZED and
+ *                  MSG_GEN_DISPLAY_SET_NOT_MINIMIZED.
+ * PARAMETERS:      void ( byte state )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ Update the global variable.
+ *                  2/ Start or stop the menu.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-07-15    Initial Revision
+ *
+ ***********************************************************************/
+@method LadderProcessClass, MSG_LAD_WIN_MIN
+{
+  // Global store the window minimized state
+  g.winState = state;
+  // 
+  if (g.appState == APP_I_MENU)
+  {
+    switch (state)
+    {
+    case WIN_S_NORM:
+      @send oself::MSG_LAD_MENU_AUTO();
+      break;
+    case WIN_S_MINI:
+      @send oself::MSG_LAD_MENU_STOP();
+//    break;
+    }
+  }
 }
 
 

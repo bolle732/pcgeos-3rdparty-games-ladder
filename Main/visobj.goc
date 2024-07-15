@@ -260,12 +260,6 @@ static void _pascal DrawValue(word pos, word val, word suf)
 }
 
 
-
-
-
-
-
-
 /*
  ***************************************************************************
  *                  CODE for LadderPrimaryClass
@@ -274,38 +268,61 @@ static void _pascal DrawValue(word pos, word val, word suf)
 
 @classdecl LadderPrimaryClass;
 
+/***********************************************************************
+ *                  MSG_GEN_DISPLAY_SET_MINIMIZED
+ *                  for LadderPrimaryClass
+ ***********************************************************************
+ * SYNOPSIS:        Intercept the message when the primary is minimized.
+ * CALLED BY:       Internal
+ * PARAMETERS:      void ( )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ Send a message to the process so the minimized
+ *                     state is stored in the global variable of it.
+ *                  2/ Call super for default actions.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-07-15    Initial Revision
+ *
+ ***********************************************************************/
 @method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_MINIMIZED
 {
-  @send process::MSG_LAD_PLAY_WAIT();
-/*
-  switch (g.appState)
-  {
-  case APP_I_DEMO:
-    // Stop demo
-    @send process::MSG_LAD_DEMO_STOP();
-    break;
-  case APP_I_PLAY:
-    // Stop play
-    @send process::MSG_LAD_PLAY_WAIT();
-    break;
-  default:
-    break;
-  }
-*/
+  // Inform process about window minimized
+  @send process::MSG_LAD_WIN_MIN(WIN_S_MINI);
   // Do super
   @callsuper();
 }
 
-
-
-
+/***********************************************************************
+ *                  MSG_GEN_DISPLAY_SET_NOT_MINIMIZED
+ *                  for LadderPrimaryClass
+ ***********************************************************************
+ * SYNOPSIS:        Intercept the message when the primary is minimized.
+ * CALLED BY:       Internal
+ * PARAMETERS:      void ( )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ Call super for default actions.
+ *                  2/ Send a message to the process so the not minimized
+ *                     state is stored in the global variable of it.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-07-15    Initial Revision
+ *
+ ***********************************************************************/
 @method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_NOT_MINIMIZED
 {
   // Do super
   @callsuper();
+  // Inform process about window not minimized
+  @send process::MSG_LAD_WIN_MIN(WIN_S_NORM);
 }
-
-
 
 
 /*

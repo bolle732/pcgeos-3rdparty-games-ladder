@@ -62,6 +62,10 @@
 #define APP_I_OVER          7  // Application input state over
 #define APP_I_HIGH          8  // Application input state high score
 
+// Window minimize state
+#define WIN_S_NORM          0  // Window state not minimized
+#define WIN_S_MINI          1  // Window state minimized
+
 // INI file entries
 #define INI_CAT_APP         APP_NAME  // Category in the GEOS.INI
 #define INI_KEY_STATE       "state"   // Key to save the state of difficulty and sound
@@ -322,6 +326,7 @@ typedef struct                 // Global structure
 {
   byte appState;               //   1B+1 - Application state (key handling)
   word ctlState;               //   2B+0 - Control counter / state
+  byte winState;               //   1B+1 - Window state (minimized handling)
   TimerHandle timerHandle;     //   2B+0 - Timer handle
   word timerId;                //   2B+0 - Timer id
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle
@@ -330,7 +335,7 @@ typedef struct                 // Global structure
   Level level;                 //  20B+0 - Level data
   Der ders[DERS_MAX];          //  48B+0 - Der data
   Lad lad;                     //  12B+0 - Lad data
-} Globals;                     // 114B+2 = 116 Bytes used
+} Globals;                     // 116B+2 = 116 Bytes used
 
 typedef struct                 // Lad demo move
 {
@@ -381,6 +386,7 @@ typedef struct                 // Lad demo move
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_OVER;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HIGH;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_SAVE;
+  @message void MSG_LAD_WIN_MIN(byte state);
 @endc
 
 
