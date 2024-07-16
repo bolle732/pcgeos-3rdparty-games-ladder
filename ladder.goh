@@ -62,9 +62,16 @@
 #define APP_I_OVER          7  // Application input state over
 #define APP_I_HIGH          8  // Application input state high score
 
-// Window minimize state
+// Window state
 #define WIN_S_NORM          0  // Window state not minimized
 #define WIN_S_MINI          1  // Window state minimized
+#define WIN_S_GAIN          2  // Window state gained focus
+#define WIN_S_LOST          3  // Window state lost focus
+
+// Window state masks
+#define WIN_M_MIN        0x01  // Window minimized mask
+#define WIN_M_FOC        0x02  // Window focus mask
+
 
 // INI file entries
 #define INI_CAT_APP         APP_NAME  // Category in the GEOS.INI
@@ -386,7 +393,7 @@ typedef struct                 // Lad demo move
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_OVER;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HIGH;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_SAVE;
-  @message void MSG_LAD_WIN_MIN(byte state);
+  @message void MSG_LAD_WIN_CHANGE(byte state);
 @endc
 
 

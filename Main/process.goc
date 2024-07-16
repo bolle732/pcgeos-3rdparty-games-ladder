@@ -225,7 +225,7 @@ static word _pascal TicksByDifficulty(word diff)
 @extern method LadderProcessClass, MSG_LAD_PLAY_CLEAR;
 @extern method LadderProcessClass, MSG_LAD_PLAY_HOOKA;
 @extern method LadderProcessClass, MSG_LAD_PLAY_NEXT;
-@extern method LadderProcessClass, MSG_LAD_WIN_MIN;
+@extern method LadderProcessClass, MSG_LAD_WIN_CHANGE;
 
 
 /***********************************************************************
@@ -894,20 +894,22 @@ static word _pascal TicksByDifficulty(word diff)
 }
 
 /***********************************************************************
- *                  MSG_LAD_WIN_MIN
+ *                  MSG_LAD_WIN_CHANGE
  *                  for LadderProcessClass
  ***********************************************************************
- * SYNOPSIS:        Handle window minimized and notminimized.
+ * SYNOPSIS:        Handle window changes minimized and focus.
 
- * CALLED BY:       System with intercepted message of primary
- *                  MSG_GEN_DISPLAY_SET_MINIMIZED and
- *                  MSG_GEN_DISPLAY_SET_NOT_MINIMIZED.
+ * CALLED BY:       Internal by intercepted messages:
+ *                  MSG_GEN_DISPLAY_SET_MINIMIZED
+ *                  MSG_GEN_DISPLAY_SET_NOT_MINIMIZED
+ *                  MSG_META_LOST_FOCUS_EXCL
+ *                  MSG_META_GAINED_FOCUS_EXCL
  * PARAMETERS:      void ( byte state )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ Update the global variable.
- *                  2/ Start or stop the menu.
+ *                  2/ Start or stop the menu if applicable.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
@@ -915,11 +917,25 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2024-07-15    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_WIN_MIN
+@method LadderProcessClass, MSG_LAD_WIN_CHANGE
 {
-  // Global store the window minimized state
-  g.winState = state;
-  // 
+  // Update the global window state
+  switch (state)
+  {
+  case WIN_S_NORM:
+    g.winState |= ~WIN_M_MIN;  // Unset bit 0
+    break;
+  case WIN_S_MINI:
+    g.winState |= WIN_M_MIN;  // Set bit 0
+    break;
+  case WIN_S_GAIN:
+    g.winState |= ~WIN_M_FOC;  // Unset bit 1
+    break;
+  case WIN_S_LOST:
+    g.winState |= WIN_M_FOC;  // Set bit 1
+//  break;
+  }
+  // Handle menu here
   if (g.appState == APP_I_MENU)
   {
     switch (state)
@@ -933,7 +949,6 @@ static word _pascal TicksByDifficulty(word diff)
     }
   }
 }
-
 
 /*
  ***************************************************************************
@@ -1113,6 +1128,24 @@ static word _pascal TicksByDifficulty(word diff)
   }
   // Not handled, put the key press upstream
   @send oself::MSG_META_FUP_KBD_CHAR(character, flags, state);
+}
+
+
+@method LadderApplicationClass, MSG_META_LOST_FOCUS_EXCL
+{
+  // Inform process about window lost focus
+//  @send process::MSG_LAD_WIN_CHANGE(WIN_S_LOST);
+  // Do super
+  @callsuper();
+}
+
+
+@method LadderApplicationClass, MSG_META_GAINED_FOCUS_EXCL
+{
+  // Inform process about window gained focus
+//  @send process::MSG_LAD_WIN_CHANGE(WIN_S_GAIN);
+  // Do super
+  @callsuper();
 }
 
 

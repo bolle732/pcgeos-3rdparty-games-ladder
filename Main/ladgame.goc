@@ -1324,7 +1324,7 @@ static void _pascal MoveDers(void)
     @send process:: {MSG_LAD_PROTO} msg();
   }
   // Handle window minimized
-  else if (g.winState == WIN_S_MINI)
+  else if (g.winState & WIN_M_MIN)
   {
     switch (message)
     {
@@ -1335,6 +1335,11 @@ static void _pascal MoveDers(void)
       @send process::MSG_LAD_PLAY_WAIT();
 //    break;
     }
+  }
+  // Handle window lost focus
+  else if ((g.winState & WIN_M_FOC) && (message == MSG_LAD_PLAY_EXEC))
+  {
+    @send process::MSG_LAD_PLAY_WAIT();
   }
 }
 
