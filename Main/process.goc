@@ -1130,7 +1130,28 @@ static word _pascal TicksByDifficulty(word diff)
   @send oself::MSG_META_FUP_KBD_CHAR(character, flags, state);
 }
 
+/***********************************************************************
+ *                  MSG_META_LOST_FOCUS_EXCL
 
+ *                  for LadderApplicationClass
+ ***********************************************************************
+ * SYNOPSIS:        Handle lost of focus of the application object.
+ * CALLED BY:       Internal
+ * PARAMETERS:      void ( )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    none
+ *
+
+ * STRATEGY:        1/ Send a message to the process that we lost the
+ *                     focus and save the state in a global variable.
+ *                  2/ Call super for default actions.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-07-16    Initial Revision
+ *
+ ***********************************************************************/
 @method LadderApplicationClass, MSG_META_LOST_FOCUS_EXCL
 {
   // Inform process about window lost focus
@@ -1139,7 +1160,26 @@ static word _pascal TicksByDifficulty(word diff)
   @callsuper();
 }
 
-
+/***********************************************************************
+ *                  MSG_META_GAINED_FOCUS_EXCL
+ *                  for LadderApplicationClass
+ ***********************************************************************
+ * SYNOPSIS:        Handle gain of focus of the application object.
+ * CALLED BY:       Internal
+ * PARAMETERS:      void ( )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ Send a message to the process that we gained the
+ *                     focus and save the state in a global variable.
+ *                  2/ Call super for default actions.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-07-16    Initial Revision
+ *
+ ***********************************************************************/
 @method LadderApplicationClass, MSG_META_GAINED_FOCUS_EXCL
 {
   // Inform process about window gained focus
