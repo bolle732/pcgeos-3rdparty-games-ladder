@@ -923,13 +923,13 @@ static word _pascal TicksByDifficulty(word diff)
   switch (state)
   {
   case WIN_S_NORM:
-    g.winState |= ~WIN_M_MIN;  // Unset bit 0
+    g.winState &= ~WIN_M_MIN;  // Clear bit 0
     break;
   case WIN_S_MINI:
     g.winState |= WIN_M_MIN;  // Set bit 0
     break;
   case WIN_S_GAIN:
-    g.winState |= ~WIN_M_FOC;  // Unset bit 1
+    g.winState &= ~WIN_M_FOC;  // Clear bit 1
     break;
   case WIN_S_LOST:
     g.winState |= WIN_M_FOC;  // Set bit 1
