@@ -483,7 +483,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
           a = *p_data & TSA_M;
           // Get the index of the chunk
           n++; p_data++;
-//          MemLock(OptrToHandle(o2));
+//        MemLock(OptrToHandle(o2));
           ChunkArrayGetElement(pself->LSI_chunks, *p_data, &o2);
           len = LMemGetChunkSize(o2);
           // Handle alignment
@@ -506,7 +506,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
           {
             pos--;  // XXX: Needs to be fixed
           }
-//          MemUnlock(OptrToHandle(o2));
+//        MemUnlock(OptrToHandle(o2));
         }
         continue;
       }
@@ -615,7 +615,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
     case TSD_A_RIGHT:
       p -= l - 1;
 //      p--;  // XXX: Needs to be fixed
-//      break;
+//    break;
     }
     // Draw the text
     DrawText(p, LMemDeref(o), l);
