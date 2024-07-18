@@ -485,7 +485,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
           n++; p_data++;
 //        MemLock(OptrToHandle(o2));
           ChunkArrayGetElement(pself->LSI_chunks, *p_data, &o2);
-          len = LMemGetChunkSize(o2) - 1;
+          len = strlen(LMemDeref(o2));
           // Handle alignment
           switch (a)
           {
@@ -596,7 +596,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
     // Lock and dereference the text
     MemLock(OptrToHandle(o));
     // Get the length of the text
-    l = LMemGetChunkSize(o) - 1;
+    l = strlen(LMemDeref(o));
     // Get position of text
     p = pself->VI_bounds.R_left;
     // Handle alignment
