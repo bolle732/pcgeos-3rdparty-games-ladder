@@ -153,7 +153,7 @@
     4, 0
   };
   LVI_value = 1;
-  LVI_suffix = TRUE;
+  LVI_suffix = L_TRUE;
 }
 
 @object LadderTextClass LadderMenuInfo = {
@@ -259,7 +259,7 @@
     4, 0
   };
   LVI_value = 1;
-  LVI_suffix = TRUE;
+  LVI_suffix = L_TRUE;
 }
 
 @object LadderValueClass LadderGameTime = {
@@ -268,7 +268,7 @@
     2, 0
   };
   LVI_value = 32;
-  LVI_suffix = TRUE;
+  LVI_suffix = L_TRUE;
 }
 
 // Game end

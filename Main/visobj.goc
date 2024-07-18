@@ -252,7 +252,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   static char ldv[5 + 2 + 1];
   word l;
   l = sprintf(&ldv, "%5u", val);
-  if (suf == TRUE)
+  if (suf == L_TRUE)
   {
     l += sprintf(ldv + l, "%s", "00");
   }
@@ -758,7 +758,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   for (i = 0; i < RNKS; i++)
   {
     pos = pself->VI_bounds.R_left + i * SCN_COLS;
-    DrawValue(pos, pself->LRI_file.ranks[i].score, TRUE);
+    DrawValue(pos, pself->LRI_file.ranks[i].score, L_TRUE);
     DrawText(pos + 9, &pself->LRI_file.ranks[i].name, RNK_NAME_LEN);
   }
 }
