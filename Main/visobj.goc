@@ -833,9 +833,9 @@ static void _pascal DrawValue(word pos, word val, word suf)
       // Write the rank default score
       pself->LRI_file.ranks[i].score = PNT_TIME;
       // Write the rank no name
-     MemLock(OptrToHandle(@HighNoName));
-     memcpy(&pself->LRI_file.ranks[i].name, LMemDeref(@HighNoName), LMemGetChunkSize(@HighNoName));
-     MemUnlock(OptrToHandle(@HighNoName));
+     MemLock(OptrToHandle(pself->LRI_noname));
+     memcpy(&pself->LRI_file.ranks[i].name, LMemDeref(pself->LRI_noname), LMemGetChunkSize(pself->LRI_noname));
+     MemUnlock(OptrToHandle(pself->LRI_noname));
     }
     // Create the file
     fh = FileCreate(&RFN, (FILE_ACCESS_RW | FILE_DENY_RW), FA_ARCHIVE);
@@ -978,7 +978,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
     // Lock and dereference the buffer
     MemLock(OptrToHandle(o));
     // Draw the text
-    DrawText(0, LMemDeref(o), LMemGetChunkSize(o) - 1);
+    DrawText(0, LMemDeref(o), LMemGetChunkSize(o));
     // Unlock the buffer
     MemUnlock(OptrToHandle(o));
   }

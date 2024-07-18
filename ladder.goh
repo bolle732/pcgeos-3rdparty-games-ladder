@@ -484,6 +484,7 @@ typedef struct                 // Lad demo move
   @default VI_geoAttrs = (@default)
     | VGA_NO_SIZE_HINTS
     | VGA_ONLY_RECALC_SIZE_WHEN_INVALID;
+  @instance optr LRI_noname = NullOptr;
   @instance RankFile LRI_file = 0;
   @message word MSG_RNK_IS_NEW_RANK(word score);
   @message void MSG_RNK_LOAD();

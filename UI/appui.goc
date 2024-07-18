@@ -144,6 +144,7 @@
     15 * SCN_COLS + 43, 0,
     0, 0
   };
+  LRI_noname = @HighNoName;
 }
 
 @object LadderValueClass LadderMenuLastScore = {
@@ -238,8 +239,8 @@
 
 @object LadderValueClass LadderGameLads = {
   VI_bounds = {
-    20 * SCN_COLS + 5, 0,
-    3, 0
+    20 * SCN_COLS + 3, 0,
+    2, 0
   };
   LVI_value = LAD_D_LIVES;
 }
@@ -247,14 +248,14 @@
 @object LadderValueClass LadderGameRound = {
   VI_bounds = {
     20 * SCN_COLS + 20, 0,
-    2 * FNT_WIDTH, 0
+    2, 0
   };
   LVI_value = 1;
 }
 
 @object LadderValueClass LadderGameScore = {
   VI_bounds = {
-    20 * SCN_COLS + 36, 0,
+    20 * SCN_COLS + 37, 0,
     4, 0
   };
   LVI_value = 1;
@@ -263,7 +264,7 @@
 
 @object LadderValueClass LadderGameTime = {
   VI_bounds = {
-    20 * SCN_COLS + 71, 0,
+    20 * SCN_COLS + 72, 0,
     2, 0
   };
   LVI_value = 32;
@@ -1169,13 +1170,13 @@
 };
 
 @chunk byte ScreenGame[] = {
-  TSPOS(20, 5),
-  TSD_T_CHNK | TSD_A_RIGHT, 0, // ScreenGameStrings[0] / Text "Lads"
+  TSPOS(20, 0),
+  TSD_T_CHNK, 0, // ScreenGameStrings[0] / Text "Lads"
   TSPOS(20, 20),
   TSD_T_CHNK | TSD_A_RIGHT, 1, // ScreenGameStrings[1] / Text "Round"
   TSPOS(20, 35),
   TSD_T_CHNK | TSD_A_RIGHT, 2, // ScreenGameStrings[2] / Text "Score"
-  TSPOS(20, 73),
+  TSPOS(20, 70),
   TSD_T_CHNK | TSD_A_RIGHT, 3, // ScreenGameStrings[3] / Text "Bonus time"
 };
 
