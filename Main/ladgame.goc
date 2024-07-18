@@ -847,10 +847,10 @@ static void _pascal MoveDers(void)
  ***********************************************************************
  * SYNOPSIS:        Load the level header and show the loading screen
  *                  or load the level data.
- * CALLED BY:       MSG_LAD_DEMO_LOAD_HEAD:
- *                    From MSG_LAD_DEMO
- *                  MSG_LAD_PLAY_LOAD_HEAD
- *                    From MSG_LAD_PLAY or MSG_LAD_PLAY_NEXT
+ * CALLED BY:       (a) MSG_LAD_DEMO_LOAD_HEAD:
+ *                      From MSG_LAD_DEMO
+ *                  (b) MSG_LAD_PLAY_LOAD_HEAD
+ *                      From MSG_LAD_PLAY or MSG_LAD_PLAY_NEXT
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -892,10 +892,10 @@ static void _pascal MoveDers(void)
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Load the level header and show the loading screen.
- * CALLED BY:       MSG_LAD_DEMO_LOAD_HEAD:
- *                    From MSG_LAD_DEMO
- *                  MSG_LAD_PLAY_LOAD_HEAD
- *                    From MSG_LAD_PLAY or MSG_LAD_PLAY_NEXT
+ * CALLED BY:       (a) MSG_LAD_DEMO_LOAD_HEAD:
+ *                      From MSG_LAD_DEMO
+ *                  (b) MSG_LAD_PLAY_LOAD_HEAD
+ *                      From MSG_LAD_PLAY or MSG_LAD_PLAY_NEXT
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -934,10 +934,10 @@ static void _pascal MoveDers(void)
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Load the level data.
- * CALLED BY:       MSG_LAD_DEMO_LOAD_DATA:
- *                    From MSG_LAD_DEMO_LOAD_HEAD
- *                  MSG_LAD_PLAY_LOAD_DATA:
- *                    From MSG_LAD_PLAY_LOAD_HEAD
+ * CALLED BY:       (a) MSG_LAD_DEMO_LOAD_DATA:
+ *                      From MSG_LAD_DEMO_LOAD_HEAD
+ *                  (b) MSG_LAD_PLAY_LOAD_DATA:
+ *                      From MSG_LAD_PLAY_LOAD_HEAD
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -992,11 +992,11 @@ static void _pascal MoveDers(void)
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Initialize the round.
- * CALLED BY:       MSG_LAD_DEMO_INIT:
- *                    From MSG_LAD_DEMO_LOAD_DATA
- *                  MSG_LAD_PLAY_INIT:
- *                    One shot timer from MSG_LAD_PLAY_LOAD_DATA or
- *                    MSG_LAD_PLAY_CLEAR
+ * CALLED BY:       (a) MSG_LAD_DEMO_INIT:
+ *                      From MSG_LAD_DEMO_LOAD_DATA
+ *                  (b) MSG_LAD_PLAY_INIT:
+ *                      One shot timer from MSG_LAD_PLAY_LOAD_DATA or
+ *                      MSG_LAD_PLAY_CLEAR
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -1087,11 +1087,11 @@ static void _pascal MoveDers(void)
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Clear info line and start the round execution.
- * CALLED BY:       MSG_LAD_DEMO_START:
- *                    From MSG_LAD_DEMO_INIT
- *                  MSG_LAD_PLAY_START:
- *                    One shot timer from MSG_LAD_PLAY_READY or user by
- *                    pressing the key 'ENTER' when game is paused.
+ * CALLED BY:       (a) MSG_LAD_DEMO_START:
+ *                      From MSG_LAD_DEMO_INIT
+ *                  (b) MSG_LAD_PLAY_START:
+ *                      One shot timer from MSG_LAD_PLAY_READY or user
+ *                      by pressing the key 'ENTER' when game is paused.
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -1135,10 +1135,10 @@ static void _pascal MoveDers(void)
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Execute a frame of the round.
- * CALLED BY:       MSG_LAD_DEMO_EXEC:
- *                    Continual timer from MSG_LAD_DEMO_START
- *                  MSG_LAD_PLAY_EXEC:
- *                    Continual timer from MSG_LAD_PLAY_START
+ * CALLED BY:       (a) MSG_LAD_DEMO_EXEC:
+ *                      Continual timer from MSG_LAD_DEMO_START
+ *                  (b) MSG_LAD_PLAY_EXEC:
+ *                      Continual timer from MSG_LAD_PLAY_START
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
