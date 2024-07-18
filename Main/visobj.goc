@@ -485,27 +485,22 @@ static void _pascal DrawValue(word pos, word val, word suf)
           n++; p_data++;
 //        MemLock(OptrToHandle(o2));
           ChunkArrayGetElement(pself->LSI_chunks, *p_data, &o2);
-          len = LMemGetChunkSize(o2);
+          len = LMemGetChunkSize(o2) - 1;
           // Handle alignment
           switch (a)
           {
           // Handle center alignment
           case TSD_A_CENTER:
-            pos -= len / 2;
+            pos -= len / 2 - 1;
             break;
           // Handle right alignment
           case TSD_A_RIGHT:
             pos -= len - 1;
-            pos--;  // XXX: Needs to be fixed
 //          break;
           }
           DrawText(pos, LMemDeref(o2), len);
           // Update position
           pos += len;
-          if (a == TSD_A_RIGHT)
-          {
-            pos--;  // XXX: Needs to be fixed
-          }
 //        MemUnlock(OptrToHandle(o2));
         }
         continue;
@@ -601,7 +596,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
     // Lock and dereference the text
     MemLock(OptrToHandle(o));
     // Get the length of the text
-    l = LMemGetChunkSize(o);
+    l = LMemGetChunkSize(o) - 1;
     // Get position of text
     p = pself->VI_bounds.R_left;
     // Handle alignment
@@ -609,12 +604,11 @@ static void _pascal DrawValue(word pos, word val, word suf)
     {
     // Handle center alignment
     case TSD_A_CENTER:
-      p -= l / 2;
+      p += (pself->VI_bounds.R_right - l) / 2 + 1;
       break;
     // Handle right alignment
     case TSD_A_RIGHT:
-      p -= l - 1;
-//      p--;  // XXX: Needs to be fixed
+      p += (pself->VI_bounds.R_right - l) + 1;
 //    break;
     }
     // Draw the text
@@ -984,7 +978,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
     // Lock and dereference the buffer
     MemLock(OptrToHandle(o));
     // Draw the text
-    DrawText(0, LMemDeref(o), LMemGetChunkSize(o));
+    DrawText(0, LMemDeref(o), LMemGetChunkSize(o) - 1);
     // Unlock the buffer
     MemUnlock(OptrToHandle(o));
   }

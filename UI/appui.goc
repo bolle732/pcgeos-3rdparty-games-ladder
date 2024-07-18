@@ -125,7 +125,7 @@
 
 @object LadderValueClass LadderMenuDiff = {
   VI_bounds = {
-    17 + SCN_COLS * 11, 0,
+     11 * SCN_COLS + 17, 0,
     1, 0
   };
   LVI_value = PLY_DIFF_MIN;
@@ -133,7 +133,7 @@
 
 @object LadderTextClass LadderMenuSound = {
   VI_bounds = {
-    21 + SCN_COLS * 12, 0,
+    12 * SCN_COLS + 21, 0,
     3, 0
   };
   LTI_text = @MenuSoundOff;
@@ -141,14 +141,14 @@
 
 @object LadderRankClass LadderMenuRank = {
   VI_bounds = {
-    43 + SCN_COLS * 15, 0,
+    15 * SCN_COLS + 43, 0,
     0, 0
   };
 }
 
 @object LadderValueClass LadderMenuLastScore = {
   VI_bounds = {
-    55 + SCN_COLS * 21, 0,
+    21 * SCN_COLS + 55, 0,
     4, 0
   };
   LVI_value = 1;
@@ -157,7 +157,7 @@
 
 @object LadderTextClass LadderMenuInfo = {
   VI_bounds = {
-    1 + SCN_COLS * (SCN_ROWS - 1), 0,
+    (SCN_ROWS - 1) * SCN_COLS + 1, 0,
     SCN_COLS - 2, 0
   };
 }
@@ -181,7 +181,7 @@
 
 @object LadderTextClass LadderLoadName = {
   VI_bounds = {
-    40 + SCN_COLS * 9, 0,
+    9 * SCN_COLS + SCN_MID_COL - 11, 0,
     22, 0
   };
   LTI_alignment = TSD_A_CENTER;
@@ -189,7 +189,7 @@
 
 @object LadderValueClass LadderLoadRound = {
   VI_bounds = {
-    42 + SCN_COLS * 12, 0,
+    12 * SCN_COLS + 42, 0,
     2, 0
   };
   LVI_value = 1;
@@ -197,7 +197,7 @@
 
 @object LadderValueClass LadderLoadLevel = {
   VI_bounds = {
-    42 + SCN_COLS * 13, 0,
+    13 * SCN_COLS + 42, 0,
     1, 0
   };
   LVI_value = 1;
@@ -238,7 +238,7 @@
 
 @object LadderValueClass LadderGameLads = {
   VI_bounds = {
-    5 + SCN_COLS * 20, 0,
+    20 * SCN_COLS + 5, 0,
     3, 0
   };
   LVI_value = LAD_D_LIVES;
@@ -246,7 +246,7 @@
 
 @object LadderValueClass LadderGameRound = {
   VI_bounds = {
-    20 + SCN_COLS * 20, 0,
+    20 * SCN_COLS + 20, 0,
     2 * FNT_WIDTH, 0
   };
   LVI_value = 1;
@@ -254,7 +254,7 @@
 
 @object LadderValueClass LadderGameScore = {
   VI_bounds = {
-    36 + SCN_COLS * 20, 0,
+    20 * SCN_COLS + 36, 0,
     4, 0
   };
   LVI_value = 1;
@@ -263,7 +263,7 @@
 
 @object LadderValueClass LadderGameTime = {
   VI_bounds = {
-    71 + SCN_COLS * 20, 0,
+    20 * SCN_COLS + 71, 0,
     2, 0
   };
   LVI_value = 32;
@@ -297,7 +297,7 @@
 
 @object LadderTextClass LadderHighCompliment = {
   VI_bounds = {
-    40 + SCN_COLS * 9, 0,
+    9 * SCN_COLS + 19, 0,
     40, 0
   };
   LTI_alignment = TSD_A_CENTER;
@@ -305,7 +305,7 @@
 
 @object LadderInputClass LadderHighName = {
   VI_bounds = {
-    25 + SCN_COLS * 12, 0,
+    12 * SCN_COLS + 25, 0,
     RNK_NAME_LEN, 0
   };
 }
@@ -501,13 +501,13 @@
   TSD_T_CHNK, 0, // ScreenMenuStrings[0] / Text "Original is (c) in 1982, 1983 Yahoo Software"
   TSPOS(9, 1),
   TSD_T_CHNK, 1, // ScreenMenuStrings[1] / Text "Adapted for PC/GEOS in 2011 by Andreas Bollhalder"
-  TSPOS(11, 40),
+  TSPOS(11, SCN_MID_COL),
   TSD_T_CHNK, 2, // ScreenMenuStrings[2] / Text "Version"
   TSPOS(11, 50),
   TSD_T_CHAR + 1, ':', // Text ":"
   TSPOS(11, 52),
   TSD_T_CHNK, 3, // ScreenMenuStrings[3] / Text "0.5 0-22"
-  TSPOS(12, 40),
+  TSPOS(12, SCN_MID_COL),
   TSD_T_CHNK, 4, // ScreenMenuStrings[4] / Text "Terminal"
   TSPOS(12, 50),
   TSD_T_CHAR + 1, ':', // Text ":"
@@ -545,24 +545,24 @@
   TSPOS(21, 1),
   TSD_T_CHNK, 13, // ScreenMenuStrings[13] / Text "Enter one of the above:"
   // Ranking list and last score
-  TSPOS(14, 40),
+  TSPOS(14, SCN_MID_COL),
   TSD_T_CHNK, 14, // ScreenMenuStrings[14] / Text "High Scores"
-  TSPOS(15, 40),
+  TSPOS(15, SCN_MID_COL),
   TSD_T_TEXT + 2,
     '1', ')',
-  TSPOS(16, 40),
+  TSPOS(16, SCN_MID_COL),
   TSD_T_TEXT + 2,
     '2', ')',
-  TSPOS(17, 40),
+  TSPOS(17, SCN_MID_COL),
   TSD_T_TEXT + 2,
     '3', ')',
-  TSPOS(18, 40),
+  TSPOS(18, SCN_MID_COL),
   TSD_T_TEXT + 2,
     '4', ')',
-  TSPOS(19, 40),
+  TSPOS(19, SCN_MID_COL),
   TSD_T_TEXT + 2,
     '5', ')',
-  TSPOS(21, 40),
+  TSPOS(21, SCN_MID_COL),
   TSD_T_CHNK, 15, // ScreenMenuStrings[15] / Text "Last Score:"
 };
 
@@ -1035,7 +1035,7 @@
 
 @chunk byte ScreenHigh[] = {
   // Title
-  TSPOS(6, 40),
+  TSPOS(6, SCN_MID_COL),
   TSD_T_CHNK | TSD_A_CENTER, 0, // ScreenHighStrings[0] / Text "YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO!"
   // Text
   TSPOS(12, 21),
@@ -1126,7 +1126,7 @@
 };
 
 @chunk byte ScreenLoad[] = {
-  TSPOS(6, 40),
+  TSPOS(6, SCN_MID_COL),
   TSD_T_CHNK | TSD_A_CENTER, 0, // ScreenLoadStrings[0] / Text ".:: LOADING LEVEL ::."
   TSPOS(9, 23),
   TSD_T_CHAR + 3, '<', // Text "<<<"
@@ -1140,7 +1140,7 @@
   TSD_T_CHNK, 2, // ScreenLoadStrings[2] / Text "Level:"
   TSPOS(13, 43),
   TSD_T_CHAR + 1, ':', // Text ":"
-  TSPOS(16, 40),
+  TSPOS(16, SCN_MID_COL),
   TSD_T_CHNK | TSD_A_CENTER, 3, // ScreenLoadStrings[0] / Text "Please wait..."
 };
 

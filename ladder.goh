@@ -91,6 +91,7 @@
 // Screen
 #define SCN_COLS           79  // Number of screen columns
 #define SCN_ROWS           24  // Number of screen rows
+#define SCN_MID_COL        39  // Number of middle screen column
 
 // Switch
 #define TRI_S_NONE          0  // Tri state none
