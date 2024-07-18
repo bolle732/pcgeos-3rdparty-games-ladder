@@ -848,9 +848,9 @@ static void _pascal MoveDers(void)
  * SYNOPSIS:        Load the level header and show the loading screen
  *                  or load the level data.
  * CALLED BY:       (a) MSG_LAD_DEMO_LOAD_HEAD:
- *                      From MSG_LAD_DEMO
+ *                      from MSG_LAD_DEMO
  *                  (b) MSG_LAD_PLAY_LOAD_HEAD
- *                      From MSG_LAD_PLAY or MSG_LAD_PLAY_NEXT
+ *                      from MSG_LAD_PLAY or MSG_LAD_PLAY_NEXT
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -892,10 +892,7 @@ static void _pascal MoveDers(void)
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Load the level header and show the loading screen.
- * CALLED BY:       (a) MSG_LAD_DEMO_LOAD_HEAD:
- *                      From MSG_LAD_DEMO
- *                  (b) MSG_LAD_PLAY_LOAD_HEAD
- *                      From MSG_LAD_PLAY or MSG_LAD_PLAY_NEXT
+ * CALLED BY:       MSG_LAD_PLAY or MSG_LAD_PLAY_NEXT
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -935,9 +932,9 @@ static void _pascal MoveDers(void)
  ***********************************************************************
  * SYNOPSIS:        Load the level data.
  * CALLED BY:       (a) MSG_LAD_DEMO_LOAD_DATA:
- *                      From MSG_LAD_DEMO_LOAD_HEAD
+ *                      from MSG_LAD_DEMO_LOAD_HEAD
  *                  (b) MSG_LAD_PLAY_LOAD_DATA:
- *                      From MSG_LAD_PLAY_LOAD_HEAD
+ *                      from MSG_LAD_PLAY_LOAD_HEAD
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -993,7 +990,7 @@ static void _pascal MoveDers(void)
  ***********************************************************************
  * SYNOPSIS:        Initialize the round.
  * CALLED BY:       (a) MSG_LAD_DEMO_INIT:
- *                      From MSG_LAD_DEMO_LOAD_DATA
+ *                      from MSG_LAD_DEMO_LOAD_DATA
  *                  (b) MSG_LAD_PLAY_INIT:
  *                      One shot timer from MSG_LAD_PLAY_LOAD_DATA or
  *                      MSG_LAD_PLAY_CLEAR
@@ -1088,7 +1085,7 @@ static void _pascal MoveDers(void)
  ***********************************************************************
  * SYNOPSIS:        Clear info line and start the round execution.
  * CALLED BY:       (a) MSG_LAD_DEMO_START:
- *                      From MSG_LAD_DEMO_INIT
+ *                      from MSG_LAD_DEMO_INIT
  *                  (b) MSG_LAD_PLAY_START:
  *                      One shot timer from MSG_LAD_PLAY_READY or user
  *                      by pressing the key 'ENTER' when game is paused.

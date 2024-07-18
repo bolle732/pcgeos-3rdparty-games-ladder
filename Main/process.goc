@@ -437,8 +437,11 @@ static word _pascal TicksByDifficulty(word diff)
  *                  MSG_LAD_MENU_DIFF, MSG_LAD_MENU_SOUND
  *                  for LadderProcessClass
  ***********************************************************************
- * SYNOPSIS:        Change the difficulty or enable/disable the sound.
- * CALLED BY:       User by pressing the key 'd' or 's' in the menu.
+ * SYNOPSIS:        Change the difficulty or enable / disable the sound.
+ * CALLED BY:       (a) MSG_LAD_MENU_DIFF:
+ *                      User by pressing the key 'd' in the menu.
+ *                  (b) MSG_LAD_MENU_SOUND:
+ *                      User by pressing the key 's' in the menu.
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -665,10 +668,10 @@ static word _pascal TicksByDifficulty(word diff)
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Start the demo or a new game.
- * CALLED BY:       MSG_LAD_DEMO:
- *                    From MSG_LAD_MENU_AUTO
- *                  MSG_LAD_PLAY:
- *                    User by pressing the key 'p' in the menu.
+ * CALLED BY:       (a) MSG_LAD_DEMO:
+ *                      from MSG_LAD_MENU_AUTO
+ *                  (b) MSG_LAD_PLAY:
+ *                      User by pressing the key 'p' in the menu.
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -716,12 +719,12 @@ static word _pascal TicksByDifficulty(word diff)
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Abort the demo or a game.
- * CALLED BY:       MSG_LAD_DEMO_STOP:
- *                    From MSG_LAD_DEMO_EXEC or user by pressing the
- *                    kex 'ESC' during the demo
- *                  MSG_LAD_PLAY_STOP:
- *                    User by pressing the key 'ESC' during a game or
- *                    when returning from a finished game.
+ * CALLED BY:       (a) MSG_LAD_DEMO_STOP:
+ *                      from MSG_LAD_DEMO_EXEC or user by pressing the
+ *                      kex 'ESC' during the demo
+ *                  (b) MSG_LAD_PLAY_STOP:
+ *                      User by pressing the key 'ESC' during a game or
+ *                      when returning from a finished game.
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
