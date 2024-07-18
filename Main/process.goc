@@ -282,9 +282,9 @@ static word _pascal TicksByDifficulty(word diff)
   // Lock and dereference the version number
   MemLock(OptrToHandle(@MenuVersion));
   // Resize the version number
-  LMemReAlloc(@MenuVersion, 23);
+  LMemReAlloc(@MenuVersion, 24);
   // Fill the version number with spaces
-  memset(LMemDeref(@MenuVersion), ' ', 23);
+  memset(LMemDeref(@MenuVersion), ' ', 24);
   // Copy the version number to a buffer
   sprintf(LMemDeref(@MenuVersion), "%u.%u %u-%u", rn.RN_major, rn.RN_minor, rn.RN_change, rn.RN_engineering);
   // Unlock the version number
@@ -296,9 +296,9 @@ static word _pascal TicksByDifficulty(word diff)
     // Lock and dereference the terminal name
     MemLock(OptrToHandle(@MenuTerminal));
     // Resize the terminal name
-    LMemReAlloc(@MenuTerminal, size);
-    // Fill the terminal name with spaces
-    memset(LMemDeref(@MenuTerminal), ' ', size);
+    LMemReAlloc(@MenuTerminal, size + 1);
+    // Fill the terminal name with null terminator
+    memset(LMemDeref(@MenuTerminal), '\0', size);
     // Get the pointer to the product name
     name = MemLock(mh);
     // Copy the product name to the terminal name
