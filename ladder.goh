@@ -159,6 +159,9 @@
 #define TSP_T_MOVE       0xD0  // Move cursor in current orientation
 #define TSP_T_SET        0xE0  // Set cursor orientation and position
 
+// Text string end of data marker
+#define TSP_T_END        0xF0  // End of text string data
+
 // Level
 #define LVLS                7  // Number of levels in game
 
@@ -192,11 +195,14 @@
 #define LSO_T_V          0x08  // Orientation vertical
 
 // Level string position types
-#define LSP_T_MOVE       0xD0  // Move cursor in current orientation
-#define LSP_T_SET        0xE0  // Set cursor orientation and position
+#define LSP_T_MOVE       0xC0  // Move cursor in current orientation
+#define LSP_T_SET        0xD0  // Set cursor orientation and position
 
 // Level string position type combined with drawing a single character
-#define LSP_T_SET_AND_DRAW  0xF0  // Set cursor orientation and position and draw character
+#define LSP_T_SET_AND_DRAW  0xE0  // Set cursor orientation and position and draw character
+
+// Level string end of data marker
+#define LSP_T_END        0xFF  // End of level string data
 
 // Level characters
 #define LSD_C_BASE        '='  // Level character fixed floor

@@ -471,6 +471,12 @@ static void _pascal DrawValue(word pos, word val, word suf)
     {
       // Get the command from current byte
       cmd = *p_data & TSC_M;
+      // Handle end of data command
+      if (cmd == TSP_T_END)
+      {
+        // We reached the end, exit the loop
+        break;
+      }
       // Handle draw chunk command
       if (cmd == TSD_T_CHNK)
       {

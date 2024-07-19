@@ -565,6 +565,7 @@
     '5', ')',
   TSPOS(21, SCN_MID_COL),
   TSD_T_CHNK, 15, // ScreenMenuStrings[15] / Text "Last Score:"
+  TSP_T_END
 };
 
 
@@ -702,6 +703,7 @@
   TSD_T_CHNK, 17, // ScreenHelpStrings[17] / Text " "
   TSPOS(19, 1),
   TSD_T_CHNK, 18, // ScreenHelpStrings[18] / Text "Good luck Lad."
+  TSP_T_END
 };
 
 // I8N_DE  "Drück ESC um zum Hauptmenü zurückzukehren:"
@@ -876,6 +878,7 @@
   TSD_T_CHNK, 1, // ScreenOverStrings[1] / Text "stay trapped in the maze and must try again from the beginning."
   TSPOS(12, 1),
   TSD_T_CHNK, 2, // ScreenOverStrings[2] / Text " "
+  TSP_T_END
 };
 
 // I8N_DE  "Drück ENTER um fortzufahren:"
@@ -1009,6 +1012,7 @@
   TSD_T_CHNK, 2, // ScreenDoneStrings[2] / Text "With the treasures and riches you bought an old factory of ladders."
   TSPOS(14, 1),
   TSD_T_CHNK, 3, // ScreenDoneStrings[3] / Text "There you will assemble ladders until the end of time."
+  TSP_T_END
 };
 
 // I8N_DE  "Drück ENTER um fortzufahren:"
@@ -1044,6 +1048,7 @@
   TSD_T_CHNK | TSD_A_RIGHT, 1, // ScreenHighStrings[1] / Text "Enter your name"
   TSPOS(12, 23),
   TSD_T_CHAR + 1, ':', // Text ":"
+  TSP_T_END
 };
 
 // I8N_DE  "Drück ENTER um zu speichern oder ESC um zu überspringen:"
@@ -1143,6 +1148,7 @@
   TSD_T_CHAR + 1, ':', // Text ":"
   TSPOS(16, SCN_MID_COL),
   TSD_T_CHNK | TSD_A_CENTER, 3, // ScreenLoadStrings[0] / Text "Please wait..."
+  TSP_T_END
 };
 
 
@@ -1178,6 +1184,7 @@
   TSD_T_CHNK | TSD_A_RIGHT, 2, // ScreenGameStrings[2] / Text "Score"
   TSPOS(20, 70),
   TSD_T_CHNK | TSD_A_RIGHT, 3, // ScreenGameStrings[3] / Text "Bonus time"
+  TSP_T_END
 };
 
 // I8N_DE  "Bereitmachen!"
