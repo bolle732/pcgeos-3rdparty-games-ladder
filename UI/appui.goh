@@ -114,21 +114,21 @@
 @extern chunk PlayContinue;
 
 @extern chunk GameLevels;  // chunkArray
-@extern chunk GameLevelName1;
-@extern chunk GameLevelName2;
-@extern chunk GameLevelName3;
-@extern chunk GameLevelName4;
-@extern chunk GameLevelName5;
-@extern chunk GameLevelName6;
-@extern chunk GameLevelName7;
-@extern chunk GameLevelData1;
-@extern chunk GameLevelData2;
-@extern chunk GameLevelData3;
-@extern chunk GameLevelData4;
-@extern chunk GameLevelData5;
-@extern chunk GameLevelData6;
-@extern chunk GameLevelData7;
-@extern chunk GameLevelMove1;
+@extern chunk GameLevel1Name;
+@extern chunk GameLevel2Name;
+@extern chunk GameLevel3Name;
+@extern chunk GameLevel4Name;
+@extern chunk GameLevel5Name;
+@extern chunk GameLevel6Name;
+@extern chunk GameLevel7Name;
+@extern chunk GameLevel1Data;
+@extern chunk GameLevel2Data;
+@extern chunk GameLevel3Data;
+@extern chunk GameLevel4Data;
+@extern chunk GameLevel5Data;
+@extern chunk GameLevel6Data;
+@extern chunk GameLevel7Data;
+@extern chunk GameLevel1Move;
 
 @extern chunk GameLevelBuffer;
 

@@ -1201,19 +1201,19 @@
 "Käfer Stadt"
 "Rotten Land"
 */
-@chunk char GameLevelName1[] = "Easy Street";
+@chunk char GameLevel1Name[] = "Easy Street";
 @localize { "The name of the 1st level" 3-22 };
-@chunk char GameLevelName2[] = "Long Island";
+@chunk char GameLevel2Name[] = "Long Island";
 @localize { "The name of the 2nd level" 3-22 };
-@chunk char GameLevelName3[] = "Ghost Town";
+@chunk char GameLevel3Name[] = "Ghost Town";
 @localize { "The name of the 3rd level" 3-22 };
-@chunk char GameLevelName4[] = "Tunnel Vision";
+@chunk char GameLevel4Name[] = "Tunnel Vision";
 @localize { "The name of the 4th level" 3-22 };
-@chunk char GameLevelName5[] = "Point of No Return";
+@chunk char GameLevel5Name[] = "Point of No Return";
 @localize { "The name of the 5th level" 3-22 };
-@chunk char GameLevelName6[] = "Bug City";
+@chunk char GameLevel6Name[] = "Bug City";
 @localize { "The name of the 6th level" 3-22 };
-@chunk char GameLevelName7[] = "Gang Land";
+@chunk char GameLevel7Name[] = "Gang Land";
 @localize { "The name of the 7th level" 3-22 };
 
 // Name, Bonus Time, Lad Start Position,
@@ -1223,65 +1223,65 @@
 @chunkArray Level GameLevels =
 {
   {
-    ChunkOf(@GameLevelName1), 35, 5 + 18 * LVL_COLS,
+    ChunkOf(@GameLevel1Name), 35, 5 + 18 * LVL_COLS,
     {
       1, { 39 }
     },
     5,
-    ChunkOf(@GameLevelData1)
+    ChunkOf(@GameLevel1Data)
   },
   {
-    ChunkOf(@GameLevelName2), 45, 17 + 18 * LVL_COLS,
+    ChunkOf(@GameLevel2Name), 45, 17 + 18 * LVL_COLS,
     {
       2, { 13 + 2 * LVL_COLS, 67 + 2 * LVL_COLS }
     },
     8,
-    ChunkOf(@GameLevelData2)
+    ChunkOf(@GameLevel2Data)
   },
   {
-    ChunkOf(@GameLevelName3), 33, 5 + 2 * LVL_COLS,
+    ChunkOf(@GameLevel3Name), 33, 5 + 2 * LVL_COLS,
     {
       3, { 28, 44, 56 }
     },
     5,
-    ChunkOf(@GameLevelData3)
+    ChunkOf(@GameLevel3Data)
   },
   {
-    ChunkOf(@GameLevelName4), 32, 77 + 16 * LVL_COLS,
+    ChunkOf(@GameLevel4Name), 32, 77 + 16 * LVL_COLS,
     {
       2, { 44, 68 }
     },
     5,
-    ChunkOf(@GameLevelData4)
+    ChunkOf(@GameLevel4Data)
   },
   {
-    ChunkOf(@GameLevelName5), 29, 74 + 3 * LVL_COLS,
+    ChunkOf(@GameLevel5Name), 29, 74 + 3 * LVL_COLS,
     {
       2, { 61 + LVL_COLS, 29 + 4 * LVL_COLS }
     },
     7,
-    ChunkOf(@GameLevelData5)
+    ChunkOf(@GameLevel5Data)
   },
   {
-    ChunkOf(@GameLevelName6), 29, 33 + 8 * LVL_COLS,
+    ChunkOf(@GameLevel6Name), 29, 33 + 8 * LVL_COLS,
     {
       2, { 63, 44 + 4 * LVL_COLS }
     },
     6,
-    ChunkOf(@GameLevelData6)
+    ChunkOf(@GameLevel6Data)
   },
   {
-    ChunkOf(@GameLevelName7), 22, 6 + 2 * LVL_COLS,
+    ChunkOf(@GameLevel7Name), 22, 6 + 2 * LVL_COLS,
     {
       2, { 60, 6 + 4 * LVL_COLS }
     },
     6,
-    ChunkOf(@GameLevelData7)
+    ChunkOf(@GameLevel7Data)
   }
 };
 
 // Data of Level 1
-@chunk byte GameLevelData1[] = {
+@chunk byte GameLevel1Data[] = {
   // Horizontal drawings
   LSPOS(LSP_T_SET | LSO_T_H, 0, 39),
   LSD_T_EMIT + 1,
@@ -1331,7 +1331,7 @@
 };
 
 // Data of Level 2
-@chunk byte GameLevelData2[] = {
+@chunk byte GameLevel2Data[] = {
   // Horizontal drawings
   LSPOS(LSP_T_SET | LSO_T_H, 1, 67),
   LSD_T_GOLD + 1,
@@ -1418,7 +1418,7 @@
 };
 
 // Data of Level 3
-@chunk byte GameLevelData3[] = {
+@chunk byte GameLevel3Data[] = {
   // Horizontal drawings
   LSPOS(LSP_T_SET | LSO_T_H, 0, 28),
   LSD_T_EMIT + 1,
@@ -1509,7 +1509,7 @@
 };
 
 // Data of Level 4
-@chunk byte GameLevelData4[] = {
+@chunk byte GameLevel4Data[] = {
   // Horizontal drawings
   LSPOS(LSP_T_SET | LSO_T_H, 0, 44),
   LSD_T_EMIT + 1,
@@ -1616,7 +1616,7 @@
 };
 
 // Data of Level 5
-@chunk byte GameLevelData5[] = {
+@chunk byte GameLevel5Data[] = {
   // Horizontal drawings
   LSPOS(LSP_T_SET | LSO_T_H, 1, 61),
   LSD_T_EMIT + 1,
@@ -1708,7 +1708,7 @@
 };
 
 // Data of Level 6
-@chunk byte GameLevelData6[] = {
+@chunk byte GameLevel6Data[] = {
   // Horizontal drawings
   LSPOS(LSP_T_SET | LSO_T_H, 0, 8),
   LSD_T_TEXT + 8, 'B', 'u', 'g', ' ', 'C', 'i', 't', 'y',
@@ -1798,7 +1798,7 @@
 };
 
 // Data of Level 7
-@chunk byte GameLevelData7[] = {
+@chunk byte GameLevel7Data[] = {
   // Horizontal drawings
   LSPOS(LSP_T_SET | LSO_T_H, 0, 20),
   LSD_T_BASE + 1,
@@ -1943,7 +1943,7 @@
 };
 
 // Demo moves of Level 1
-@chunk Move GameLevelMove1[] = {
+@chunk Move GameLevel1Move[] = {
   { 1427, DIR_E, L_FALSE }, { 1462, DIR_E, L_TRUE }, { 1479, DIR_N, L_FALSE },
   { 1163, DIR_W, L_FALSE }, { 1156, DIR_W, L_TRUE }, { 1134, DIR_W, L_TRUE },
   { 1123, DIR_N, L_FALSE }, { 806, DIR_E, L_FALSE }, { 809, DIR_W, L_TRUE },
