@@ -1334,7 +1334,8 @@
   LSP_T_MOVE + 3,
   LSD_T_LADDER + 5,
   LSP_T_MOVE + 3,
-  LSD_T_LADDER + 5
+  LSD_T_LADDER + 5,
+  LSP_T_END
 };
 
 // Data of Level 2
@@ -1421,7 +1422,8 @@
   LSP_T_MOVE + 3,
   LSD_T_LADDER + 5,
   LSP_T_MOVE + 3,
-  LSD_T_LADDER + 5
+  LSD_T_LADDER + 5,
+  LSP_T_END
 };
 
 // Data of Level 3
@@ -1512,7 +1514,8 @@
   LSD_T_LADDER + 6,
   LSPOS(LSP_T_SET | LSO_T_V, 2, 78),
   LSD_T_LADDER + 5,
-  LSD_T_EXIT + 1
+  LSD_T_EXIT + 1,
+  LSP_T_END
 };
 
 // Data of Level 4
@@ -1619,7 +1622,8 @@
   LSPOS(LSP_T_SET | LSO_T_V, 16, 71),
   LSD_T_LADDER + 3,
   LSPOS(LSP_T_SET | LSO_T_V, 7, 74),
-  LSD_T_LADDER + 4
+  LSD_T_LADDER + 4,
+  LSP_T_END
 };
 
 // Data of Level 5
@@ -1711,7 +1715,8 @@
   LSPOS(LSP_T_SET | LSO_T_V, 3, 68),
   LSD_T_LADDER + 6,
   LSPOS(LSP_T_SET | LSO_T_V, 12, 72),
-  LSD_T_LADDER + 4
+  LSD_T_LADDER + 4,
+  LSP_T_END
 };
 
 // Data of Level 6
@@ -1801,7 +1806,8 @@
   LSPOS(LSP_T_SET | LSO_T_V, 3, 68),
   LSD_T_LADDER + 6,
   LSPOS(LSP_T_SET | LSO_T_V, 10, 72),
-  LSD_T_LADDER + 6
+  LSD_T_LADDER + 6,
+  LSP_T_END
 };
 
 // Data of Level 7
@@ -1946,7 +1952,8 @@
   LSPOS(LSP_T_SET | LSO_T_V, 1, 70),
   LSD_T_BALL + 2,
   LSPOS(LSP_T_SET | LSO_T_V, 2, 72),
-  LSD_T_LADDER + 10
+  LSD_T_LADDER + 10,
+  LSP_T_END
 };
 
 // Demo moves of Level 1

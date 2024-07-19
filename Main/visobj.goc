@@ -1038,6 +1038,12 @@ static void _pascal DrawValue(word pos, word val, word suf)
     {
       // Get the command from current byte
       cmd = *p_data & LSC_M;
+      // Handle end of data command
+      if (cmd == LSP_T_END)
+      {
+        // We reached the end, exit the loop
+        break;
+      }
       // Handle cursor set commands
       if ((cmd == LSP_T_SET) || (cmd == LSP_T_SET_AND_DRAW))
       {

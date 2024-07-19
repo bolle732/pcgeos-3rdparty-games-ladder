@@ -202,7 +202,7 @@
 #define LSP_T_SET_AND_DRAW  0xE0  // Set cursor orientation and position and draw character
 
 // Level string end of data marker
-#define LSP_T_END        0xFF  // End of level string data
+#define LSP_T_END        0xF0  // End of level string data
 
 // Level characters
 #define LSD_C_BASE        '='  // Level character fixed floor
