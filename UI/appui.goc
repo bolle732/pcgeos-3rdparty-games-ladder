@@ -1043,10 +1043,9 @@
   TSPOS(6, SCN_MID_COL),
   TSD_T_CHNK | TSD_A_CENTER, 0, // ScreenHighStrings[0] / Text "YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO!"
   // Text
-  TSPOS(12, 21),
-// XXX: Verify code and position
+  TSPOS(12, 35),
   TSD_T_CHNK | TSD_A_RIGHT, 1, // ScreenHighStrings[1] / Text "Enter your name"
-  TSPOS(12, 23),
+  TSPOS(12, 37),
   TSD_T_CHAR + 1, ':', // Text ":"
   TSP_T_END
 };
