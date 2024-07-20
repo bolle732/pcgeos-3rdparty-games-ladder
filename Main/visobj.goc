@@ -252,7 +252,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   static char ldv[5 + 2 + 1];
   word l;
   l = sprintf(&ldv, "%5u", val);
-  if (suf == L_TRUE)
+  if (suf == L_TRUE && val != 0)
   {
     l += sprintf(ldv + l, "%s", "00");
   }
