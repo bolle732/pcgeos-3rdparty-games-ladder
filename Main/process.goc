@@ -178,7 +178,7 @@ void _pascal StopAndFreeNoise(void)
  ***********************************************************************
  * SYNOPSIS:        Calculate the ticks between two frames from the
  *                  difficulty set by the user.
- * FORMULA:         ticks = abs(diff - PLY_DIFF_MAX) + 4
+ * FORMULA:         ticks = abs(diff - CFG_DIFF_MAX) + 4
  * CALLED BY:       Internal
  * PARAMETERS:      word ( word diff )
  * RETURN:          A word containing the number of ticks.
@@ -195,7 +195,7 @@ void _pascal StopAndFreeNoise(void)
 static word _pascal TicksByDifficulty(word diff)
 {
   sword d;
-  d = diff - PLY_DIFF_MAX;
+  d = diff - CFG_DIFF_MAX;
   if (d < 0)
   {
     d = -d;
@@ -317,7 +317,7 @@ static word _pascal TicksByDifficulty(word diff)
   if (InitFileReadInteger(&ICA, &IKS, &state))
   {
     g.game.diff = 1;
-    g.game.sound = PLY_SND_OFF;
+    g.game.sound = CFG_SND_OFF;
   }
   else
   {
@@ -327,7 +327,7 @@ static word _pascal TicksByDifficulty(word diff)
     @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.game.diff);
     // Get the sound from the low byte
     g.game.sound = state & 0x0F;
-    if (g.game.sound == PLY_SND_ON)
+    if (g.game.sound == CFG_SND_ON)
     {
       // Set the text
       @send LadderMenuSound::MSG_TXT_SET_TEXT(@MenuSoundOn);
@@ -470,26 +470,26 @@ static word _pascal TicksByDifficulty(word diff)
     // Increase the difficulty
     g.game.diff++;
     // On overflow set it to the minimum
-    if (g.game.diff > PLY_DIFF_MAX)
+    if (g.game.diff > CFG_DIFF_MAX)
     {
-      g.game.diff = PLY_DIFF_MIN;
+      g.game.diff = CFG_DIFF_MIN;
     }
     // Update the value on screen
     @send LadderMenuDiff::MSG_VAL_UPDATE_VALUE(g.game.diff);
     break;
   case MSG_LAD_MENU_SOUND:
     // Switch the sound state
-    if (g.game.sound == PLY_SND_OFF)
+    if (g.game.sound == CFG_SND_OFF)
     {
       // Set the sound state
-      g.game.sound = PLY_SND_ON;
+      g.game.sound = CFG_SND_ON;
       // Update the text on screen
       @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@MenuSoundOn);
     }
-    else  // PLY_SND_ON
+    else  // CFG_SND_ON
     {
       // Set the sound state
-      g.game.sound = PLY_SND_OFF;
+      g.game.sound = CFG_SND_OFF;
       // Update the text on screen
       @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@MenuSoundOff);
     }

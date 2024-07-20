@@ -123,13 +123,13 @@
 #define RNKS_V_ID      0xAB88  // ID of the VM block with the ranks
 
 // Play sound states
-#define PLY_SND_OFF         0  // Play sound state off
-#define PLY_SND_ON          1  // Play sound state on
-#define PLY_SND_NA          2  // Play sound state not available
+#define CFG_SND_OFF         0  // Play sound state off
+#define CFG_SND_ON          1  // Play sound state on
+#define CFG_SND_NA          2  // Play sound state not available
 
 // Game difficulties
-#define PLY_DIFF_MIN        1  // Game difficulty minimum
-#define PLY_DIFF_MAX        5  // Game difficulty maximum
+#define CFG_DIFF_MIN        1  // Game difficulty minimum
+#define CFG_DIFF_MAX        5  // Game difficulty maximum
 
 // Point
 #define PNT_GOLD           30  // Points for earning gold statue
@@ -237,6 +237,7 @@
 
 // Lad
 #define LAD_D_LIVES         5  // Lad default lives
+#define LADS_MAX           99  // Maximum number of Lads
 
 // Lad characters
 #define LAD_C_START       'P'  // Lad character not moving

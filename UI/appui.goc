@@ -128,7 +128,7 @@
      11 * SCN_COLS + 17, 0,
     1, 0
   };
-  LVI_value = PLY_DIFF_MIN;
+  LVI_value = CFG_DIFF_MIN;
 }
 
 @object LadderTextClass LadderMenuSound = {

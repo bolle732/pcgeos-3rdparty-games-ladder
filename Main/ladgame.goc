@@ -162,7 +162,7 @@ word _pascal Random(word max)
 static void _pascal PlayNoise(word noise)
 {
   MemHandle mh;
-  if (g.game.sound == PLY_SND_ON)
+  if (g.game.sound == CFG_SND_ON)
   {
     mh = g.noiseHandle;
     SoundStopMusicNote(mh);
