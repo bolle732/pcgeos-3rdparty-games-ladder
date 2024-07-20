@@ -306,7 +306,7 @@
 
 @object LadderInputClass LadderHighName = {
   VI_bounds = {
-    12 * SCN_COLS + 25, 0,
+    12 * SCN_COLS + 41, 0,
     RNK_NAME_LEN, 0
   };
 }
@@ -899,15 +899,19 @@
 @localize { "The 1st line in the done screen" 0-77 };
 @chunk char DoneText1[] = "it imploded into a wonderful green sparkling geode.";
 @localize { "The 2nd line in the done screen" 0-77 };
-@chunk char DoneText2[] = "With the treasures and riches you bought an old factory of ladders.";
+@chunk char DoneText2[] = " ";
 @localize { "The 3rd line in the done screen" 0-77 };
-@chunk char DoneText3[] = "There you will assemble ladders until the end of time.";
+@chunk char DoneText3[] = "With the treasures and riches you bought an old factory of ladders.";
 @localize { "The 4th line in the done screen" 0-77 };
+@chunk char DoneText4[] = "There you will assemble ladders until the end of time.";
+@localize { "The 5th line in the done screen" 0-77 };
+@chunk char DoneText5[] = " ";
+@localize { "The 6th line in the done screen" 0-77 };
 
 // Lookup table for translatable strings in Ladder done screen
 @chunkArray optr ScreenDoneStrings =
 {
-  @DoneText0, @DoneText1, @DoneText2, @DoneText3
+  @DoneText0, @DoneText1, @DoneText2, @DoneText3, @DoneText4, @DoneText5
 };
 
 @chunk byte ScreenDone[] = {
@@ -1008,10 +1012,14 @@
   TSD_T_CHNK, 0, // ScreenDoneStrings[0] / Text "You escaped the maze and are free again.  While leaving the maze,"
   TSPOS(11, 1),
   TSD_T_CHNK, 1, // ScreenDoneStrings[1] / Text "it imploded into a wonderful green sparkling geode."
+  TSPOS(12, 1),
+  TSD_T_CHNK, 2, // ScreenDoneStrings[2] / Text " "
   TSPOS(13, 1),
-  TSD_T_CHNK, 2, // ScreenDoneStrings[2] / Text "With the treasures and riches you bought an old factory of ladders."
+  TSD_T_CHNK, 3, // ScreenDoneStrings[3] / Text "With the treasures and riches you bought an old factory of ladders."
   TSPOS(14, 1),
-  TSD_T_CHNK, 3, // ScreenDoneStrings[3] / Text "There you will assemble ladders until the end of time."
+  TSD_T_CHNK, 4, // ScreenDoneStrings[4] / Text "There you will assemble ladders until the end of time."
+  TSPOS(15, 1),
+  TSD_T_CHNK, 5, // ScreenDoneStrings[5] / Text " "
   TSP_T_END
 };
 
@@ -1043,9 +1051,9 @@
   TSPOS(6, SCN_MID_COL),
   TSD_T_CHNK | TSD_A_CENTER, 0, // ScreenHighStrings[0] / Text "YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO! YAHOO!"
   // Text
-  TSPOS(12, 35),
-  TSD_T_CHNK | TSD_A_RIGHT, 1, // ScreenHighStrings[1] / Text "Enter your name"
   TSPOS(12, 37),
+  TSD_T_CHNK | TSD_A_RIGHT, 1, // ScreenHighStrings[1] / Text "Enter your name"
+  TSPOS(12, 39),
   TSD_T_CHAR + 1, ':', // Text ":"
   TSP_T_END
 };
@@ -1116,7 +1124,7 @@
 */
 // Translatable strings in Ladder load screen
 @chunk char LoadText0[] = ".:: LOADING LEVEL ::.";
-@localize { "The loading level text in the load screen" 18-24 };
+@localize { "The loading level text in the load screen" 18-25 };
 @chunk char LoadText1[] = "Round";
 @localize { "The round label in the load screen" 3-8 };
 @chunk char LoadText2[] = "Level";
@@ -1135,7 +1143,7 @@
   TSD_T_CHNK | TSD_A_CENTER, 0, // ScreenLoadStrings[0] / Text ".:: LOADING LEVEL ::."
   TSPOS(9, 23),
   TSD_T_CHAR + 3, '<', // Text "<<<"
-  TSPOS(9, 53),
+  TSPOS(9, 54),
   TSD_T_CHAR + 3, '>', // Text ">>>"
   TSPOS(12, 33),
   TSD_T_CHNK, 1, // ScreenLoadStrings[1] / Text "Round:"
@@ -1208,19 +1216,19 @@
 "Rotten Land"
 */
 @chunk char GameLevel1Name[] = "Easy Street";
-@localize { "The name of the 1st level" 3-22 };
+@localize { "The name of the 1st level" 3-25 };
 @chunk char GameLevel2Name[] = "Long Island";
-@localize { "The name of the 2nd level" 3-22 };
+@localize { "The name of the 2nd level" 3-25 };
 @chunk char GameLevel3Name[] = "Ghost Town";
-@localize { "The name of the 3rd level" 3-22 };
+@localize { "The name of the 3rd level" 3-25 };
 @chunk char GameLevel4Name[] = "Tunnel Vision";
-@localize { "The name of the 4th level" 3-22 };
+@localize { "The name of the 4th level" 3-25 };
 @chunk char GameLevel5Name[] = "Point of No Return";
-@localize { "The name of the 5th level" 3-22 };
+@localize { "The name of the 5th level" 3-25 };
 @chunk char GameLevel6Name[] = "Bug City";
-@localize { "The name of the 6th level" 3-22 };
+@localize { "The name of the 6th level" 3-25 };
 @chunk char GameLevel7Name[] = "Gang Land";
-@localize { "The name of the 7th level" 3-22 };
+@localize { "The name of the 7th level" 3-25 };
 
 // Name, Bonus Time, Lad Start Position,
 // { Number of Emitters, { Positions of Emitters } },
