@@ -128,7 +128,7 @@
 
 @object LadderValueClass LadderMenuDiff = {
   VI_bounds = {
-     GPOS(11, 17), 0,
+     GPOS(11, 21), 0,
     1, 0
   };
   LVI_value = CFG_DIFF_MIN;
@@ -136,7 +136,7 @@
 
 @object LadderTextClass LadderMenuSound = {
   VI_bounds = {
-    GPOS(12, 21), 0,
+    GPOS(12, 25), 0,
     3, 0
   };
   LTI_text = @MenuSoundOff;
@@ -258,8 +258,8 @@
 
 @object LadderValueClass LadderGameScore = {
   VI_bounds = {
-    GPOS(20, 37), 0,
-    4, 0
+    GPOS(20, 36), 0,
+    5, 0
   };
   LVI_value = 1;
   LVI_suffix = L_TRUE;
@@ -267,7 +267,7 @@
 
 @object LadderValueClass LadderGameTime = {
   VI_bounds = {
-    GPOS(2, 72), 0,
+    GPOS(20, 72), 0,
     2, 0
   };
   LVI_value = 32;
@@ -398,13 +398,13 @@
 
 @chunk byte ScreenMenu[] = {
   // Title
-  TSPOS(0, 11),
+  TSPOS(0, 14),
   TSD_T_CHAR + 2, 'L', // Text "LL"
   TSP_T_MOVE, 21,
   TSD_T_CHAR + 2, 'd', // Text "dd"
   TSP_T_MOVE + 7,
   TSD_T_CHAR + 2, 'd', // Text "dd"
-  TSPOS(1, 11),
+  TSPOS(1, 14),
   TSD_T_CHAR + 2, 'L', // Text "LL"
   TSP_T_MOVE, 21,
   TSD_T_CHAR + 2, 'd', // Text "dd"
@@ -412,7 +412,7 @@
   TSD_T_CHAR + 2, 'd', // Text "dd"
   TSP_T_MOVE, 22,
   TSD_T_TEXT + 2, 't', 'm', // Text "tm"
-  TSPOS(2, 11),
+  TSPOS(2, 14),
   TSD_T_CHAR + 2, 'L', // Text "LL"
   TSP_T_MOVE + 9,
   TSD_T_CHAR + 4, 'a', // Text "aaaa"
@@ -424,7 +424,7 @@
   TSD_T_CHAR + 4, 'e', // Text "eeee"
   TSP_T_MOVE + 3,
   TSD_T_CHAR + 7, 'r', // Text "rrrrrrr"
-  TSPOS(3, 11),
+  TSPOS(3, 14),
   TSD_T_CHAR + 2, 'L', // Text "LL"
   TSP_T_MOVE + 8,
   TSD_T_CHAR + 2, 'a', // Text "aa"
@@ -446,7 +446,7 @@
   TSD_T_CHAR + 2, 'r', // Text "rr"
   TSP_T_MOVE + 4,
   TSD_T_CHAR + 2, 'r', // Text "rr"
-  TSPOS(4, 11),
+  TSPOS(4, 14),
   TSD_T_CHAR + 2, 'L', // Text "LL"
   TSP_T_MOVE + 8,
   TSD_T_CHAR + 2, 'a', // Text "aa"
@@ -464,7 +464,7 @@
   TSD_T_CHAR + 6, 'e', // Text "eeeeee"
   TSP_T_MOVE + 2,
   TSD_T_CHAR + 2, 'r', // Text "rr"
-  TSPOS(5, 11),
+  TSPOS(5, 14),
   TSD_T_CHAR + 2, 'L', // Text "LL"
   TSP_T_MOVE + 8,
   TSD_T_CHAR + 2, 'a', // Text "aa"
@@ -482,7 +482,7 @@
   TSD_T_CHAR + 2, 'e', // Text "ee"
   TSP_T_MOVE + 6,
   TSD_T_CHAR + 2, 'r', // Text "rr"
-  TSPOS(6, 11),
+  TSPOS(6, 14),
   TSD_T_CHAR + 8, 'L', // Text "LLLLLLLL"
   TSP_T_MOVE + 3,
   TSD_T_CHAR + 3, 'a', // Text "aaa"
@@ -507,23 +507,23 @@
   TSD_T_CHNK, 1, // ScreenMenuStrings[1] / Text "Adapted for PC/GEOS in 2011 by Andreas Bollhalder"
   TSPOS(11, SCN_MID_COL),
   TSD_T_CHNK, 2, // ScreenMenuStrings[2] / Text "Version"
-  TSPOS(11, 50),
+  TSPOS(11, 54),
   TSD_T_CHAR + 1, ':', // Text ":"
-  TSPOS(11, 52),
+  TSPOS(11, 56),
   TSD_T_CHNK, 3, // ScreenMenuStrings[3] / Text "0.5 0-22"
   TSPOS(12, SCN_MID_COL),
   TSD_T_CHNK, 4, // ScreenMenuStrings[4] / Text "Terminal"
-  TSPOS(12, 50),
+  TSPOS(12, 54),
   TSD_T_CHAR + 1, ':', // Text ":"
-  TSPOS(12, 52),
+  TSPOS(12, 56),
   TSD_T_CHNK, 5, // ScreenMenuStrings[5] / Text "PC/GEOS"
   TSPOS(11, 1),
   TSD_T_CHNK, 6, // ScreenMenuStrings[6] / Text "Difficulty Level"
-  TSPOS(11, 19),
+  TSPOS(11, 23),
   TSD_T_CHAR + 1, ':', // Text ":"
   TSPOS(12, 1),
   TSD_T_CHNK, 7, // ScreenMenuStrings[7] / Text "Sound Output"
-  TSPOS(12, 19),
+  TSPOS(12, 23),
   TSD_T_CHAR + 1, ':', // Text ":"
   // Main menu
   TSPOS(14, 1),
@@ -542,7 +542,7 @@
   TSD_T_TEXT + 4,
     'I', ' ', '=', ' ',
   TSD_T_CHNK, 11, // ScreenMenuStrings[11] / Text "Show Instructions"
-  TSPOS(18, 1),
+  TSPOS(19, 1),
   TSD_T_TEXT + 4,
     'E', ' ', '=', ' ',
   TSD_T_CHNK, 12, // ScreenMenuStrings[12] / Text "Exit GeoLadder"
