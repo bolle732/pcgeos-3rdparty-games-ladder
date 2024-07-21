@@ -610,7 +610,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
     {
     // Handle center alignment
     case TSD_A_CENTER:
-      p += (pself->VI_bounds.R_right - l) / 2 + 1;
+      p -= l / 2;
       break;
     // Handle right alignment
     case TSD_A_RIGHT:

@@ -185,7 +185,7 @@
 
 @object LadderTextClass LadderLoadName = {
   VI_bounds = {
-    GPOS(9, SCN_MID_COL - 11), 0,  // XXX: Fix code to handle calculation -> remove '- 11'
+    GPOS(9, SCN_MID_COL), 0,
     22, 0
   };
   LTI_alignment = TSD_A_CENTER;
@@ -301,8 +301,8 @@
 
 @object LadderTextClass LadderHighCompliment = {
   VI_bounds = {
-    GPOS(9, 19), 0,
-    40, 0
+    GPOS(9, SCN_MID_COL), 0,
+    77, 0
   };
   LTI_alignment = TSD_A_CENTER;
 }
