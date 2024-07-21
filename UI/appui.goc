@@ -48,10 +48,13 @@
  ***************************************************************************
  */
 
-// Makro to handle text string position
+// Makro to handle generic position, r = row, c = column
+#define GPOS(r, c) ((r) * LVL_COLS + (c))
+
+// Makro to handle text string position, r = row, c = column
 #define TSPOS(r, c) ((TSP_T_SET) | ((((r) * LVL_COLS + (c)) >> 8) & TSP_M_HI)), (((r) * LVL_COLS + (c)) & TSP_M_LO)
 
-// Makro to handle level string command, direction and position
+// Makro to handle level string command, direction and position, r = row, c = column
 #define LSPOS(p, r, c) ((p) | ((((r) * LVL_COLS + (c)) >> 8) & LSP_M_HI)), (((r) * LVL_COLS + (c)) & LSP_M_LO)
 
 
@@ -125,7 +128,7 @@
 
 @object LadderValueClass LadderMenuDiff = {
   VI_bounds = {
-     11 * SCN_COLS + 17, 0,
+     GPOS(11, 17), 0,
     1, 0
   };
   LVI_value = CFG_DIFF_MIN;
@@ -133,7 +136,7 @@
 
 @object LadderTextClass LadderMenuSound = {
   VI_bounds = {
-    12 * SCN_COLS + 21, 0,
+    GPOS(12, 21), 0,
     3, 0
   };
   LTI_text = @MenuSoundOff;
@@ -141,7 +144,7 @@
 
 @object LadderRankClass LadderMenuRank = {
   VI_bounds = {
-    15 * SCN_COLS + 43, 0,
+    GPOS(15, 43), 0,
     0, 0
   };
   LRI_noname = @HighNoName;
@@ -149,7 +152,7 @@
 
 @object LadderValueClass LadderMenuLastScore = {
   VI_bounds = {
-    21 * SCN_COLS + 55, 0,
+    GPOS(21, 55), 0,
     4, 0
   };
   LVI_value = 1;
@@ -158,7 +161,7 @@
 
 @object LadderTextClass LadderMenuInfo = {
   VI_bounds = {
-    (SCN_ROWS - 1) * SCN_COLS + 1, 0,
+    GPOS(SCN_ROWS - 1, 1), 0,
     SCN_COLS - 2, 0
   };
 }
@@ -182,7 +185,7 @@
 
 @object LadderTextClass LadderLoadName = {
   VI_bounds = {
-    9 * SCN_COLS + SCN_MID_COL - 11, 0,
+    GPOS(9, SCN_MID_COL - 11), 0,  // XXX: Fix code to handle calculation -> remove '- 11'
     22, 0
   };
   LTI_alignment = TSD_A_CENTER;
@@ -190,7 +193,7 @@
 
 @object LadderValueClass LadderLoadRound = {
   VI_bounds = {
-    12 * SCN_COLS + 42, 0,
+    GPOS(12, 42), 0,
     2, 0
   };
   LVI_value = 1;
@@ -198,7 +201,7 @@
 
 @object LadderValueClass LadderLoadLevel = {
   VI_bounds = {
-    13 * SCN_COLS + 42, 0,
+    GPOS(13, 42), 0,
     1, 0
   };
   LVI_value = 1;
@@ -239,7 +242,7 @@
 
 @object LadderValueClass LadderGameLads = {
   VI_bounds = {
-    20 * SCN_COLS + 3, 0,
+    GPOS(20, 3), 0,
     2, 0
   };
   LVI_value = LAD_D_LIVES;
@@ -247,7 +250,7 @@
 
 @object LadderValueClass LadderGameRound = {
   VI_bounds = {
-    20 * SCN_COLS + 20, 0,
+    GPOS(20, 20), 0,
     2, 0
   };
   LVI_value = 1;
@@ -255,7 +258,7 @@
 
 @object LadderValueClass LadderGameScore = {
   VI_bounds = {
-    20 * SCN_COLS + 37, 0,
+    GPOS(20, 37), 0,
     4, 0
   };
   LVI_value = 1;
@@ -264,7 +267,7 @@
 
 @object LadderValueClass LadderGameTime = {
   VI_bounds = {
-    20 * SCN_COLS + 72, 0,
+    GPOS(2, 72), 0,
     2, 0
   };
   LVI_value = 32;
@@ -298,7 +301,7 @@
 
 @object LadderTextClass LadderHighCompliment = {
   VI_bounds = {
-    9 * SCN_COLS + 19, 0,
+    GPOS(9, 19), 0,
     40, 0
   };
   LTI_alignment = TSD_A_CENTER;
@@ -306,7 +309,7 @@
 
 @object LadderInputClass LadderHighName = {
   VI_bounds = {
-    12 * SCN_COLS + 41, 0,
+    GPOS(12, 41), 0,
     RNK_NAME_LEN, 0
   };
 }
@@ -314,7 +317,7 @@
 // This object is used by multiple screen object
 @object LadderTextClass LadderInfo = {
   VI_bounds = {
-    1 + SCN_COLS * (SCN_ROWS - 2), 0,
+    GPOS(SCN_ROWS - 2, 1), 0,
     SCN_COLS - 2, 0
   };
 }
@@ -1170,11 +1173,11 @@
 @chunk char PlayLads[] = "Lads";
 @localize { "The Lads label in the play screen" 3-5 };
 @chunk char PlayRound[] = "Round";
-@localize { "The round label in the play screen" 3-6 };
+@localize { "The round label in the play screen" 3-8 };
 @chunk char PlayScore[] = "Score";
-@localize { "The score label in the play screen" 3-6 };
+@localize { "The score label in the play screen" 3-8 };
 @chunk char PlayBonusTime[] = "Bonus time";
-@localize { "The bonus time label in the play screen" 3-10 };
+@localize { "The bonus time label in the play screen" 3-12 };
 
 // Lookup table for translatable strings in Ladder play screen
 @chunkArray optr ScreenGameStrings =
@@ -1189,7 +1192,7 @@
   TSD_T_CHNK | TSD_A_RIGHT, 1, // ScreenGameStrings[1] / Text "Round"
   TSPOS(20, 35),
   TSD_T_CHNK | TSD_A_RIGHT, 2, // ScreenGameStrings[2] / Text "Score"
-  TSPOS(20, 70),
+  TSPOS(20, 72),
   TSD_T_CHNK | TSD_A_RIGHT, 3, // ScreenGameStrings[3] / Text "Bonus time"
   TSP_T_END
 };
