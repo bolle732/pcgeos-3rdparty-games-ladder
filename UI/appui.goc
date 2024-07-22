@@ -1968,11 +1968,14 @@
 
 // Demo moves of Level 1
 @chunk Move GameLevel1Move[] = {
-  { 1427, DIR_E, L_FALSE }, { 1462, DIR_E, L_TRUE }, { 1479, DIR_N, L_FALSE },
-  { 1163, DIR_W, L_FALSE }, { 1156, DIR_W, L_TRUE }, { 1134, DIR_W, L_TRUE },
-  { 1123, DIR_N, L_FALSE }, { 806, DIR_E, L_FALSE }, { 809, DIR_W, L_TRUE },
-  { 803, DIR_E, L_FALSE }, { 814, DIR_N, L_TRUE }, { 501, DIR_W, L_FALSE },
-  { 490, DIR_N, L_FALSE }, { 174, DIR_E, L_FALSE }, { 212, DIR_N, L_TRUE }
+  { GPOS(18,5), DIR_E, L_FALSE }, { GPOS(18,40), DIR_E, L_TRUE },
+  { GPOS(18,57), DIR_N, L_FALSE }, { GPOS(14,57), DIR_W, L_FALSE },
+  { GPOS(14,48), DIR_W, L_TRUE }, { GPOS(14,26), DIR_W, L_TRUE },
+  { GPOS(14,17), DIR_N, L_FALSE }, { GPOS(10,16), DIR_E, L_FALSE },
+  { GPOS(10,19), DIR_W, L_TRUE }, { GPOS(10,13), DIR_E, L_FALSE },
+  { GPOS(10,24), DIR_N, L_TRUE }, { GPOS(6,27), DIR_W, L_FALSE },
+  { GPOS(6,16), DIR_N, L_FALSE }, { GPOS(2,16), DIR_E, L_FALSE },
+  { GPOS(2,54), DIR_N, L_TRUE }
 };
 
 // This chunk is only a place holder. It will be resized during startup.
