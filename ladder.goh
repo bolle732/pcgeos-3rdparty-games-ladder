@@ -137,6 +137,9 @@
 #define PNT_DER             2  // Points for jumping over Der
 #define PNT_LAD           100  // Points needed for new Lad
 
+// Score
+#define PNTS_MAX        65535  // Maximum score
+
 // Text string bit masks
 #define TSC_M            0xF0  // Command mask
 #define TSL_M            0x0F  // Length mask

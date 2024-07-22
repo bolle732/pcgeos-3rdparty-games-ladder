@@ -277,7 +277,7 @@ static byte _pascal NewLadByScoreIncrease(word incr)
  ***********************************************************************/
 static void _pascal IncreaseLads(void)
 {
-  if (g.game.lads < 99) g.game.lads++;
+  if (g.game.lads < LADS_MAX) g.game.lads++;
 }
 
 /***********************************************************************
@@ -301,13 +301,13 @@ static void _pascal IncreaseLads(void)
  ***********************************************************************/
 static void _pascal IncreaseScore(word incr)
 {
-  if (65535 - g.game.score > incr)
+  if (PNTS_MAX - g.game.score > incr)
   {
     g.game.score += incr;
   }
   else
   {
-    g.game.score = 65535;
+    g.game.score = PNTS_MAX;
   }
 }
 
