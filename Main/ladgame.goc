@@ -85,6 +85,8 @@ word _pascal Random(word max);
 static void _pascal PlayNoise(word noise);
 static word _pascal LevelAndTimeReductionByRound(word round);
 static byte _pascal NewLadByScoreIncrease(word incr);
+static void _pascal IncreaseLads(void);
+static void _pascal IncreaseScore(word incr);
 static byte _pascal CanMove(word cpos, word npos);
 static byte _pascal CanStay(word pos);
 static byte _pascal LadCanClimb(void);
@@ -93,7 +95,6 @@ static byte _pascal DerCanChangeOver(word cpos, sbyte dir);
 static byte _pascal DerCanDescend(word cpos);
 static void _pascal MoveLad(void);
 static void _pascal MoveDers(void);
-
 
 /*
  ***************************************************************************
@@ -256,6 +257,59 @@ static byte _pascal NewLadByScoreIncrease(word incr)
   return L_FALSE;
 }
 
+/***********************************************************************
+ *                  IncreaseLads
+ ***********************************************************************
+ * SYNOPSIS:        Increase the lads if not at maximum.
+ * CALLED BY:       Internal
+ * PARAMETERS:      void (  )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    The global variable "g.game.lads" must contain the
+ *                  current lads.
+ *
+ * STRATEGY:        1/ Increase the lads by one if not at maximum lads.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-07-22    Initial Revision
+ *
+ ***********************************************************************/
+static void _pascal IncreaseLads(void)
+{
+  if (g.game.lads < 99) g.game.lads++;
+}
+
+/***********************************************************************
+ *                  IncreaseScore
+ ***********************************************************************
+ * SYNOPSIS:        Increase the score if not at maximum.
+ * CALLED BY:       Internal
+ * PARAMETERS:      void ( word incr )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    The global variable "g.game.score" must contain the
+ *                  current score.
+ *
+ * STRATEGY:        1/ Increase the score by the increment from the
+ *                     parameter if not at maximum score.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-07-22    Initial Revision
+ *
+ ***********************************************************************/
+static void _pascal IncreaseScore(word incr)
+{
+  if (65535 - g.game.score > incr)
+  {
+    g.game.score += incr;
+  }
+  else
+  {
+    g.game.score = 65535;
+  }
+}
 
 /*
  ***************************************************************************
@@ -1280,10 +1334,10 @@ static void _pascal MoveDers(void)
   {
     if (NewLadByScoreIncrease(pnts) == L_TRUE)
     {
-      g.game.lads++;
+      IncreaseLads();
       @send LadderGameLads::MSG_VAL_UPDATE_VALUE(g.game.lads);
     }
-    g.game.score += pnts;
+    IncreaseScore(pnts);
     @send LadderGameScore::MSG_VAL_UPDATE_VALUE(g.game.score);
     // Play notification sound
     PlayNoise(1);
@@ -1533,11 +1587,11 @@ static void _pascal MoveDers(void)
     // Update lads
     if (NewLadByScoreIncrease(PNT_TIME) == L_TRUE)
     {
-      g.game.lads++;
+      IncreaseLads();
       @send LadderGameLads::MSG_VAL_UPDATE_VALUE(g.game.lads);
     }
     // Increase and update score
-    g.game.score += PNT_TIME;
+    IncreaseScore(PNT_TIME);
     @send LadderGameScore::MSG_VAL_UPDATE_VALUE(g.game.score);
     // Decrease and update bonus time
     g.game.time--;
