@@ -127,43 +127,32 @@
 }
 
 @object LadderValueClass LadderMenuDiff = {
-  VI_bounds = {
-     GPOS(11, 21), 0,
-    1, 0
-  };
+  LVI_position = GPOS(11, 25);
+  LVI_length = 1;
   LVI_value = CFG_DIFF_MIN;
 }
 
 @object LadderTextClass LadderMenuSound = {
-  VI_bounds = {
-    GPOS(12, 25), 0,
-    3, 0
-  };
+  LTI_position = GPOS(12, 25);
+  LTI_length = 13;
   LTI_text = @MenuSoundOff;
 }
 
 @object LadderRankClass LadderMenuRank = {
-  VI_bounds = {
-    GPOS(15, 43), 0,
-    0, 0
-  };
+  LRI_position = GPOS(15, 41); 
   LRI_noname = @HighNoName;
 }
 
 @object LadderValueClass LadderMenuLastScore = {
-  VI_bounds = {
-    GPOS(21, 55), 0,
-    4, 0
-  };
+  LVI_position = GPOS(21, 72);
+  LVI_length = 7;  // Maximum '65536' + suffix '00'  
   LVI_value = 1;
   LVI_suffix = L_TRUE;
 }
 
 @object LadderTextClass LadderMenuInfo = {
-  VI_bounds = {
-    GPOS(SCN_ROWS - 1, 1), 0,
-    SCN_COLS - 2, 0
-  };
+  LTI_position = GPOS(SCN_ROWS - 1, 1);
+  LTI_length = SCN_COLS - 2;
 }
 
 // Instruction
@@ -184,26 +173,20 @@
 }
 
 @object LadderTextClass LadderLoadName = {
-  VI_bounds = {
-    GPOS(9, SCN_MID_COL), 0,
-    22, 0
-  };
+  LTI_position = GPOS(9, SCN_MID_COL);
+  LTI_length = 22;
   LTI_alignment = TSD_A_CENTER;
 }
 
 @object LadderValueClass LadderLoadRound = {
-  VI_bounds = {
-    GPOS(12, 42), 0,
-    2, 0
-  };
+  LVI_position = GPOS(12, 45);
+  LVI_length = 2;
   LVI_value = 1;
 }
 
 @object LadderValueClass LadderLoadLevel = {
-  VI_bounds = {
-    GPOS(13, 42), 0,
-    1, 0
-  };
+  LVI_position = GPOS(13, 45);
+  LVI_length = 2;
   LVI_value = 1;
 }
 
@@ -219,18 +202,10 @@
 }
 
 @object LadderLevelClass LadderGameLevel = {
-  VI_bounds = {
-    0, 0,
-    SCN_COLS * FNT_WIDTH, LVL_ROWS * FNT_HEIGHT
-  };
   LLI_buffer = @GameLevelBuffer;
 }
 
 @object LadderActorsClass LadderGameActors = {
-  VI_bounds = {
-    0, 0,
-    SCN_COLS * FNT_WIDTH, LVL_ROWS * FNT_HEIGHT
-  };
   LAI_count = 0;
 /*
   // XXX: -> Dynamic allocation possible ???
@@ -241,35 +216,27 @@
 }
 
 @object LadderValueClass LadderGameLads = {
-  VI_bounds = {
-    GPOS(20, 3), 0,
-    2, 0
-  };
+  LVI_position = GPOS(20, 9);
+  LVI_length = 2;
   LVI_value = LAD_D_LIVES;
 }
 
 @object LadderValueClass LadderGameRound = {
-  VI_bounds = {
-    GPOS(20, 20), 0,
-    2, 0
-  };
+  LVI_position = GPOS(20, 25);
+  LVI_length = 2;
   LVI_value = 1;
 }
 
 @object LadderValueClass LadderGameScore = {
-  VI_bounds = {
-    GPOS(20, 36), 0,
-    5, 0
-  };
+  LVI_position = GPOS(20, 47);
+  LVI_length = 7;  // Maximum '65535' + suffix '00'
   LVI_value = 1;
   LVI_suffix = L_TRUE;
 }
 
 @object LadderValueClass LadderGameTime = {
-  VI_bounds = {
-    GPOS(20, 72), 0,
-    2, 0
-  };
+  LVI_position = GPOS(20, 77);
+  LVI_length = 4;  // Maximum '99' + suffix '00'
   LVI_value = 32;
   LVI_suffix = L_TRUE;
 }
@@ -300,26 +267,19 @@
 }
 
 @object LadderTextClass LadderHighCompliment = {
-  VI_bounds = {
-    GPOS(9, SCN_MID_COL), 0,
-    77, 0
-  };
+  LTI_position = GPOS(9, SCN_MID_COL);
+  LTI_length = 77;
   LTI_alignment = TSD_A_CENTER;
 }
 
 @object LadderInputClass LadderHighName = {
-  VI_bounds = {
-    GPOS(12, 41), 0,
-    RNK_NAME_LEN, 0
-  };
+  LII_position = GPOS(12, 41);
 }
 
 // This object is used by multiple screen object
 @object LadderTextClass LadderInfo = {
-  VI_bounds = {
-    GPOS(SCN_ROWS - 2, 1), 0,
-    SCN_COLS - 2, 0
-  };
+  LTI_position = GPOS(SCN_ROWS - 2, 1);
+  LTI_length = SCN_COLS - 2;
 }
 
 @end INTERFACE;
@@ -350,7 +310,7 @@
 "E = Beende GeoLadder"
 "Wähle eines von oben:"
 "Rangliste"
-"Letzte Punkte:"
+"Letzte Punkte"
 */
 // Translatable strings in Ladder menu screen
 @chunk char MenuText0[] = "Original is (c) in 1982, 1983 Yahoo Software";
@@ -385,7 +345,7 @@
 @localize { "The enter one of the above label" 3-37 };
 @chunk char MenuText14[] = "High Scores";
 @localize { "The high scores label" 3-37 };
-@chunk char MenuText15[] = "Last Score:";
+@chunk char MenuText15[] = "Last Score";
 @localize { "The last score label" 3-14 };
 
 // Lookup table for translatable strings in Ladder menu screen
@@ -505,69 +465,61 @@
   TSD_T_CHNK, 0, // ScreenMenuStrings[0] / Text "Original is (c) in 1982, 1983 Yahoo Software"
   TSPOS(9, 1),
   TSD_T_CHNK, 1, // ScreenMenuStrings[1] / Text "Adapted for PC/GEOS in 2011 by Andreas Bollhalder"
-  TSPOS(11, SCN_MID_COL),
-  TSD_T_CHNK, 2, // ScreenMenuStrings[2] / Text "Version"
-  TSPOS(11, 54),
-  TSD_T_CHAR + 1, ':', // Text ":"
-  TSPOS(11, 56),
-  TSD_T_CHNK, 3, // ScreenMenuStrings[3] / Text "0.5 0-22"
-  TSPOS(12, SCN_MID_COL),
-  TSD_T_CHNK, 4, // ScreenMenuStrings[4] / Text "Terminal"
-  TSPOS(12, 54),
-  TSD_T_CHAR + 1, ':', // Text ":"
-  TSPOS(12, 56),
-  TSD_T_CHNK, 5, // ScreenMenuStrings[5] / Text "PC/GEOS"
   TSPOS(11, 1),
   TSD_T_CHNK, 6, // ScreenMenuStrings[6] / Text "Difficulty Level"
   TSPOS(11, 23),
   TSD_T_CHAR + 1, ':', // Text ":"
+  TSPOS(11, 41),
+  TSD_T_CHNK, 2, // ScreenMenuStrings[2] / Text "Version"
+  TSPOS(11, 53),
+  TSD_T_CHAR + 1, ':', // Text ":"
+  TSPOS(11, 55),
+  TSD_T_CHNK, 3, // ScreenMenuStrings[3] / Text "0.5 0-22"
   TSPOS(12, 1),
   TSD_T_CHNK, 7, // ScreenMenuStrings[7] / Text "Sound Output"
   TSPOS(12, 23),
   TSD_T_CHAR + 1, ':', // Text ":"
+  TSPOS(12, 41),
+  TSD_T_CHNK, 4, // ScreenMenuStrings[4] / Text "Terminal"
+  TSPOS(12, 53),
+  TSD_T_CHAR + 1, ':', // Text ":"
+  TSPOS(12, 55),
+  TSD_T_CHNK, 5, // ScreenMenuStrings[5] / Text "PC/GEOS"
   // Main menu
   TSPOS(14, 1),
-  TSD_T_TEXT + 4,
-    'P', ' ', '=', ' ',
+  TSD_T_TEXT + 3,
+    'P', ' ', '=',
+  TSPOS(14, 5),
   TSD_T_CHNK, 8, // ScreenMenuStrings[8] / Text "Play Game"
   TSPOS(15, 1),
-  TSD_T_TEXT + 4,
-    'D', ' ', '=', ' ',
+  TSD_T_TEXT + 3,
+    'D', ' ', '=',
+  TSPOS(15, 5),
   TSD_T_CHNK, 9, // ScreenMenuStrings[9] / Text "Change Difficulty"
   TSPOS(16, 1),
-  TSD_T_TEXT + 4,
-    'S', ' ', '=', ' ',
+  TSD_T_TEXT + 3,
+    'S', ' ', '=',
+  TSPOS(16, 5),
   TSD_T_CHNK, 10, // ScreenMenuStrings[10] / Text "Change Sound"
   TSPOS(17, 1),
-  TSD_T_TEXT + 4,
-    'I', ' ', '=', ' ',
+  TSD_T_TEXT + 3,
+    'I', ' ', '=',
+  TSPOS(17, 5),
   TSD_T_CHNK, 11, // ScreenMenuStrings[11] / Text "Show Instructions"
   TSPOS(19, 1),
-  TSD_T_TEXT + 4,
-    'E', ' ', '=', ' ',
+  TSD_T_TEXT + 3,
+    'E', ' ', '=',
+  TSPOS(19, 5),
   TSD_T_CHNK, 12, // ScreenMenuStrings[12] / Text "Exit GeoLadder"
   TSPOS(21, 1),
   TSD_T_CHNK, 13, // ScreenMenuStrings[13] / Text "Enter one of the above:"
   // Ranking list and last score
-  TSPOS(14, SCN_MID_COL),
+  TSPOS(14, 41),
   TSD_T_CHNK, 14, // ScreenMenuStrings[14] / Text "High Scores"
-  TSPOS(15, SCN_MID_COL),
-  TSD_T_TEXT + 2,
-    '1', ')',
-  TSPOS(16, SCN_MID_COL),
-  TSD_T_TEXT + 2,
-    '2', ')',
-  TSPOS(17, SCN_MID_COL),
-  TSD_T_TEXT + 2,
-    '3', ')',
-  TSPOS(18, SCN_MID_COL),
-  TSD_T_TEXT + 2,
-    '4', ')',
-  TSPOS(19, SCN_MID_COL),
-  TSD_T_TEXT + 2,
-    '5', ')',
-  TSPOS(21, SCN_MID_COL),
+  TSPOS(21, 41),
   TSD_T_CHNK, 15, // ScreenMenuStrings[15] / Text "Last Score:"
+  TSPOS(21, 64),
+  TSD_T_CHAR + 1, ':', // Text ":"
   TSP_T_END
 };
 
@@ -1156,7 +1108,7 @@
   TSD_T_CHNK, 2, // ScreenLoadStrings[2] / Text "Level:"
   TSPOS(13, 43),
   TSD_T_CHAR + 1, ':', // Text ":"
-  TSPOS(16, SCN_MID_COL),
+  TSPOS(18, SCN_MID_COL),
   TSD_T_CHNK | TSD_A_CENTER, 3, // ScreenLoadStrings[0] / Text "Please wait..."
   TSP_T_END
 };
@@ -1186,13 +1138,13 @@
 };
 
 @chunk byte ScreenGame[] = {
-  TSPOS(20, 0),
+  TSPOS(20, 1),
   TSD_T_CHNK, 0, // ScreenGameStrings[0] / Text "Lads"
-  TSPOS(20, 20),
+  TSPOS(20, 21),
   TSD_T_CHNK | TSD_A_RIGHT, 1, // ScreenGameStrings[1] / Text "Round"
-  TSPOS(20, 35),
+  TSPOS(20, 33),
   TSD_T_CHNK | TSD_A_RIGHT, 2, // ScreenGameStrings[2] / Text "Score"
-  TSPOS(20, 72),
+  TSPOS(20, 71),
   TSD_T_CHNK | TSD_A_RIGHT, 3, // ScreenGameStrings[3] / Text "Bonus time"
   TSP_T_END
 };

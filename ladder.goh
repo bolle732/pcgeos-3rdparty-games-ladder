@@ -456,8 +456,10 @@ typedef struct                 // Lad demo move
   @default VI_geoAttrs = (@default)
     | VGA_NO_SIZE_HINTS
     | VGA_ONLY_RECALC_SIZE_WHEN_INVALID;
-  @instance optr LTI_text = NullOptr;
+  @instance word LTI_position = 0;
+  @instance word LTI_length = 0;
   @instance byte LTI_alignment = TSD_A_LEFT;
+  @instance optr LTI_text = NullOptr;
   @prototype void MSG_TXT_PROTO(optr text);
   @message (MSG_TXT_PROTO) MSG_TXT_SET_TEXT;
   @message (MSG_TXT_PROTO) MSG_TXT_UPDATE_TEXT;
@@ -475,9 +477,10 @@ typedef struct                 // Lad demo move
   @default VI_geoAttrs = (@default)
     | VGA_NO_SIZE_HINTS
     | VGA_ONLY_RECALC_SIZE_WHEN_INVALID;
+  @instance word LVI_position = 0;
+  @instance word LVI_length = 0;
   @instance word LVI_value = 0;
   @instance word LVI_suffix = L_FALSE;
-//  @instance byte LVI_alignment = TSD_A_RIGHT;
   @prototype void MSG_VAL_PROTO(word value);
   @message (MSG_VAL_PROTO) MSG_VAL_SET_VALUE;
   @message (MSG_VAL_PROTO) MSG_VAL_UPDATE_VALUE;
@@ -495,6 +498,7 @@ typedef struct                 // Lad demo move
   @default VI_geoAttrs = (@default)
     | VGA_NO_SIZE_HINTS
     | VGA_ONLY_RECALC_SIZE_WHEN_INVALID;
+  @instance word LRI_position = 0;
   @instance optr LRI_noname = NullOptr;
   @instance RankFile LRI_file = 0;
   @message word MSG_RNK_IS_NEW_RANK(word score);
@@ -552,8 +556,9 @@ typedef struct                 // Lad demo move
   @default VI_geoAttrs = (@default)
     | VGA_NO_SIZE_HINTS
     | VGA_ONLY_RECALC_SIZE_WHEN_INVALID;
+  @instance word LII_position = 0;
+  @instance word LII_cursor = 0;
   @instance char LII_text[RNK_NAME_LEN] = "";
-  @instance word LII_pos = 0;
   @message void MSG_INP_ADD_CHAR(char character);
   @message void MSG_INP_DEL_CHAR();
   @message void MSG_INP_GET_INPUT(void *buffer);

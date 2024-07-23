@@ -249,13 +249,15 @@ static void _pascal DrawText(word pos, char *text, sword len)
  ***********************************************************************/
 static void _pascal DrawValue(word pos, word val, word suf)
 {
-  static char ldv[5 + 2 + 1];
+  static char ldv[5 + 2 + 1];  // Word '65535', suffix '00', null terminator 
   word l;
   l = sprintf(&ldv, "%5u", val);
   if (suf == L_TRUE && val != 0)
   {
     l += sprintf(ldv + l, "%s", "00");
   }
+  pos -= l;
+  pos++;
   DrawText(pos, &ldv, l);
 }
 
@@ -604,7 +606,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
     // Get the length of the text
     l = strlen(LMemDeref(o));
     // Get position of text
-    p = pself->VI_bounds.R_left;
+    p = pself->LTI_position;
     // Handle alignment
     switch (pself->LTI_alignment)
     {
@@ -614,7 +616,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
       break;
     // Handle right alignment
     case TSD_A_RIGHT:
-      p += (pself->VI_bounds.R_right - l) + 1;
+      p += (pself->LTI_length - l) + 1;
 //    break;
     }
     // Draw the text
@@ -653,7 +655,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   if (message == MSG_TXT_UPDATE_TEXT)
   {
     // Clear the background
-    ClearText(pself->VI_bounds.R_left, pself->VI_bounds.R_right);
+    ClearText(pself->LTI_position, pself->LTI_length);
     // Draw the text
     @send oself::MSG_VIS_DRAW(0, g_gstateHandle);
   }
@@ -691,7 +693,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************/
 @method LadderValueClass, MSG_VIS_DRAW
 {
-  DrawValue(pself->VI_bounds.R_left, pself->LVI_value, pself->LVI_suffix);
+  DrawValue(pself->LVI_position, pself->LVI_value, pself->LVI_suffix);
 }
 
 /***********************************************************************
@@ -723,7 +725,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   if (message == MSG_VAL_UPDATE_VALUE)
   {
     // Clear the background
-    ClearText(pself->VI_bounds.R_left + 5 - pself->VI_bounds.R_right, pself->VI_bounds.R_right);
+    ClearText(pself->LVI_position - pself->LVI_length + 1, pself->LVI_length);
     // Draw the value
     @send oself::MSG_VIS_DRAW(0, g_gstateHandle);
   }
@@ -760,12 +762,15 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************/
 @method LadderRankClass, MSG_VIS_DRAW
 {
-  word i, pos;
+  word i, l, pos;
+  static char s[3];
   for (i = 0; i < RNKS; i++)
   {
-    pos = pself->VI_bounds.R_left + i * SCN_COLS;
-    DrawValue(pos, pself->LRI_file.ranks[i].score, L_TRUE);
-    DrawText(pos + 9, &pself->LRI_file.ranks[i].name, RNK_NAME_LEN);
+    pos = pself->LRI_position + i * SCN_COLS;
+    l = sprintf(&s, "%1u)", i);
+    DrawText(pos, s, l);
+    DrawValue(pos + 9, pself->LRI_file.ranks[i].score, L_TRUE);
+    DrawText(pos + 12, &pself->LRI_file.ranks[i].name, RNK_NAME_LEN);
   }
 }
 
@@ -1296,7 +1301,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
 @method LadderInputClass, MSG_VIS_DRAW
 {
   // Draw the text
-  DrawText(pself->VI_bounds.R_left, &pself->LII_text, pself->LII_pos);
+  DrawText(pself->LII_position, &pself->LII_text, pself->LII_cursor);
 }
 
 /***********************************************************************
@@ -1321,15 +1326,15 @@ static void _pascal DrawValue(word pos, word val, word suf)
 @method LadderInputClass, MSG_INP_ADD_CHAR
 {
   word pos;
-  pos = pself->LII_pos;
+  pos = pself->LII_cursor;
   // Check for last
   if (pos < RNK_NAME_LEN)
   {
     // Store the character
     pself->LII_text[pos] = character;
-    DrawChar(pself->VI_bounds.R_left + pself->LII_pos, character);
+    DrawChar(pself->LII_position + pself->LII_cursor, character);
     // Increase the position
-    pself->LII_pos++;
+    pself->LII_cursor++;
   }
 }
 
@@ -1362,7 +1367,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
                           MSG_INP_RESET
 {
   word pos;
-  pos = pself->LII_pos;
+  pos = pself->LII_cursor;
   // Check if we have valid data and do not stay on zero position
   if (pos != 0)
   {
@@ -1375,7 +1380,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
       // Delete the text at the current position
       pself->LII_text[pos] = C_SPACE;
       // Clear the background
-      ClearText(pself->VI_bounds.R_left + pos, 1);
+      ClearText(pself->LII_position + pos, 1);
       break;
     case MSG_INP_RESET:
       // Reset the text
@@ -1384,7 +1389,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
       pos = 0;
 //    break;
     }
-    pself->LII_pos = pos;
+    pself->LII_cursor = pos;
   }
 }
 
