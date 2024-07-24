@@ -842,7 +842,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
     for (i = 0; i < RNKS; i++)
     {
       // Write the rank default score
-      pself->LRI_file.ranks[i].score = PNT_TIME;
+      pself->LRI_file.ranks[i].score = 0;
       // Write the rank no name
      MemLock(OptrToHandle(pself->LRI_noname));
      memcpy(&pself->LRI_file.ranks[i].name, LMemDeref(pself->LRI_noname), LMemGetChunkSize(pself->LRI_noname));
