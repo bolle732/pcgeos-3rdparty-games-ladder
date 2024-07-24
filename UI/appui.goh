@@ -131,6 +131,8 @@
 
 @extern chunk GameDemos;  // chunkArray
 @extern chunk GameDemo1Moves;
+@extern chunk GameDemo2Moves;
+@extern chunk GameDemo3Moves;
 
 @extern chunk GameLevelBuffer;
 

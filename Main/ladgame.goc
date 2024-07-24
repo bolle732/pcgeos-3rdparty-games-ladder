@@ -1220,14 +1220,16 @@ static void _pascal MoveDers(void)
   // Handle demo moves
   if (message == MSG_LAD_DEMO_EXEC)
   {
+    optr o;
+    o = ConstructOptr(OptrToHandle(@GameDemos), g.demo.moves);
     // Lock the demo moves
-    MemLock(OptrToHandle(@GameDemo1Moves));
+    MemLock(OptrToHandle(o));
     // Verify we don't read beyond
-    if (g.ctlState < (LMemGetChunkSize(@GameDemo1Moves) / sizeof(Move)))
+    if (g.ctlState < (LMemGetChunkSize(o) / sizeof(Move)))
     {
       Move *move;
       // Get the pointer of the demo moves
-      move = LMemDeref(@GameDemo1Moves);
+      move = LMemDeref(o);
       // Check if we are at the right position
       if (g.lad.cpos == move[g.ctlState].tpos)
       {
@@ -1239,7 +1241,7 @@ static void _pascal MoveDers(void)
       }
     }
     // Unlock the demo move
-    MemUnlock(OptrToHandle(@GameDemo1Moves));
+    MemUnlock(OptrToHandle(o));
   }
   // Lock the level buffer
   MemLock(OptrToHandle(@GameLevelBuffer));

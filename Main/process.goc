@@ -692,18 +692,28 @@ static word _pascal TicksByDifficulty(word diff)
   g.appState = APP_I_NONE;
   // Initialize the game
   g.game.lads = LAD_D_LIVES;
-  g.game.round = 1; // 1, 2, 5, 9, 14, 20, 27
-  g.game.level = 1; // 1, 2, 3, 4, 5, 6, 7
   g.game.score = 0;
   g.game.delay = TicksByDifficulty(g.game.diff);
   // Handle message type
   switch (message)
   {
   case MSG_LAD_DEMO:
+    // Lock the game demos
+    MemLock(OptrToHandle(@GameDemos));
+    // Get the game demo
+    ChunkArrayGetElement(@GameDemos, Random(ChunkArrayGetCount(@GameDemos)), &g.demo);
+    // Unlock the game demos
+    MemUnlock(OptrToHandle(@GameDemos));
+    // Set the round and level
+    g.game.round = g.demo.round;
+    g.game.level = g.demo.level;
     // Start the demo level
     @send oself::MSG_LAD_DEMO_LOAD_HEAD();
     break;
   case MSG_LAD_PLAY:
+    // Initialize the round and level
+    g.game.round = 1; // 1, 2, 5, 9, 14, 20, 27
+    g.game.level = 1; // 1, 2, 3, 4, 5, 6, 7
     // Start the first level
     @send oself::MSG_LAD_PLAY_LOAD_HEAD();
 //  break;
