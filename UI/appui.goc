@@ -1192,57 +1192,57 @@
 @chunkArray Level GameLevels =
 {
   {
-    ChunkOf(@GameLevel1Name), 35, 5 + 18 * LVL_COLS,
+    ChunkOf(@GameLevel1Name), 35, GPOS(18,5),
     {
-      1, { 39 }
+      1, { GPOS(0,39) }
     },
     5,
     ChunkOf(@GameLevel1Data)
   },
   {
-    ChunkOf(@GameLevel2Name), 45, 17 + 18 * LVL_COLS,
+    ChunkOf(@GameLevel2Name), 45, GPOS(18,17),
     {
-      2, { 13 + 2 * LVL_COLS, 67 + 2 * LVL_COLS }
+      2, { GPOS(2,13), GPOS(2,67) }
     },
     8,
     ChunkOf(@GameLevel2Data)
   },
   {
-    ChunkOf(@GameLevel3Name), 33, 5 + 2 * LVL_COLS,
+    ChunkOf(@GameLevel3Name), 33, GPOS(2,5),
     {
-      3, { 28, 44, 56 }
+      3, { GPOS(0,28), GPOS(0,44), GPOS(0,56) }
     },
     5,
     ChunkOf(@GameLevel3Data)
   },
   {
-    ChunkOf(@GameLevel4Name), 32, 77 + 16 * LVL_COLS,
+    ChunkOf(@GameLevel4Name), 32, GPOS(16,77),
     {
-      2, { 44, 68 }
+      2, { GPOS(0,44), GPOS(0,68) }
     },
     5,
     ChunkOf(@GameLevel4Data)
   },
   {
-    ChunkOf(@GameLevel5Name), 29, 74 + 3 * LVL_COLS,
+    ChunkOf(@GameLevel5Name), 29, GPOS(3,74),
     {
-      2, { 61 + LVL_COLS, 29 + 4 * LVL_COLS }
+      2, { GPOS(1,61), GPOS(4,29) }
     },
     7,
     ChunkOf(@GameLevel5Data)
   },
   {
-    ChunkOf(@GameLevel6Name), 29, 33 + 8 * LVL_COLS,
+    ChunkOf(@GameLevel6Name), 29, GPOS(8,33),
     {
-      2, { 63, 44 + 4 * LVL_COLS }
+      2, { GPOS(0,63), GPOS(4,44) }
     },
     6,
     ChunkOf(@GameLevel6Data)
   },
   {
-    ChunkOf(@GameLevel7Name), 22, 6 + 2 * LVL_COLS,
+    ChunkOf(@GameLevel7Name), 22, GPOS(2,6),
     {
-      2, { 60, 6 + 4 * LVL_COLS }
+      2, { GPOS(0,60), GPOS(4,6) }
     },
     6,
     ChunkOf(@GameLevel7Data)
@@ -1846,7 +1846,7 @@
   LSPOS(LSP_T_SET | LSO_T_H, 15, 43),
   LSD_T_BASE + 13,
   LSP_T_MOVE + 4,
-  LSD_T_BASE + 12,
+  LSD_T_BASE + 13,  // In the original it is only 12
   LSPOS(LSP_T_SET | LSO_T_H, 16, 42),
   LSD_T_TRAP + 1,
   LSP_T_MOVE + 10,
@@ -1913,7 +1913,7 @@
   LSD_T_WALL + 1,
   LSPOS(LSP_T_SET | LSO_T_V, 1, 70),
   LSD_T_BALL + 2,
-  LSPOS(LSP_T_SET | LSO_T_V, 2, 72),
+  LSPOS(LSP_T_SET | LSO_T_V, 2, 73),  // Fixed wrong 72 to 73
   LSD_T_LADDER + 10,
   LSP_T_END
 };
