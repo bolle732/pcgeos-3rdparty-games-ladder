@@ -1141,7 +1141,7 @@
   TSD_T_CHNK, 0, // ScreenGameStrings[0] / Text "Lads"
   TSPOS(20, 21),
   TSD_T_CHNK | TSD_A_RIGHT, 1, // ScreenGameStrings[1] / Text "Round"
-  TSPOS(20, 33),
+  TSPOS(20, 37),
   TSD_T_CHNK | TSD_A_RIGHT, 2, // ScreenGameStrings[2] / Text "Score"
   TSPOS(20, 71),
   TSD_T_CHNK | TSD_A_RIGHT, 3, // ScreenGameStrings[3] / Text "Bonus time"
