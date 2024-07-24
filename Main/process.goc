@@ -694,7 +694,7 @@ static word _pascal TicksByDifficulty(word diff)
   g.game.lads = LAD_D_LIVES;
   g.game.round = 1; // 1, 2, 5, 9, 14, 20, 27
   g.game.level = 1; // 1, 2, 3, 4, 5, 6, 7
-  g.game.score = PNT_TIME;
+  g.game.score = 0;
   g.game.delay = TicksByDifficulty(g.game.diff);
   // Handle message type
   switch (message)
