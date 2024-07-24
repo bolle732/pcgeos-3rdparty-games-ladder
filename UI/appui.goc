@@ -146,7 +146,6 @@
 @object LadderValueClass LadderMenuLastScore = {
   LVI_position = GPOS(21, 72);
   LVI_length = 7;  // Maximum '65536' + suffix '00'  
-  LVI_value = 1;
   LVI_suffix = L_TRUE;
 }
 
