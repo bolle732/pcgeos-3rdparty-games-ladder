@@ -1917,8 +1917,21 @@
   LSP_T_END
 };
 
-// Demo moves of Level 1
-@chunk Move GameLevel1Move[] = {
+
+
+
+// Level, Round
+// Demo Moves
+@chunkArray Demo GameDemos =
+{
+  {
+    1, 1,
+    ChunkOf(@GameDemo1Moves)
+  }
+};
+
+// Moves of Demo 1
+@chunk Move GameDemo1Moves[] = {
   { GPOS(18,5), DIR_E, L_FALSE }, { GPOS(18,40), DIR_E, L_TRUE },
   { GPOS(18,57), DIR_N, L_FALSE }, { GPOS(14,57), DIR_W, L_FALSE },
   { GPOS(14,48), DIR_W, L_TRUE }, { GPOS(14,26), DIR_W, L_TRUE },

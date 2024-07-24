@@ -362,6 +362,13 @@ typedef struct                 // Lad demo move
   byte njump;                  //   1B+0 - Start a new jump
 } Move;                        //   4B+0 = 4 Bytes used
 
+typedef struct                 // Demo data
+{
+  word level;                  //   2B+0 - Name
+  word round;                  //   2B+0 - Bonus time
+  ChunkHandle moves;            //   2B+0 - Level data
+} Demo;                        //  18B+0 = 18 Bytes used
+
 
 /*
  ***************************************************************************

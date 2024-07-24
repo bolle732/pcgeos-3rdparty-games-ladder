@@ -128,7 +128,9 @@
 @extern chunk GameLevel5Data;
 @extern chunk GameLevel6Data;
 @extern chunk GameLevel7Data;
-@extern chunk GameLevel1Move;
+
+@extern chunk GameDemos;  // chunkArray
+@extern chunk GameDemo1Moves;
 
 @extern chunk GameLevelBuffer;
 
