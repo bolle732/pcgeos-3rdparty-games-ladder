@@ -1221,7 +1221,7 @@ static void _pascal MoveDers(void)
   if (message == MSG_LAD_DEMO_EXEC)
   {
     optr o;
-    o = ConstructOptr(OptrToHandle(@GameDemos), g.demo.moves);
+    o = ConstructOptr(OptrToHandle(@GameDemos), g.moves);
     // Lock the demo moves
     MemLock(OptrToHandle(o));
     // Verify we don't read beyond

@@ -367,8 +367,8 @@ typedef struct                 // Global structure
   Level level;                 //  20B+0 - Level data
   Der ders[DERS_MAX];          //  48B+0 - Der data
   Lad lad;                     //  12B+0 - Lad data
-  Demo demo;                   //   6B+0 - Demo data
-} Globals;                     // 118B+2 = 120 Bytes used
+  ChunkHandle moves;           //   2B+0 - Demo data
+} Globals;                     // 114B+2 = 116 Bytes used
 
 
 /*

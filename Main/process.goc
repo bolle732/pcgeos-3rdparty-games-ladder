@@ -686,6 +686,8 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderProcessClass, MSG_LAD_DEMO,
                             MSG_LAD_PLAY
 {
+  // Our demo
+  Demo d;
   // Stop the timer
   StopTimer();
   // Reset the appplication state for the handling of key presses
@@ -701,12 +703,13 @@ static word _pascal TicksByDifficulty(word diff)
     // Lock the game demos
     MemLock(OptrToHandle(@GameDemos));
     // Get the game demo
-    ChunkArrayGetElement(@GameDemos, Random(ChunkArrayGetCount(@GameDemos)), &g.demo);
+    ChunkArrayGetElement(@GameDemos, Random(ChunkArrayGetCount(@GameDemos)), &d);
     // Unlock the game demos
     MemUnlock(OptrToHandle(@GameDemos));
-    // Set the round and level
-    g.game.round = g.demo.round;
-    g.game.level = g.demo.level;
+    // Set the round, level and moves
+    g.game.round = d.round;
+    g.game.level = d.level;
+    g.moves = d.moves;
     // Start the demo level
     @send oself::MSG_LAD_DEMO_LOAD_HEAD();
     break;
