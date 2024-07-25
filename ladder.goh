@@ -438,12 +438,22 @@ typedef struct                 // Global structure
 
 /*
  ***************************************************************************
+ *                  DEFINITION of LadderViewClass
+ ***************************************************************************
+ */
+@class LadderViewClass, GenViewClass;
+@endc
+
+
+/*
+ ***************************************************************************
  *                  DEFINITION of LadderScreenClass
  ***************************************************************************
  */
 
 @class LadderScreenClass, VisContentClass;
   @default VI_attrs = (@default) & ~(VA_DETECTABLE | VA_MANAGED | VA_OLD_BOUNDS_SAVED);
+  @default VI_bounds = { 0, 0, SCN_COLS * FNT_WIDTH, SCN_ROWS * FNT_HEIGHT + 2 };
   @default VI_geoAttrs = (@default)
     | VGA_NO_SIZE_HINTS
     | VGA_ONLY_RECALC_SIZE_WHEN_INVALID;
