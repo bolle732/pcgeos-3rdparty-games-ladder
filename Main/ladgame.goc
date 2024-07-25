@@ -1090,12 +1090,6 @@ static void _pascal MoveDers(void)
   @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.lad.cpos, g.lad.face);
   // Show the play screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderGame);
-  // Lock the cursor definition
-  MemLock(OptrToHandle(@LadderGameCursor));
-  // Set the image of the mouse cursor / pointer
-  @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGameCursor, PIL_WINDOW);
-  // Unlock the cursor definition
-  MemUnlock(OptrToHandle(@LadderGameCursor));
   // Handle message type
   switch (message)
   {
@@ -1106,6 +1100,12 @@ static void _pascal MoveDers(void)
     @send oself::MSG_LAD_DEMO_START();
     break;
   case MSG_LAD_PLAY_INIT:
+    // Lock the cursor definition
+    MemLock(OptrToHandle(@LadderGameCursor));
+    // Set the image of the mouse cursor / pointer
+    @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGameCursor, PIL_WINDOW);
+    // Unlock the cursor definition
+    MemUnlock(OptrToHandle(@LadderGameCursor));
     // Do the get ready
     @send oself::MSG_LAD_PLAY_READY();
 //  break;
