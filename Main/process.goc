@@ -269,6 +269,22 @@ static word _pascal TicksByDifficulty(word diff)
   word size, state;
   MemHandle mh;
   ReleaseNumber rn;
+  // Set the menu as the default
+  Message msg = MSG_LAD_MENU;
+  // Handle the restore from state
+  if ((attachFlags & AAF_RESTORING_FROM_STATE) && extraState)
+  {
+    Globals *globals;
+    globals = (Globals *) MemLock(extraState);
+    g = *globals;
+    MemUnlock(extraState);
+    switch (g.appState)
+    {
+    case APP_I_HELP:
+      msg = MSG_LAD_HELP;
+//    break;
+    }
+  }
   // Lock and dereference the help file name
   MemLock(OptrToHandle(@LadderHelpFile));
   // Copy the help file name to a buffer
@@ -347,8 +363,8 @@ static word _pascal TicksByDifficulty(word diff)
   @send LadderMenuRank::MSG_RNK_LOAD();
   // Do super
   @callsuper();
-  // Start the menu
-  @send process::MSG_LAD_MENU();
+  // Let's start
+  @send process:: {MSG_LAD_PROTO} msg();
 }
 
 /***********************************************************************
@@ -380,6 +396,8 @@ static word _pascal TicksByDifficulty(word diff)
  ***********************************************************************/
 @method LadderProcessClass, MSG_GEN_PROCESS_CLOSE_APPLICATION
 {
+  Globals *globals;
+  MemHandle mh;
   // Stop the current timer
   StopTimer();
   // Stop the noise
@@ -390,9 +408,14 @@ static word _pascal TicksByDifficulty(word diff)
   InitFileWriteInteger(&ICA, &IKL, g.game.lastScore);
   // Do super
   @callsuper();
-  // We do not have an extra state
-  return NullHandle;
-}
+  // Save thhe global state
+  mh = MemAlloc(sizeof(Globals), HF_DYNAMIC | HF_SHARABLE, 0);
+  globals = (Globals *) MemLock(mh);
+  *globals = g;
+  MemUnlock(mh);
+  // Return our extra state
+  return mh;
+ }
 
 /***********************************************************************
  *                  MSG_LAD_MENU
