@@ -292,6 +292,16 @@ static word _pascal TicksByDifficulty(word diff)
     case APP_I_HELP:
       msg = MSG_LAD_HELP;
       break;
+    case APP_I_DONE:
+      msg = MSG_LAD_PLAY_DONE;
+      break;
+    case APP_I_HIGH:
+      msg = MSG_LAD_PLAY_HIGH;
+      break;
+    case APP_I_OVER:
+      msg = MSG_LAD_PLAY_OVER;
+      break;
+    case APP_I_PLAY:
     case APP_I_WAIT:
       msg = MSG_LAD_PLAY_WAIT;
       @send LadderGameLads::MSG_VAL_SET_VALUE(g.game.lads);
