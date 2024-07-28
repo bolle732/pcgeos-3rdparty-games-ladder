@@ -271,17 +271,33 @@ static word _pascal TicksByDifficulty(word diff)
   ReleaseNumber rn;
   // Set the menu as the default
   Message msg = MSG_LAD_MENU;
+  // Lock and dereference the level buffer
+  MemLock(OptrToHandle(@GameLevelBuffer));
+  // Resize the level buffer
+  LMemReAlloc(@GameLevelBuffer, LVL_M_SIZE);
+  // Unlock the level buffer
+  MemUnlock(OptrToHandle(@GameLevelBuffer));
   // Handle the restore from state
   if ((attachFlags & AAF_RESTORING_FROM_STATE) && extraState)
   {
-    Globals *globals;
-    globals = (Globals *) MemLock(extraState);
-    g = *globals;
+    State *state;
+    state = (State *) MemLock(extraState);
+    g = state->globals;
+    MemLock(OptrToHandle(@GameLevelBuffer));
+    memcpy(LMemDeref(@GameLevelBuffer), state->buffer, LVL_M_SIZE);
+    MemUnlock(OptrToHandle(@GameLevelBuffer));
     MemUnlock(extraState);
     switch (g.appState)
     {
     case APP_I_HELP:
       msg = MSG_LAD_HELP;
+      break;
+    case APP_I_WAIT:
+      msg = MSG_LAD_PLAY_WAIT;
+      @send LadderGameLads::MSG_VAL_SET_VALUE(g.game.lads);
+      @send LadderGameRound::MSG_VAL_SET_VALUE(g.game.round);
+      @send LadderGameScore::MSG_VAL_SET_VALUE(g.game.score);
+      @send LadderGameTime::MSG_VAL_SET_VALUE(g.game.time);
 //    break;
     }
   }
@@ -321,12 +337,6 @@ static word _pascal TicksByDifficulty(word diff)
     // Unlock the terminal name
     MemUnlock(OptrToHandle(@MenuTerminal));
   }
-  // Lock and dereference the level buffer
-  MemLock(OptrToHandle(@GameLevelBuffer));
-  // Resize the level buffer
-  LMemReAlloc(@GameLevelBuffer, LVL_M_SIZE);
-  // Unlock the level buffer
-  MemUnlock(OptrToHandle(@GameLevelBuffer));
   // Allocate a MemHandle for the noise
   SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.noiseHandle);
   // Get the state from the INI file
@@ -396,7 +406,7 @@ static word _pascal TicksByDifficulty(word diff)
  ***********************************************************************/
 @method LadderProcessClass, MSG_GEN_PROCESS_CLOSE_APPLICATION
 {
-  Globals *globals;
+  State *state;
   MemHandle mh;
   // Stop the current timer
   StopTimer();
@@ -408,10 +418,13 @@ static word _pascal TicksByDifficulty(word diff)
   InitFileWriteInteger(&ICA, &IKL, g.game.lastScore);
   // Do super
   @callsuper();
-  // Save thhe global state
-  mh = MemAlloc(sizeof(Globals), HF_DYNAMIC | HF_SHARABLE, 0);
-  globals = (Globals *) MemLock(mh);
-  *globals = g;
+  // Save the global state
+  mh = MemAlloc(sizeof(State), HF_DYNAMIC | HF_SHARABLE, 0);
+  state = (State *) MemLock(mh);
+  state->globals = g;
+  MemLock(OptrToHandle(@GameLevelBuffer));
+  memcpy(state->buffer, LMemDeref(@GameLevelBuffer), LVL_M_SIZE);
+  MemUnlock(OptrToHandle(@GameLevelBuffer));
   MemUnlock(mh);
   // Return our extra state
   return mh;

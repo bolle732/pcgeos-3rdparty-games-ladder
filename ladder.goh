@@ -370,6 +370,13 @@ typedef struct                 // Global structure
   ChunkHandle moves;           //   2B+0 - Demo data
 } Globals;                     // 114B+2 = 116 Bytes used
 
+// 
+typedef struct
+{
+  Globals globals;
+  char buffer[LVL_M_SIZE];
+} State;
+
 
 /*
  ***************************************************************************
