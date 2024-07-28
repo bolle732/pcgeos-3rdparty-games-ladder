@@ -350,6 +350,7 @@ static word _pascal TicksByDifficulty(word diff)
         msg = MSG_LAD_PLAY_SAVE;
 //      break;
       }
+      // XXX: This should not be needed!
       @send LadderGameLads::MSG_VAL_SET_VALUE(g.game.lads);
       @send LadderGameRound::MSG_VAL_SET_VALUE(g.game.round);
       @send LadderGameScore::MSG_VAL_SET_VALUE(g.game.score);

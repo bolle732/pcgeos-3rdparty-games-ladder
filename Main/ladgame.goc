@@ -1097,7 +1097,7 @@ static void _pascal MoveDers(void)
   switch (message)
   {
   case MSG_LAD_DEMO_INIT:
-    // 
+    // Initialize counter of demo moves
     g.ctlState = 0;
     // Skip get ready, directly start the demo
     @send oself::MSG_LAD_DEMO_START();
