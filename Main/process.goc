@@ -287,23 +287,69 @@ static word _pascal TicksByDifficulty(word diff)
     memcpy(LMemDeref(@GameLevelBuffer), state->buffer, LVL_M_SIZE);
     MemUnlock(OptrToHandle(@GameLevelBuffer));
     MemUnlock(extraState);
-    switch (g.appState)
+    switch (g.exeState)
     {
-    case APP_I_HELP:
+    case APP_X_HELP:
       msg = MSG_LAD_HELP;
       break;
-    case APP_I_DONE:
-      msg = MSG_LAD_PLAY_DONE;
-      break;
-    case APP_I_HIGH:
-      msg = MSG_LAD_PLAY_HIGH;
-      break;
-    case APP_I_OVER:
-      msg = MSG_LAD_PLAY_OVER;
-      break;
-    case APP_I_PLAY:
-    case APP_I_WAIT:
-      msg = MSG_LAD_PLAY_WAIT;
+    case APP_X_PLAY:
+      switch (g.rstState)
+      {
+      case RST_P_HEAD:
+        msg = MSG_LAD_PLAY_LOAD_HEAD;
+        break;
+      case RST_P_SHOW:
+        msg = MSG_LAD_PLAY_LOAD_SHOW;
+        break;
+      case RST_P_DATA:
+        msg = MSG_LAD_PLAY_LOAD_DATA;
+        break;
+      case RST_P_INIT:
+        msg = MSG_LAD_PLAY_INIT;
+        break;
+      case RST_P_READY:
+        msg = MSG_LAD_PLAY_READY;
+        break;
+      case RST_P_START:
+        msg = MSG_LAD_PLAY_START;
+        break;
+      case RST_P_EXEC:
+        msg = MSG_LAD_PLAY_EXEC;
+        break;
+      case RST_P_FAIL:
+        msg = MSG_LAD_PLAY_FAIL;
+        break;
+      case RST_P_DIES:
+        msg = MSG_LAD_PLAY_DIES;
+        break;
+      case RST_P_CLEAR:
+        msg = MSG_LAD_PLAY_CLEAR;
+        break;
+      case RST_P_OVER:
+        msg = MSG_LAD_PLAY_OVER;
+        break;
+      case RST_P_HOOKA:
+        msg = MSG_LAD_PLAY_HOOKA;
+        break;
+      case RST_P_NEXT:
+        msg = MSG_LAD_PLAY_NEXT;
+        break;
+      case RST_P_DONE:
+        msg = MSG_LAD_PLAY_DONE;
+        break;
+      case RST_P_STOP:
+        msg = MSG_LAD_PLAY_STOP;
+        break;
+      case RST_P_WAIT:
+        msg = MSG_LAD_PLAY_WAIT;
+        break;
+      case RST_P_HIGH:
+        msg = MSG_LAD_PLAY_HIGH;
+        break;
+      case RST_P_SAVE:
+        msg = MSG_LAD_PLAY_SAVE;
+//      break;
+      }
       @send LadderGameLads::MSG_VAL_SET_VALUE(g.game.lads);
       @send LadderGameRound::MSG_VAL_SET_VALUE(g.game.round);
       @send LadderGameScore::MSG_VAL_SET_VALUE(g.game.score);
@@ -383,7 +429,7 @@ static word _pascal TicksByDifficulty(word diff)
   @send LadderMenuRank::MSG_RNK_LOAD();
   // Do super
   @callsuper();
-  // Let's start
+  // Let's start or continue
   @send process:: {MSG_LAD_PROTO} msg();
 }
 
@@ -465,6 +511,7 @@ static word _pascal TicksByDifficulty(word diff)
 {
   // Set the application state for the handling of key presses
   g.appState = APP_I_MENU;
+  g.exeState = APP_X_MENU;
   // Reset the control state
   g.ctlState = 0;
   // Clear the text in the info line
@@ -699,6 +746,7 @@ static word _pascal TicksByDifficulty(word diff)
   StopTimer();
   // Set the application state for the handling of key presses
   g.appState = APP_I_HELP;
+  g.exeState = APP_X_HELP;
   // Show the help screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderHelp);
   // Set the text of the info line
@@ -746,6 +794,7 @@ static word _pascal TicksByDifficulty(word diff)
   switch (message)
   {
   case MSG_LAD_DEMO:
+    g.exeState = APP_X_DEMO;
     // Lock the game demos
     MemLock(OptrToHandle(@GameDemos));
     // Get the game demo
@@ -760,10 +809,12 @@ static word _pascal TicksByDifficulty(word diff)
     @send oself::MSG_LAD_DEMO_LOAD_HEAD();
     break;
   case MSG_LAD_PLAY:
+    g.exeState = APP_X_PLAY;
     // Initialize the round and level
     g.game.round = 1; // 1, 2, 5, 9, 14, 20, 27
     g.game.level = 1; // 1, 2, 3, 4, 5, 6, 7
     // Start the first level
+    g.rstState = RST_P_HEAD;
     @send oself::MSG_LAD_PLAY_LOAD_HEAD();
 //  break;
   }
@@ -1047,7 +1098,7 @@ static word _pascal TicksByDifficulty(word diff)
 {
   Message msg;
   // Handle only key presses
-  if (!(flags & CF_RELEASE) && (g.appState != APP_I_NONE))
+  if (!(flags & CF_RELEASE))  // && (g.appState != APP_I_NONE))
   {
     // Set the default message to nothing
     msg = NULL;
@@ -1066,6 +1117,7 @@ static word _pascal TicksByDifficulty(word diff)
         break;
       default:
         // Stop play
+        g.rstState = RST_P_STOP;
         msg = MSG_LAD_PLAY_STOP;
 //      break;
       }
@@ -1098,6 +1150,7 @@ static word _pascal TicksByDifficulty(word diff)
         return;
       case C_SMALL_P:
       case C_CAP_P:
+        g.rstState = RST_P_WAIT;
         msg = MSG_LAD_PLAY_WAIT;
         break;
       // Any other key
@@ -1136,6 +1189,7 @@ static word _pascal TicksByDifficulty(word diff)
       // Key 'Enter'
       if (character == 0xFF0D)
       {
+        g.rstState = RST_P_START;
         msg = MSG_LAD_PLAY_START;
       }
       break;
@@ -1145,6 +1199,7 @@ static word _pascal TicksByDifficulty(word diff)
       {
       // Key 'Enter'
       case 0xFF0D:
+        g.rstState = RST_P_SAVE;
         msg = MSG_LAD_PLAY_SAVE;
         break;
       // Key 'Backspace'
@@ -1170,10 +1225,12 @@ static word _pascal TicksByDifficulty(word diff)
         // Check for new high score
         if (@call LadderMenuRank::MSG_RNK_IS_NEW_RANK(g.game.score) == L_TRUE)
         {
+          g.rstState = RST_P_HIGH;
           msg = MSG_LAD_PLAY_HIGH;
         }
         else
         {
+          g.rstState = RST_P_STOP;
           msg = MSG_LAD_PLAY_STOP;
         }
       }

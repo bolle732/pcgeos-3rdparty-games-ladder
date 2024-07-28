@@ -45,22 +45,53 @@
  ***************************************************************************
  */
 
+// Fixed boolean
 #define L_FALSE             0  // False value used for functions
 #define L_TRUE              1  // True value used for functions
 
 // Application
 #define APP_NAME            "GeoLadder"  // Application name
 
-// Application input states
-#define APP_I_NONE          0  // Application input state none
-#define APP_I_MENU          1  // Application input state menu
-#define APP_I_HELP          2  // Application input state instruction
-#define APP_I_DEMO          3  // Application input state demo
-#define APP_I_PLAY          4  // Application input state play
-#define APP_I_WAIT          5  // Application input state wait
-#define APP_I_DONE          6  // Application input state done (the end)
-#define APP_I_OVER          7  // Application input state over
-#define APP_I_HIGH          8  // Application input state high score
+// Input states
+// Used for keyboard handling
+#define APP_I_NONE          0  // Input state none
+#define APP_I_MENU          1  // Input state menu
+#define APP_I_HELP          2  // Input state instruction
+#define APP_I_DEMO          3  // Input state demo
+#define APP_I_PLAY          4  // Input state play
+#define APP_I_WAIT          5  // Input state wait
+#define APP_I_DONE          6  // Input state done (the end)
+#define APP_I_OVER          7  // Input state over
+#define APP_I_HIGH          8  // Input state high score
+
+// Execution states
+// Used for generic hanlding after coming back from state
+#define APP_X_NONE          0  // Execution state none
+#define APP_X_MENU          1  // Execution state menu
+#define APP_X_HELP          2  // Execution state help
+#define APP_X_DEMO          3  // Execution state demo
+#define APP_X_PLAY          4  // Execution state play
+
+// Restartable play states
+// Used for restoring point in game after coming back from state
+#define RST_P_HEAD          1  // Restart state play load head
+#define RST_P_SHOW          2  // Restart state play load show
+#define RST_P_DATA          3  // Restart state play load data
+#define RST_P_INIT          4  // Restart state play init
+#define RST_P_READY         5  // Restart state play ready
+#define RST_P_START         6  // Restart state play start
+#define RST_P_EXEC          7  // Restart state play exec
+#define RST_P_FAIL          8  // Restart state play fail
+#define RST_P_DIES          9  // Restart state play dies
+#define RST_P_CLEAR        10  // Restart state play clear
+#define RST_P_OVER         11  // Restart state play over
+#define RST_P_HOOKA        12  // Restart state play hooka
+#define RST_P_NEXT         13  // Restart state play next
+#define RST_P_DONE         14  // Restart state play done
+#define RST_P_STOP         15  // Restart state play stop
+#define RST_P_WAIT         16  // Restart state play wait
+#define RST_P_HIGH         17  // Restart state play high
+#define RST_P_SAVE         18  // Restart state play save
 
 // Window state
 #define WIN_S_NORM          0  // Window state not minimized
@@ -71,7 +102,6 @@
 // Window state masks
 #define WIN_M_MIN        0x01  // Window minimized mask
 #define WIN_M_FOC        0x02  // Window focus mask
-
 
 // INI file entries
 #define INI_CAT_APP         APP_NAME  // Category in the GEOS.INI
@@ -356,8 +386,10 @@ typedef struct                 // Demo data
 
 typedef struct                 // Global structure
 {
-  byte appState;               //   1B+1 - Application state (key handling)
+  byte appState;               //   1B+1 - Application state (keyboeard input handling)
   word ctlState;               //   2B+0 - Control counter / state
+  byte exeState;               //   1B+1 - Execution state (from state file)
+  byte rstState;               //   1B+1 - Restart state (from state file)
   byte winState;               //   1B+1 - Window state (minimized handling)
   TimerHandle timerHandle;     //   2B+0 - Timer handle
   word timerId;                //   2B+0 - Timer id
@@ -368,7 +400,7 @@ typedef struct                 // Global structure
   Der ders[DERS_MAX];          //  48B+0 - Der data
   Lad lad;                     //  12B+0 - Lad data
   ChunkHandle moves;           //   2B+0 - Demo data
-} Globals;                     // 114B+2 = 116 Bytes used
+} Globals;                     // 116B+4 = 120 Bytes used
 
 // 
 typedef struct

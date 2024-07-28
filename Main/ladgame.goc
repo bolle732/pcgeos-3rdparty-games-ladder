@@ -936,6 +936,7 @@ static void _pascal MoveDers(void)
     break;
   case MSG_LAD_PLAY_LOAD_HEAD:
     // Show the loading screen
+    g.rstState = RST_P_SHOW;
     @send oself::MSG_LAD_PLAY_LOAD_SHOW();
 //  break;
   }
@@ -977,6 +978,7 @@ static void _pascal MoveDers(void)
   // Show the loading screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderLoad);
   // Load the level data
+  g.rstState = RST_P_DATA;
   @send oself::MSG_LAD_PLAY_LOAD_DATA();
 }
 
@@ -1033,6 +1035,7 @@ static void _pascal MoveDers(void)
     break;
   case MSG_LAD_PLAY_LOAD_DATA:
     // Start the timer for the initialization of the round
+    g.rstState = RST_P_INIT;
     g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_LOAD, MSG_LAD_PLAY_INIT, 0, &g.timerId);
 //  break;
   }
@@ -1107,6 +1110,7 @@ static void _pascal MoveDers(void)
     // Unlock the cursor definition
     MemUnlock(OptrToHandle(@LadderGameCursor));
     // Do the get ready
+    g.rstState = RST_P_READY;
     @send oself::MSG_LAD_PLAY_READY();
 //  break;
   }
@@ -1136,6 +1140,7 @@ static void _pascal MoveDers(void)
   // Update the info line with the get ready text
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayReady);
   // Start the timer for end of get ready
+  g.rstState = RST_P_START;
   g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_READY, MSG_LAD_PLAY_START, 0, &g.timerId);
 }
 
@@ -1182,6 +1187,7 @@ static void _pascal MoveDers(void)
     // Set the application state for the handling of key presses
     g.appState = APP_I_PLAY;
     // Start the timer for the play
+    g.rstState = RST_P_EXEC;
     g.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.game.delay, MSG_LAD_PLAY_EXEC, g.game.delay, &g.timerId);
 //  break;
   }
@@ -1270,9 +1276,11 @@ static void _pascal MoveDers(void)
     *(g.levelPtr + g.lad.cpos) = LSD_C_SPACE;
     break;
   case LSD_C_EXIT:
+    g.rstState = RST_P_HOOKA;
     msg = MSG_LAD_PLAY_HOOKA;
     break;
   case LSD_C_TRAP:
+    g.rstState = RST_P_FAIL;
     msg = MSG_LAD_PLAY_FAIL;
     break;
   case LSD_C_BALL:
@@ -1309,12 +1317,14 @@ static void _pascal MoveDers(void)
     // Handle collision of Lad and Der
     if (g.lad.cpos == g.ders[i].cpos)
     {
+      g.rstState = RST_P_FAIL;
       msg = MSG_LAD_PLAY_FAIL;
     }
     if ((g.lad.cpos == g.ders[i].lpos) && (g.lad.lpos == g.ders[i].cpos))
     {
       g.ders[i].cpos = g.ders[i].lpos;
 //      g.lad.cpos = g.lad.lpos;
+      g.rstState = RST_P_FAIL;
       msg = MSG_LAD_PLAY_FAIL;
     }
     // Add the Der and its last background to the actors
@@ -1362,6 +1372,7 @@ static void _pascal MoveDers(void)
   // Check for bonus time exhausted
   if (g.game.time == 0)
   {
+    g.rstState = RST_P_FAIL;
     msg = MSG_LAD_PLAY_FAIL;
   }
   // ::: HANDLE HOOKA, FAIL OR DEMO STOP :::
@@ -1390,6 +1401,7 @@ static void _pascal MoveDers(void)
       @send process::MSG_LAD_DEMO_STOP();
       break;
     case MSG_LAD_PLAY_EXEC:
+      g.rstState = RST_P_WAIT;
       @send process::MSG_LAD_PLAY_WAIT();
 //    break;
     }
@@ -1397,6 +1409,7 @@ static void _pascal MoveDers(void)
   // Handle window lost focus
   else if ((g.winState & WIN_M_FOC) && (message == MSG_LAD_PLAY_EXEC))
   {
+    g.rstState = RST_P_WAIT;
     @send process::MSG_LAD_PLAY_WAIT();
   }
 }
@@ -1463,6 +1476,7 @@ static void _pascal MoveDers(void)
   // Clear the actors
   @send LadderGameActors::MSG_ACT_RESET();
   // Do the lad death
+  g.rstState = RST_P_DIES;
   @send oself::MSG_LAD_PLAY_DIES();
 }
 
@@ -1508,11 +1522,13 @@ static void _pascal MoveDers(void)
   if (g.game.lads > 0)
   {
     // Clear the actors in the level
+    g.rstState = RST_P_CLEAR;
     msg = MSG_LAD_PLAY_CLEAR;
   }
   else
   {
     // The game is over
+    g.rstState = RST_P_OVER;
     msg = MSG_LAD_PLAY_OVER;
   }
   @send oself:: {MSG_LAD_PROTO} msg();
@@ -1562,6 +1578,7 @@ static void _pascal MoveDers(void)
   // Draw the background of the actors
   @send LadderGameActors::MSG_ACT_DRAW();
   // Restart the level
+  g.rstState = RST_P_INIT;
   @send oself::MSG_LAD_PLAY_INIT();
 }
 
@@ -1622,10 +1639,12 @@ static void _pascal MoveDers(void)
     // Play notification sound
     PlayNoise(1);
     // Start the timer for our self
+    g.rstState = RST_P_HOOKA;
     g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_HOOKA, message, 0, &g.timerId);
   }
   else
   {
+    g.rstState = RST_P_NEXT;
     @send oself::MSG_LAD_PLAY_NEXT();
   }
 }
@@ -1660,11 +1679,13 @@ static void _pascal MoveDers(void)
   if (g.game.level > LVLS)
   {
     // Show the last screen
+    g.rstState = RST_P_DONE;
     @send oself::MSG_LAD_PLAY_DONE();
   }
   else
   {
     // Start next level
+    g.rstState = RST_P_HEAD;
     @send oself::MSG_LAD_PLAY_LOAD_HEAD();
   }
 }
