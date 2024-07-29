@@ -354,8 +354,6 @@ static word _pascal TicksByDifficulty(word diff)
         msg = MSG_LAD_PLAY_SAVE;
 //      break;
       }
-      // Unlock the extra state
-      MemUnlock(extraState);
       // XXX: This should not be needed!
       @send LadderGameLads::MSG_VAL_SET_VALUE(g.game.lads);
       @send LadderGameRound::MSG_VAL_SET_VALUE(g.game.round);
@@ -363,6 +361,8 @@ static word _pascal TicksByDifficulty(word diff)
       @send LadderGameTime::MSG_VAL_SET_VALUE(g.game.time);
 //    break;
     }
+    // Unlock the extra state
+    MemUnlock(extraState);
   }
   // Lock and dereference the help file name
   MemLock(OptrToHandle(@LadderHelpFile));
