@@ -75,6 +75,8 @@
 
 // Restartable play states
 // Used for restoring point in game after coming back from state
+// Always set the global state 'g.rstState' before sending message
+#define RST_P_NONE          0  // Restart state play none
 #define RST_P_HEAD          1  // Restart state play load head
 #define RST_P_SHOW          2  // Restart state play load show
 #define RST_P_DATA          3  // Restart state play load data
@@ -403,7 +405,7 @@ typedef struct                 // Global structure
   ChunkHandle moves;           //   2B+0 - Demo data
 } Globals;                     // 116B+4 = 120 Bytes used
 
-// 
+// This is used for saving to and restoring from state
 typedef struct
 {
   Globals globals;
