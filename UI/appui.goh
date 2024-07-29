@@ -39,7 +39,7 @@
 // RESOURCE Icon
 @extern visMoniker LadderIcon15x15;
 @extern visMoniker LadderIcon48x30;
-@extern chunk LadderGameCursor;
+@extern chunk LadderGamePointer;
 
 // RESOURCE Interface
 @extern object LadderPrimary;
