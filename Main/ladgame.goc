@@ -935,6 +935,12 @@ static void _pascal MoveDers(void)
     @send oself::MSG_LAD_DEMO_LOAD_DATA();
     break;
   case MSG_LAD_PLAY_LOAD_HEAD:
+    // Lock the cursor definition
+    MemLock(OptrToHandle(@LadderGameCursor));
+    // Set the image of the mouse cursor / pointer
+    @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGameCursor, PIL_WINDOW);
+    // Unlock the cursor definition
+    MemUnlock(OptrToHandle(@LadderGameCursor));
     // Show the loading screen
     g.rstState = RST_P_SHOW;
     @send oself::MSG_LAD_PLAY_LOAD_SHOW();
@@ -1034,12 +1040,6 @@ static void _pascal MoveDers(void)
     @send oself::MSG_LAD_DEMO_INIT();
     break;
   case MSG_LAD_PLAY_LOAD_DATA:
-    // Lock the cursor definition
-    MemLock(OptrToHandle(@LadderGameCursor));
-    // Set the image of the mouse cursor / pointer
-    @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGameCursor, PIL_WINDOW);
-    // Unlock the cursor definition
-    MemUnlock(OptrToHandle(@LadderGameCursor));
     // Start the timer for the initialization of the round
     g.rstState = RST_P_INIT;
     g.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_LOAD, MSG_LAD_PLAY_INIT, 0, &g.timerId);
@@ -1109,12 +1109,6 @@ static void _pascal MoveDers(void)
     @send oself::MSG_LAD_DEMO_START();
     break;
   case MSG_LAD_PLAY_INIT:
-    // Lock the cursor definition
-    MemLock(OptrToHandle(@LadderGameCursor));
-    // Set the image of the mouse cursor / pointer
-    @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGameCursor, PIL_WINDOW);
-    // Unlock the cursor definition
-    MemUnlock(OptrToHandle(@LadderGameCursor));
     // Do the get ready
     g.rstState = RST_P_READY;
     @send oself::MSG_LAD_PLAY_READY();
@@ -1196,12 +1190,6 @@ static void _pascal MoveDers(void)
   case MSG_LAD_PLAY_START:
     // Clear the text in the info line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
-    // Lock the cursor definition
-    MemLock(OptrToHandle(@LadderGameCursor));
-    // Set the image of the mouse cursor / pointer
-    @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGameCursor, PIL_WINDOW);
-    // Unlock the cursor definition
-    MemUnlock(OptrToHandle(@LadderGameCursor));
     // Set the input state for the handling of key presses
     g.inpState = INP_S_EXEC;
     // Start the timer for the play

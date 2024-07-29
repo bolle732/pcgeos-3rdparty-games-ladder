@@ -354,11 +354,6 @@ static word _pascal TicksByDifficulty(word diff)
         msg = MSG_LAD_PLAY_SAVE;
 //      break;
       }
-      // XXX: This should not be needed!
-      @send LadderGameLads::MSG_VAL_SET_VALUE(g.game.lads);
-      @send LadderGameRound::MSG_VAL_SET_VALUE(g.game.round);
-      @send LadderGameScore::MSG_VAL_SET_VALUE(g.game.score);
-      @send LadderGameTime::MSG_VAL_SET_VALUE(g.game.time);
 //    break;
     }
     // Unlock the extra state
@@ -486,10 +481,20 @@ static word _pascal TicksByDifficulty(word diff)
   state = (State *) MemLock(mh);
   // Save the global state
   state->globals = g;
-  // Save the level buffer
-  MemLock(OptrToHandle(@GameLevelBuffer));
-  memcpy(state->buffer, LMemDeref(@GameLevelBuffer), LVL_M_SIZE);
-  MemUnlock(OptrToHandle(@GameLevelBuffer));
+  // Only save the game objects and the level buffer if we are in a play
+  if (g.exeState == EXE_S_PLAY)
+  {
+    // Set the objects dirty so they get saved in the state
+    ObjMarkDirty(@LadderView);
+    ObjMarkDirty(@LadderGameLads);
+    ObjMarkDirty(@LadderGameRound);
+    ObjMarkDirty(@LadderGameScore);
+    ObjMarkDirty(@LadderGameTime);
+    // Save the level buffer
+    MemLock(OptrToHandle(@GameLevelBuffer));
+    memcpy(state->buffer, LMemDeref(@GameLevelBuffer), LVL_M_SIZE);
+    MemUnlock(OptrToHandle(@GameLevelBuffer));
+  }
   // Unlock memory of extra state
   MemUnlock(mh);
   // Return our extra state
@@ -908,6 +913,8 @@ static word _pascal TicksByDifficulty(word diff)
   g.inpState = INP_S_DONE;
   // Show the game done screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderDone);
+  // Reset the image of the mouse cursor / pointer
+  @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(NullOptr, PIL_WINDOW);
   // Set the text of the info line
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@DoneInfo);
 }
@@ -937,6 +944,8 @@ static word _pascal TicksByDifficulty(word diff)
   g.inpState = INP_S_OVER;
   // Show the game over screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderOver);
+  // Reset the image of the mouse cursor / pointer
+  @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(NullOptr, PIL_WINDOW);
   // Set the text of the info line
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@OverInfo);
 }
