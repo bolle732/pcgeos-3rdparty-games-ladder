@@ -1207,8 +1207,8 @@ static word _pascal TicksByDifficulty(word diff)
       // Key 'Enter'
       if (character == 0xFF0D)
       {
-        g.rstState = RST_P_START;
-        msg = MSG_LAD_PLAY_START;
+        g.rstState = RST_P_READY;
+        msg = MSG_LAD_PLAY_READY;
       }
       break;
     case INP_S_HIGH:
