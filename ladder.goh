@@ -406,7 +406,7 @@ typedef struct                 // Global structure
 } Globals;                     // 116B+4 = 120 Bytes used
 
 // This is used for saving to and restoring from state
-typedef struct
+typedef struct                 // Extra state structure
 {
   Globals globals;
   char buffer[LVL_M_SIZE];
