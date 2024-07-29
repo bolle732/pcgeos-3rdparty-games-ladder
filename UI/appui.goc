@@ -1989,13 +1989,12 @@
   { GPOS(14,29), DIR_W, L_TRUE }, { GPOS(14,4), DIR_N, L_FALSE },
   { GPOS(10,4), DIR_E, L_FALSE }, { GPOS(10,24), DIR_E, L_TRUE },
   { GPOS(10,32), DIR_E, L_TRUE }, { GPOS(10,51), DIR_E, L_TRUE },
-  { GPOS(12,27), DIR_NONE, L_FALSE }, { GPOS(10,74), DIR_N, L_FALSE },
-  { GPOS(6,74), DIR_W, L_FALSE }, { GPOS(6,56), DIR_W, L_TRUE },
-  { GPOS(6,36), DIR_W, L_TRUE }, { GPOS(6,29) , DIR_W, L_TRUE },
-  { GPOS(6,4), DIR_N, L_FALSE }, { GPOS(2,4), DIR_E, L_FALSE },
-  { GPOS(2,10), DIR_E, L_TRUE }, { GPOS(2,26), DIR_E, L_TRUE },
-  { GPOS(2,52), DIR_E, L_TRUE }, { GPOS(2,65), DIR_E, L_TRUE },
-  { GPOS(2,74), DIR_N, L_FALSE }
+  { GPOS(10,74), DIR_N, L_FALSE }, { GPOS(6,74), DIR_W, L_FALSE },
+  { GPOS(6,56), DIR_W, L_TRUE }, { GPOS(6,36), DIR_W, L_TRUE },
+  { GPOS(6,29) , DIR_W, L_TRUE }, { GPOS(6,4), DIR_N, L_FALSE },
+  { GPOS(2,4), DIR_E, L_FALSE }, { GPOS(2,10), DIR_E, L_TRUE },
+  { GPOS(2,26), DIR_E, L_TRUE }, { GPOS(2,52), DIR_E, L_TRUE },
+  { GPOS(2,65), DIR_E, L_TRUE }, { GPOS(2,74), DIR_N, L_FALSE }
 };
 
 
