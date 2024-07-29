@@ -52,25 +52,26 @@
 // Application
 #define APP_NAME            "GeoLadder"  // Application name
 
-// Input states
-// Used for keyboard handling
-#define APP_I_NONE          0  // Input state none
-#define APP_I_MENU          1  // Input state menu
-#define APP_I_HELP          2  // Input state instruction
-#define APP_I_DEMO          3  // Input state demo
-#define APP_I_PLAY          4  // Input state play
-#define APP_I_WAIT          5  // Input state wait
-#define APP_I_DONE          6  // Input state done (the end)
-#define APP_I_OVER          7  // Input state over
-#define APP_I_HIGH          8  // Input state high score
-
 // Execution states
 // Used for generic hanlding after coming back from state
-#define APP_X_NONE          0  // Execution state none
-#define APP_X_MENU          1  // Execution state menu
-#define APP_X_HELP          2  // Execution state help
-#define APP_X_DEMO          3  // Execution state demo
-#define APP_X_PLAY          4  // Execution state play
+#define EXE_S_NONE          0  // Execution state none
+#define EXE_S_MENU          1  // Execution state menu
+#define EXE_S_HELP          2  // Execution state help
+#define EXE_S_DEMO          3  // Execution state demo
+#define EXE_S_PLAY          4  // Execution state play
+
+// Input states
+// Used for keyboard input handling
+#define INP_S_NONE          0  // Input state none
+#define INP_S_MENU          1  // Input state menu
+#define INP_S_HELP          2  // Input state instruction
+#define INP_S_DEMO          3  // Input state demo
+#define INP_S_PLAY          4  // Input state play
+#define INP_S_EXEC          5  // Input state play execution
+#define INP_S_WAIT          6  // Input state play wait
+#define INP_S_DONE          7  // Input state done (the end)
+#define INP_S_OVER          8  // Input state over
+#define INP_S_HIGH          9  // Input state high score
 
 // Restartable play states
 // Used for restoring point in game after coming back from state
@@ -386,9 +387,9 @@ typedef struct                 // Demo data
 
 typedef struct                 // Global structure
 {
-  byte appState;               //   1B+1 - Application state (keyboeard input handling)
   word ctlState;               //   2B+0 - Control counter / state
   byte exeState;               //   1B+1 - Execution state (from state file)
+  byte inpState;               //   1B+1 - Input state (keyboard)
   byte rstState;               //   1B+1 - Restart state (from state file)
   byte winState;               //   1B+1 - Window state (minimized handling)
   TimerHandle timerHandle;     //   2B+0 - Timer handle

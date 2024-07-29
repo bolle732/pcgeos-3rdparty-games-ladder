@@ -281,18 +281,22 @@ static word _pascal TicksByDifficulty(word diff)
   if ((attachFlags & AAF_RESTORING_FROM_STATE) && extraState)
   {
     State *state;
+    // Get the extra state
     state = (State *) MemLock(extraState);
+    // Restore the global state
     g = state->globals;
-    MemLock(OptrToHandle(@GameLevelBuffer));
-    memcpy(LMemDeref(@GameLevelBuffer), state->buffer, LVL_M_SIZE);
-    MemUnlock(OptrToHandle(@GameLevelBuffer));
-    MemUnlock(extraState);
+    // Restore execution state
     switch (g.exeState)
     {
-    case APP_X_HELP:
+    case EXE_S_HELP:
       msg = MSG_LAD_HELP;
       break;
-    case APP_X_PLAY:
+    case EXE_S_PLAY:
+      // Restore the level buffer
+      MemLock(OptrToHandle(@GameLevelBuffer));
+      memcpy(LMemDeref(@GameLevelBuffer), state->buffer, LVL_M_SIZE);
+      MemUnlock(OptrToHandle(@GameLevelBuffer));
+      // Find the message where we leaved the game play
       switch (g.rstState)
       {
       case RST_P_HEAD:
@@ -350,6 +354,8 @@ static word _pascal TicksByDifficulty(word diff)
         msg = MSG_LAD_PLAY_SAVE;
 //      break;
       }
+      // Unlock the extra state
+      MemUnlock(extraState);
       // XXX: This should not be needed!
       @send LadderGameLads::MSG_VAL_SET_VALUE(g.game.lads);
       @send LadderGameRound::MSG_VAL_SET_VALUE(g.game.round);
@@ -475,13 +481,16 @@ static word _pascal TicksByDifficulty(word diff)
   InitFileWriteInteger(&ICA, &IKL, g.game.lastScore);
   // Do super
   @callsuper();
-  // Save the global state
+  // Allocate memory for our struct to save the extra state
   mh = MemAlloc(sizeof(State), HF_DYNAMIC | HF_SHARABLE, 0);
   state = (State *) MemLock(mh);
+  // Save the global state
   state->globals = g;
+  // Save the level buffer
   MemLock(OptrToHandle(@GameLevelBuffer));
   memcpy(state->buffer, LMemDeref(@GameLevelBuffer), LVL_M_SIZE);
   MemUnlock(OptrToHandle(@GameLevelBuffer));
+  // Unlock memory of extra state
   MemUnlock(mh);
   // Return our extra state
   return mh;
@@ -510,9 +519,10 @@ static word _pascal TicksByDifficulty(word diff)
  ***********************************************************************/
 @method LadderProcessClass, MSG_LAD_MENU
 {
-  // Set the application state for the handling of key presses
-  g.appState = APP_I_MENU;
-  g.exeState = APP_X_MENU;
+  // Set the input state for the handling of key presses
+  g.inpState = INP_S_MENU;
+  // Set the execution state
+  g.exeState = EXE_S_MENU;
   // Reset the control state
   g.ctlState = 0;
   // Clear the text in the info line
@@ -604,7 +614,7 @@ static word _pascal TicksByDifficulty(word diff)
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ Stop any running timer.
- *                  2/ Set the application state.
+ *                  2/ Set the input state.
  *                  3/ Set the text in the info line.
  *                  4/ Use a timer to send MSG_META_QUIT to the
  *                     application.
@@ -619,8 +629,10 @@ static word _pascal TicksByDifficulty(word diff)
 {
   // Stop the timer
   StopTimer();
-  // Set the application state for the handling of key presses
-  g.appState = APP_I_NONE;
+  // Set the input state for the handling of key presses
+  g.inpState = INP_S_NONE;
+  // Set the execution state
+  g.exeState = EXE_S_NONE;
   // Update the info line with the exit text
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(@MenuExit);
   // Start the timer for the exit
@@ -732,7 +744,7 @@ static word _pascal TicksByDifficulty(word diff)
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ Stop any potentially running timer.
- *                  2/ Set the application state.
+ *                  2/ Set the input state.
  *                  3/ Set the content.
  *
  * REVISION HISTORY:
@@ -745,9 +757,10 @@ static word _pascal TicksByDifficulty(word diff)
 {
   // Stop the timer
   StopTimer();
-  // Set the application state for the handling of key presses
-  g.appState = APP_I_HELP;
-  g.exeState = APP_X_HELP;
+  // Set the input state for the handling of key presses
+  g.inpState = INP_S_HELP;
+  // Set the execution state
+  g.exeState = EXE_S_HELP;
   // Show the help screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderHelp);
   // Set the text of the info line
@@ -768,7 +781,7 @@ static word _pascal TicksByDifficulty(word diff)
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ Stop any potentially running timer.
- *                  2/ Reset the application state.
+ *                  2/ Reset the input state.
  *                  3/ Initialize the global variabels.
  *                  4/ Start loading the level info.
  *
@@ -785,8 +798,6 @@ static word _pascal TicksByDifficulty(word diff)
   Demo d;
   // Stop the timer
   StopTimer();
-  // Reset the appplication state for the handling of key presses
-  g.appState = APP_I_NONE;
   // Initialize the game
   g.game.lads = LAD_D_LIVES;
   g.game.score = 0;
@@ -795,7 +806,10 @@ static word _pascal TicksByDifficulty(word diff)
   switch (message)
   {
   case MSG_LAD_DEMO:
-    g.exeState = APP_X_DEMO;
+    // Set the input state for the handling of key presses
+    g.inpState = INP_S_DEMO;
+    // Set the execution state
+    g.exeState = EXE_S_DEMO;
     // Lock the game demos
     MemLock(OptrToHandle(@GameDemos));
     // Get the game demo
@@ -810,7 +824,10 @@ static word _pascal TicksByDifficulty(word diff)
     @send oself::MSG_LAD_DEMO_LOAD_HEAD();
     break;
   case MSG_LAD_PLAY:
-    g.exeState = APP_X_PLAY;
+    // Set the input state for the handling of key presses
+    g.inpState = INP_S_PLAY;
+    // Set the execution state
+    g.exeState = EXE_S_PLAY;
     // Initialize the round and level
     g.game.round = 1; // 1, 2, 5, 9, 14, 20, 27
     g.game.level = 1; // 1, 2, 3, 4, 5, 6, 7
@@ -851,8 +868,8 @@ static word _pascal TicksByDifficulty(word diff)
 {
   // Stop the game timer
   StopTimer();
-  // Set the application state for the handling of key presses
-  g.appState = APP_I_NONE;
+  // Set the input state for the handling of key presses
+  g.inpState = INP_S_NONE;
   // Handle message type
   if (message == MSG_LAD_PLAY_STOP)
   {
@@ -876,7 +893,7 @@ static word _pascal TicksByDifficulty(word diff)
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
- * STRATEGY:        1/ Set the application state.
+ * STRATEGY:        1/ Set the input state.
  *                  2/ Load the game end screen.
  *
  * REVISION HISTORY:
@@ -887,8 +904,8 @@ static word _pascal TicksByDifficulty(word diff)
  ***********************************************************************/
 @method LadderProcessClass, MSG_LAD_PLAY_DONE
 {
-  // Set the application state for the handling of key presses
-  g.appState = APP_I_DONE;
+  // Set the input state for the handling of key presses
+  g.inpState = INP_S_DONE;
   // Show the game done screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderDone);
   // Set the text of the info line
@@ -905,7 +922,7 @@ static word _pascal TicksByDifficulty(word diff)
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
- * STRATEGY:        1/ Set the application state.
+ * STRATEGY:        1/ Set the input state.
  *                  2/ Load the game over screen.
  *
  * REVISION HISTORY:
@@ -916,8 +933,8 @@ static word _pascal TicksByDifficulty(word diff)
  ***********************************************************************/
 @method LadderProcessClass, MSG_LAD_PLAY_OVER
 {
-  // Set the application state for the handling of key presses
-  g.appState = APP_I_OVER;
+  // Set the input state for the handling of key presses
+  g.inpState = INP_S_OVER;
   // Show the game over screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderOver);
   // Set the text of the info line
@@ -934,7 +951,7 @@ static word _pascal TicksByDifficulty(word diff)
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
- * STRATEGY:        1/ Set the application state.
+ * STRATEGY:        1/ Set the input state.
  *                  2/ Reset the input which reads the name.
  *                  3/ Clear the info line.
  *                  4/ Show the compliment for the score.
@@ -949,8 +966,8 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderProcessClass, MSG_LAD_PLAY_HIGH
 {
   word i;
-  // Set the application state for the handling of key presses
-  g.appState = APP_I_HIGH;
+  // Set the input state for the handling of key presses
+  g.inpState = INP_S_HIGH;
   // Reset the input
   @send LadderHighName::MSG_INP_RESET();
   // Clear the info line
@@ -1048,7 +1065,7 @@ static word _pascal TicksByDifficulty(word diff)
 //  break;
   }
   // Handle menu here
-  if (g.appState == APP_I_MENU)
+  if (g.inpState == INP_S_MENU)
   {
     switch (state)
     {
@@ -1098,21 +1115,21 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderApplicationClass, MSG_META_KBD_CHAR
 {
   Message msg;
-  // Handle only key presses
-  if (!(flags & CF_RELEASE))  // && (g.appState != APP_I_NONE))
+  // Handle key presses during dedicated input states
+  if (!(flags & CF_RELEASE) && (g.inpState != INP_S_NONE))
   {
     // Set the default message to nothing
     msg = NULL;
     // Handle escape key if not in menu
-    if ((character == 0xFF1B) && (g.appState != APP_I_MENU))
+    if ((character == 0xFF1B) && (g.inpState != INP_S_MENU))
     {
-      switch (g.appState)
+      switch (g.inpState)
       {
-      case APP_I_HELP:
+      case INP_S_HELP:
         // Return to menu
         msg = MSG_LAD_MENU;
         break;
-      case APP_I_DEMO:
+      case INP_S_DEMO:
         // Stop demo
         msg = MSG_LAD_DEMO_STOP;
         break;
@@ -1124,9 +1141,9 @@ static word _pascal TicksByDifficulty(word diff)
       }
     }
     // Handle the keys according the application states
-    switch (g.appState)
+    switch (g.inpState)
     {
-    case APP_I_PLAY:
+    case INP_S_EXEC:
       // Handle the key press
       switch (character)
       {
@@ -1165,7 +1182,7 @@ static word _pascal TicksByDifficulty(word diff)
 //      break;
       }
       break;
-    case APP_I_MENU:
+    case INP_S_MENU:
       // Handle the key press
       switch (tolower(character))
       {
@@ -1186,7 +1203,7 @@ static word _pascal TicksByDifficulty(word diff)
 //      break;
       }
       break;
-    case APP_I_WAIT:
+    case INP_S_WAIT:
       // Key 'Enter'
       if (character == 0xFF0D)
       {
@@ -1194,7 +1211,7 @@ static word _pascal TicksByDifficulty(word diff)
         msg = MSG_LAD_PLAY_START;
       }
       break;
-    case APP_I_HIGH:
+    case INP_S_HIGH:
       // Handle the key press
       switch (character)
       {
@@ -1218,8 +1235,8 @@ static word _pascal TicksByDifficulty(word diff)
 //      break;
       }
       break;
-    case APP_I_DONE:
-    case APP_I_OVER:
+    case INP_S_DONE:
+    case INP_S_OVER:
       // Key 'Enter'
       if (character == 0xFF0D)
       {

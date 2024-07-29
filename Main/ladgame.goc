@@ -1176,16 +1176,16 @@ static void _pascal MoveDers(void)
   case MSG_LAD_DEMO_START:
     // Clear the text in the info line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@DemoInfo);
-    // Set the application state for the handling of key presses
-    g.appState = APP_I_DEMO;
+    // Set the input state for the handling of key presses
+    g.inpState = INP_S_DEMO;
     // Start the timer for the demo
     g.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.game.delay, MSG_LAD_DEMO_EXEC, g.game.delay, &g.timerId);
     break;
   case MSG_LAD_PLAY_START:
     // Clear the text in the info line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
-    // Set the application state for the handling of key presses
-    g.appState = APP_I_PLAY;
+    // Set the input state for the handling of key presses
+    g.inpState = INP_S_EXEC;
     // Start the timer for the play
     g.rstState = RST_P_EXEC;
     g.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.game.delay, MSG_LAD_PLAY_EXEC, g.game.delay, &g.timerId);
@@ -1381,8 +1381,8 @@ static void _pascal MoveDers(void)
   {
     // Stop the play timer
     StopTimer();
-    // Set the application state for the handling of key presses
-    g.appState = APP_I_NONE;
+    // Set the input state for the handling of key presses
+    g.inpState = INP_S_NONE;
     // Handle demo mode
     if (message == MSG_LAD_DEMO_EXEC)
     {
@@ -1437,8 +1437,8 @@ static void _pascal MoveDers(void)
 {
   // Stop the play timer
   StopTimer();
-  // Set the application state for the handling of key presses
-  g.appState = APP_I_WAIT;
+  // Set the input state for the handling of key presses
+  g.inpState = INP_S_WAIT;
   // Update the info line with the wait message
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayContinue);
 }
