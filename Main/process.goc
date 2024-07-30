@@ -1140,23 +1140,24 @@ static word _pascal TicksByDifficulty(word diff)
   {
     // Set the default message to nothing
     msg = NULL;
-    // Handle escape key if not in menu
-    if ((character == 0xFF1B) && (g.inpState != INP_S_MENU))
+    // Handle escape key
+    if (character == 0xFF1B)
     {
       switch (g.inpState)
       {
-      case INP_S_HELP:
-        // Return to menu
-        msg = MSG_LAD_MENU;
-        break;
       case INP_S_DEMO:
         // Stop demo
         msg = MSG_LAD_DEMO_STOP;
         break;
-      default:
+      case INP_S_PLAY:
+      case INP_S_EXEC:
         // Stop play
         g.rstState = RST_P_STOP;
         msg = MSG_LAD_PLAY_STOP;
+        break;
+      default:
+        // Return to menu
+        msg = MSG_LAD_MENU;
 //      break;
       }
     }
