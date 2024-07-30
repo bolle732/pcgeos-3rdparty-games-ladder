@@ -225,7 +225,7 @@ static word _pascal TicksByDifficulty(word diff)
 @extern method LadderProcessClass, MSG_LAD_PLAY_CLEAR;
 @extern method LadderProcessClass, MSG_LAD_PLAY_HOOKA;
 @extern method LadderProcessClass, MSG_LAD_PLAY_NEXT;
-@extern method LadderProcessClass, MSG_LAD_WIN_CHANGE;
+@extern method LadderProcessClass, MSG_LAD_EXEC_FLAGS_CHANGE;
 
 
 /***********************************************************************
@@ -1044,7 +1044,7 @@ static word _pascal TicksByDifficulty(word diff)
 }
 
 /***********************************************************************
- *                  MSG_LAD_WIN_CHANGE
+ *                  MSG_LAD_EXEC_FLAGS_CHANGE
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Handle window changes minimized and focus.
@@ -1067,7 +1067,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2024-07-15    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_WIN_CHANGE
+@method LadderProcessClass, MSG_LAD_EXEC_FLAGS_CHANGE
 {
   // Update the global window state
   switch (state)
@@ -1312,7 +1312,7 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderApplicationClass, MSG_META_LOST_FOCUS_EXCL
 {
   // Inform process about window lost focus
-  @send process::MSG_LAD_WIN_CHANGE(WIN_S_LOST);
+  @send process::MSG_LAD_EXEC_FLAGS_CHANGE(WIN_S_LOST);
   // Do super
   @callsuper();
 }
@@ -1340,7 +1340,7 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderApplicationClass, MSG_META_GAINED_FOCUS_EXCL
 {
   // Inform process about window gained focus
-  @send process::MSG_LAD_WIN_CHANGE(WIN_S_GAIN);
+  @send process::MSG_LAD_EXEC_FLAGS_CHANGE(WIN_S_GAIN);
   // Do super
   @callsuper();
 }
