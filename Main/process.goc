@@ -364,7 +364,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Copy the help file name to a buffer
   memcpy(&buf, LMemDeref(@LadderHelpFile), LMemGetChunkSize(@LadderHelpFile));
   // Set help file name of application
-  @call LadderApplication::MSG_META_SET_HELP_FILE(buf);
+  @call application::MSG_META_SET_HELP_FILE(buf);
   // Unlock the help file name
   MemUnlock(OptrToHandle(@LadderHelpFile));
   // Get the version number
