@@ -1411,38 +1411,7 @@ static void _pascal MoveDers(void)
       @send process::MSG_LAD_PLAY_WAIT();
     }
 //  break;
-  } 
-
-
-
-/*
-  // Handle window minimized
-  else if (g.executionFlags & WIN_M_MIN)
-  {
-    switch (message)
-    {
-    case MSG_LAD_DEMO_EXEC:
-      @send process::MSG_LAD_DEMO_STOP();
-      break;
-    case MSG_LAD_PLAY_EXEC:
-      g.restorePoint = RST_P_WAIT;
-      @send process::MSG_LAD_PLAY_WAIT();
-//    break;
-    }
   }
-  // Handle window lost focus
-  else if ((g.executionFlags & WIN_M_FOC) && (message == MSG_LAD_PLAY_EXEC))
-  {
-    g.restorePoint = RST_P_WAIT;
-    @send process::MSG_LAD_PLAY_WAIT();
-  }
-  // Handle restored from state
-  else if ((g.executionFlags & WIN_M_RST) && (message == MSG_LAD_PLAY_EXEC))
-  {
-    g.restorePoint = RST_P_WAIT;
-    @send process::MSG_LAD_PLAY_WAIT();
-  }
-*/
 }
 
 /***********************************************************************
