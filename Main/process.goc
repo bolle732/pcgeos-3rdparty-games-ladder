@@ -534,8 +534,17 @@ static word _pascal TicksByDifficulty(word diff)
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
   // Show the menu screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderMenu);
-  // Disarm the jokes or demo
-  @send oself::MSG_LAD_MENU_AUTO();
+  // Handle window minimized
+  if (g.winState & WIN_M_MIN)
+  {
+    // Arm the jokes or demo
+    @send oself::MSG_LAD_MENU_STOP();
+  }
+  else
+  {
+    // Disarm the jokes or demo
+    @send oself::MSG_LAD_MENU_AUTO();
+  }
 }
 
 /***********************************************************************
