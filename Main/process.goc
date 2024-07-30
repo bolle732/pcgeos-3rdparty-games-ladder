@@ -286,7 +286,7 @@ static word _pascal TicksByDifficulty(word diff)
     // Restore the global state
     g = state->globals;
     // Restore execution state
-    switch (g.exeState)
+    switch (g.executionState)
     {
     case EXE_S_HELP:
       msg = MSG_LAD_HELP;
@@ -297,7 +297,7 @@ static word _pascal TicksByDifficulty(word diff)
       memcpy(LMemDeref(@GameLevelBuffer), state->buffer, LVL_M_SIZE);
       MemUnlock(OptrToHandle(@GameLevelBuffer));
       // Find the message where we leaved the game play
-      switch (g.rstState)
+      switch (g.restorePoint)
       {
       case RST_P_HEAD:
         msg = MSG_LAD_PLAY_LOAD_HEAD;
@@ -475,7 +475,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Write the last score to the INI file
   InitFileWriteInteger(&ICA, &IKL, g.game.lastScore);
   // Set state to save
-  g.winState |= WIN_M_RST;
+  g.executionFlags |= WIN_M_RST;
   // Do super
   @callsuper();
   // Allocate memory for our struct to save the extra state
@@ -484,7 +484,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Save the global state
   state->globals = g;
   // Only save the game objects and the level buffer if we are in a play
-  if (g.exeState == EXE_S_PLAY)
+  if (g.executionState == EXE_S_PLAY)
   {
     // Set the objects dirty so they get saved in the state
     ObjMarkDirty(@LadderView);
@@ -528,9 +528,9 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderProcessClass, MSG_LAD_MENU
 {
   // Set the input state for the handling of key presses
-  g.inpState = INP_S_MENU;
+  g.inputState = INP_S_MENU;
   // Set the execution state
-  g.exeState = EXE_S_MENU;
+  g.executionState = EXE_S_MENU;
   // Reset the control state
   g.ctlState = 0;
   // Clear the text in the info line
@@ -538,7 +538,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Show the menu screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderMenu);
   // Handle window minimized
-  if (g.winState & WIN_M_MIN)
+  if (g.executionFlags & WIN_M_MIN)
   {
     // Arm the jokes or demo
     @send oself::MSG_LAD_MENU_STOP();
@@ -647,9 +647,9 @@ static word _pascal TicksByDifficulty(word diff)
   // Stop the timer
   StopTimer();
   // Set the input state for the handling of key presses
-  g.inpState = INP_S_NONE;
+  g.inputState = INP_S_NONE;
   // Set the execution state
-  g.exeState = EXE_S_NONE;
+  g.executionState = EXE_S_NONE;
   // Update the info line with the exit text
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(@MenuExit);
   // Start the timer for the exit
@@ -775,9 +775,9 @@ static word _pascal TicksByDifficulty(word diff)
   // Stop the timer
   StopTimer();
   // Set the input state for the handling of key presses
-  g.inpState = INP_S_HELP;
+  g.inputState = INP_S_HELP;
   // Set the execution state
-  g.exeState = EXE_S_HELP;
+  g.executionState = EXE_S_HELP;
   // Show the help screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderHelp);
   // Set the text of the info line
@@ -824,9 +824,9 @@ static word _pascal TicksByDifficulty(word diff)
   {
   case MSG_LAD_DEMO:
     // Set the input state for the handling of key presses
-    g.inpState = INP_S_DEMO;
+    g.inputState = INP_S_DEMO;
     // Set the execution state
-    g.exeState = EXE_S_DEMO;
+    g.executionState = EXE_S_DEMO;
     // Lock the game demos
     MemLock(OptrToHandle(@GameDemos));
     // Get the game demo
@@ -842,14 +842,14 @@ static word _pascal TicksByDifficulty(word diff)
     break;
   case MSG_LAD_PLAY:
     // Set the input state for the handling of key presses
-    g.inpState = INP_S_PLAY;
+    g.inputState = INP_S_PLAY;
     // Set the execution state
-    g.exeState = EXE_S_PLAY;
+    g.executionState = EXE_S_PLAY;
     // Initialize the round and level
     g.game.round = 1; // 1, 2, 5, 9, 14, 20, 27
     g.game.level = 1; // 1, 2, 3, 4, 5, 6, 7
     // Start the first level
-    g.rstState = RST_P_HEAD;
+    g.restorePoint = RST_P_HEAD;
     @send oself::MSG_LAD_PLAY_LOAD_HEAD();
 //  break;
   }
@@ -886,7 +886,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Stop the game timer
   StopTimer();
   // Set the input state for the handling of key presses
-  g.inpState = INP_S_NONE;
+  g.inputState = INP_S_NONE;
   // Handle message type
   if (message == MSG_LAD_PLAY_STOP)
   {
@@ -922,7 +922,7 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderProcessClass, MSG_LAD_PLAY_DONE
 {
   // Set the input state for the handling of key presses
-  g.inpState = INP_S_DONE;
+  g.inputState = INP_S_DONE;
   // Show the game done screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderDone);
   // Reset the image of the mouse cursor / pointer
@@ -953,7 +953,7 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderProcessClass, MSG_LAD_PLAY_OVER
 {
   // Set the input state for the handling of key presses
-  g.inpState = INP_S_OVER;
+  g.inputState = INP_S_OVER;
   // Show the game over screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderOver);
   // Reset the image of the mouse cursor / pointer
@@ -988,7 +988,7 @@ static word _pascal TicksByDifficulty(word diff)
 {
   word i;
   // Set the input state for the handling of key presses
-  g.inpState = INP_S_HIGH;
+  g.inputState = INP_S_HIGH;
   // Reset the input
   @send LadderHighName::MSG_INP_RESET();
   // Clear the info line
@@ -1073,20 +1073,20 @@ static word _pascal TicksByDifficulty(word diff)
   switch (state)
   {
   case WIN_S_NORM:
-    g.winState &= ~WIN_M_MIN;  // Clear bit 0
+    g.executionFlags &= ~WIN_M_MIN;  // Clear bit 0
     break;
   case WIN_S_MINI:
-    g.winState |= WIN_M_MIN;  // Set bit 0
+    g.executionFlags |= WIN_M_MIN;  // Set bit 0
     break;
   case WIN_S_GAIN:
-    g.winState &= ~WIN_M_FOC;  // Clear bit 1
+    g.executionFlags &= ~WIN_M_FOC;  // Clear bit 1
     break;
   case WIN_S_LOST:
-    g.winState |= WIN_M_FOC;  // Set bit 1
+    g.executionFlags |= WIN_M_FOC;  // Set bit 1
 //  break;
   }
   // Handle menu here
-  if (g.exeState == EXE_S_MENU)
+  if (g.executionState == EXE_S_MENU)
   {
     switch (state)
     {
@@ -1137,14 +1137,14 @@ static word _pascal TicksByDifficulty(word diff)
 {
   Message msg;
   // Handle key presses during dedicated input states
-  if (!(flags & CF_RELEASE) && (g.inpState != INP_S_NONE))
+  if (!(flags & CF_RELEASE) && (g.inputState != INP_S_NONE))
   {
     // Set the default message to nothing
     msg = NULL;
     // Handle escape key
     if (character == 0xFF1B)
     {
-      switch (g.inpState)
+      switch (g.inputState)
       {
       case INP_S_DEMO:
         // Stop demo
@@ -1153,7 +1153,7 @@ static word _pascal TicksByDifficulty(word diff)
       case INP_S_PLAY:
       case INP_S_EXEC:
         // Stop play
-        g.rstState = RST_P_STOP;
+        g.restorePoint = RST_P_STOP;
         msg = MSG_LAD_PLAY_STOP;
         break;
       default:
@@ -1163,7 +1163,7 @@ static word _pascal TicksByDifficulty(word diff)
       }
     }
     // Handle the keys according the application states
-    switch (g.inpState)
+    switch (g.inputState)
     {
     case INP_S_EXEC:
       // Handle the key press
@@ -1190,7 +1190,7 @@ static word _pascal TicksByDifficulty(word diff)
         return;
       case C_SMALL_P:
       case C_CAP_P:
-        g.rstState = RST_P_WAIT;
+        g.restorePoint = RST_P_WAIT;
         msg = MSG_LAD_PLAY_WAIT;
         break;
       // Any other key
@@ -1229,7 +1229,7 @@ static word _pascal TicksByDifficulty(word diff)
       // Key 'Enter'
       if (character == 0xFF0D)
       {
-        g.rstState = RST_P_READY;
+        g.restorePoint = RST_P_READY;
         msg = MSG_LAD_PLAY_READY;
       }
       break;
@@ -1239,7 +1239,7 @@ static word _pascal TicksByDifficulty(word diff)
       {
       // Key 'Enter'
       case 0xFF0D:
-        g.rstState = RST_P_SAVE;
+        g.restorePoint = RST_P_SAVE;
         msg = MSG_LAD_PLAY_SAVE;
         break;
       // Key 'Backspace'
@@ -1265,12 +1265,12 @@ static word _pascal TicksByDifficulty(word diff)
         // Check for new high score
         if (@call LadderMenuRank::MSG_RNK_IS_NEW_RANK(g.game.score) == L_TRUE)
         {
-          g.rstState = RST_P_HIGH;
+          g.restorePoint = RST_P_HIGH;
           msg = MSG_LAD_PLAY_HIGH;
         }
         else
         {
-          g.rstState = RST_P_STOP;
+          g.restorePoint = RST_P_STOP;
           msg = MSG_LAD_PLAY_STOP;
         }
       }

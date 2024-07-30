@@ -75,7 +75,7 @@
 
 // Restartable play states
 // Used for restoring point in game after coming back from state
-// Always set the global state 'g.rstState' before sending message
+// Always set the global state 'g.restorePoint' before sending message
 #define RST_P_NONE          0  // Restart state play none
 #define RST_P_HEAD          1  // Restart state play load head
 #define RST_P_SHOW          2  // Restart state play load show
@@ -393,10 +393,10 @@ typedef struct                 // Demo data
 typedef struct                 // Global structure
 {
   word ctlState;               //   2B+0 - Control counter / state
-  byte exeState;               //   1B+1 - Execution state (from state file)
-  byte inpState;               //   1B+1 - Input state (keyboard)
-  byte rstState;               //   1B+1 - Restart state (from state file)
-  byte winState;               //   1B+1 - Window state (minimized handling)
+  byte executionFlags;         //   1B+1 - Execution flags (window minimized, focus lost, restored from state)
+  byte executionState;         //   1B+1 - Execution state
+  byte inputState;             //   1B+1 - Input state (keyboard)
+  byte restorePoint;           //   1B+1 - Restart point (from state file)
   TimerHandle timerHandle;     //   2B+0 - Timer handle
   word timerId;                //   2B+0 - Timer id
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle
