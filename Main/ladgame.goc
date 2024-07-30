@@ -1418,6 +1418,12 @@ static void _pascal MoveDers(void)
     g.rstState = RST_P_WAIT;
     @send process::MSG_LAD_PLAY_WAIT();
   }
+  // Handle restored from state
+  else if ((g.winState & WIN_M_RST) && (message == MSG_LAD_PLAY_EXEC))
+  {
+    g.rstState = RST_P_WAIT;
+    @send process::MSG_LAD_PLAY_WAIT();
+  }
 }
 
 /***********************************************************************
@@ -1445,6 +1451,8 @@ static void _pascal MoveDers(void)
   StopTimer();
   // Set the input state for the handling of key presses
   g.inpState = INP_S_WAIT;
+  // Reset restored from state
+  g.winState &= ~WIN_M_RST;
   // Reset the image of the mouse cursor / pointer
   @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(NullOptr, PIL_WINDOW);
   // Update the info line with the wait message

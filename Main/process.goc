@@ -474,6 +474,8 @@ static word _pascal TicksByDifficulty(word diff)
   InitFileWriteInteger(&ICA, &IKS, (g.game.diff << 8) | (g.game.sound & 0x0F));
   // Write the last score to the INI file
   InitFileWriteInteger(&ICA, &IKL, g.game.lastScore);
+  // Set state to save
+  g.winState |= WIN_M_RST;
   // Do super
   @callsuper();
   // Allocate memory for our struct to save the extra state
@@ -1083,7 +1085,7 @@ static word _pascal TicksByDifficulty(word diff)
 //  break;
   }
   // Handle menu here
-  if (g.inpState == INP_S_MENU)
+  if (g.exeState == EXE_S_MENU)
   {
     switch (state)
     {
