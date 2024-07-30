@@ -1387,8 +1387,6 @@ static void _pascal MoveDers(void)
   {
     // Stop the play timer
     StopTimer();
-    // Set the input state for the handling of key presses
-    g.inpState = INP_S_NONE;
     // Handle demo mode
     if (message == MSG_LAD_DEMO_EXEC)
     {
