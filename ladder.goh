@@ -457,7 +457,7 @@ typedef struct                 // Extra state structure
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_OVER;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HIGH;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_SAVE;
-  @message void MSG_LAD_EXEC_FLAGS_CHANGE(byte state);
+  @message void MSG_LAD_EXEC_FLAGS_SET(byte state);
 @endc
 
 
