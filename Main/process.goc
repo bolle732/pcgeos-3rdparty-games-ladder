@@ -429,10 +429,10 @@ static word _pascal TicksByDifficulty(word diff)
   }
   // Load the scores from the file
   @send LadderMenuRank::MSG_RNK_LOAD();
-  // Do super
-  @callsuper();
   // Let's start or continue
   @send process:: {MSG_LAD_PROTO} msg();
+  // Do super
+  @callsuper();
 }
 
 /***********************************************************************
