@@ -1396,6 +1396,26 @@ static void _pascal MoveDers(void)
     // Send the message
     @send process:: {MSG_LAD_PROTO} msg();
   }
+  switch (message)
+  {
+  case MSG_LAD_DEMO_EXEC:
+    if (g.winState & WIN_M_MIN)
+    {
+      @send process::MSG_LAD_DEMO_STOP();
+    }
+    break;
+  case MSG_LAD_PLAY_EXEC:
+    if (g.winState != 0)
+    {
+      g.rstState = RST_P_WAIT;
+      @send process::MSG_LAD_PLAY_WAIT();
+    }
+//  break;
+  } 
+
+
+
+/*
   // Handle window minimized
   else if (g.winState & WIN_M_MIN)
   {
@@ -1422,6 +1442,7 @@ static void _pascal MoveDers(void)
     g.rstState = RST_P_WAIT;
     @send process::MSG_LAD_PLAY_WAIT();
   }
+*/
 }
 
 /***********************************************************************

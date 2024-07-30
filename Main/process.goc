@@ -488,6 +488,7 @@ static word _pascal TicksByDifficulty(word diff)
   {
     // Set the objects dirty so they get saved in the state
     ObjMarkDirty(@LadderView);
+    ObjMarkDirty(@LadderGameActors);
     ObjMarkDirty(@LadderGameLads);
     ObjMarkDirty(@LadderGameRound);
     ObjMarkDirty(@LadderGameScore);
