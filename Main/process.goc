@@ -1276,7 +1276,7 @@ static word _pascal TicksByDifficulty(word diff)
       }
 //    break;
     }
-    // 
+    // Send the message
     if (msg != NULL)
     {
       @send process:: {MSG_LAD_PROTO} msg();

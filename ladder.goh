@@ -52,15 +52,8 @@
 // Application name
 #define APP_NAME            "GeoLadder"  // Application name
 
-// Execution states
-// Used for generic hanlding after coming back from state
-#define EXE_S_NONE          0  // Execution state none
-#define EXE_S_MENU          1  // Execution state menu
-#define EXE_S_HELP          2  // Execution state help
-#define EXE_S_DEMO          3  // Execution state demo
-#define EXE_S_PLAY          4  // Execution state play
-
 // Execution flags
+// Used to control execution depending environment
 #define EXE_F_NORM          0  // Execution flag not minimized
 #define EXE_F_MINI          1  // Execution flag minimized
 #define EXE_F_GAIN          2  // Execution flag gained focus
@@ -72,6 +65,14 @@
 #define EXE_M_MIN        0x01  // Execution flag minimized mask
 #define EXE_M_FOC        0x02  // Execution flag focus mask
 #define EXE_M_RST        0x04  // Execution flag save state mask
+
+// Execution states
+// Used for generic handling after coming back from state
+#define EXE_S_NONE          0  // Execution state none
+#define EXE_S_MENU          1  // Execution state menu
+#define EXE_S_HELP          2  // Execution state help
+#define EXE_S_DEMO          3  // Execution state demo
+#define EXE_S_PLAY          4  // Execution state play
 
 // Input states
 // Used for keyboard input handling
@@ -88,7 +89,7 @@
 
 // Restartable play states
 // Used for restoring point in game after coming back from state
-// Always set the global state 'g.restorePoint' before sending message
+// Always set the global state 'g.restorePoint' before sending play messages
 #define RST_P_NONE          0  // Restart state play none
 #define RST_P_HEAD          1  // Restart state play load head
 #define RST_P_SHOW          2  // Restart state play load show
