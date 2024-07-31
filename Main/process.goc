@@ -1137,7 +1137,7 @@ static word _pascal TicksByDifficulty(word diff)
 {
   Message msg;
   // Handle key presses during dedicated input states
-  if (!(flags & CF_RELEASE) && (g.inputState != INP_S_NONE))
+  if (!(flags & CF_RELEASE) && (g.inputState != INP_S_NONE) && !(g.executionFlags & EXE_M_MIN))
   {
     // Set the default message to nothing
     msg = NULL;
@@ -1284,7 +1284,8 @@ static word _pascal TicksByDifficulty(word diff)
     }
   }
   // Not handled, put the key press upstream
-  @send oself::MSG_META_FUP_KBD_CHAR(character, flags, state);
+//  @send oself::MSG_META_FUP_KBD_CHAR(character, flags, state);
+  @callsuper();
 }
 
 /***********************************************************************
