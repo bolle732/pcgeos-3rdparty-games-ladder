@@ -475,7 +475,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Write the last score to the INI file
   InitFileWriteInteger(&ICA, &IKL, g.game.lastScore);
   // Set saved to state
-  g.executionFlags |= WIN_M_RST;
+  g.executionFlags |= EXE_M_RST;
   // Do super
   @callsuper();
   // Allocate memory for our struct to save the extra state
@@ -538,7 +538,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Show the menu screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderMenu);
   // Handle window minimized
-  if (g.executionFlags & WIN_M_MIN)
+  if (g.executionFlags & EXE_M_MIN)
   {
     // Arm the jokes or demo
     @send oself::MSG_LAD_MENU_STOP();
@@ -1072,17 +1072,17 @@ static word _pascal TicksByDifficulty(word diff)
   // Update the global window state
   switch (state)
   {
-  case WIN_S_NORM:
-    g.executionFlags &= ~WIN_M_MIN;  // Clear bit 0
+  case EXE_F_NORM:
+    g.executionFlags &= ~EXE_M_MIN;  // Clear bit 0
     break;
-  case WIN_S_MINI:
-    g.executionFlags |= WIN_M_MIN;  // Set bit 0
+  case EXE_F_MINI:
+    g.executionFlags |= EXE_M_MIN;  // Set bit 0
     break;
-  case WIN_S_GAIN:
-    g.executionFlags &= ~WIN_M_FOC;  // Clear bit 1
+  case EXE_F_GAIN:
+    g.executionFlags &= ~EXE_M_FOC;  // Clear bit 1
     break;
-  case WIN_S_LOST:
-    g.executionFlags |= WIN_M_FOC;  // Set bit 1
+  case EXE_F_LOST:
+    g.executionFlags |= EXE_M_FOC;  // Set bit 1
 //  break;
   }
   // Handle menu here
@@ -1090,10 +1090,10 @@ static word _pascal TicksByDifficulty(word diff)
   {
     switch (state)
     {
-    case WIN_S_NORM:
+    case EXE_F_NORM:
       @send oself::MSG_LAD_MENU_AUTO();
       break;
-    case WIN_S_MINI:
+    case EXE_F_MINI:
       @send oself::MSG_LAD_MENU_STOP();
 //    break;
     }
@@ -1312,7 +1312,7 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderApplicationClass, MSG_META_LOST_FOCUS_EXCL
 {
   // Inform process about window lost focus
-  @send process::MSG_LAD_EXEC_FLAGS_SET(WIN_S_LOST);
+  @send process::MSG_LAD_EXEC_FLAGS_SET(EXE_F_LOST);
   // Do super
   @callsuper();
 }
@@ -1340,7 +1340,7 @@ static word _pascal TicksByDifficulty(word diff)
 @method LadderApplicationClass, MSG_META_GAINED_FOCUS_EXCL
 {
   // Inform process about window gained focus
-  @send process::MSG_LAD_EXEC_FLAGS_SET(WIN_S_GAIN);
+  @send process::MSG_LAD_EXEC_FLAGS_SET(EXE_F_GAIN);
   // Do super
   @callsuper();
 }

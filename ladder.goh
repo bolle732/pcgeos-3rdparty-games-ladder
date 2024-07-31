@@ -49,7 +49,7 @@
 #define L_FALSE             0  // False value used for functions
 #define L_TRUE              1  // True value used for functions
 
-// Application
+// Application name
 #define APP_NAME            "GeoLadder"  // Application name
 
 // Execution states
@@ -59,6 +59,19 @@
 #define EXE_S_HELP          2  // Execution state help
 #define EXE_S_DEMO          3  // Execution state demo
 #define EXE_S_PLAY          4  // Execution state play
+
+// Execution flags
+#define EXE_F_NORM          0  // Execution flag not minimized
+#define EXE_F_MINI          1  // Execution flag minimized
+#define EXE_F_GAIN          2  // Execution flag gained focus
+#define EXE_F_LOST          3  // Execution flag lost focus
+#define EXE_F_SAVE          4  // Execution flag save state
+#define EXE_F_REST          5  // Execution flag restore state
+
+// Execution flag masks
+#define EXE_M_MIN        0x01  // Execution flag minimized mask
+#define EXE_M_FOC        0x02  // Execution flag focus mask
+#define EXE_M_RST        0x04  // Execution flag save state mask
 
 // Input states
 // Used for keyboard input handling
@@ -95,19 +108,6 @@
 #define RST_P_WAIT         16  // Restart state play wait
 #define RST_P_HIGH         17  // Restart state play high
 #define RST_P_SAVE         18  // Restart state play save
-
-// Window state
-#define WIN_S_NORM          0  // Window state not minimized
-#define WIN_S_MINI          1  // Window state minimized
-#define WIN_S_GAIN          2  // Window state gained focus
-#define WIN_S_LOST          3  // Window state lost focus
-#define WIN_S_SAVE          4  // Window state save state
-#define WIN_S_REST          5  // Window state restore state
-
-// Window state masks
-#define WIN_M_MIN        0x01  // Window minimized mask
-#define WIN_M_FOC        0x02  // Window focus mask
-#define WIN_M_RST        0x04  // Window restored from state mask
 
 // INI file entries
 #define INI_CAT_APP         APP_NAME  // Category in the GEOS.INI
