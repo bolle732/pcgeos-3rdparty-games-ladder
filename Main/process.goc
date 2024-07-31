@@ -219,7 +219,7 @@ static word _pascal TicksByDifficulty(word diff)
 @extern method LadderProcessClass, MSG_LAD_PLAY_READY;
 @extern method LadderProcessClass, MSG_LAD_DEMO_START, MSG_LAD_PLAY_START;
 @extern method LadderProcessClass, MSG_LAD_DEMO_EXEC, MSG_LAD_PLAY_EXEC;
-@extern method LadderProcessClass, MSG_LAD_PLAY_WAIT;
+@extern method LadderProcessClass, MSG_LAD_PLAY_HOLD;
 @extern method LadderProcessClass, MSG_LAD_PLAY_FAIL;
 @extern method LadderProcessClass, MSG_LAD_PLAY_DIES;
 @extern method LadderProcessClass, MSG_LAD_PLAY_CLEAR;
@@ -344,8 +344,8 @@ static word _pascal TicksByDifficulty(word diff)
       case RST_P_STOP:
         msg = MSG_LAD_PLAY_STOP;
         break;
-      case RST_P_WAIT:
-        msg = MSG_LAD_PLAY_WAIT;
+      case RST_P_HOLD:
+        msg = MSG_LAD_PLAY_HOLD;
         break;
       case RST_P_HIGH:
         msg = MSG_LAD_PLAY_HIGH;
@@ -1190,8 +1190,8 @@ static word _pascal TicksByDifficulty(word diff)
         return;
       case C_SMALL_P:
       case C_CAP_P:
-        g.restorePoint = RST_P_WAIT;
-        msg = MSG_LAD_PLAY_WAIT;
+        g.restorePoint = RST_P_HOLD;
+        msg = MSG_LAD_PLAY_HOLD;
         break;
       // Any other key
       default:
@@ -1225,7 +1225,7 @@ static word _pascal TicksByDifficulty(word diff)
 //      break;
       }
       break;
-    case INP_S_WAIT:
+    case INP_S_HOLD:
       // Key 'Enter'
       if (character == 0xFF0D)
       {

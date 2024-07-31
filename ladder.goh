@@ -82,7 +82,7 @@
 #define INP_S_DEMO          3  // Input state demo
 #define INP_S_PLAY          4  // Input state play
 #define INP_S_EXEC          5  // Input state play execution
-#define INP_S_WAIT          6  // Input state play wait
+#define INP_S_HOLD          6  // Input state play hold
 #define INP_S_DONE          7  // Input state done (the end)
 #define INP_S_OVER          8  // Input state over
 #define INP_S_HIGH          9  // Input state high score
@@ -106,7 +106,7 @@
 #define RST_P_NEXT         13  // Restart state play next
 #define RST_P_DONE         14  // Restart state play done
 #define RST_P_STOP         15  // Restart state play stop
-#define RST_P_WAIT         16  // Restart state play wait
+#define RST_P_HOLD         16  // Restart state play hold
 #define RST_P_HIGH         17  // Restart state play high
 #define RST_P_SAVE         18  // Restart state play save
 
@@ -447,7 +447,7 @@ typedef struct                 // Extra state structure
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_READY;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_START;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_EXEC;
-  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_WAIT;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HOLD;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_FAIL;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_DIES;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_CLEAR;

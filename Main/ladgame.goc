@@ -1407,15 +1407,15 @@ static void _pascal MoveDers(void)
   case MSG_LAD_PLAY_EXEC:
     if (g.executionFlags != 0)
     {
-      g.restorePoint = RST_P_WAIT;
-      @send process::MSG_LAD_PLAY_WAIT();
+      g.restorePoint = RST_P_HOLD;
+      @send process::MSG_LAD_PLAY_HOLD();
     }
 //  break;
   }
 }
 
 /***********************************************************************
- *                  MSG_LAD_PLAY_WAIT
+ *                  MSG_LAD_PLAY_HOLD
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Pause the game.
@@ -1433,12 +1433,12 @@ static void _pascal MoveDers(void)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@extern method LadderProcessClass, MSG_LAD_PLAY_WAIT
+@extern method LadderProcessClass, MSG_LAD_PLAY_HOLD
 {
   // Stop the play timer
   StopTimer();
   // Set the input state for the handling of key presses
-  g.inputState = INP_S_WAIT;
+  g.inputState = INP_S_HOLD;
   // Reset restored from state
   g.executionFlags &= ~EXE_M_RST;
   // Reset the image of the mouse cursor / pointer
