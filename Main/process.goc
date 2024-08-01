@@ -271,6 +271,13 @@ static word _pascal TicksByDifficulty(word diff)
   ReleaseNumber rn;
   // Set the menu as the default
   Message msg = MSG_LAD_MENU;
+
+  // Initialize font data in globals
+  GLFont font = {
+    FNT_TYPE, FNT_SIZE, FNT_WIDTH, FNT_HEIGHT
+  };
+  g.font = font;
+
   // Lock and dereference the level buffer
   MemLock(OptrToHandle(@GameLevelBuffer));
   // Resize the level buffer

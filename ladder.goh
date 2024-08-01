@@ -394,6 +394,14 @@ typedef struct                 // Demo data
   ChunkHandle moves;           //   2B+0 - Moves data
 } GLDemo;                      //   6B+0 = 6 Bytes used
 
+typedef struct                 // Font data
+{
+  word type;                   //   2B+0 - Font type
+  WWFixedAsDWord size;         //   4B+0 - Font size
+  word width;                  //   2B+0 - Character width
+  word height;                 //   2B+0 - Character height
+} GLFont;                      //  10B+0 = 10 Bytes used
+
 typedef struct                 // Global structure
 {
   word ctlState;               //   2B+0 - Control counter / state
@@ -404,6 +412,7 @@ typedef struct                 // Global structure
   TimerHandle timerHandle;     //   2B+0 - Timer handle
   word timerId;                //   2B+0 - Timer id
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle
+  GLFont font;                 //  10B+0 - Font data
   char *levelPtr;              //   4B+0 - Pointer to the level buffer
   GLGame game;                 //  18B+0 - Game data
   GLLevel level;               //  20B+0 - Level data

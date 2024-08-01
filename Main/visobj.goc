@@ -56,6 +56,15 @@
 
 /*
  ***************************************************************************
+ *                  EXTERNAL DECLARATIONS (see LADPALY.GOC)
+ ***************************************************************************
+ */
+
+extern GLGlobals g;
+
+
+/*
+ ***************************************************************************
  *                  LOCAL DECLARATIONS
  ***************************************************************************
  */
@@ -151,11 +160,11 @@ static void _pascal ClearText(word pos, word len)
   {
     // C trancates a divison of integers
     // -> ((pos - col) / LVL_COLS) == (pos / LVL_COLS)
-    x = (pos % SCN_COLS) * FNT_WIDTH;
-    y = (pos / SCN_COLS) * FNT_HEIGHT;
+    x = (pos % SCN_COLS) * g.font.width;
+    y = (pos / SCN_COLS) * g.font.height;
     GrFillRect(g_gstateHandle,
       x, y,
-      x + len * FNT_WIDTH, y + FNT_HEIGHT + 1);
+      x + len * g.font.width, y + g.font.height + 1);
   }
 }
 
@@ -189,8 +198,8 @@ static void _pascal DrawChar(word pos, char character)
     // C truncates a divison of integers
     // -> ((pos - col) / LVL_COLS) == (pos / LVL_COLS)
     GrDrawChar(g_gstateHandle,
-      (pos % SCN_COLS) * FNT_WIDTH,
-      (pos / SCN_COLS) * FNT_HEIGHT, character);
+      (pos % SCN_COLS) * g.font.width,
+      (pos / SCN_COLS) * g.font.height, character);
   }
 }
 
@@ -365,7 +374,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   // Initialize the global GState
   g_gstateHandle = GrCreateState(viewWindow);
   // Setup default configuration
-  GrSetFont(g_gstateHandle, FNT_TYPE, FNT_SIZE);
+  GrSetFont(g_gstateHandle, g.font.type, g.font.size);
   GrSetTextColor(g_gstateHandle, CF_INDEX, C_LIGHT_GREEN, 0, 0);
   GrSetAreaColor(g_gstateHandle, CF_INDEX, C_BLACK, 0, 0);
   // Do super
