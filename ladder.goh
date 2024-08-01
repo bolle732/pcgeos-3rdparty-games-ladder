@@ -60,11 +60,14 @@
 #define EXE_F_LOST          3  // Execution flag lost focus
 #define EXE_F_SAVE          4  // Execution flag save state
 #define EXE_F_REST          5  // Execution flag restore state
+#define EXE_F_WIND          6  // Execution flag window state
+#define EXE_F_FULL          7  // Execution flag fullscreen state
 
 // Execution flag masks
 #define EXE_M_MIN        0x01  // Execution flag minimized mask
 #define EXE_M_FOC        0x02  // Execution flag focus mask
 #define EXE_M_RST        0x04  // Execution flag save state mask
+#define EXE_M_SCR        0x08  // Execution flag screen mask
 
 // Execution states
 // Used for generic handling after coming back from state
@@ -87,7 +90,7 @@
 #define INP_S_OVER          8  // Input state over
 #define INP_S_HIGH          9  // Input state high score
 
-// Restartable play states
+// Restoreable play states
 // Used for restoring point in game after coming back from state
 // Always set the global state 'g.restorePoint' before sending play messages
 #define RST_P_NONE          0  // Restart state play none
