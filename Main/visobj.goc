@@ -917,7 +917,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
     if (i > (pos + 1))
     {
       // Copy the rank
-      memcpy(&pself->LRI_file.ranks[i - 1], &pself->LRI_file.ranks[i - 2], sizeof(RankEntry));
+      memcpy(&pself->LRI_file.ranks[i - 1], &pself->LRI_file.ranks[i - 2], sizeof(GLRankEntry));
     }
     else
     {

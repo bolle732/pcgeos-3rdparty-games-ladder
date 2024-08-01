@@ -102,7 +102,7 @@ static void _pascal MoveDers(void);
  ***************************************************************************
  */
 
-Globals g;
+GLGlobals g;
 
 
 /*
@@ -1243,9 +1243,9 @@ static void _pascal MoveDers(void)
     // Lock the demo moves
     MemLock(OptrToHandle(o));
     // Verify we don't read beyond
-    if (g.ctlState < (LMemGetChunkSize(o) / sizeof(Move)))
+    if (g.ctlState < (LMemGetChunkSize(o) / sizeof(GLMove)))
     {
-      Move *move;
+      GLMove *move;
       // Get the pointer of the demo moves
       move = LMemDeref(o);
       // Check if we are at the right position

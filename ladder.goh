@@ -265,7 +265,7 @@
 
 // Actor
 #define ACTS_MAX    (DERS_MAX + 2) * 2  // Maximum number of changes to draws (Ders, Lad and level elements)
-#define ACTS_M_SIZE  ACTS_MAX * sizeof(Actor)  // Memory size of actors
+#define ACTS_M_SIZE  ACTS_MAX * sizeof(GLActor)  // Memory size of actors
 
 // Der
 #define DER_C             'o'  // Der character
@@ -324,35 +324,35 @@ typedef struct                 // Game data
   word time;                   //   2B+0 - Remaining bonus time
   word ticks;                  //   2B+0 - Executed ticks
   word delay;                  //   2B+0 - Ticks per frame
-} Game;                        //  20B+0 = 18 Bytes used
+} GLGame;                      //  20B+0 = 18 Bytes used
 
 typedef struct                 // Emitter data
 {
   word num;                    //   2B+0 - Number of Emitters
   word pos[EMTS_MAX];          //   6B+0 - Positions of Emitters
-} Emitter;                     //   8B+0 = 8 Bytes used
+} GLEmitter;                   //   8B+0 = 8 Bytes used
 
 typedef struct                 // Level data
 {
   ChunkHandle name;            //   2B+0 - Name
   word time;                   //   2B+0 - Bonus time
   word spos;                   //   2B+0 - Lad start position
-  Emitter emts;                //   8B+0 - Number of emitters
+  GLEmitter emts;              //   8B+0 - Number of emitters
   word ders;                   //   2B+0 - Number of Ders
   ChunkHandle data;            //   2B+0 - Level data
-} Level;                       //  18B+0 = 18 Bytes used
+} GLLevel;                     //  18B+0 = 18 Bytes used
 
 typedef struct                 // Rank entry
 {
   word score;                  //   2B+0 - Score
   char name[RNK_NAME_LEN];     //  20B+0 - Name
-} RankEntry;                   //  22B+0 = 22 Bytes used
+} GLRankEntry;                 //  22B+0 = 22 Bytes used
 
 typedef struct                 // Ranks file
 {
   word id;                     //   2B+0 - Identification
-  RankEntry ranks[RNKS];       // 110B+0 - Ranks
-} RankFile;                    // 112B+0 = 112 Bytes used
+  GLRankEntry ranks[RNKS];     // 110B+0 - Ranks
+} GLRankFile;                  // 112B+0 = 112 Bytes used
 
 typedef struct                 // Der data
 {
@@ -360,7 +360,7 @@ typedef struct                 // Der data
   word lpos;                   //   2B+0 - Last position
   sbyte dir;                   //   1B+0 - Current direction
   sbyte state;                 //   1B+0 - State, < -1: Undefined, -1: Recycle, 0: Move, 1: Leave, 2: Ready, 3: Armed, > 3: Wait to leave
-} Der;                         //   6B+0 = 6 Bytes used
+} GLDer;                       //   6B+0 = 6 Bytes used
 
 typedef struct                 // Lad data
 {
@@ -372,27 +372,27 @@ typedef struct                 // Lad data
   byte njump;                  //   1B+0 - Start a new jump
   char face;                   //   1B+1 - Current character (face)
   word die;                    //   2B+0 - Die counter
-} Lad;                         //  11B+1 = 12 Bytes used
+} GLLad;                       //  11B+1 = 12 Bytes used
 
 typedef struct                 // Actor data
 {
   word pos;                    //   2B+0 - Coordinate
   char face;                   //   1B+1 - Character (face)
-} Actor;                       //   3B+1 = 4 Bytes used
+} GLActor;                     //   3B+1 = 4 Bytes used
 
 typedef struct                 // Lad demo move
 {
   word tpos;                   //   2B+0 - Trigger position
   sbyte ndir;                  //   1B+0 - Next direction
   byte njump;                  //   1B+0 - Start a new jump
-} Move;                        //   4B+0 = 4 Bytes used
+} GLMove;                      //   4B+0 = 4 Bytes used
 
 typedef struct                 // Demo data
 {
   word round;                  //   2B+0 - Round
   word level;                  //   2B+0 - Level
   ChunkHandle moves;           //   2B+0 - Moves data
-} Demo;                        //   6B+0 = 6 Bytes used
+} GLDemo;                      //   6B+0 = 6 Bytes used
 
 typedef struct                 // Global structure
 {
@@ -405,19 +405,19 @@ typedef struct                 // Global structure
   word timerId;                //   2B+0 - Timer id
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle
   char *levelPtr;              //   4B+0 - Pointer to the level buffer
-  Game game;                   //  18B+0 - Game data
-  Level level;                 //  20B+0 - Level data
-  Der ders[DERS_MAX];          //  48B+0 - Der data
-  Lad lad;                     //  12B+0 - Lad data
+  GLGame game;                 //  18B+0 - Game data
+  GLLevel level;               //  20B+0 - Level data
+  GLDer ders[DERS_MAX];        //  48B+0 - Der data
+  GLLad lad;                   //  12B+0 - Lad data
   ChunkHandle moves;           //   2B+0 - Demo data
-} Globals;                     // 116B+4 = 120 Bytes used
+} GLGlobals;                   // 116B+4 = 120 Bytes used
 
 // This is used for saving to and restoring from state
 typedef struct                 // Extra state structure
 {
-  Globals globals;
+  GLGlobals globals;
   char buffer[LVL_M_SIZE];
-} State;
+} GLState;
 
 
 /*
@@ -558,7 +558,7 @@ typedef struct                 // Extra state structure
     | VGA_ONLY_RECALC_SIZE_WHEN_INVALID;
   @instance word LRI_position = 0;
   @instance optr LRI_noname = NullOptr;
-  @instance RankFile LRI_file = 0;
+  @instance GLRankFile LRI_file = 0;
   @message word MSG_RNK_IS_NEW_RANK(word score);
   @message void MSG_RNK_LOAD();
   @message void MSG_RNK_SAVE_RANK(word score, void *name);
@@ -594,7 +594,7 @@ typedef struct                 // Extra state structure
     | VGA_NO_SIZE_HINTS
     | VGA_ONLY_RECALC_SIZE_WHEN_INVALID;
   @instance word LAI_count = 0;
-  @instance Actor LAI_actors[ACTS_MAX] = {
+  @instance GLActor LAI_actors[ACTS_MAX] = {
     { POS_NONE, C_SPACE }
   };
   @message void MSG_ACT_DRAW();

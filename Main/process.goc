@@ -62,7 +62,7 @@
  ***************************************************************************
  */
 
-extern Globals g;
+extern GLGlobals g;
 
 extern word _pascal Random(word max);
 
@@ -280,9 +280,9 @@ static word _pascal TicksByDifficulty(word diff)
   // Handle the restore from state
   if ((attachFlags & AAF_RESTORING_FROM_STATE) && extraState)
   {
-    State *state;
+    GLState *state;
     // Get the extra state
-    state = (State *) MemLock(extraState);
+    state = (GLState *) MemLock(extraState);
     // Restore the global state
     g = state->globals;
     // Restore execution state
@@ -464,7 +464,7 @@ static word _pascal TicksByDifficulty(word diff)
  ***********************************************************************/
 @method LadderProcessClass, MSG_GEN_PROCESS_CLOSE_APPLICATION
 {
-  State *state;
+  GLState *state;
   MemHandle mh;
   // Stop the current timer
   StopTimer();
@@ -479,8 +479,8 @@ static word _pascal TicksByDifficulty(word diff)
   // Do super
   @callsuper();
   // Allocate memory for our struct to save the extra state
-  mh = MemAlloc(sizeof(State), HF_DYNAMIC | HF_SHARABLE, 0);
-  state = (State *) MemLock(mh);
+  mh = MemAlloc(sizeof(GLState), HF_DYNAMIC | HF_SHARABLE, 0);
+  state = (GLState *) MemLock(mh);
   // Save the global state
   state->globals = g;
   // Only save the game objects and the level buffer if we are in a play
@@ -812,7 +812,7 @@ static word _pascal TicksByDifficulty(word diff)
                             MSG_LAD_PLAY
 {
   // Our demo
-  Demo d;
+  GLDemo d;
   // Stop the timer
   StopTimer();
   // Initialize the game

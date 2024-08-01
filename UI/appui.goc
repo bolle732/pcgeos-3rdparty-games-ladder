@@ -1188,7 +1188,7 @@
 // { Number of Emitters, { Positions of Emitters } },
 // Maximum Ders,
 // Level Data
-@chunkArray Level GameLevels =
+@chunkArray GLLevel GameLevels =
 {
   {
     ChunkOf(@GameLevel1Name), 35, GPOS(18,5),
@@ -1920,7 +1920,7 @@
 
 // Round, Level
 // Demo Moves
-@chunkArray Demo GameDemos =
+@chunkArray GLDemo GameDemos =
 {
   {
     1, 1,
@@ -1941,7 +1941,7 @@
 };
 
 // Moves of Demo 1
-@chunk Move GameDemo1Moves[] = {
+@chunk GLMove GameDemo1Moves[] = {
   { GPOS(18,5), DIR_E, L_FALSE }, { GPOS(18,33), DIR_E, L_TRUE },
   { GPOS(18,57), DIR_N, L_FALSE }, { GPOS(14,57), DIR_W, L_FALSE },
   { GPOS(14,48), DIR_W, L_TRUE }, { GPOS(14,26), DIR_W, L_TRUE },
@@ -1953,7 +1953,7 @@
 };
 
 // Moves of Demo 2
-@chunk Move GameDemo2Moves[] = {
+@chunk GLMove GameDemo2Moves[] = {
   { GPOS(18,5), DIR_E, L_FALSE }, { GPOS(18,20), DIR_E, L_TRUE },
   { GPOS(18,43), DIR_E, L_TRUE }, { GPOS(18,57), DIR_N, L_FALSE },
   { GPOS(14,57), DIR_W, L_FALSE }, { GPOS(14,49), DIR_W, L_TRUE },
@@ -1966,7 +1966,7 @@
 };
 
 // Moves of Demo 3
-@chunk Move GameDemo3Moves[] = {
+@chunk GLMove GameDemo3Moves[] = {
   { GPOS(18,17), DIR_E, L_FALSE }, { GPOS(18,33), DIR_E, L_TRUE },
   { GPOS(16,36), DIR_NONE, L_FALSE }, { GPOS(16,36), DIR_W, L_TRUE },
   { GPOS(14,30), DIR_W, L_TRUE }, { GPOS(12,27), DIR_NONE, L_FALSE },
@@ -1982,7 +1982,7 @@
 };
 
 // Moves of Demo 3
-@chunk Move GameDemo4Moves[] = {
+@chunk GLMove GameDemo4Moves[] = {
   { GPOS(18,17), DIR_E, L_FALSE }, { GPOS(18,34), DIR_E, L_TRUE },
   { GPOS(18,74), DIR_N, L_FALSE }, { GPOS(14,74), DIR_W, L_FALSE },
   { GPOS(14,56), DIR_W, L_TRUE }, { GPOS(14,40), DIR_W, L_TRUE },
