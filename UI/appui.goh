@@ -135,6 +135,8 @@
 @extern chunk GameDemo3Moves;
 @extern chunk GameDemo4Moves;
 
+@extern chunk FontConfigs;  // chunkArray
+
 @extern chunk GameLevelBuffer;
 
 

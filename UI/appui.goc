@@ -111,8 +111,6 @@
     | GVA_DONT_SEND_KBD_RELEASES
     | GVA_DONT_SEND_PTR_EVENTS;
   GVI_color = { C_BLACK, 0, 0, 0 };
-  // XXX: -> To be corrected after implementation of CP/M font !!!
-  HINT_FIXED_SIZE = { SCN_COLS * FNT_WIDTH, SCN_ROWS * FNT_HEIGHT + 2, 0 };
 }
 
 // Menu
@@ -1995,6 +1993,18 @@
   { GPOS(2,4), DIR_E, L_FALSE }, { GPOS(2,10), DIR_E, L_TRUE },
   { GPOS(2,26), DIR_E, L_TRUE }, { GPOS(2,52), DIR_E, L_TRUE },
   { GPOS(2,65), DIR_E, L_TRUE }, { GPOS(2,74), DIR_N, L_FALSE }
+};
+
+
+// Type, Size, Width, Height
+@chunkArray GLFont FontConfigs =
+{
+  {
+    FID_BISON, MakeWWFixed(12.0), 8, 16
+  },
+  {
+    FID_BISON, MakeWWFixed(18.0), 12, 24
+  }
 };
 
 

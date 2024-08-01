@@ -272,11 +272,12 @@ static word _pascal TicksByDifficulty(word diff)
   // Set the menu as the default
   Message msg = MSG_LAD_MENU;
 
-  // Initialize font data in globals
-  GLFont font = {
-    FNT_TYPE, FNT_SIZE, FNT_WIDTH, FNT_HEIGHT
-  };
-  g.font = font;
+  // Initialize font data in the globals
+  MemLock(OptrToHandle(@FontConfigs));
+  ChunkArrayGetElement(@FontConfigs, 0, &g.font);
+  MemUnlock(OptrToHandle(@FontConfigs));
+  // Set hint fixed size
+  @send LadderView::MSG_GEN_SET_FIXED_SIZE(VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.font.height + 2, SCN_COLS * g.font.width);
 
   // Lock and dereference the level buffer
   MemLock(OptrToHandle(@GameLevelBuffer));
