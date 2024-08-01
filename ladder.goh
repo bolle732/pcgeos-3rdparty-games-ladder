@@ -77,6 +77,14 @@
 #define EXE_S_DEMO          3  // Execution state demo
 #define EXE_S_PLAY          4  // Execution state play
 
+// GUI states
+// Used for handling change of font size, enter and leave full screen
+#define GUI_S_NONE          0  // GUI state none
+#define GUI_S_DEC           1  // GUI state decrease font size
+#define GUI_S_INC           2  // GUI state increase font size
+#define GUI_S_ENTER         3  // GUI state enter full screen
+#define GUI_S_LEAVE         4  // GUI state leave full screen
+
 // Input states
 // Used for keyboard input handling
 #define INP_S_NONE          0  // Input state none
@@ -397,15 +405,18 @@ typedef struct                 // Font data
 
 typedef struct                 // Global structure
 {
+  TimerHandle timerHandle;     //   2B+0 - Timer handle
+  word timerId;                //   2B+0 - Timer id
+  MemHandle noiseHandle;       //   2B+0 - Noise memory handle
+  word fontIndex;
+  GLFont font;                 //  10B+0 - Font data
+  word guiWidth;
+  word guiHeight;
   word ctlState;               //   2B+0 - Control counter / state
   byte executionFlags;         //   1B+1 - Execution flags (window minimized, focus lost, restored from state)
   byte executionState;         //   1B+1 - Execution state
   byte inputState;             //   1B+1 - Input state (keyboard)
   byte restorePoint;           //   1B+1 - Restart point (from state file)
-  TimerHandle timerHandle;     //   2B+0 - Timer handle
-  word timerId;                //   2B+0 - Timer id
-  MemHandle noiseHandle;       //   2B+0 - Noise memory handle
-  GLFont font;                 //  10B+0 - Font data
   char *levelPtr;              //   4B+0 - Pointer to the level buffer
   GLGame game;                 //  18B+0 - Game data
   GLLevel level;               //  20B+0 - Level data
@@ -464,6 +475,7 @@ typedef struct                 // Extra state structure
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HIGH;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_SAVE;
   @message void MSG_LAD_EXEC_FLAGS_SET(byte state);
+  @message void MSG_LAD_GUI_SIZE_CHANGE(byte change);
 @endc
 
 

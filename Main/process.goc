@@ -269,12 +269,19 @@ static word _pascal TicksByDifficulty(word diff)
   word size, state;
   MemHandle mh;
   ReleaseNumber rn;
+  Rectangle bounds;
   // Set the menu as the default
   Message msg = MSG_LAD_MENU;
 
+  // Get the video reolution
+  @call application::MSG_VIS_GET_BOUNDS(&bounds);
+  g.guiWidth = bounds.R_right;
+  g.guiHeight = bounds.R_bottom;
+
   // Initialize font data in the globals
+  g.fontIndex = 2;
   MemLock(OptrToHandle(@FontConfigs));
-  ChunkArrayGetElement(@FontConfigs, 0, &g.font);
+  ChunkArrayGetElement(@FontConfigs, g.fontIndex, &g.font);
   MemUnlock(OptrToHandle(@FontConfigs));
   // Set fixed size hint
   @send LadderView::MSG_GEN_SET_FIXED_SIZE(
@@ -1111,6 +1118,45 @@ static word _pascal TicksByDifficulty(word diff)
   }
 }
 
+
+@method LadderProcessClass, MSG_LAD_GUI_SIZE_CHANGE
+{
+  // Lock the font configs
+  MemLock(OptrToHandle(@FontConfigs));
+  // Update the global window state
+  switch (change)
+  {
+  case GUI_S_INC:
+    if (g.fontIndex < ChunkArrayGetCount(@FontConfigs))
+    {
+      g.fontIndex++;
+    }
+    break;
+  case GUI_S_DEC:
+    if (g.fontIndex > 0)
+    {
+      g.fontIndex--;
+    }
+    break;
+  case GUI_S_ENTER:
+    return;
+    break;
+  case GUI_S_LEAVE:
+    return;
+//  break;
+  }
+  // Initialize font data in the globals
+  ChunkArrayGetElement(@FontConfigs, g.fontIndex, &g.font);
+  MemUnlock(OptrToHandle(@FontConfigs));
+  // Set fixed size hint
+  @send LadderView::MSG_GEN_SET_FIXED_SIZE(
+    VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.font.height + 2, SCN_COLS * g.font.width
+  );
+//  @send LadderScreenClass::MSG_META_CONTENT_VIEW_WIN_OPENED();
+//  GrSetFont(g_gstateHandle, g.font.type, g.font.size);
+}
+
+
 /*
  ***************************************************************************
  *                  CODE for LadderApplicationClass
@@ -1172,6 +1218,16 @@ static word _pascal TicksByDifficulty(word diff)
         msg = MSG_LAD_MENU;
 //      break;
       }
+    }
+    // GUI size changes
+    switch (tolower(character))
+    {
+    case C_SMALL_Q:
+      @send process::MSG_LAD_GUI_SIZE_CHANGE(GUI_S_DEC);
+      break;
+    case C_SMALL_W:
+      @send process::MSG_LAD_GUI_SIZE_CHANGE(GUI_S_INC);
+      break;
     }
     // Handle the keys according the application states
     switch (g.inputState)
