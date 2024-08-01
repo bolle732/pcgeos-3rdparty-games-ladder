@@ -34,7 +34,7 @@
 @extern object LadderApplication;
 @extern visMoniker LadderTextMoniker;
 @extern chunk LadderHelpFile;
-
+@extern chunk FontConfigs;  // chunkArray
 
 // RESOURCE Icon
 @extern visMoniker LadderIcon15x15;
@@ -134,8 +134,6 @@
 @extern chunk GameDemo2Moves;
 @extern chunk GameDemo3Moves;
 @extern chunk GameDemo4Moves;
-
-@extern chunk FontConfigs;  // chunkArray
 
 @extern chunk GameLevelBuffer;
 
