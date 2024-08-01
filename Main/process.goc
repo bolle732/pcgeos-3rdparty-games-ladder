@@ -1224,10 +1224,12 @@ static word _pascal TicksByDifficulty(word diff)
     {
     case C_SMALL_Q:
       @send process::MSG_LAD_GUI_SIZE_CHANGE(GUI_S_DEC);
-      break;
+      return;
+//    break;
     case C_SMALL_W:
       @send process::MSG_LAD_GUI_SIZE_CHANGE(GUI_S_INC);
-      break;
+      return;
+//    break;
     }
     // Handle the keys according the application states
     switch (g.inputState)
