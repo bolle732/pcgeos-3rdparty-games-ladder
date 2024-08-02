@@ -1126,21 +1126,24 @@ static word _pascal TicksByDifficulty(word diff)
 
 @method LadderProcessClass, MSG_LAD_GUI_SIZE_CHANGE
 {
+  word x = 0;
   // Lock the font configs
   MemLock(OptrToHandle(@FontConfigs));
   // Update the global window state
   switch (change)
   {
   case GUI_S_INC:
-    if (g.fontIndex < ChunkArrayGetCount(@FontConfigs))
+    if (g.fontIndex < (ChunkArrayGetCount(@FontConfigs) - 1))
     {
       g.fontIndex++;
+      x = 1;
     }
     break;
   case GUI_S_DEC:
     if (g.fontIndex > 0)
     {
       g.fontIndex--;
+      x = 1;
     }
     break;
   case GUI_S_ENTER:
@@ -1150,15 +1153,28 @@ static word _pascal TicksByDifficulty(word diff)
     return;
 //  break;
   }
+
   // Initialize font data in the globals
   ChunkArrayGetElement(@FontConfigs, g.fontIndex, &g.font);
   MemUnlock(OptrToHandle(@FontConfigs));
+  if (x == 0)
+  {
+    return;
+  }
+
+  // XXX: Notify screen to recreate GState
+  // ...
+
   // Set fixed size hint
   @send LadderView::MSG_GEN_SET_FIXED_SIZE(
     VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.font.height + 2, SCN_COLS * g.font.width
   );
-  // XXX: Notify screen to recreate GState
-  // ...
+
+  // Resize primary window
+  @send LadderPrimary::MSG_GEN_SET_WIN_SIZE(
+    GET_MM_AND_TYPE(VUM_DELAYED_VIA_APP_QUEUE, WST_AS_DESIRED),
+    0, 0
+  );
 }
 
 
