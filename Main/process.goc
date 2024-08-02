@@ -1130,7 +1130,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Lock the font configs
   MemLock(OptrToHandle(@FontConfigs));
   // 
-  switch (change)
+  switch (command)
   {
   case GUI_S_INC:
     if (g.fontIndex < (ChunkArrayGetCount(@FontConfigs) - 1))
