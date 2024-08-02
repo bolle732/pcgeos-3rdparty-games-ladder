@@ -312,64 +312,8 @@ static word _pascal TicksByDifficulty(word diff)
       MemLock(OptrToHandle(@GameLevelBuffer));
       memcpy(LMemDeref(@GameLevelBuffer), state->buffer, LVL_M_SIZE);
       MemUnlock(OptrToHandle(@GameLevelBuffer));
-      // Find the message where we leaved the game play
-      switch (g.restorePoint)
-      {
-      case RST_P_HEAD:
-        msg = MSG_LAD_PLAY_LOAD_HEAD;
-        break;
-      case RST_P_SHOW:
-        msg = MSG_LAD_PLAY_LOAD_SHOW;
-        break;
-      case RST_P_DATA:
-        msg = MSG_LAD_PLAY_LOAD_DATA;
-        break;
-      case RST_P_INIT:
-        msg = MSG_LAD_PLAY_INIT;
-        break;
-      case RST_P_READY:
-        msg = MSG_LAD_PLAY_READY;
-        break;
-      case RST_P_START:
-        msg = MSG_LAD_PLAY_START;
-        break;
-      case RST_P_EXEC:
-        msg = MSG_LAD_PLAY_EXEC;
-        break;
-      case RST_P_FAIL:
-        msg = MSG_LAD_PLAY_FAIL;
-        break;
-      case RST_P_DIES:
-        msg = MSG_LAD_PLAY_DIES;
-        break;
-      case RST_P_CLEAR:
-        msg = MSG_LAD_PLAY_CLEAR;
-        break;
-      case RST_P_OVER:
-        msg = MSG_LAD_PLAY_OVER;
-        break;
-      case RST_P_HOOKA:
-        msg = MSG_LAD_PLAY_HOOKA;
-        break;
-      case RST_P_NEXT:
-        msg = MSG_LAD_PLAY_NEXT;
-        break;
-      case RST_P_DONE:
-        msg = MSG_LAD_PLAY_DONE;
-        break;
-      case RST_P_STOP:
-        msg = MSG_LAD_PLAY_STOP;
-        break;
-      case RST_P_HOLD:
-        msg = MSG_LAD_PLAY_HOLD;
-        break;
-      case RST_P_HIGH:
-        msg = MSG_LAD_PLAY_HIGH;
-        break;
-      case RST_P_SAVE:
-        msg = MSG_LAD_PLAY_SAVE;
-//      break;
-      }
+      // Set the message where we leaved the game play
+      msg = g.restorePoint;
 //    break;
     }
     // Unlock the extra state
@@ -872,7 +816,7 @@ static word _pascal TicksByDifficulty(word diff)
     g.game.round = 1; // 1, 2, 5, 9, 14, 20, 27
     g.game.level = 1; // 1, 2, 3, 4, 5, 6, 7
     // Start the first level
-    g.restorePoint = RST_P_HEAD;
+    g.restorePoint = MSG_LAD_PLAY_LOAD_HEAD;
     @send oself::MSG_LAD_PLAY_LOAD_HEAD();
 //  break;
   }
@@ -1230,7 +1174,7 @@ static word _pascal TicksByDifficulty(word diff)
       case INP_S_PLAY:
       case INP_S_EXEC:
         // Stop play
-        g.restorePoint = RST_P_STOP;
+        g.restorePoint = MSG_LAD_PLAY_STOP;
         msg = MSG_LAD_PLAY_STOP;
         break;
       default:
@@ -1279,7 +1223,7 @@ static word _pascal TicksByDifficulty(word diff)
         return;
       case C_SMALL_P:
       case C_CAP_P:
-        g.restorePoint = RST_P_HOLD;
+        g.restorePoint = MSG_LAD_PLAY_HOLD;
         msg = MSG_LAD_PLAY_HOLD;
         break;
       // Any other key
@@ -1318,7 +1262,7 @@ static word _pascal TicksByDifficulty(word diff)
       // Key 'Enter'
       if (character == 0xFF0D)
       {
-        g.restorePoint = RST_P_READY;
+        g.restorePoint = MSG_LAD_PLAY_READY;
         msg = MSG_LAD_PLAY_READY;
       }
       break;
@@ -1328,7 +1272,7 @@ static word _pascal TicksByDifficulty(word diff)
       {
       // Key 'Enter'
       case 0xFF0D:
-        g.restorePoint = RST_P_SAVE;
+        g.restorePoint = MSG_LAD_PLAY_SAVE;
         msg = MSG_LAD_PLAY_SAVE;
         break;
       // Key 'Backspace'
@@ -1354,12 +1298,12 @@ static word _pascal TicksByDifficulty(word diff)
         // Check for new high score
         if (@call LadderMenuRank::MSG_RNK_IS_NEW_RANK(g.game.score) == L_TRUE)
         {
-          g.restorePoint = RST_P_HIGH;
+          g.restorePoint = MSG_LAD_PLAY_HIGH;
           msg = MSG_LAD_PLAY_HIGH;
         }
         else
         {
-          g.restorePoint = RST_P_STOP;
+          g.restorePoint = MSG_LAD_PLAY_STOP;
           msg = MSG_LAD_PLAY_STOP;
         }
       }
