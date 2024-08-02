@@ -98,29 +98,6 @@
 #define INP_S_OVER          8  // Input state over
 #define INP_S_HIGH          9  // Input state high score
 
-// Restoreable play states
-// Used for restoring point in game after coming back from state
-// Always set the global state 'g.restorePoint' before sending play messages
-#define RST_P_NONE          0  // Restart state play none
-#define RST_P_HEAD          1  // Restart state play load head
-#define RST_P_SHOW          2  // Restart state play load show
-#define RST_P_DATA          3  // Restart state play load data
-#define RST_P_INIT          4  // Restart state play init
-#define RST_P_READY         5  // Restart state play ready
-#define RST_P_START         6  // Restart state play start
-#define RST_P_EXEC          7  // Restart state play exec
-#define RST_P_FAIL          8  // Restart state play fail
-#define RST_P_DIES          9  // Restart state play dies
-#define RST_P_CLEAR        10  // Restart state play clear
-#define RST_P_OVER         11  // Restart state play over
-#define RST_P_HOOKA        12  // Restart state play hooka
-#define RST_P_NEXT         13  // Restart state play next
-#define RST_P_DONE         14  // Restart state play done
-#define RST_P_STOP         15  // Restart state play stop
-#define RST_P_HOLD         16  // Restart state play hold
-#define RST_P_HIGH         17  // Restart state play high
-#define RST_P_SAVE         18  // Restart state play save
-
 // INI file entries
 #define INI_CAT_APP         APP_NAME  // Category in the GEOS.INI
 #define INI_KEY_STATE       "state"   // Key to save the state of difficulty and sound
