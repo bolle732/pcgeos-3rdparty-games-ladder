@@ -288,11 +288,9 @@ static word _pascal TicksByDifficulty(word diff)
     VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.font.height + 2, SCN_COLS * g.font.width
   );
 
-  // Lock and dereference the level buffer
-  MemLock(OptrToHandle(@GameLevelBuffer));
   // Resize the level buffer
+  MemLock(OptrToHandle(@GameLevelBuffer));
   LMemReAlloc(@GameLevelBuffer, LVL_M_SIZE);
-  // Unlock the level buffer
   MemUnlock(OptrToHandle(@GameLevelBuffer));
 
   // Handle the restore from state
@@ -377,12 +375,14 @@ static word _pascal TicksByDifficulty(word diff)
     // Unlock the extra state
     MemUnlock(extraState);
   }
+
   // Lock and dereference the help file name
   MemLock(OptrToHandle(@LadderHelpFile));
   // Copy the help file name to a buffer
   memcpy(&buf, LMemDeref(@LadderHelpFile), LMemGetChunkSize(@LadderHelpFile));
   // Set help file name of application
   @call application::MSG_META_SET_HELP_FILE(buf);
+
   // Unlock the help file name
   MemUnlock(OptrToHandle(@LadderHelpFile));
   // Get the version number
@@ -395,6 +395,7 @@ static word _pascal TicksByDifficulty(word diff)
   sprintf(LMemDeref(@MenuVersion), "%u.%u %u-%u", rn.RN_major, rn.RN_minor, rn.RN_change, rn.RN_engineering);
   // Unlock the version number
   MemUnlock(OptrToHandle(@MenuVersion));
+
   // Read the product name, it has _NO_ null terminator!
   if (!InitFileReadStringBlock(&ICU, &IKP, &mh, 0, &size))
   {
@@ -413,8 +414,10 @@ static word _pascal TicksByDifficulty(word diff)
     // Unlock the terminal name
     MemUnlock(OptrToHandle(@MenuTerminal));
   }
+
   // Allocate a MemHandle for the noise
   SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.noiseHandle);
+
   // Get the state from the INI file
   if (InitFileReadInteger(&ICA, &IKS, &state))
   {
@@ -435,6 +438,7 @@ static word _pascal TicksByDifficulty(word diff)
       @send LadderMenuSound::MSG_TXT_SET_TEXT(@MenuSoundOn);
     }
   }
+
   // Get the last score from the INI file
   if (InitFileReadInteger(&ICA, &IKL, &g.game.lastScore))
   {
@@ -445,6 +449,7 @@ static word _pascal TicksByDifficulty(word diff)
     // Set the value
     @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.game.lastScore);
   }
+
   // Load the scores from the file
   @send LadderMenuRank::MSG_RNK_LOAD();
   // Let's start or continue
