@@ -655,9 +655,9 @@ static void _pascal MoveLad(void)
   )
   {
     g.lad.cjump = 1;
+    // Set next jump to false
+    g.lad.njump = L_FALSE;
   }
-  // Set next jump to false
-  g.lad.njump = L_FALSE;
   // ::: HANDLE JUMP END :::
   if (g.lad.cjump > 6)
   {
