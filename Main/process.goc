@@ -1129,7 +1129,7 @@ static word _pascal TicksByDifficulty(word diff)
   word x = 0;
   // Lock the font configs
   MemLock(OptrToHandle(@FontConfigs));
-  // Update the global window state
+  // 
   switch (change)
   {
   case GUI_S_INC:
@@ -1153,28 +1153,27 @@ static word _pascal TicksByDifficulty(word diff)
     return;
 //  break;
   }
-
-  // Initialize font data in the globals
-  ChunkArrayGetElement(@FontConfigs, g.fontIndex, &g.font);
-  MemUnlock(OptrToHandle(@FontConfigs));
-  if (x == 0)
+  // Update only if we could change font
+  if (x == 1)
   {
-    return;
+    // Load new font data into the globals
+    ChunkArrayGetElement(@FontConfigs, g.fontIndex, &g.font);
+
+    // XXX: Update GState with new font
+    // ...
+
+    // Set fixed size hint
+    @send LadderView::MSG_GEN_SET_FIXED_SIZE(
+      VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.font.height + 2, SCN_COLS * g.font.width
+    );
+
+    // Resize primary window
+    @send LadderPrimary::MSG_GEN_SET_WIN_SIZE(
+      GET_MM_AND_TYPE(VUM_DELAYED_VIA_APP_QUEUE, WST_AS_DESIRED), 0, 0
+    );
   }
-
-  // XXX: Notify screen to recreate GState
-  // ...
-
-  // Set fixed size hint
-  @send LadderView::MSG_GEN_SET_FIXED_SIZE(
-    VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.font.height + 2, SCN_COLS * g.font.width
-  );
-
-  // Resize primary window
-  @send LadderPrimary::MSG_GEN_SET_WIN_SIZE(
-    GET_MM_AND_TYPE(VUM_DELAYED_VIA_APP_QUEUE, WST_AS_DESIRED),
-    0, 0
-  );
+  // Unlock the font configs
+  MemUnlock(OptrToHandle(@FontConfigs));
 }
 
 
