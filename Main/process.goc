@@ -1183,11 +1183,11 @@ static word _pascal TicksByDifficulty(word diff)
     {
       switch (tolower(character))
       {
-      case C_SMALL_Q:
+      case C_ONE:
         @send process::MSG_LAD_FONT_SIZE_CHANGE(FNT_S_DEC);
         return;
 //      break;
-      case C_SMALL_W:
+      case C_TWO:
         @send process::MSG_LAD_FONT_SIZE_CHANGE(FNT_S_INC);
         return;
 //      break;
