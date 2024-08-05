@@ -100,6 +100,7 @@
 
 // INI file entries
 #define INI_CAT_APP         APP_NAME  // Category in the GEOS.INI
+#define INI_KEY_FONT        "font"    // Key to save the font size
 #define INI_KEY_STATE       "state"   // Key to save the state of difficulty and sound
 #define INI_KEY_LAST        "last"    // Key to save the last score
 
