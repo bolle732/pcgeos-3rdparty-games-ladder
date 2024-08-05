@@ -1090,7 +1090,6 @@ static word _pascal TicksByDifficulty(word diff)
       g.fontIndex--;
       x = 1;
     }
-    return;
 //  break;
   }
   // Update only if we could change font
