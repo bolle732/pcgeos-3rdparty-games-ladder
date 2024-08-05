@@ -1104,7 +1104,7 @@ static void _pascal MoveDers(void)
   {
   case MSG_LAD_DEMO_INIT:
     // Initialize counter of demo moves
-    g.ctlState = 0;
+    g.moveIndex = 0;
     // Skip get ready, directly start the demo
     @send oself::MSG_LAD_DEMO_START();
     break;
@@ -1243,19 +1243,19 @@ static void _pascal MoveDers(void)
     // Lock the demo moves
     MemLock(OptrToHandle(o));
     // Verify we don't read beyond
-    if (g.ctlState < (LMemGetChunkSize(o) / sizeof(GLMove)))
+    if (g.moveIndex < (LMemGetChunkSize(o) / sizeof(GLMove)))
     {
       GLMove *move;
       // Get the pointer of the demo moves
       move = LMemDeref(o);
       // Check if we are at the right position
-      if (g.lad.cpos == move[g.ctlState].tpos)
+      if (g.lad.cpos == move[g.moveIndex].tpos)
       {
         // Update Lad movement
-        g.lad.ndir = move[g.ctlState].ndir;
-        g.lad.njump = move[g.ctlState].njump;
+        g.lad.ndir = move[g.moveIndex].ndir;
+        g.lad.njump = move[g.moveIndex].njump;
         // Point to the next move
-        g.ctlState++;
+        g.moveIndex++;
       }
     }
     // Unlock the demo move
@@ -1628,15 +1628,15 @@ static void _pascal MoveDers(void)
     // Clear the info line
     o = NullOptr;
     // Update state
-    if (g.ctlState == TRI_S_OFF)
+    if (g.hookaCount == TRI_S_OFF)
     {
-      g.ctlState = TRI_S_ON;
+      g.hookaCount = TRI_S_ON;
       // Update the info line with the hooka text
       o = @PlayHooka;
     }
     else
     {
-      g.ctlState = TRI_S_OFF;
+      g.hookaCount = TRI_S_OFF;
     }
     // Update the status line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(o);
