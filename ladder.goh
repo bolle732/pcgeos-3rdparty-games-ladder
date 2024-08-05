@@ -82,6 +82,8 @@
 #define FNT_S_NONE          0  // FNT state none
 #define FNT_S_DEC           1  // FNT state decrease font size
 #define FNT_S_INC           2  // FNT state increase font size
+
+// Windows states
 //#define GUI_S_ENTER         3  // GUI state enter full screen
 //#define GUI_S_LEAVE         4  // GUI state leave full screen
 

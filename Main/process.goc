@@ -351,7 +351,7 @@ static word _pascal TicksByDifficulty(word diff)
     {
       // Get the difficulty from the high byte
       g.game.diff = state >> 8;
-      // Get and set the sound from the low byte
+      // Get the sound from the low byte
       g.game.sound = state & 0x0F;
     }
     // Get the last score from the INI file
