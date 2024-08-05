@@ -1179,16 +1179,19 @@ static word _pascal TicksByDifficulty(word diff)
       }
     }
     // Handle change font size
-    switch (tolower(character))
+    if ((flags >> 8) & (SS_LCTRL | SS_RCTRL))
     {
-    case C_SMALL_Q:
-      @send process::MSG_LAD_FONT_SIZE_CHANGE(FNT_S_DEC);
-      return;
-//    break;
-    case C_SMALL_W:
-      @send process::MSG_LAD_FONT_SIZE_CHANGE(FNT_S_INC);
-      return;
-//    break;
+      switch (tolower(character))
+      {
+      case C_SMALL_Q:
+        @send process::MSG_LAD_FONT_SIZE_CHANGE(FNT_S_DEC);
+        return;
+//      break;
+      case C_SMALL_W:
+        @send process::MSG_LAD_FONT_SIZE_CHANGE(FNT_S_INC);
+        return;
+//      break;
+      }
     }
     // Handle the keys according the application states
     switch (g.inputState)
