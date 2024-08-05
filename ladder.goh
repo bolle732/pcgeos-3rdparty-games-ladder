@@ -77,13 +77,13 @@
 #define EXE_S_DEMO          3  // Execution state demo
 #define EXE_S_PLAY          4  // Execution state play
 
-// GUI states
+// Font states
 // Used for handling change of font size, enter and leave full screen
-#define GUI_S_NONE          0  // GUI state none
-#define GUI_S_DEC           1  // GUI state decrease font size
-#define GUI_S_INC           2  // GUI state increase font size
-#define GUI_S_ENTER         3  // GUI state enter full screen
-#define GUI_S_LEAVE         4  // GUI state leave full screen
+#define FNT_S_NONE          0  // FNT state none
+#define FNT_S_DEC           1  // FNT state decrease font size
+#define FNT_S_INC           2  // FNT state increase font size
+//#define GUI_S_ENTER         3  // GUI state enter full screen
+//#define GUI_S_LEAVE         4  // GUI state leave full screen
 
 // Input states
 // Used for keyboard input handling
@@ -388,8 +388,8 @@ typedef struct                 // Global structure
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle
   word fontIndex;
   GLFont font;                 //  10B+0 - Font data
-  word guiWidth;
-  word guiHeight;
+  word screenWidth;
+  word screenHeight;
   word ctlState;               //   2B+0 - Control counter / state
   byte executionFlags;         //   1B+1 - Execution flags (window minimized, focus lost, restored from state)
   byte executionState;         //   1B+1 - Execution state
@@ -453,7 +453,7 @@ typedef struct                 // Extra state structure
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HIGH;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_SAVE;
   @message void MSG_LAD_EXEC_FLAGS_SET(byte state);
-  @message void MSG_LAD_GUI_SIZE_CHANGE(byte command);
+  @message void MSG_LAD_FONT_SIZE_CHANGE(byte command);
 @endc
 
 

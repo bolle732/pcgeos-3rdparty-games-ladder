@@ -286,7 +286,8 @@ static word _pascal TicksByDifficulty(word diff)
   sprintf(LMemDeref(@MenuVersion), "%u.%u %u-%u", rn.RN_major, rn.RN_minor, rn.RN_change, rn.RN_engineering);
   MemUnlock(OptrToHandle(@MenuVersion));
 
-  // Get the product name and set it as the terminal name, it has _NO_ null terminator!
+  // Get the product name and set it as the terminal name
+  // There is _NO_ null terminator!
   if (!InitFileReadStringBlock(&ICU, &IKP, &mh, 0, &size))
   {
     if (size > 23) size = 23;
@@ -364,8 +365,8 @@ static word _pascal TicksByDifficulty(word diff)
 
   // Get the video reolution
   @call application::MSG_VIS_GET_BOUNDS(&bounds);
-  g.guiWidth = bounds.R_right;
-  g.guiHeight = bounds.R_bottom;
+  g.screenWidth = bounds.R_right;
+  g.screenHeight = bounds.R_bottom;
 
   // Verify font size
 
@@ -374,9 +375,6 @@ static word _pascal TicksByDifficulty(word diff)
   ChunkArrayGetElement(@FontConfigs, g.fontIndex, &g.font);
   MemUnlock(OptrToHandle(@FontConfigs));
 
-
-  // Allocate a MemHandle for the noise
-  SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.noiseHandle);
 
   // Set fixed size hint of the view
   @send LadderView::MSG_GEN_SET_FIXED_SIZE(
@@ -393,6 +391,9 @@ static word _pascal TicksByDifficulty(word diff)
   @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.game.lastScore);
   // Load the scores from the file
   @send LadderMenuRank::MSG_RNK_LOAD();
+
+  // Allocate a memory handle for the noise
+  SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.noiseHandle);
 
   // Let's start the menu or continue where we left the application
   @send process:: {MSG_LAD_PROTO} msg();
@@ -1068,7 +1069,7 @@ static word _pascal TicksByDifficulty(word diff)
 }
 
 
-@method LadderProcessClass, MSG_LAD_GUI_SIZE_CHANGE
+@method LadderProcessClass, MSG_LAD_FONT_SIZE_CHANGE
 {
   word x = 0;
   // Lock the font configs
@@ -1076,24 +1077,19 @@ static word _pascal TicksByDifficulty(word diff)
   // 
   switch (command)
   {
-  case GUI_S_INC:
+  case FNT_S_INC:
     if (g.fontIndex < (ChunkArrayGetCount(@FontConfigs) - 1))
     {
       g.fontIndex++;
       x = 1;
     }
     break;
-  case GUI_S_DEC:
+  case FNT_S_DEC:
     if (g.fontIndex > 0)
     {
       g.fontIndex--;
       x = 1;
     }
-    break;
-  case GUI_S_ENTER:
-    return;
-    break;
-  case GUI_S_LEAVE:
     return;
 //  break;
   }
@@ -1183,15 +1179,15 @@ static word _pascal TicksByDifficulty(word diff)
 //      break;
       }
     }
-    // GUI size changes
+    // Handle change font size
     switch (tolower(character))
     {
     case C_SMALL_Q:
-      @send process::MSG_LAD_GUI_SIZE_CHANGE(GUI_S_DEC);
+      @send process::MSG_LAD_FONT_SIZE_CHANGE(FNT_S_DEC);
       return;
 //    break;
     case C_SMALL_W:
-      @send process::MSG_LAD_GUI_SIZE_CHANGE(GUI_S_INC);
+      @send process::MSG_LAD_FONT_SIZE_CHANGE(FNT_S_INC);
       return;
 //    break;
     }
