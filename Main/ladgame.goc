@@ -935,6 +935,8 @@ static void _pascal MoveDers(void)
     @send oself::MSG_LAD_DEMO_LOAD_DATA();
     break;
   case MSG_LAD_PLAY_LOAD_HEAD:
+    // Reset hooka state
+    g.hookaState = L_FALSE;
     // Lock the cursor definition
     MemLock(OptrToHandle(@LadderGamePointer));
     // Set the image of the mouse cursor / pointer
@@ -1627,16 +1629,16 @@ static void _pascal MoveDers(void)
     @send LadderGameTime::MSG_VAL_UPDATE_VALUE(g.game.time);
     // Clear the info line
     o = NullOptr;
-    // Update state
-    if (g.hookaCount == TRI_S_OFF)
+    // Update hooka state
+    if (g.hookaState == L_FALSE)
     {
-      g.hookaCount = TRI_S_ON;
+      g.hookaState = L_TRUE;
       // Update the info line with the hooka text
       o = @PlayHooka;
     }
     else
     {
-      g.hookaCount = TRI_S_OFF;
+      g.hookaState = L_FALSE;
     }
     // Update the status line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(o);

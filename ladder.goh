@@ -114,11 +114,6 @@
 #define SCN_ROWS           24  // Number of screen rows
 #define SCN_MID_COL        39  // Number of middle screen column
 
-// Switch
-#define TRI_S_NONE          0  // Tri state none
-#define TRI_S_ON            1  // Tri state on
-#define TRI_S_OFF           2  // Tri state off
-
 // Delay
 #define DLY_T_MENU        600  // Delay ticks for menu auto tasks
 #define DLY_T_READY        75  // Delay ticks for the get ready message
@@ -392,7 +387,7 @@ typedef struct                 // Global structure
   word screenHeight;
   word fontIndex;
   GLFont font;                 //  10B+0 - Font data
-  word menuState;              //   2B+0 - Menu state
+  word menuCount;              //   2B+0 - Menu counter
   byte executionFlags;         //   1B+1 - Execution flags (window minimized, focus lost, restored from state)
   byte executionState;         //   1B+1 - Execution state
   byte inputState;             //   1B+1 - Input state (keyboard)
@@ -402,7 +397,7 @@ typedef struct                 // Global structure
   GLLevel level;               //  20B+0 - Level data
   GLDer ders[DERS_MAX];        //  48B+0 - Der data
   GLLad lad;                   //  12B+0 - Lad data
-  word hookaCount;             //   2B+0 - Hooka counter
+  word hookaState;             //   2B+0 - Hooka state
   word moveIndex;
   ChunkHandle moves;           //   2B+0 - Demo data
 } GLGlobals;                   // 116B+4 = 120 Bytes used

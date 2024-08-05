@@ -500,7 +500,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Set the execution state
   g.executionState = EXE_S_MENU;
   // Reset the control state
-  g.menuState = 0;
+  g.menuCount = 0;
   // Clear the text in the info line
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
   // Show the menu screen
@@ -653,10 +653,10 @@ static word _pascal TicksByDifficulty(word diff)
   word d;
   optr o;
   // Check for not first time and demo time
-  if (g.menuState != 0 && (g.menuState % 8 == 0))
+  if (g.menuCount != 0 && (g.menuCount % 8 == 0))
   {
     // Reset control state
-    g.menuState = 0;
+    g.menuCount = 0;
     // Run the demo
     @send oself::MSG_LAD_DEMO();
   }
@@ -668,19 +668,19 @@ static word _pascal TicksByDifficulty(word diff)
     // Set emtpy text
     o = NullOptr;
     // Check for not first time
-    if (g.menuState != 0)
+    if (g.menuCount != 0)
     {
       // Calculate the delay
       d = 151 + Random(113);
       // Check show time
-      if (g.menuState % 2 == 0)
+      if (g.menuCount % 2 == 0)
       {
         // Set the text of the joke
         o = LJK[Random(JOKS)];
       }
     }
     // Increase control state
-    g.menuState++;
+    g.menuCount++;
     // Set the text in the info line
     @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(o);
     // Start the timer
@@ -713,7 +713,7 @@ static word _pascal TicksByDifficulty(word diff)
   // Stop the timer
   StopTimer();
   // Reset the control state
-  g.menuState = 0;
+  g.menuCount = 0;
   // Clear the text in the info line
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
 }
