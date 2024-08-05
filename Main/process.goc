@@ -304,7 +304,7 @@ static word _pascal TicksByDifficulty(word diff)
   LMemReAlloc(@GameLevelBuffer, LVL_M_SIZE);
   MemUnlock(OptrToHandle(@GameLevelBuffer));
 
-  // Handle the restore from state
+  // Handle restore from state
   if ((attachFlags & AAF_RESTORING_FROM_STATE) && extraState)
   {
     GLState *state;
@@ -330,64 +330,70 @@ static word _pascal TicksByDifficulty(word diff)
     // Unlock the extra state
     MemUnlock(extraState);
   }
+  // Handle normal startup
+  else
+  {
+    // Get the font size from the INI file
+    if (InitFileReadInteger(&ICA, &IKF, &g.fontIndex))
+    {
+      // No entry found, set defaults
+      g.fontIndex = 1;
+    }
+    // Get the state from the INI file
+    if (InitFileReadInteger(&ICA, &IKS, &state))
+    {
+      // No entry found, set defaults
+      g.game.diff = 1;
+      g.game.sound = CFG_SND_OFF;
+    }
+    else
+    {
+      // Get the difficulty from the high byte
+      g.game.diff = state >> 8;
+      // Get and set the sound from the low byte
+      g.game.sound = state & 0x0F;
+    }
+    // Get the last score from the INI file
+    if (InitFileReadInteger(&ICA, &IKL, &g.game.lastScore))
+    {
+      // No entry found, set defaults
+      g.game.lastScore = 0;
+    }
+  }
+
 
   // Get the video reolution
   @call application::MSG_VIS_GET_BOUNDS(&bounds);
   g.guiWidth = bounds.R_right;
   g.guiHeight = bounds.R_bottom;
 
-  // Get the font size from the INI file
-  if (InitFileReadInteger(&ICA, &IKF, &g.fontIndex))
-  {
-    // No entry found, set defaults
-    g.fontIndex = 1;
-  }
-
   // Verify font size
 
-  // Initialize font data in the globals
+  // Setup the font data
   MemLock(OptrToHandle(@FontConfigs));
   ChunkArrayGetElement(@FontConfigs, g.fontIndex, &g.font);
   MemUnlock(OptrToHandle(@FontConfigs));
-  // Set fixed size hint
-  @send LadderView::MSG_GEN_SET_FIXED_SIZE(
-    VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.font.height + 2, SCN_COLS * g.font.width
-  );
 
-  // Get the state from the INI file
-  if (InitFileReadInteger(&ICA, &IKS, &state))
-  {
-    // No entry found, set defaults
-    g.game.diff = 1;
-    g.game.sound = CFG_SND_OFF;
-  }
-  else
-  {
-    // Get and set the difficulty from the high byte
-    g.game.diff = state >> 8;
-    @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.game.diff);
-    // Get and set the sound from the low byte
-    g.game.sound = state & 0x0F;
-    if (g.game.sound == CFG_SND_ON)
-    {
-      @send LadderMenuSound::MSG_TXT_SET_TEXT(@MenuSoundOn);
-    }
-  }
-
-  // Get the last score from the INI file
-  if (InitFileReadInteger(&ICA, &IKL, &g.game.lastScore))
-  {
-    // No entry found, set defaults
-    g.game.lastScore = 0;
-  }
-  // Set the value
-  @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.game.lastScore);
 
   // Allocate a MemHandle for the noise
   SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.noiseHandle);
 
+  // Set fixed size hint of the view
+  @send LadderView::MSG_GEN_SET_FIXED_SIZE(
+    VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.font.height + 2, SCN_COLS * g.font.width
+  );
+  // Set the difficulty
+  @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.game.diff);
+  // Set the sound
+  if (g.game.sound == CFG_SND_ON)
+  {
+    @send LadderMenuSound::MSG_TXT_SET_TEXT(@MenuSoundOn);
+  }
+  // Set the last score
+  @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.game.lastScore);
   // Load the scores from the file
   @send LadderMenuRank::MSG_RNK_LOAD();
+
   // Let's start the menu or continue where we left the application
   @send process:: {MSG_LAD_PROTO} msg();
   // Do super
