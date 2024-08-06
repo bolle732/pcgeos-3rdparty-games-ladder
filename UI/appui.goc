@@ -99,6 +99,9 @@
   }
 };
 
+@chunk char LadderWarnVideoTooSmall[] = "Current video resolution is too small!";
+@localize "The current video resolution too small info";
+
 @end APPLICATION;
 
 

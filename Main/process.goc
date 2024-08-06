@@ -204,6 +204,56 @@ static word _pascal TicksByDifficulty(word diff)
   return d + 4;
 }
 
+/***********************************************************************
+ *                  VerifyAndSetFont
+ ***********************************************************************
+ * SYNOPSIS:        Verify that the requested font size can be used
+ *                  with the current video resolution and set the most
+ *                  accomodating font size.
+ * CALLED BY:       Internal
+ * PARAMETERS:      sword ( word index )
+ * RETURN:          A signed word containing font index we could set or
+ *                  -1 of out of index or no font size is found.
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ Check index for out of range.
+ *                  2/ Search the largest font by the index which can be
+ *                     used with the current video resolution.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-08-06    Initial Revision
+ *
+ ***********************************************************************/
+static sword _pascal VerifyAndSetFont(word index)
+{
+  int i;
+  sbyte retVal;
+  GLFont font;
+  MemLock(OptrToHandle(@FontConfigs));
+  if (index >= ChunkArrayGetCount(@FontConfigs))
+  {
+    retVal = -1;
+  }
+  else
+  {
+    for (i = index; i >= 0; i--)
+    {
+      ChunkArrayGetElement(@FontConfigs, i, &font);
+      if ((font.width * SCN_COLS < g.screen.R_right) && (font.height * SCN_ROWS < g.screen.R_bottom))
+      {
+        g.fontIndex = i;
+        ChunkArrayGetElement(@FontConfigs, i, &g.font);
+        break;
+      }
+    }
+    retVal = i;
+  }
+  MemUnlock(OptrToHandle(@FontConfigs));
+  return retVal;
+}
+
 
 /*
  ***************************************************************************
@@ -267,9 +317,9 @@ static word _pascal TicksByDifficulty(word diff)
 {
   static char buf[32] = "";
   word size, state;
+  GenReturnParams grp;
   MemHandle mh;
   ReleaseNumber rn;
-  Rectangle bounds;
   // Set the menu as the default
   Message msg = MSG_LAD_MENU;
 
@@ -362,24 +412,32 @@ static word _pascal TicksByDifficulty(word diff)
     }
   }
 
+  // Get the reolution video
+  //  @call application::MSG_VIS_GET_BOUNDS(&g.screen);
+  @call application::MSG_GEN_GUP_QUERY(&grp, GUQT_FIELD);
+  WinGetWinScreenBounds(grp.GRP_bp, &g.screen);
 
-  // Get the video reolution
-  @call application::MSG_VIS_GET_BOUNDS(&bounds);
-  g.screenWidth = bounds.R_right;
-  g.screenHeight = bounds.R_bottom;
-
-  // Verify font size
-
-  // Setup the font data
-  MemLock(OptrToHandle(@FontConfigs));
-  ChunkArrayGetElement(@FontConfigs, g.fontIndex, &g.font);
-  MemUnlock(OptrToHandle(@FontConfigs));
-
-
-  // Set fixed size hint of the view
+  // Warn user if current video resolution is too small
+  if (VerifyAndSetFont(g.fontIndex) == -1)
+  {
+    MemLock(OptrToHandle(@LadderWarnVideoTooSmall));
+    UserStandardDialogOptr(
+      NullOptr, NullOptr, NullOptr, NullOptr,
+      @LadderWarnVideoTooSmall,
+      (GIT_NOTIFICATION << CDBF_INTERACTION_TYPE_OFFSET) | (CDT_NOTIFICATION << CDBF_DIALOG_TYPE_OFFSET)
+    );
+    MemUnlock(OptrToHandle(@LadderWarnVideoTooSmall));
+  }
+  // Set fixed size hint
   @send LadderView::MSG_GEN_SET_FIXED_SIZE(
     VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.font.height + 2, SCN_COLS * g.font.width
   );
+  // XXX: Research why primary is not resized when starting from state and video resolution has changed
+  // Resize primary window
+  @send LadderPrimary::MSG_GEN_SET_WIN_SIZE(
+    GET_MM_AND_TYPE(VUM_DELAYED_VIA_APP_QUEUE, WST_AS_DESIRED), 0, 0
+  );
+
   // Set the difficulty
   @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.game.diff);
   // Set the sound
@@ -1068,36 +1126,44 @@ static word _pascal TicksByDifficulty(word diff)
   }
 }
 
+/***********************************************************************
+ *                  MSG_LAD_FONT_SIZE_CHANGE
+ *                  for LadderProcessClass
+ ***********************************************************************
+ * SYNOPSIS:        Handle font size changes.
 
+ * CALLED BY:       Internal by intercepted messages:
+ *                  MSG_META_KBD_CHAR
+ * PARAMETERS:      void ( byte command )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ Verify if font can changed.
+ *                  2/ Send messages to redraw view and primary.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-08-02    Initial Revision
+ *
+ ***********************************************************************/
 @method LadderProcessClass, MSG_LAD_FONT_SIZE_CHANGE
 {
-  word x = 0;
-  // Lock the font configs
-  MemLock(OptrToHandle(@FontConfigs));
+  word cur = g.fontIndex;
+  sword ret;
   // 
   switch (command)
   {
   case FNT_S_INC:
-    if (g.fontIndex < (ChunkArrayGetCount(@FontConfigs) - 1))
-    {
-      g.fontIndex++;
-      x = 1;
-    }
+    ret = VerifyAndSetFont(cur + 1);
     break;
   case FNT_S_DEC:
-    if (g.fontIndex > 0)
-    {
-      g.fontIndex--;
-      x = 1;
-    }
+    ret = VerifyAndSetFont(cur - 1);
 //  break;
   }
   // Update only if we could change font
-  if (x == 1)
+  if ((ret != -1) && (ret != cur))
   {
-    // Load new font data into the globals
-    ChunkArrayGetElement(@FontConfigs, g.fontIndex, &g.font);
-
     // XXX: Update GState with new font
     // ...
 
@@ -1111,10 +1177,7 @@ static word _pascal TicksByDifficulty(word diff)
       GET_MM_AND_TYPE(VUM_DELAYED_VIA_APP_QUEUE, WST_AS_DESIRED), 0, 0
     );
   }
-  // Unlock the font configs
-  MemUnlock(OptrToHandle(@FontConfigs));
 }
-
 
 /*
  ***************************************************************************

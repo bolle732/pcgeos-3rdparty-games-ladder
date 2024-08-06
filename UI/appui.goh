@@ -35,6 +35,7 @@
 @extern visMoniker LadderTextMoniker;
 @extern chunk LadderHelpFile;
 @extern chunk FontConfigs;  // chunkArray
+@extern chunk LadderWarnVideoTooSmall;
 
 // RESOURCE Icon
 @extern visMoniker LadderIcon15x15;

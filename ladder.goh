@@ -385,8 +385,7 @@ typedef struct                 // Global structure
   TimerHandle timerHandle;     //   2B+0 - Timer handle
   word timerId;                //   2B+0 - Timer id
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle
-  word screenWidth;
-  word screenHeight;
+  Rectangle screen;
   word fontIndex;
   GLFont font;                 //  10B+0 - Font data
   word menuCount;              //   2B+0 - Menu counter
