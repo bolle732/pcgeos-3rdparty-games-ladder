@@ -412,7 +412,7 @@ static sword _pascal VerifyAndSetFont(word index)
     }
   }
 
-  // Get the reolution video
+  // Get the video resolution
   //  @call application::MSG_VIS_GET_BOUNDS(&g.screen);
   @call application::MSG_GEN_GUP_QUERY(&grp, GUQT_FIELD);
   WinGetWinScreenBounds(grp.GRP_bp, &g.screen);
