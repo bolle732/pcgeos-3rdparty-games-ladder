@@ -277,6 +277,7 @@ static sword _pascal VerifyAndSetFont(word index)
 @extern method LadderProcessClass, MSG_LAD_PLAY_HOOKA;
 @extern method LadderProcessClass, MSG_LAD_PLAY_NEXT;
 @extern method LadderProcessClass, MSG_LAD_EXEC_FLAGS_SET;
+@extern method LadderProcessClass, MSG_LAD_FONT_SIZE_CHANGE;
 
 
 /***********************************************************************
@@ -418,15 +419,14 @@ static sword _pascal VerifyAndSetFont(word index)
   WinGetWinScreenBounds(grp.GRP_bp, &g.screen);
 
   // Warn user if current video resolution is too small
+  // No MemLock / MemUnlock needed as the function does it for us
   if (VerifyAndSetFont(g.fontIndex) == -1)
   {
-    MemLock(OptrToHandle(@LadderWarnVideoTooSmall));
     UserStandardDialogOptr(
       NullOptr, NullOptr, NullOptr, NullOptr,
       @LadderWarnVideoTooSmall,
       (GIT_NOTIFICATION << CDBF_INTERACTION_TYPE_OFFSET) | (CDT_NOTIFICATION << CDBF_DIALOG_TYPE_OFFSET)
     );
-    MemUnlock(OptrToHandle(@LadderWarnVideoTooSmall));
   }
   // Set fixed size hint
   @send LadderView::MSG_GEN_SET_FIXED_SIZE(
