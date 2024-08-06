@@ -115,7 +115,9 @@
 #define SCN_MID_COL        39  // Number of middle screen column
 
 // Delay
-#define DLY_T_MENU        600  // Delay ticks for menu auto tasks
+#define DLY_T_MENU        600  // Delay ticks for the menu auto tasks first start
+#define DLY_T_MENU_MIN    151  // Delay ticks for the menu auto tasks minimum time
+#define DLY_T_MENU_RND    113  // Delay ticks for the menu auto tasks random time
 #define DLY_T_READY        75  // Delay ticks for the get ready message
 #define DLY_T_HOOKA        15  // Delay ticks for the Hooka message
 #define DLY_T_DIES         10  // Delay ticks for the Lad dies

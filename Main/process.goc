@@ -671,7 +671,7 @@ static word _pascal TicksByDifficulty(word diff)
     if (g.menuCount != 0)
     {
       // Calculate the delay
-      d = 151 + Random(113);
+      d = DLY_T_MENU_MIN + Random(DLY_T_MENU_RND);
       // Check show time
       if (g.menuCount % 2 == 0)
       {
