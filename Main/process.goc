@@ -279,6 +279,7 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
 @extern method LadderProcessClass, MSG_LAD_PLAY_NEXT;
 @extern method LadderProcessClass, MSG_LAD_EXEC_SET_FLAGS;
 @extern method LadderProcessClass, MSG_LAD_FONT_CHANGE_SIZE;
+@extern method LadderProcessClass, MSG_LAD_RESIZE_WINDOW;
 
 
 /***********************************************************************
@@ -435,15 +436,6 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
   }
   else
   {
-    // Set fixed size hint
-    @send LadderView::MSG_GEN_SET_FIXED_SIZE(
-      VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.ns.font.height + 2, SCN_COLS * g.ns.font.width
-    );
-    // XXX: Research why primary is not resized when starting from state and video resolution has changed
-    // Resize primary window
-    @send LadderPrimary::MSG_GEN_SET_WIN_SIZE(
-      GET_MM_AND_TYPE(VUM_DELAYED_VIA_APP_QUEUE, WST_AS_DESIRED), 0, 0
-    );
     // Set the difficulty
     @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.is.diff);
     // Set the sound
@@ -464,6 +456,8 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
   @send process::{MSG_LAD_PROTO} msg();
   // Do super
   @callsuper();
+  // Force update of view and primary
+  @send process::MSG_LAD_RESIZE_WINDOW();
 }
 
 /***********************************************************************
@@ -1173,17 +1167,42 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
   {
     // XXX: Update GState with new font
     // ...
-
-    // Set fixed size hint
-    @send LadderView::MSG_GEN_SET_FIXED_SIZE(
-      VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.ns.font.height + 2, SCN_COLS * g.ns.font.width
-    );
-
-    // Resize primary window
-    @send LadderPrimary::MSG_GEN_SET_WIN_SIZE(
-      GET_MM_AND_TYPE(VUM_DELAYED_VIA_APP_QUEUE, WST_AS_DESIRED), 0, 0
-    );
+    @send oself::MSG_LAD_RESIZE_WINDOW();
   }
+}
+
+/***********************************************************************
+ *                  MSG_LAD_RESIZE_WINDOW
+ *                  for LadderProcessClass
+ ***********************************************************************
+ * SYNOPSIS:        Resize view and primary after font size change.
+
+ * CALLED BY:       Internal by intercepted messages:
+ *                  MSG_GEN_PROCESS_OPEN_APPLICATION
+ *                  MSG_LAD_FONT_CHANGE_SIZE
+ * PARAMETERS:      void ( void )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ Resize view.
+ *                  2/ Force resize of primary.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-08-07    Initial Revision
+ *
+ ***********************************************************************/
+@method LadderProcessClass, MSG_LAD_RESIZE_WINDOW
+{
+  // Set fixed size hint
+  @send LadderView::MSG_GEN_SET_FIXED_SIZE(
+    VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.ns.font.height + 2, SCN_COLS * g.ns.font.width
+  );
+  // Resize primary window
+  @send LadderPrimary::MSG_GEN_SET_WIN_SIZE(
+    GET_MM_AND_TYPE(VUM_DELAYED_VIA_APP_QUEUE, WST_AS_DESIRED), 0, 0
+  );
 }
 
 /*
