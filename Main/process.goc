@@ -205,7 +205,7 @@ static word _pascal TicksByDifficulty(word diff)
 }
 
 /***********************************************************************
- *                  VerifyAndLoadFontConfig
+ *                  LoadFontConfig
  ***********************************************************************
  * SYNOPSIS:        Verify that the requested font size can be used
  *                  with the current video resolution and set the most
@@ -216,7 +216,7 @@ static word _pascal TicksByDifficulty(word diff)
  *                  -1 of out of index or no font size is found.
  * SIDE EFFECTS:    none
  *
- * STRATEGY:        1/ Check index for out of range.
+ * STRATEGY:        1/ Check index is in range.
  *                  2/ Search the largest font by the index which can be
  *                     used with the current video resolution.
  *
@@ -226,33 +226,39 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2024-08-06    Initial Revision
  *
  ***********************************************************************/
-static sword _pascal VerifyAndLoadFontConfig(word index)
+static sword _pascal LoadFontConfig(word index)
 {
-  int i;
-  sbyte retVal;
+  word i;
+  sbyte f = -1;
   GLFont font;
   MemLock(OptrToHandle(@FontConfigs));
-  if (index >= ChunkArrayGetCount(@FontConfigs))
+  // Check for index out of bound
+  if (index < ChunkArrayGetCount(@FontConfigs))
   {
-    retVal = -1;
-  }
-  else
-  {
-    // XXX: Make better code!
-    for (i = index; i >= 0; i--)
+    // Find the largest font config for the requested index
+    for (i = 0; i < index + 1; i++)
     {
+      // Get the font config
       ChunkArrayGetElement(@FontConfigs, i, &font);
+      // Check if the font can be used with current screen size
       if ((font.width * SCN_COLS < g.ns.screen.R_right) && (font.height * SCN_ROWS < g.ns.screen.R_bottom))
       {
-        g.is.fontIndex = i;
-        ChunkArrayGetElement(@FontConfigs, i, &g.ns.font);
-        break;
+        f = i;  // Ok, proceed with next
+      }
+      else
+      {
+        break;  // Too large, end the loop
       }
     }
-    retVal = i;
+    // Set the new font config if we found one
+    if (f != -1)
+    {
+      g.is.fontIndex = f;
+      ChunkArrayGetElement(@FontConfigs, f, &g.ns.font);
+    }
   }
   MemUnlock(OptrToHandle(@FontConfigs));
-  return retVal;
+  return f;
 }
 
 
@@ -427,7 +433,7 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
 
   // Warn user if current video resolution is too small
   // No MemLock / MemUnlock needed as the function does it for us
-  if (VerifyAndLoadFontConfig(g.is.fontIndex) == -1)
+  if (LoadFontConfig(g.is.fontIndex) == -1)
   {
     UserStandardDialogOptr(
       NullOptr, NullOptr, NullOptr, NullOptr,
@@ -1173,10 +1179,10 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
   switch (command)
   {
   case FNT_S_INC:
-    ret = VerifyAndLoadFontConfig(cur + 1);
+    ret = LoadFontConfig(cur + 1);
     break;
   case FNT_S_DEC:
-    ret = VerifyAndLoadFontConfig(cur - 1);
+    ret = LoadFontConfig(cur - 1);
 //  break;
   }
   // Update only if we could change font
