@@ -433,6 +433,7 @@ static sword _pascal VerifyAndSetFont(word index)
       @LadderWarnVideoTooSmall,
       (GIT_NOTIFICATION << CDBF_INTERACTION_TYPE_OFFSET) | (CDT_NOTIFICATION << CDBF_DIALOG_TYPE_OFFSET)
     );
+    msg = MSG_META_QUIT;
   }
   // Set fixed size hint
   @send LadderView::MSG_GEN_SET_FIXED_SIZE(
@@ -460,7 +461,7 @@ static sword _pascal VerifyAndSetFont(word index)
   SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.ns.noiseHandle);
 
   // Let's start the menu or continue where we left the application
-  @send process:: {MSG_LAD_PROTO} msg();
+  @send process::{MSG_LAD_PROTO} msg();
   // Do super
   @callsuper();
 }
@@ -1377,7 +1378,7 @@ static sword _pascal VerifyAndSetFont(word index)
     // Send the message
     if (msg != NULL)
     {
-      @send process:: {MSG_LAD_PROTO} msg();
+      @send process::{MSG_LAD_PROTO} msg();
       return;
     }
   }

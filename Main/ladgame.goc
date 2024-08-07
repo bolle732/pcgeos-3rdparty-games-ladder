@@ -1396,7 +1396,7 @@ static void _pascal MoveDers(void)
       msg = MSG_LAD_DEMO_STOP;
     }
     // Send the message
-    @send process:: {MSG_LAD_PROTO} msg();
+    @send process::{MSG_LAD_PROTO} msg();
   }
   switch (message)
   {
