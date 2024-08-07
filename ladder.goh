@@ -290,6 +290,14 @@
  
  // Alignment of struct members is always 16-bit
 
+typedef struct                 // Font data
+{
+  word type;                   //   2B+0 - Font type
+  WWFixedAsDWord size;         //   4B+0 - Font size
+  word width;                  //   2B+0 - Character width
+  word height;                 //   2B+0 - Character height
+} GLFont;                      //  10B+0 = 10 Bytes used
+
 typedef struct                 // Game data
 {
   word diff;                   //   2B+0 - Difficulty
@@ -372,43 +380,45 @@ typedef struct                 // Demo data
   ChunkHandle moves;           //   2B+0 - Moves data
 } GLDemo;                      //   6B+0 = 6 Bytes used
 
-typedef struct                 // Font data
-{
-  word type;                   //   2B+0 - Font type
-  WWFixedAsDWord size;         //   4B+0 - Font size
-  word width;                  //   2B+0 - Character width
-  word height;                 //   2B+0 - Character height
-} GLFont;                      //  10B+0 = 10 Bytes used
-
-typedef struct                 // Global structure
+typedef struct                 // No save state structure
 {
   TimerHandle timerHandle;     //   2B+0 - Timer handle
   word timerId;                //   2B+0 - Timer id
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle
   Rectangle screen;
-  word fontIndex;
   GLFont font;                 //  10B+0 - Font data
   word menuCount;              //   2B+0 - Menu counter
+  char *levelPtr;              //   4B+0 - Pointer to the level buffer
+  word moveIndex;
+  ChunkHandle moves;           //   2B+0 - Demo data
+} GLNoState;
+
+typedef struct                 // Save state structure
+{
+  word fontIndex;
   byte executionFlags;         //   1B+1 - Execution flags (window minimized, focus lost, restored from state)
   byte executionState;         //   1B+1 - Execution state
   byte inputState;             //   1B+1 - Input state (keyboard)
   Message restorePoint;        //   1B+1 - Restart point (from state file)
-  char *levelPtr;              //   4B+0 - Pointer to the level buffer
   GLGame game;                 //  18B+0 - Game data
   GLLevel level;               //  20B+0 - Level data
   GLDer ders[DERS_MAX];        //  48B+0 - Der data
   GLLad lad;                   //  12B+0 - Lad data
   word hookaState;             //   2B+0 - Hooka state
-  word moveIndex;
-  ChunkHandle moves;           //   2B+0 - Demo data
+} GLSaveState;
+
+typedef struct                 // Global structure
+{
+  GLNoState noState;
+  GLSaveState saveState;
 } GLGlobals;                   // 116B+4 = 120 Bytes used
 
 // This is used for saving to and restoring from state
 typedef struct                 // Extra state structure
 {
-  GLGlobals globals;
+  GLSaveState saveState;
   char buffer[LVL_M_SIZE];
-} GLState;
+} GLExtraState;
 
 
 /*

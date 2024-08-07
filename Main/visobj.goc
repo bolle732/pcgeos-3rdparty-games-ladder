@@ -160,11 +160,11 @@ static void _pascal ClearText(word pos, word len)
   {
     // C trancates a divison of integers
     // -> ((pos - col) / LVL_COLS) == (pos / LVL_COLS)
-    x = (pos % SCN_COLS) * g.font.width;
-    y = (pos / SCN_COLS) * g.font.height;
+    x = (pos % SCN_COLS) * g.noState.font.width;
+    y = (pos / SCN_COLS) * g.noState.font.height;
     GrFillRect(g_gstateHandle,
       x, y,
-      x + len * g.font.width, y + g.font.height + 1);
+      x + len * g.noState.font.width, y + g.noState.font.height + 1);
   }
 }
 
@@ -198,8 +198,8 @@ static void _pascal DrawChar(word pos, char character)
     // C truncates a divison of integers
     // -> ((pos - col) / LVL_COLS) == (pos / LVL_COLS)
     GrDrawChar(g_gstateHandle,
-      (pos % SCN_COLS) * g.font.width,
-      (pos / SCN_COLS) * g.font.height, character);
+      (pos % SCN_COLS) * g.noState.font.width,
+      (pos / SCN_COLS) * g.noState.font.height, character);
   }
 }
 
@@ -374,7 +374,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   // Initialize the global GState
   g_gstateHandle = GrCreateState(viewWindow);
   // Setup default configuration
-  GrSetFont(g_gstateHandle, g.font.type, g.font.size);
+  GrSetFont(g_gstateHandle, g.noState.font.type, g.noState.font.size);
   GrSetTextColor(g_gstateHandle, CF_INDEX, C_LIGHT_GREEN, 0, 0);
   GrSetAreaColor(g_gstateHandle, CF_INDEX, C_BLACK, 0, 0);
   // Do super
@@ -469,7 +469,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   word n, pos;
   optr o;
   // XXX: Handle font size changes
-  GrSetFont(g_gstateHandle, g.font.type, g.font.size);
+  GrSetFont(g_gstateHandle, g.noState.font.type, g.noState.font.size);
   // Get the screen data
   o = pself->LSI_screen;
   // Check if we have valid data
