@@ -383,16 +383,19 @@ typedef struct                 // Demo data
 // All global data which does not need to be saved into the state
 typedef struct                 // No save state structure
 {
+  Rectangle screen;            //   4B+0 - Screen size
+  GStateHandle gstateHandle;   //   2B+0 - GState handle
+  word textColor;              //   2B+0 - Text foreground color
+  word areaColor;              //   2B+0 - Text background color
+  GLFont font;                 //  10B+0 - Font data
   TimerHandle timerHandle;     //   2B+0 - Timer handle
   word timerId;                //   2B+0 - Timer id
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle
-  Rectangle screen;            //   4B+0 - Screen size
-  GLFont font;                 //  10B+0 - Font data
   word menuCount;              //   2B+0 - Menu counter
-  char *levelPtr;              //   4B+0 - Pointer to the level buffer
+  char *levelBuf;              //   4B+0 - Pointer to the level buffer
   word moveIndex;              //   2B+0 - Current demo move
   ChunkHandle moves;           //   2B+0 - Demo moves chunk handle
-} GLNoState;                   //  30B+0 = 30 bytes used
+} GLNoState;                   //  36B+0 = 36 bytes used
 
 // All global data which must be saved into the state
 typedef struct                 // Save state structure
@@ -412,9 +415,9 @@ typedef struct                 // Save state structure
 // The global data used everywhere
 typedef struct                 // Global structure
 {
-  GLNoState noState;           //  30B+0 - No save state data
-  GLSaveState saveState;       // 108B+0 - Save state global data
-} GLGlobals;                   // 138B+0 = 138 bytes used
+  GLNoState ns;                //  36B+0 - No save state data
+  GLSaveState ss;              // 108B+0 - Save state global data
+} GLGlobals;                   // 144B+0 = 144 bytes used
 
 // This is used for saving to and restoring from state
 typedef struct                 // Extra state structure

@@ -133,11 +133,11 @@ static word _pascal TicksByDifficulty(word diff);
  ***********************************************************************/
 void _pascal StopTimer(void)
 {
-  if (g.noState.timerHandle != NullHandle)
+  if (g.ns.timerHandle != NullHandle)
   {
-    TimerStop(g.noState.timerHandle, g.noState.timerId);
-    g.noState.timerHandle = NullHandle;
-    g.noState.timerId = 0;
+    TimerStop(g.ns.timerHandle, g.ns.timerId);
+    g.ns.timerHandle = NullHandle;
+    g.ns.timerId = 0;
   }
 }
 
@@ -166,11 +166,11 @@ void _pascal StopTimer(void)
  ***********************************************************************/
 void _pascal StopAndFreeNoise(void)
 {
-  if (g.noState.noiseHandle != NullHandle)
+  if (g.ns.noiseHandle != NullHandle)
   {
-    SoundStopMusicNote(g.noState.noiseHandle);
-    SoundFreeMusicNote(g.noState.noiseHandle);
-    g.noState.noiseHandle = NullHandle;
+    SoundStopMusicNote(g.ns.noiseHandle);
+    SoundFreeMusicNote(g.ns.noiseHandle);
+    g.ns.noiseHandle = NullHandle;
   }
 }
 
@@ -241,10 +241,10 @@ static sword _pascal VerifyAndSetFont(word index)
     for (i = index; i >= 0; i--)
     {
       ChunkArrayGetElement(@FontConfigs, i, &font);
-      if ((font.width * SCN_COLS < g.noState.screen.R_right) && (font.height * SCN_ROWS < g.noState.screen.R_bottom))
+      if ((font.width * SCN_COLS < g.ns.screen.R_right) && (font.height * SCN_ROWS < g.ns.screen.R_bottom))
       {
-        g.saveState.fontIndex = i;
-        ChunkArrayGetElement(@FontConfigs, i, &g.noState.font);
+        g.ss.fontIndex = i;
+        ChunkArrayGetElement(@FontConfigs, i, &g.ns.font);
         break;
       }
     }
@@ -363,9 +363,9 @@ static sword _pascal VerifyAndSetFont(word index)
     // Get the extra state
     state = (GLExtraState *) MemLock(extraState);
     // Restore the global state
-    g.saveState = state->saveState;
+    g.ss = state->saveState;
     // Restore execution state
-    switch (g.saveState.executionState)
+    switch (g.ss.executionState)
     {
     case EXE_S_HELP:
       msg = MSG_LAD_HELP;
@@ -376,7 +376,7 @@ static sword _pascal VerifyAndSetFont(word index)
       memcpy(LMemDeref(@GameLevelBuffer), state->buffer, LVL_M_SIZE);
       MemUnlock(OptrToHandle(@GameLevelBuffer));
       // Set the message where we leaved the game play
-      msg = g.saveState.restorePoint;
+      msg = g.ss.restorePoint;
 //    break;
     }
     // Unlock the extra state
@@ -386,41 +386,47 @@ static sword _pascal VerifyAndSetFont(word index)
   else
   {
     // Get the font size from the INI file
-    if (InitFileReadInteger(&ICA, &IKF, &g.saveState.fontIndex))
+    if (InitFileReadInteger(&ICA, &IKF, &g.ss.fontIndex))
     {
       // No entry found, set defaults
-      g.saveState.fontIndex = 1;
+      g.ss.fontIndex = 1;
     }
     // Get the state from the INI file
     if (InitFileReadInteger(&ICA, &IKS, &state))
     {
       // No entry found, set defaults
-      g.saveState.game.diff = 1;
-      g.saveState.game.sound = CFG_SND_OFF;
+      g.ss.game.diff = 1;
+      g.ss.game.sound = CFG_SND_OFF;
     }
     else
     {
       // Get the difficulty from the high byte
-      g.saveState.game.diff = state >> 8;
+      g.ss.game.diff = state >> 8;
       // Get the sound from the low byte
-      g.saveState.game.sound = state & 0x0F;
+      g.ss.game.sound = state & 0x0F;
     }
     // Get the last score from the INI file
-    if (InitFileReadInteger(&ICA, &IKL, &g.saveState.game.lastScore))
+    if (InitFileReadInteger(&ICA, &IKL, &g.ss.game.lastScore))
     {
       // No entry found, set defaults
-      g.saveState.game.lastScore = 0;
+      g.ss.game.lastScore = 0;
     }
   }
 
   // Get the video resolution
-  //  @call application::MSG_VIS_GET_BOUNDS(&g.noState.screen);
+  //  @call application::MSG_VIS_GET_BOUNDS(&g.ns.screen);
   @call application::MSG_GEN_GUP_QUERY(&grp, GUQT_FIELD);
-  WinGetWinScreenBounds(grp.GRP_bp, &g.noState.screen);
+  WinGetWinScreenBounds(grp.GRP_bp, &g.ns.screen);
+
+  // Set defaults to no state globals
+  // XXX: Check and set colors according the available one (monochrome)
+  g.ns.gstateHandle = NullHandle;
+  g.ns.textColor = C_LIGHT_GREEN;
+  g.ns.areaColor = C_BLACK;
 
   // Warn user if current video resolution is too small
   // No MemLock / MemUnlock needed as the function does it for us
-  if (VerifyAndSetFont(g.saveState.fontIndex) == -1)
+  if (VerifyAndSetFont(g.ss.fontIndex) == -1)
   {
     UserStandardDialogOptr(
       NullOptr, NullOptr, NullOptr, NullOptr,
@@ -430,7 +436,7 @@ static sword _pascal VerifyAndSetFont(word index)
   }
   // Set fixed size hint
   @send LadderView::MSG_GEN_SET_FIXED_SIZE(
-    VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.noState.font.height + 2, SCN_COLS * g.noState.font.width
+    VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.ns.font.height + 2, SCN_COLS * g.ns.font.width
   );
   // XXX: Research why primary is not resized when starting from state and video resolution has changed
   // Resize primary window
@@ -439,19 +445,19 @@ static sword _pascal VerifyAndSetFont(word index)
   );
 
   // Set the difficulty
-  @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.saveState.game.diff);
+  @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.ss.game.diff);
   // Set the sound
-  if (g.saveState.game.sound == CFG_SND_ON)
+  if (g.ss.game.sound == CFG_SND_ON)
   {
     @send LadderMenuSound::MSG_TXT_SET_TEXT(@MenuSoundOn);
   }
   // Set the last score
-  @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.saveState.game.lastScore);
+  @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.ss.game.lastScore);
   // Load the scores from the file
   @send LadderMenuRank::MSG_RNK_LOAD();
 
   // Allocate a memory handle for the noise
-  SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.noState.noiseHandle);
+  SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.ns.noiseHandle);
 
   // Let's start the menu or continue where we left the application
   @send process:: {MSG_LAD_PROTO} msg();
@@ -495,22 +501,22 @@ static sword _pascal VerifyAndSetFont(word index)
   // Stop the noise
   StopAndFreeNoise();
   // Write the font size to the INI file
-  InitFileWriteInteger(&ICA, &IKF, g.saveState.fontIndex);
+  InitFileWriteInteger(&ICA, &IKF, g.ss.fontIndex);
   // Write the state to the INI file
-  InitFileWriteInteger(&ICA, &IKS, (g.saveState.game.diff << 8) | (g.saveState.game.sound & 0x0F));
+  InitFileWriteInteger(&ICA, &IKS, (g.ss.game.diff << 8) | (g.ss.game.sound & 0x0F));
   // Write the last score to the INI file
-  InitFileWriteInteger(&ICA, &IKL, g.saveState.game.lastScore);
+  InitFileWriteInteger(&ICA, &IKL, g.ss.game.lastScore);
   // Do super
   @callsuper();
   // Set saved to state
-  g.saveState.executionFlags |= EXE_M_RST;
+  g.ss.executionFlags |= EXE_M_RST;
   // Allocate memory for our struct to save the extra state
   mh = MemAlloc(sizeof(GLExtraState), HF_DYNAMIC | HF_SHARABLE, 0);
   state = (GLExtraState *) MemLock(mh);
   // Save the global state
-  state->saveState = g.saveState;
+  state->saveState = g.ss;
   // Save the game objects and the level buffer if we are in a play
-  if (g.saveState.executionState == EXE_S_PLAY)
+  if (g.ss.executionState == EXE_S_PLAY)
   {
     // Set the objects dirty so they get saved into the state
     ObjMarkDirty(@LadderView);
@@ -554,17 +560,17 @@ static sword _pascal VerifyAndSetFont(word index)
 @method LadderProcessClass, MSG_LAD_MENU
 {
   // Set the input state for the handling of key presses
-  g.saveState.inputState = INP_S_MENU;
+  g.ss.inputState = INP_S_MENU;
   // Set the execution state
-  g.saveState.executionState = EXE_S_MENU;
+  g.ss.executionState = EXE_S_MENU;
   // Reset the control state
-  g.noState.menuCount = 0;
+  g.ns.menuCount = 0;
   // Clear the text in the info line
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
   // Show the menu screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderMenu);
   // Handle window minimized
-  if (g.saveState.executionFlags & EXE_M_MIN)
+  if (g.ss.executionFlags & EXE_M_MIN)
   {
     // Arm the jokes or demo
     @send oself::MSG_LAD_MENU_STOP();
@@ -615,28 +621,28 @@ static sword _pascal VerifyAndSetFont(word index)
   {
   case MSG_LAD_MENU_DIFF:
     // Increase the difficulty
-    g.saveState.game.diff++;
+    g.ss.game.diff++;
     // On overflow set it to the minimum
-    if (g.saveState.game.diff > CFG_DIFF_MAX)
+    if (g.ss.game.diff > CFG_DIFF_MAX)
     {
-      g.saveState.game.diff = CFG_DIFF_MIN;
+      g.ss.game.diff = CFG_DIFF_MIN;
     }
     // Update the value on screen
-    @send LadderMenuDiff::MSG_VAL_UPDATE_VALUE(g.saveState.game.diff);
+    @send LadderMenuDiff::MSG_VAL_UPDATE_VALUE(g.ss.game.diff);
     break;
   case MSG_LAD_MENU_SOUND:
     // Switch the sound state
-    if (g.saveState.game.sound == CFG_SND_OFF)
+    if (g.ss.game.sound == CFG_SND_OFF)
     {
       // Set the sound state
-      g.saveState.game.sound = CFG_SND_ON;
+      g.ss.game.sound = CFG_SND_ON;
       // Update the text on screen
       @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@MenuSoundOn);
     }
     else  // CFG_SND_ON
     {
       // Set the sound state
-      g.saveState.game.sound = CFG_SND_OFF;
+      g.ss.game.sound = CFG_SND_OFF;
       // Update the text on screen
       @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@MenuSoundOff);
     }
@@ -673,13 +679,13 @@ static sword _pascal VerifyAndSetFont(word index)
   // Stop the timer
   StopTimer();
   // Set the input state for the handling of key presses
-  g.saveState.inputState = INP_S_NONE;
+  g.ss.inputState = INP_S_NONE;
   // Set the execution state
-  g.saveState.executionState = EXE_S_NONE;
+  g.ss.executionState = EXE_S_NONE;
   // Update the info line with the exit text
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(@MenuExit);
   // Start the timer for the exit
-  TimerStart(TIMER_EVENT_ONE_SHOT, @LadderApplication, DLY_T_EXIT, MSG_META_QUIT, 0, &g.noState.timerId);
+  TimerStart(TIMER_EVENT_ONE_SHOT, @LadderApplication, DLY_T_EXIT, MSG_META_QUIT, 0, &g.ns.timerId);
 }
 
 /***********************************************************************
@@ -711,10 +717,10 @@ static sword _pascal VerifyAndSetFont(word index)
   word d;
   optr o;
   // Check for not first time and demo time
-  if (g.noState.menuCount != 0 && (g.noState.menuCount % 8 == 0))
+  if (g.ns.menuCount != 0 && (g.ns.menuCount % 8 == 0))
   {
     // Reset control state
-    g.noState.menuCount = 0;
+    g.ns.menuCount = 0;
     // Run the demo
     @send oself::MSG_LAD_DEMO();
   }
@@ -726,23 +732,23 @@ static sword _pascal VerifyAndSetFont(word index)
     // Set emtpy text
     o = NullOptr;
     // Check for not first time
-    if (g.noState.menuCount != 0)
+    if (g.ns.menuCount != 0)
     {
       // Calculate the delay
       d = DLY_T_MENU_MIN + Random(DLY_T_MENU_RND);
       // Check show time
-      if (g.noState.menuCount % 2 == 0)
+      if (g.ns.menuCount % 2 == 0)
       {
         // Set the text of the joke
         o = LJK[Random(JOKS)];
       }
     }
     // Increase control state
-    g.noState.menuCount++;
+    g.ns.menuCount++;
     // Set the text in the info line
     @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(o);
     // Start the timer
-    g.noState.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, d, message, 0, &g.noState.timerId);
+    g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, d, message, 0, &g.ns.timerId);
   }
 }
 
@@ -771,7 +777,7 @@ static sword _pascal VerifyAndSetFont(word index)
   // Stop the timer
   StopTimer();
   // Reset the control state
-  g.noState.menuCount = 0;
+  g.ns.menuCount = 0;
   // Clear the text in the info line
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
 }
@@ -801,9 +807,9 @@ static sword _pascal VerifyAndSetFont(word index)
   // Stop the timer
   StopTimer();
   // Set the input state for the handling of key presses
-  g.saveState.inputState = INP_S_HELP;
+  g.ss.inputState = INP_S_HELP;
   // Set the execution state
-  g.saveState.executionState = EXE_S_HELP;
+  g.ss.executionState = EXE_S_HELP;
   // Show the help screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderHelp);
   // Set the text of the info line
@@ -842,17 +848,17 @@ static sword _pascal VerifyAndSetFont(word index)
   // Stop the timer
   StopTimer();
   // Initialize the game
-  g.saveState.game.lads = LAD_D_LIVES;
-  g.saveState.game.score = 0;
-  g.saveState.game.delay = TicksByDifficulty(g.saveState.game.diff);
+  g.ss.game.lads = LAD_D_LIVES;
+  g.ss.game.score = 0;
+  g.ss.game.delay = TicksByDifficulty(g.ss.game.diff);
   // Handle message type
   switch (message)
   {
   case MSG_LAD_DEMO:
     // Set the input state for the handling of key presses
-    g.saveState.inputState = INP_S_DEMO;
+    g.ss.inputState = INP_S_DEMO;
     // Set the execution state
-    g.saveState.executionState = EXE_S_DEMO;
+    g.ss.executionState = EXE_S_DEMO;
     // Lock the game demos
     MemLock(OptrToHandle(@GameDemos));
     // Get the game demo
@@ -860,22 +866,22 @@ static sword _pascal VerifyAndSetFont(word index)
     // Unlock the game demos
     MemUnlock(OptrToHandle(@GameDemos));
     // Set the round, level and moves
-    g.saveState.game.round = d.round;
-    g.saveState.game.level = d.level;
-    g.noState.moves = d.moves;
+    g.ss.game.round = d.round;
+    g.ss.game.level = d.level;
+    g.ns.moves = d.moves;
     // Start the demo level
     @send oself::MSG_LAD_DEMO_LOAD_HEAD();
     break;
   case MSG_LAD_PLAY:
     // Set the input state for the handling of key presses
-    g.saveState.inputState = INP_S_PLAY;
+    g.ss.inputState = INP_S_PLAY;
     // Set the execution state
-    g.saveState.executionState = EXE_S_PLAY;
+    g.ss.executionState = EXE_S_PLAY;
     // Initialize the round and level
-    g.saveState.game.round = 1; // 1, 2, 5, 9, 14, 20, 27
-    g.saveState.game.level = 1; // 1, 2, 3, 4, 5, 6, 7
+    g.ss.game.round = 1; // 1, 2, 5, 9, 14, 20, 27
+    g.ss.game.level = 1; // 1, 2, 3, 4, 5, 6, 7
     // Start the first level
-    g.saveState.restorePoint = MSG_LAD_PLAY_LOAD_HEAD;
+    g.ss.restorePoint = MSG_LAD_PLAY_LOAD_HEAD;
     @send oself::MSG_LAD_PLAY_LOAD_HEAD();
 //  break;
   }
@@ -912,13 +918,13 @@ static sword _pascal VerifyAndSetFont(word index)
   // Stop the game timer
   StopTimer();
   // Set the input state for the handling of key presses
-  g.saveState.inputState = INP_S_NONE;
+  g.ss.inputState = INP_S_NONE;
   // Handle message type
   if (message == MSG_LAD_PLAY_STOP)
   {
     // Update last score
-    g.saveState.game.lastScore = g.saveState.game.score;
-    @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.saveState.game.lastScore);
+    g.ss.game.lastScore = g.ss.game.score;
+    @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.ss.game.lastScore);
     // Reset the image of the mouse cursor / pointer
     @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(NullOptr, PIL_WINDOW);
   }
@@ -948,7 +954,7 @@ static sword _pascal VerifyAndSetFont(word index)
 @method LadderProcessClass, MSG_LAD_PLAY_DONE
 {
   // Set the input state for the handling of key presses
-  g.saveState.inputState = INP_S_DONE;
+  g.ss.inputState = INP_S_DONE;
   // Show the game done screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderDone);
   // Reset the image of the mouse cursor / pointer
@@ -979,7 +985,7 @@ static sword _pascal VerifyAndSetFont(word index)
 @method LadderProcessClass, MSG_LAD_PLAY_OVER
 {
   // Set the input state for the handling of key presses
-  g.saveState.inputState = INP_S_OVER;
+  g.ss.inputState = INP_S_OVER;
   // Show the game over screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderOver);
   // Reset the image of the mouse cursor / pointer
@@ -1014,7 +1020,7 @@ static sword _pascal VerifyAndSetFont(word index)
 {
   word i;
   // Set the input state for the handling of key presses
-  g.saveState.inputState = INP_S_HIGH;
+  g.ss.inputState = INP_S_HIGH;
   // Reset the input
   @send LadderHighName::MSG_INP_RESET();
   // Clear the info line
@@ -1022,7 +1028,7 @@ static sword _pascal VerifyAndSetFont(word index)
   // Find the compliment message for the score
   for (i = CMPS; i > 0; i--)
   {
-    if (g.saveState.game.score >= LHS[i - 1])
+    if (g.ss.game.score >= LHS[i - 1])
     {
       // Set the text of the compliment
       @send LadderHighCompliment::MSG_TXT_SET_TEXT(LHT[i - 1]);
@@ -1064,9 +1070,9 @@ static sword _pascal VerifyAndSetFont(word index)
   // Get the name from the imput
   @call LadderHighName::MSG_INP_GET_INPUT(&lhs);
   // Add the rank to the ranks
-  @call LadderMenuRank::MSG_RNK_SAVE_RANK(g.saveState.game.score, &lhs);
+  @call LadderMenuRank::MSG_RNK_SAVE_RANK(g.ss.game.score, &lhs);
   // Start the timer to quit to main menu
-  g.noState.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_SAVE, MSG_LAD_PLAY_STOP, 0, &g.noState.timerId);
+  g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_SAVE, MSG_LAD_PLAY_STOP, 0, &g.ns.timerId);
 }
 
 /***********************************************************************
@@ -1099,20 +1105,20 @@ static sword _pascal VerifyAndSetFont(word index)
   switch (state)
   {
   case EXE_F_NORM:
-    g.saveState.executionFlags &= ~EXE_M_MIN;  // Clear bit 0
+    g.ss.executionFlags &= ~EXE_M_MIN;  // Clear bit 0
     break;
   case EXE_F_MINI:
-    g.saveState.executionFlags |= EXE_M_MIN;  // Set bit 0
+    g.ss.executionFlags |= EXE_M_MIN;  // Set bit 0
     break;
   case EXE_F_GAIN:
-    g.saveState.executionFlags &= ~EXE_M_FOC;  // Clear bit 1
+    g.ss.executionFlags &= ~EXE_M_FOC;  // Clear bit 1
     break;
   case EXE_F_LOST:
-    g.saveState.executionFlags |= EXE_M_FOC;  // Set bit 1
+    g.ss.executionFlags |= EXE_M_FOC;  // Set bit 1
 //  break;
   }
   // Handle menu here
-  if (g.saveState.executionState == EXE_S_MENU)
+  if (g.ss.executionState == EXE_S_MENU)
   {
     switch (state)
     {
@@ -1149,7 +1155,7 @@ static sword _pascal VerifyAndSetFont(word index)
  ***********************************************************************/
 @method LadderProcessClass, MSG_LAD_FONT_SIZE_CHANGE
 {
-  word cur = g.saveState.fontIndex;
+  word cur = g.ss.fontIndex;
   sword ret;
   // 
   switch (command)
@@ -1169,7 +1175,7 @@ static sword _pascal VerifyAndSetFont(word index)
 
     // Set fixed size hint
     @send LadderView::MSG_GEN_SET_FIXED_SIZE(
-      VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.noState.font.height + 2, SCN_COLS * g.noState.font.width
+      VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.ns.font.height + 2, SCN_COLS * g.ns.font.width
     );
 
     // Resize primary window
@@ -1216,14 +1222,14 @@ static sword _pascal VerifyAndSetFont(word index)
 {
   Message msg;
   // Handle key presses during dedicated input states
-  if (!(flags & CF_RELEASE) && (g.saveState.inputState != INP_S_NONE) && !(g.saveState.executionFlags & EXE_M_MIN))
+  if (!(flags & CF_RELEASE) && (g.ss.inputState != INP_S_NONE) && !(g.ss.executionFlags & EXE_M_MIN))
   {
     // Set the default message to nothing
     msg = NULL;
     // Handle escape key
     if (character == 0xFF1B)
     {
-      switch (g.saveState.inputState)
+      switch (g.ss.inputState)
       {
       case INP_S_DEMO:
         // Stop demo
@@ -1232,7 +1238,7 @@ static sword _pascal VerifyAndSetFont(word index)
       case INP_S_PLAY:
       case INP_S_EXEC:
         // Stop play
-        g.saveState.restorePoint = MSG_LAD_PLAY_STOP;
+        g.ss.restorePoint = MSG_LAD_PLAY_STOP;
         msg = MSG_LAD_PLAY_STOP;
         break;
       default:
@@ -1255,7 +1261,7 @@ static sword _pascal VerifyAndSetFont(word index)
       }
     }
     // Handle the keys according the application states
-    switch (g.saveState.inputState)
+    switch (g.ss.inputState)
     {
     case INP_S_EXEC:
       // Handle the key press
@@ -1263,26 +1269,26 @@ static sword _pascal VerifyAndSetFont(word index)
       {
       // Key 'Arrow Up'
       case 0xFF90:
-        g.saveState.lad.ndir = DIR_N;
+        g.ss.lad.ndir = DIR_N;
         return;
       // Key 'Arrow Right'
       case 0xFF92:
-        g.saveState.lad.ndir = DIR_E;
+        g.ss.lad.ndir = DIR_E;
         return;
       // Key 'Arrow Down'
       case 0xFF91:
-        g.saveState.lad.ndir = DIR_S;
+        g.ss.lad.ndir = DIR_S;
         return;
       // Key 'Arrow Left'
       case 0xFF93:
-        g.saveState.lad.ndir = DIR_W;
+        g.ss.lad.ndir = DIR_W;
         return;
       case C_SPACE:
-        g.saveState.lad.njump = L_TRUE;
+        g.ss.lad.njump = L_TRUE;
         return;
       case C_SMALL_P:
       case C_CAP_P:
-        g.saveState.restorePoint = MSG_LAD_PLAY_HOLD;
+        g.ss.restorePoint = MSG_LAD_PLAY_HOLD;
         msg = MSG_LAD_PLAY_HOLD;
         break;
       // Any other key
@@ -1290,7 +1296,7 @@ static sword _pascal VerifyAndSetFont(word index)
         // Check for printable character
         if ((character < 255) && isprint(character))
         {
-          g.saveState.lad.ndir = DIR_NONE;
+          g.ss.lad.ndir = DIR_NONE;
           return;
         }
 //      break;
@@ -1321,7 +1327,7 @@ static sword _pascal VerifyAndSetFont(word index)
       // Key 'Enter'
       if (character == 0xFF0D)
       {
-        g.saveState.restorePoint = MSG_LAD_PLAY_READY;
+        g.ss.restorePoint = MSG_LAD_PLAY_READY;
         msg = MSG_LAD_PLAY_READY;
       }
       break;
@@ -1331,7 +1337,7 @@ static sword _pascal VerifyAndSetFont(word index)
       {
       // Key 'Enter'
       case 0xFF0D:
-        g.saveState.restorePoint = MSG_LAD_PLAY_SAVE;
+        g.ss.restorePoint = MSG_LAD_PLAY_SAVE;
         msg = MSG_LAD_PLAY_SAVE;
         break;
       // Key 'Backspace'
@@ -1355,14 +1361,14 @@ static sword _pascal VerifyAndSetFont(word index)
       if (character == 0xFF0D)
       {
         // Check for new high score
-        if (@call LadderMenuRank::MSG_RNK_IS_NEW_RANK(g.saveState.game.score) == L_TRUE)
+        if (@call LadderMenuRank::MSG_RNK_IS_NEW_RANK(g.ss.game.score) == L_TRUE)
         {
-          g.saveState.restorePoint = MSG_LAD_PLAY_HIGH;
+          g.ss.restorePoint = MSG_LAD_PLAY_HIGH;
           msg = MSG_LAD_PLAY_HIGH;
         }
         else
         {
-          g.saveState.restorePoint = MSG_LAD_PLAY_STOP;
+          g.ss.restorePoint = MSG_LAD_PLAY_STOP;
           msg = MSG_LAD_PLAY_STOP;
         }
       }

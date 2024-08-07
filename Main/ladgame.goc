@@ -147,7 +147,7 @@ word _pascal Random(word max)
  * CALLED BY:       Internal
  * PARAMETERS:      void ( word noise )
  * RETURN:          nothing
- * SIDE EFFECTS:    The global MemHandle "g.noState.noiseHandle" for the music
+ * SIDE EFFECTS:    The global MemHandle "g.ns.noiseHandle" for the music
  *                  note must be allocated.
  *
  * STRATEGY:        1/ Check if playing of noise is enabled.
@@ -163,9 +163,9 @@ word _pascal Random(word max)
 static void _pascal PlayNoise(word noise)
 {
   MemHandle mh;
-  if (g.saveState.game.sound == CFG_SND_ON)
+  if (g.ss.game.sound == CFG_SND_ON)
   {
-    mh = g.noState.noiseHandle;
+    mh = g.ns.noiseHandle;
     SoundStopMusicNote(mh);
     SoundReallocMusicNote(mh, NEI[noise][1], DYNAMIC_FFF, SSDTT_TICKS, 4, NEI[noise][0], IT_STANDARD_TABLE);
     SoundPlayMusicNote(mh, SP_GAME + SP_IMMEDIATE, 0, UNLOCK_ON_EOS);
@@ -233,7 +233,7 @@ static word _pascal LevelAndTimeReductionByRound(word round)
  * CALLED BY:       Internal
  * PARAMETERS:      byte ( word incr )
  * RETURN:          A byte indicating if a new lad is awarded.
- * SIDE EFFECTS:    The global variable "g.saveState.game.score" must contain the
+ * SIDE EFFECTS:    The global variable "g.ss.game.score" must contain the
  *                  current score.
  *                  Multiple awarded lads are not supported.
  *
@@ -249,7 +249,7 @@ static word _pascal LevelAndTimeReductionByRound(word round)
 static byte _pascal NewLadByScoreIncrease(word incr)
 {
   sword l;
-  l = (g.saveState.game.score % PNT_LAD) + incr - (PNT_LAD - 1);
+  l = (g.ss.game.score % PNT_LAD) + incr - (PNT_LAD - 1);
   if (l > 0)
   {
     return L_TRUE;
@@ -264,7 +264,7 @@ static byte _pascal NewLadByScoreIncrease(word incr)
  * CALLED BY:       Internal
  * PARAMETERS:      void (  )
  * RETURN:          nothing
- * SIDE EFFECTS:    The global variable "g.saveState.game.lads" must contain the
+ * SIDE EFFECTS:    The global variable "g.ss.game.lads" must contain the
  *                  current lads.
  *
  * STRATEGY:        1/ Increase the lads by one if not at maximum lads.
@@ -277,7 +277,7 @@ static byte _pascal NewLadByScoreIncrease(word incr)
  ***********************************************************************/
 static void _pascal IncreaseLads(void)
 {
-  if (g.saveState.game.lads < LADS_MAX) g.saveState.game.lads++;
+  if (g.ss.game.lads < LADS_MAX) g.ss.game.lads++;
 }
 
 /***********************************************************************
@@ -287,7 +287,7 @@ static void _pascal IncreaseLads(void)
  * CALLED BY:       Internal
  * PARAMETERS:      void ( word incr )
  * RETURN:          nothing
- * SIDE EFFECTS:    The global variable "g.saveState.game.score" must contain the
+ * SIDE EFFECTS:    The global variable "g.ss.game.score" must contain the
  *                  current score.
  *
  * STRATEGY:        1/ Increase the score by the increment from the
@@ -301,13 +301,13 @@ static void _pascal IncreaseLads(void)
  ***********************************************************************/
 static void _pascal IncreaseScore(word incr)
 {
-  if (PNTS_MAX - g.saveState.game.score > incr)
+  if (PNTS_MAX - g.ss.game.score > incr)
   {
-    g.saveState.game.score += incr;
+    g.ss.game.score += incr;
   }
   else
   {
-    g.saveState.game.score = PNTS_MAX;
+    g.ss.game.score = PNTS_MAX;
   }
 }
 
@@ -359,7 +359,7 @@ static byte _pascal CanMove(word cpos, word npos)
     return L_FALSE;
   }
   // Get the target character
-  t = *(g.noState.levelPtr + npos);
+  t = *(g.ns.levelBuf + npos);
   // Check for solids
   if ((t == LSD_C_BASE) || (t == LSD_C_BASE2) || (t == LSD_C_WALL))
   {
@@ -394,14 +394,14 @@ static byte _pascal CanStay(word pos)
 {
   char t;
   // Get the target character
-  t = *(g.noState.levelPtr + pos);
+  t = *(g.ns.levelBuf + pos);
   // Check for on ladder
   if (t == LSD_C_LADDER)
   {
     return L_TRUE;
   }
   // Get the target character
-  t = *(g.noState.levelPtr + pos + LVL_COLS);
+  t = *(g.ns.levelBuf + pos + LVL_COLS);
   // Check for solids
   if ((t == LSD_C_BASE) || (t == LSD_C_BASE2) || (t == LSD_C_WALL))
   {
@@ -444,12 +444,12 @@ static byte _pascal LadCanClimb(void)
 {
   char t;
   // Check for top row or not on ladder
-  if ((g.saveState.lad.cpos < LVL_COLS) || (*(g.noState.levelPtr + g.saveState.lad.cpos) != LSD_C_LADDER))
+  if ((g.ss.lad.cpos < LVL_COLS) || (*(g.ns.levelBuf + g.ss.lad.cpos) != LSD_C_LADDER))
   {
     return L_FALSE;
   }
   // Get the target character
-  t = *(g.noState.levelPtr + g.saveState.lad.cpos - LVL_COLS);
+  t = *(g.ns.levelBuf + g.ss.lad.cpos - LVL_COLS);
   // Check for ladder or exit
   if ((t == LSD_C_LADDER) || (t == LSD_C_EXIT))
   {
@@ -482,7 +482,7 @@ static byte _pascal LadCanClimb(void)
 static byte _pascal LadCanStartJump(void)
 {
   // Check for rubber ball or not on ladder and Lad can stay
-  if ((*(g.noState.levelPtr + g.saveState.lad.cpos) == LSD_C_BALL) || (CanStay(g.saveState.lad.cpos) == L_TRUE))
+  if ((*(g.ns.levelBuf + g.ss.lad.cpos) == LSD_C_BALL) || (CanStay(g.ss.lad.cpos) == L_TRUE))
   {
     return L_TRUE;
   }
@@ -532,7 +532,7 @@ static byte _pascal DerCanChangeOver(word cpos, sbyte dir)
     return L_FALSE;
   }
   // Check for ladder
-  if (*(g.noState.levelPtr + npos) == LSD_C_LADDER)
+  if (*(g.ns.levelBuf + npos) == LSD_C_LADDER)
   {
     return L_TRUE;
   }
@@ -562,7 +562,7 @@ static byte _pascal DerCanChangeOver(word cpos, sbyte dir)
 static byte _pascal DerCanDescend(word cpos)
 {
   // Check for ladder
-  if (*(g.noState.levelPtr + cpos + LVL_COLS) == LSD_C_LADDER)
+  if (*(g.ns.levelBuf + cpos + LVL_COLS) == LSD_C_LADDER)
   {
     return L_TRUE;
   }
@@ -639,32 +639,32 @@ static void _pascal MoveLad(void)
   sbyte cdir, ndir;
   word cpos, npos;
   // Get the temporaries
-  cdir = g.saveState.lad.cdir;
-  ndir = g.saveState.lad.ndir;
-  cpos = g.saveState.lad.cpos;
+  cdir = g.ss.lad.cdir;
+  ndir = g.ss.lad.ndir;
+  cpos = g.ss.lad.cpos;
   // Set default face
   face = LAD_C_STAY;
   // ::: HANDLE JUMP START :::
   if
   (
-    (g.saveState.lad.njump == L_TRUE)
+    (g.ss.lad.njump == L_TRUE)
  && (LadCanStartJump() == L_TRUE)
  && !(
       (ndir != DIR_E) && (ndir != DIR_W) && (LadCanClimb() == L_TRUE)
     )
   )
   {
-    g.saveState.lad.cjump = 1;
+    g.ss.lad.cjump = 1;
     // Set next jump to false
-    g.saveState.lad.njump = L_FALSE;
+    g.ss.lad.njump = L_FALSE;
   }
   // ::: HANDLE JUMP END :::
-  if (g.saveState.lad.cjump > 6)
+  if (g.ss.lad.cjump > 6)
   {
-    g.saveState.lad.cjump = 0;
+    g.ss.lad.cjump = 0;
   }
   // ::: HANDLE JUMP :::
-  if (g.saveState.lad.cjump > 0)
+  if (g.ss.lad.cjump > 0)
   {
     // Calculate next position
     if ((ndir != DIR_N) && (ndir != DIR_S))
@@ -677,7 +677,7 @@ static void _pascal MoveLad(void)
     {
       npos = cpos + cdir;
     }
-    switch (g.saveState.lad.cjump)
+    switch (g.ss.lad.cjump)
     {
     case 1: case 2:
       npos += DIR_N;
@@ -694,27 +694,27 @@ static void _pascal MoveLad(void)
    || (
         ((ndir == DIR_N) || (ndir == DIR_S))
      && (CanStay(cpos) == L_TRUE)
-     && (g.saveState.lad.cjump > 1)
+     && (g.ss.lad.cjump > 1)
       )
     )
     {
-      g.saveState.lad.cjump = 0;
+      g.ss.lad.cjump = 0;
     }
     // Advance jump
     else
     {
-      g.saveState.lad.cjump++;
+      g.ss.lad.cjump++;
     }
   }
   // ::: HANDLE MOVE :::
-  if (g.saveState.lad.cjump == 0)
+  if (g.ss.lad.cjump == 0)
   {
     // ::: HANDLE FALL :::
     if (CanStay(cpos) == L_FALSE)
     {
-      g.saveState.lad.lpos = cpos;
-      g.saveState.lad.cpos = cpos + DIR_S;
-      g.saveState.lad.face = LAD_C_FALL;
+      g.ss.lad.lpos = cpos;
+      g.ss.lad.cpos = cpos + DIR_S;
+      g.ss.lad.face = LAD_C_FALL;
       return;
     }
     // ::: HANDLE STOP :::
@@ -761,14 +761,14 @@ static void _pascal MoveLad(void)
 //  break;
   }
   // Update the Lad
-  g.saveState.lad.cdir = cdir;
+  g.ss.lad.cdir = cdir;
   if (cdir == DIR_NONE)
   {
-    g.saveState.lad.ndir = DIR_NONE;
+    g.ss.lad.ndir = DIR_NONE;
   }
-  g.saveState.lad.lpos = cpos;
-  g.saveState.lad.cpos = npos;
-  g.saveState.lad.face = face;
+  g.ss.lad.lpos = cpos;
+  g.ss.lad.cpos = npos;
+  g.ss.lad.face = face;
 }
 
 /***********************************************************************
@@ -804,39 +804,39 @@ static void _pascal MoveDers(void)
   sbyte dir;
   word i, cpos, npos;
   // Iterate over the Ders
-  for (i = 0; i < g.saveState.level.ders; i++)
+  for (i = 0; i < g.ss.level.ders; i++)
   {
     // Handle the different states
-    switch (g.saveState.ders[i].state)
+    switch (g.ss.ders[i].state)
     {
     case DER_S_MOVE:
       break;
     // ::: HANDLE ARMED ::: (to leave an emitter)
     case DER_S_ARMED:
-      g.saveState.ders[i].cpos = g.saveState.level.emts.pos[Random(g.saveState.level.emts.num)];
-      g.saveState.ders[i].dir = DIR_S;
-      g.saveState.ders[i].state = DER_S_READY;
+      g.ss.ders[i].cpos = g.ss.level.emts.pos[Random(g.ss.level.emts.num)];
+      g.ss.ders[i].dir = DIR_S;
+      g.ss.ders[i].state = DER_S_READY;
       continue;
     // ::: HANDLE READY ::: (to leave an emitter)
     case DER_S_READY:
     // ::: HANDLE LEAVE ::: (an emitter)
     case DER_S_LEAVE:
-      g.saveState.ders[i].state--;
+      g.ss.ders[i].state--;
       break;
     // ::: HANDLE RECYCLE ::: (by an emitter)
     case DER_S_RECYCLE:
-      g.saveState.ders[i].cpos = POS_NONE;
-      g.saveState.ders[i].lpos = POS_NONE;
-      g.saveState.ders[i].state = g.saveState.level.ders;
+      g.ss.ders[i].cpos = POS_NONE;
+      g.ss.ders[i].lpos = POS_NONE;
+      g.ss.ders[i].state = g.ss.level.ders;
       continue;
     // ::: HANDLE > ARMED :::
     default:
-      g.saveState.ders[i].state--;
+      g.ss.ders[i].state--;
       continue;
     }
     // Set the temporaries
-    dir = g.saveState.ders[i].dir;
-    cpos = g.saveState.ders[i].cpos;
+    dir = g.ss.ders[i].dir;
+    cpos = g.ss.ders[i].cpos;
     // Check for not descending
     if (dir != DIR_S)
     {
@@ -882,9 +882,9 @@ static void _pascal MoveDers(void)
         dir = -dir;
       }
     }
-    g.saveState.ders[i].dir = dir;
-    g.saveState.ders[i].lpos = cpos;
-    g.saveState.ders[i].cpos = npos;
+    g.ss.ders[i].dir = dir;
+    g.ss.ders[i].lpos = cpos;
+    g.ss.ders[i].cpos = npos;
   }
 }
 
@@ -924,7 +924,7 @@ static void _pascal MoveDers(void)
   // Lock the level headers
   MemLock(OptrToHandle(@GameLevels));
   // Get the level header
-  ChunkArrayGetElement(@GameLevels, g.saveState.game.level - 1, &g.saveState.level);
+  ChunkArrayGetElement(@GameLevels, g.ss.game.level - 1, &g.ss.level);
   // Unlock the level headers
   MemUnlock(OptrToHandle(@GameLevels));
   // Handle message type
@@ -936,7 +936,7 @@ static void _pascal MoveDers(void)
     break;
   case MSG_LAD_PLAY_LOAD_HEAD:
     // Reset hooka state
-    g.saveState.hookaState = L_FALSE;
+    g.ss.hookaState = L_FALSE;
     // Lock the cursor definition
     MemLock(OptrToHandle(@LadderGamePointer));
     // Set the image of the mouse cursor / pointer
@@ -944,7 +944,7 @@ static void _pascal MoveDers(void)
     // Unlock the cursor definition
     MemUnlock(OptrToHandle(@LadderGamePointer));
     // Show the loading screen
-    g.saveState.restorePoint = MSG_LAD_PLAY_LOAD_SHOW;
+    g.ss.restorePoint = MSG_LAD_PLAY_LOAD_SHOW;
     @send oself::MSG_LAD_PLAY_LOAD_SHOW();
 //  break;
   }
@@ -974,19 +974,19 @@ static void _pascal MoveDers(void)
 @extern method LadderProcessClass, MSG_LAD_PLAY_LOAD_SHOW
 {
   // Set the value of the current round
-  @send LadderLoadRound::MSG_VAL_SET_VALUE(g.saveState.game.round);
+  @send LadderLoadRound::MSG_VAL_SET_VALUE(g.ss.game.round);
   // Set the value of the current level
-  @send LadderLoadLevel::MSG_VAL_SET_VALUE(g.saveState.game.level);
+  @send LadderLoadLevel::MSG_VAL_SET_VALUE(g.ss.game.level);
   // Lock the level headers
   MemLock(OptrToHandle(@GameLevels));
   // Set the text of the level name
-  @call LadderLoadName::MSG_TXT_SET_TEXT(ConstructOptr(OptrToHandle(@GameLevels), g.saveState.level.name));
+  @call LadderLoadName::MSG_TXT_SET_TEXT(ConstructOptr(OptrToHandle(@GameLevels), g.ss.level.name));
   // Unlock the level headers
   MemUnlock(OptrToHandle(@GameLevels));
   // Show the loading screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderLoad);
   // Load the level data
-  g.saveState.restorePoint = MSG_LAD_PLAY_LOAD_DATA;
+  g.ss.restorePoint = MSG_LAD_PLAY_LOAD_DATA;
   @send oself::MSG_LAD_PLAY_LOAD_DATA();
 }
 
@@ -1019,21 +1019,21 @@ static void _pascal MoveDers(void)
   MemLock(OptrToHandle(@GameLevels));
   // No need to MemLock because the resource is already locked
   // Load the level data
-  @call LadderGameLevel::MSG_LVL_LOAD_LEVEL(ConstructOptr(OptrToHandle(@GameLevels), g.saveState.level.data));
+  @call LadderGameLevel::MSG_LVL_LOAD_LEVEL(ConstructOptr(OptrToHandle(@GameLevels), g.ss.level.data));
   // Unlock the level headers
   MemUnlock(OptrToHandle(@GameLevels));
   // Set the value of the current lads
-  @send LadderGameLads::MSG_VAL_SET_VALUE(g.saveState.game.lads);
+  @send LadderGameLads::MSG_VAL_SET_VALUE(g.ss.game.lads);
   // Set the value of the current round
-  @send LadderGameRound::MSG_VAL_SET_VALUE(g.saveState.game.round);
+  @send LadderGameRound::MSG_VAL_SET_VALUE(g.ss.game.round);
   // Set the value of the current score
-  @send LadderGameScore::MSG_VAL_SET_VALUE(g.saveState.game.score);
+  @send LadderGameScore::MSG_VAL_SET_VALUE(g.ss.game.score);
   // Calculate the bonus time
-  g.saveState.level.time -= LevelAndTimeReductionByRound(g.saveState.game.round) >> 8;
+  g.ss.level.time -= LevelAndTimeReductionByRound(g.ss.game.round) >> 8;
   // Set the bonus time
-  g.saveState.game.time = g.saveState.level.time;
+  g.ss.game.time = g.ss.level.time;
   // Set the value of the current bonus time
-  @send LadderGameTime::MSG_VAL_SET_VALUE(g.saveState.game.time);
+  @send LadderGameTime::MSG_VAL_SET_VALUE(g.ss.game.time);
   // Handle message type
   switch (message)
   {
@@ -1043,8 +1043,8 @@ static void _pascal MoveDers(void)
     break;
   case MSG_LAD_PLAY_LOAD_DATA:
     // Start the timer for the initialization of the round
-    g.saveState.restorePoint = MSG_LAD_PLAY_INIT;
-    g.noState.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_LOAD, MSG_LAD_PLAY_INIT, 0, &g.noState.timerId);
+    g.ss.restorePoint = MSG_LAD_PLAY_INIT;
+    g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_LOAD, MSG_LAD_PLAY_INIT, 0, &g.ns.timerId);
 //  break;
   }
 }
@@ -1078,27 +1078,27 @@ static void _pascal MoveDers(void)
 {
   word i;
   // Initialize Lad
-  g.saveState.lad.cpos = g.saveState.level.spos;
-  g.saveState.lad.lpos = g.saveState.level.spos;
-  g.saveState.lad.cdir = DIR_NONE;
-  g.saveState.lad.ndir = DIR_NONE;
-  g.saveState.lad.cjump = 0;
-  g.saveState.lad.njump = L_FALSE;
-  g.saveState.lad.face = LAD_C_STAY;
+  g.ss.lad.cpos = g.ss.level.spos;
+  g.ss.lad.lpos = g.ss.level.spos;
+  g.ss.lad.cdir = DIR_NONE;
+  g.ss.lad.ndir = DIR_NONE;
+  g.ss.lad.cjump = 0;
+  g.ss.lad.njump = L_FALSE;
+  g.ss.lad.face = LAD_C_STAY;
   // Initialize Ders
-  for (i = 0; i < g.saveState.level.ders; i++)
+  for (i = 0; i < g.ss.level.ders; i++)
   {
-    g.saveState.ders[i].cpos = POS_NONE;
-    g.saveState.ders[i].lpos = POS_NONE;
-    g.saveState.ders[i].dir = DIR_S;
-    g.saveState.ders[i].state = i + DER_S_ARMED;
+    g.ss.ders[i].cpos = POS_NONE;
+    g.ss.ders[i].lpos = POS_NONE;
+    g.ss.ders[i].dir = DIR_S;
+    g.ss.ders[i].state = i + DER_S_ARMED;
   }
   // Reset the ticks
-  g.saveState.game.ticks = 0;
+  g.ss.game.ticks = 0;
   // Clear the actors
   @send LadderGameActors::MSG_ACT_RESET();
   // Add the lad to the actors
-  @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.saveState.lad.cpos, g.saveState.lad.face);
+  @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.ss.lad.cpos, g.ss.lad.face);
   // Show the play screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderGame);
   // Handle message type
@@ -1106,13 +1106,13 @@ static void _pascal MoveDers(void)
   {
   case MSG_LAD_DEMO_INIT:
     // Initialize counter of demo moves
-    g.noState.moveIndex = 0;
+    g.ns.moveIndex = 0;
     // Skip get ready, directly start the demo
     @send oself::MSG_LAD_DEMO_START();
     break;
   case MSG_LAD_PLAY_INIT:
     // Do the get ready
-    g.saveState.restorePoint = MSG_LAD_PLAY_READY;
+    g.ss.restorePoint = MSG_LAD_PLAY_READY;
     @send oself::MSG_LAD_PLAY_READY();
 //  break;
   }
@@ -1148,8 +1148,8 @@ static void _pascal MoveDers(void)
   // Unlock the cursor definition
   MemUnlock(OptrToHandle(@LadderGamePointer));
   // Start the timer for end of get ready
-  g.saveState.restorePoint = MSG_LAD_PLAY_START;
-  g.noState.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_READY, MSG_LAD_PLAY_START, 0, &g.noState.timerId);
+  g.ss.restorePoint = MSG_LAD_PLAY_START;
+  g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_READY, MSG_LAD_PLAY_START, 0, &g.ns.timerId);
 }
 
 /***********************************************************************
@@ -1185,18 +1185,18 @@ static void _pascal MoveDers(void)
     // Clear the text in the info line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@DemoInfo);
     // Set the input state for the handling of key presses
-    g.saveState.inputState = INP_S_DEMO;
+    g.ss.inputState = INP_S_DEMO;
     // Start the timer for the demo
-    g.noState.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.saveState.game.delay, MSG_LAD_DEMO_EXEC, g.saveState.game.delay, &g.noState.timerId);
+    g.ns.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.ss.game.delay, MSG_LAD_DEMO_EXEC, g.ss.game.delay, &g.ns.timerId);
     break;
   case MSG_LAD_PLAY_START:
     // Clear the text in the info line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
     // Set the input state for the handling of key presses
-    g.saveState.inputState = INP_S_EXEC;
+    g.ss.inputState = INP_S_EXEC;
     // Start the timer for the play
-    g.saveState.restorePoint = MSG_LAD_PLAY_EXEC;
-    g.noState.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.saveState.game.delay, MSG_LAD_PLAY_EXEC, g.saveState.game.delay, &g.noState.timerId);
+    g.ss.restorePoint = MSG_LAD_PLAY_EXEC;
+    g.ns.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.ss.game.delay, MSG_LAD_PLAY_EXEC, g.ss.game.delay, &g.ns.timerId);
 //  break;
   }
 }
@@ -1241,23 +1241,23 @@ static void _pascal MoveDers(void)
   if (message == MSG_LAD_DEMO_EXEC)
   {
     optr o;
-    o = ConstructOptr(OptrToHandle(@GameDemos), g.noState.moves);
+    o = ConstructOptr(OptrToHandle(@GameDemos), g.ns.moves);
     // Lock the demo moves
     MemLock(OptrToHandle(o));
     // Verify we don't read beyond
-    if (g.noState.moveIndex < (LMemGetChunkSize(o) / sizeof(GLMove)))
+    if (g.ns.moveIndex < (LMemGetChunkSize(o) / sizeof(GLMove)))
     {
       GLMove *move;
       // Get the pointer of the demo moves
       move = LMemDeref(o);
       // Check if we are at the right position
-      if (g.saveState.lad.cpos == move[g.noState.moveIndex].tpos)
+      if (g.ss.lad.cpos == move[g.ns.moveIndex].tpos)
       {
         // Update Lad movement
-        g.saveState.lad.ndir = move[g.noState.moveIndex].ndir;
-        g.saveState.lad.njump = move[g.noState.moveIndex].njump;
+        g.ss.lad.ndir = move[g.ns.moveIndex].ndir;
+        g.ss.lad.njump = move[g.ns.moveIndex].njump;
         // Point to the next move
-        g.noState.moveIndex++;
+        g.ns.moveIndex++;
       }
     }
     // Unlock the demo move
@@ -1266,87 +1266,87 @@ static void _pascal MoveDers(void)
   // Lock the level buffer
   MemLock(OptrToHandle(@GameLevelBuffer));
   // Get the pointer of the level buffer
-  g.noState.levelPtr = LMemDeref(@GameLevelBuffer);
+  g.ns.levelBuf = LMemDeref(@GameLevelBuffer);
   // ::: HANDLE LAD :::
   // Move the Lad
   MoveLad();
   // Handle disappearing floor
-  if (*(g.noState.levelPtr + g.saveState.lad.lpos + LVL_COLS) == LSD_C_BASE2)
+  if (*(g.ns.levelBuf + g.ss.lad.lpos + LVL_COLS) == LSD_C_BASE2)
   {
-    *(g.noState.levelPtr + g.saveState.lad.lpos + LVL_COLS) = LSD_C_SPACE;
-    @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.saveState.lad.lpos + LVL_COLS, LSD_C_SPACE);
+    *(g.ns.levelBuf + g.ss.lad.lpos + LVL_COLS) = LSD_C_SPACE;
+    @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.ss.lad.lpos + LVL_COLS, LSD_C_SPACE);
   }
   // Handle gold statue, exit, trap and ball
-  switch (*(g.noState.levelPtr + g.saveState.lad.cpos))
+  switch (*(g.ns.levelBuf + g.ss.lad.cpos))
   {
   case LSD_C_GOLD:
     pnts += PNT_GOLD;
-    *(g.noState.levelPtr + g.saveState.lad.cpos) = LSD_C_SPACE;
+    *(g.ns.levelBuf + g.ss.lad.cpos) = LSD_C_SPACE;
     break;
   case LSD_C_EXIT:
-    g.saveState.restorePoint = MSG_LAD_PLAY_HOOKA;
+    g.ss.restorePoint = MSG_LAD_PLAY_HOOKA;
     msg = MSG_LAD_PLAY_HOOKA;
     break;
   case LSD_C_TRAP:
-    g.saveState.restorePoint = MSG_LAD_PLAY_FAIL;
+    g.ss.restorePoint = MSG_LAD_PLAY_FAIL;
     msg = MSG_LAD_PLAY_FAIL;
     break;
   case LSD_C_BALL:
-    if (g.saveState.lad.cjump == 0)
+    if (g.ss.lad.cjump == 0)
     {
-      g.saveState.lad.cjump = Random(2);
-      g.saveState.lad.ndir = (Random(2) == 1) ? DIR_E : DIR_W;
+      g.ss.lad.cjump = Random(2);
+      g.ss.lad.ndir = (Random(2) == 1) ? DIR_E : DIR_W;
     }
   }
   // Add the Lad and its last background to the actors
-  f = *(g.noState.levelPtr + g.saveState.lad.lpos);
-  @send LadderGameActors::MSG_ACT_ADD(g.saveState.lad.lpos, f, g.saveState.lad.cpos, g.saveState.lad.face);
+  f = *(g.ns.levelBuf + g.ss.lad.lpos);
+  @send LadderGameActors::MSG_ACT_ADD(g.ss.lad.lpos, f, g.ss.lad.cpos, g.ss.lad.face);
   // ::: HANDLE DERS :::
   // Move the Ders
   MoveDers();
   // ::: HANDLE LAD AND DERS :::
-  for (i = 0; i < g.saveState.level.ders; i++)
+  for (i = 0; i < g.ss.level.ders; i++)
   {
     // Handle receiver
-    if (*(g.noState.levelPtr + g.saveState.ders[i].cpos) == LSD_C_RECV)
+    if (*(g.ns.levelBuf + g.ss.ders[i].cpos) == LSD_C_RECV)
     {
-      g.saveState.ders[i].state = DER_S_RECYCLE;
+      g.ss.ders[i].state = DER_S_RECYCLE;
     }
     // Handle Lad over Der
-    if ((g.saveState.lad.cpos + LVL_COLS == g.saveState.ders[i].cpos) ||
-        (g.saveState.lad.cpos + 2 * LVL_COLS == g.saveState.ders[i].cpos) ||
-        (g.saveState.lad.cpos + LVL_COLS == g.saveState.ders[i].lpos) ||
-        (g.saveState.lad.cpos + 2 * LVL_COLS == g.saveState.ders[i].lpos) ||
-        (g.saveState.lad.lpos + LVL_COLS == g.saveState.ders[i].cpos) ||
-        (g.saveState.lad.lpos + 2 * LVL_COLS == g.saveState.ders[i].cpos))
+    if ((g.ss.lad.cpos + LVL_COLS == g.ss.ders[i].cpos) ||
+        (g.ss.lad.cpos + 2 * LVL_COLS == g.ss.ders[i].cpos) ||
+        (g.ss.lad.cpos + LVL_COLS == g.ss.ders[i].lpos) ||
+        (g.ss.lad.cpos + 2 * LVL_COLS == g.ss.ders[i].lpos) ||
+        (g.ss.lad.lpos + LVL_COLS == g.ss.ders[i].cpos) ||
+        (g.ss.lad.lpos + 2 * LVL_COLS == g.ss.ders[i].cpos))
     {
       pnts += PNT_DER;
     }
     // Handle collision of Lad and Der
-    if (g.saveState.lad.cpos == g.saveState.ders[i].cpos)
+    if (g.ss.lad.cpos == g.ss.ders[i].cpos)
     {
-      g.saveState.restorePoint = MSG_LAD_PLAY_FAIL;
+      g.ss.restorePoint = MSG_LAD_PLAY_FAIL;
       msg = MSG_LAD_PLAY_FAIL;
     }
-    if ((g.saveState.lad.cpos == g.saveState.ders[i].lpos) && (g.saveState.lad.lpos == g.saveState.ders[i].cpos))
+    if ((g.ss.lad.cpos == g.ss.ders[i].lpos) && (g.ss.lad.lpos == g.ss.ders[i].cpos))
     {
-      g.saveState.ders[i].cpos = g.saveState.ders[i].lpos;
-//      g.saveState.lad.cpos = g.saveState.lad.lpos;
-      g.saveState.restorePoint = MSG_LAD_PLAY_FAIL;
+      g.ss.ders[i].cpos = g.ss.ders[i].lpos;
+//      g.ss.lad.cpos = g.ss.lad.lpos;
+      g.ss.restorePoint = MSG_LAD_PLAY_FAIL;
       msg = MSG_LAD_PLAY_FAIL;
     }
     // Add the Der and its last background to the actors
-    f = *(g.noState.levelPtr + g.saveState.ders[i].lpos);
-    switch (g.saveState.ders[i].state)
+    f = *(g.ns.levelBuf + g.ss.ders[i].lpos);
+    switch (g.ss.ders[i].state)
     {
     case DER_S_LEAVE:
-      @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.saveState.ders[i].cpos, DER_C);
+      @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.ss.ders[i].cpos, DER_C);
       break;
     case DER_S_MOVE:
-      @send LadderGameActors::MSG_ACT_ADD(g.saveState.ders[i].lpos, f, g.saveState.ders[i].cpos, DER_C);
+      @send LadderGameActors::MSG_ACT_ADD(g.ss.ders[i].lpos, f, g.ss.ders[i].cpos, DER_C);
       break;
     case DER_S_RECYCLE:
-      @send LadderGameActors::MSG_ACT_ADD(g.saveState.ders[i].lpos, f, POS_NONE, 0);
+      @send LadderGameActors::MSG_ACT_ADD(g.ss.ders[i].lpos, f, POS_NONE, 0);
 //    break;
     }
   }
@@ -1361,26 +1361,26 @@ static void _pascal MoveDers(void)
     if (NewLadByScoreIncrease(pnts) == L_TRUE)
     {
       IncreaseLads();
-      @send LadderGameLads::MSG_VAL_UPDATE_VALUE(g.saveState.game.lads);
+      @send LadderGameLads::MSG_VAL_UPDATE_VALUE(g.ss.game.lads);
     }
     IncreaseScore(pnts);
-    @send LadderGameScore::MSG_VAL_UPDATE_VALUE(g.saveState.game.score);
+    @send LadderGameScore::MSG_VAL_UPDATE_VALUE(g.ss.game.score);
     // Play notification sound
     PlayNoise(1);
   }
   // ::: HANDLE BONUS TIME :::
   // Process the bonus time
-  g.saveState.game.ticks += g.saveState.game.delay;
-  secs = g.saveState.game.ticks / 60;  // XXX: -> Use constant ticks per second !!!
-  if (g.saveState.game.time != (g.saveState.level.time - secs))
+  g.ss.game.ticks += g.ss.game.delay;
+  secs = g.ss.game.ticks / 60;  // XXX: -> Use constant ticks per second !!!
+  if (g.ss.game.time != (g.ss.level.time - secs))
   {
-    g.saveState.game.time = g.saveState.level.time - secs;
-    @send LadderGameTime::MSG_VAL_UPDATE_VALUE(g.saveState.game.time);
+    g.ss.game.time = g.ss.level.time - secs;
+    @send LadderGameTime::MSG_VAL_UPDATE_VALUE(g.ss.game.time);
   }
   // Check for bonus time exhausted
-  if (g.saveState.game.time == 0)
+  if (g.ss.game.time == 0)
   {
-    g.saveState.restorePoint = MSG_LAD_PLAY_FAIL;
+    g.ss.restorePoint = MSG_LAD_PLAY_FAIL;
     msg = MSG_LAD_PLAY_FAIL;
   }
   // ::: HANDLE HOOKA, FAIL OR DEMO STOP :::
@@ -1401,15 +1401,15 @@ static void _pascal MoveDers(void)
   switch (message)
   {
   case MSG_LAD_DEMO_EXEC:
-    if (g.saveState.executionFlags & EXE_M_MIN)
+    if (g.ss.executionFlags & EXE_M_MIN)
     {
       @send process::MSG_LAD_DEMO_STOP();
     }
     break;
   case MSG_LAD_PLAY_EXEC:
-    if (g.saveState.executionFlags != 0)
+    if (g.ss.executionFlags != 0)
     {
-      g.saveState.restorePoint = MSG_LAD_PLAY_HOLD;
+      g.ss.restorePoint = MSG_LAD_PLAY_HOLD;
       @send process::MSG_LAD_PLAY_HOLD();
     }
 //  break;
@@ -1440,9 +1440,9 @@ static void _pascal MoveDers(void)
   // Stop the play timer
   StopTimer();
   // Set the input state for the handling of key presses
-  g.saveState.inputState = INP_S_HOLD;
+  g.ss.inputState = INP_S_HOLD;
   // Reset restored from state
-  g.saveState.executionFlags &= ~EXE_M_RST;
+  g.ss.executionFlags &= ~EXE_M_RST;
   // Reset the image of the mouse cursor / pointer
   @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(NullOptr, PIL_WINDOW);
   // Update the info line with the wait message
@@ -1474,15 +1474,15 @@ static void _pascal MoveDers(void)
 @extern method LadderProcessClass, MSG_LAD_PLAY_FAIL
 {
   // Decrease the Lads
-  g.saveState.game.lads--;
+  g.ss.game.lads--;
   // Update the Lads
-  @send LadderGameLads::MSG_VAL_UPDATE_VALUE(g.saveState.game.lads);
+  @send LadderGameLads::MSG_VAL_UPDATE_VALUE(g.ss.game.lads);
   // Reset the Lad state
-  g.saveState.lad.die = 0;
+  g.ss.lad.die = 0;
   // Clear the actors
   @send LadderGameActors::MSG_ACT_RESET();
   // Do the lad death
-  g.saveState.restorePoint = MSG_LAD_PLAY_DIES;
+  g.ss.restorePoint = MSG_LAD_PLAY_DIES;
   @send oself::MSG_LAD_PLAY_DIES();
 }
 
@@ -1510,31 +1510,31 @@ static void _pascal MoveDers(void)
 {
   Message msg;
   // Check the Lad state
-  if (g.saveState.lad.die < sizeof(LDC))
+  if (g.ss.lad.die < sizeof(LDC))
   {
     // Add the Lad to the actors
-    @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.saveState.lad.cpos, LDC[g.saveState.lad.die]);
+    @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.ss.lad.cpos, LDC[g.ss.lad.die]);
     // Draw the Lad
     @send LadderGameActors::MSG_ACT_DRAW();
     // Increase the state
-    g.saveState.lad.die++;
+    g.ss.lad.die++;
     // Play error sound
     PlayNoise(0);
     // Call our self
-    g.noState.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_DIES, message, 0, &g.noState.timerId);
+    g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_DIES, message, 0, &g.ns.timerId);
     // Return from method
     return;
   }
-  if (g.saveState.game.lads > 0)
+  if (g.ss.game.lads > 0)
   {
     // Clear the actors in the level
-    g.saveState.restorePoint = MSG_LAD_PLAY_CLEAR;
+    g.ss.restorePoint = MSG_LAD_PLAY_CLEAR;
     msg = MSG_LAD_PLAY_CLEAR;
   }
   else
   {
     // The game is over
-    g.saveState.restorePoint = MSG_LAD_PLAY_OVER;
+    g.ss.restorePoint = MSG_LAD_PLAY_OVER;
     msg = MSG_LAD_PLAY_OVER;
   }
   @send oself:: {MSG_LAD_PROTO} msg();
@@ -1570,21 +1570,21 @@ static void _pascal MoveDers(void)
   MemLock(OptrToHandle(@GameLevelBuffer));
   p_level = LMemDeref(@GameLevelBuffer);
   // Restore background of Ders
-  for (i = 0; i < g.saveState.level.ders; i++)
+  for (i = 0; i < g.ss.level.ders; i++)
   {
-    if (g.saveState.ders[i].state == DER_S_MOVE)
+    if (g.ss.ders[i].state == DER_S_MOVE)
     {
-      @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.saveState.ders[i].cpos, *(p_level + g.saveState.ders[i].cpos));
+      @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.ss.ders[i].cpos, *(p_level + g.ss.ders[i].cpos));
     }
   }
   // Restore background of Lad
-  @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.saveState.lad.cpos, *(p_level + g.saveState.lad.cpos));
+  @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.ss.lad.cpos, *(p_level + g.ss.lad.cpos));
   // Unlock the level buffer
   MemUnlock(OptrToHandle(@GameLevelBuffer));
   // Draw the background of the actors
   @send LadderGameActors::MSG_ACT_DRAW();
   // Restart the level
-  g.saveState.restorePoint = MSG_LAD_PLAY_INIT;
+  g.ss.restorePoint = MSG_LAD_PLAY_INIT;
   @send oself::MSG_LAD_PLAY_INIT();
 }
 
@@ -1613,44 +1613,44 @@ static void _pascal MoveDers(void)
 {
   optr o;
   // Do the hooka
-  if (g.saveState.game.time > 0)
+  if (g.ss.game.time > 0)
   {
     // Update lads
     if (NewLadByScoreIncrease(PNT_TIME) == L_TRUE)
     {
       IncreaseLads();
-      @send LadderGameLads::MSG_VAL_UPDATE_VALUE(g.saveState.game.lads);
+      @send LadderGameLads::MSG_VAL_UPDATE_VALUE(g.ss.game.lads);
     }
     // Increase and update score
     IncreaseScore(PNT_TIME);
-    @send LadderGameScore::MSG_VAL_UPDATE_VALUE(g.saveState.game.score);
+    @send LadderGameScore::MSG_VAL_UPDATE_VALUE(g.ss.game.score);
     // Decrease and update bonus time
-    g.saveState.game.time--;
-    @send LadderGameTime::MSG_VAL_UPDATE_VALUE(g.saveState.game.time);
+    g.ss.game.time--;
+    @send LadderGameTime::MSG_VAL_UPDATE_VALUE(g.ss.game.time);
     // Clear the info line
     o = NullOptr;
     // Update hooka state
-    if (g.saveState.hookaState == L_FALSE)
+    if (g.ss.hookaState == L_FALSE)
     {
-      g.saveState.hookaState = L_TRUE;
+      g.ss.hookaState = L_TRUE;
       // Update the info line with the hooka text
       o = @PlayHooka;
     }
     else
     {
-      g.saveState.hookaState = L_FALSE;
+      g.ss.hookaState = L_FALSE;
     }
     // Update the status line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(o);
     // Play notification sound
     PlayNoise(1);
     // Start the timer for our self
-    g.saveState.restorePoint = MSG_LAD_PLAY_HOOKA;
-    g.noState.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_HOOKA, message, 0, &g.noState.timerId);
+    g.ss.restorePoint = MSG_LAD_PLAY_HOOKA;
+    g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_HOOKA, message, 0, &g.ns.timerId);
   }
   else
   {
-    g.saveState.restorePoint = MSG_LAD_PLAY_NEXT;
+    g.ss.restorePoint = MSG_LAD_PLAY_NEXT;
     @send oself::MSG_LAD_PLAY_NEXT();
   }
 }
@@ -1678,20 +1678,20 @@ static void _pascal MoveDers(void)
 @extern method LadderProcessClass, MSG_LAD_PLAY_NEXT
 {
   // Increase the round
-  g.saveState.game.round++;
+  g.ss.game.round++;
   // Get the level for the current round
-  g.saveState.game.level = LevelAndTimeReductionByRound(g.saveState.game.round) & 0x0F;
+  g.ss.game.level = LevelAndTimeReductionByRound(g.ss.game.round) & 0x0F;
   // Check if there are no more levels
-  if (g.saveState.game.level > LVLS)
+  if (g.ss.game.level > LVLS)
   {
     // Show the last screen
-    g.saveState.restorePoint = MSG_LAD_PLAY_DONE;
+    g.ss.restorePoint = MSG_LAD_PLAY_DONE;
     @send oself::MSG_LAD_PLAY_DONE();
   }
   else
   {
     // Start next level
-    g.saveState.restorePoint = MSG_LAD_PLAY_LOAD_HEAD;
+    g.ss.restorePoint = MSG_LAD_PLAY_LOAD_HEAD;
     @send oself::MSG_LAD_PLAY_LOAD_HEAD();
   }
 }

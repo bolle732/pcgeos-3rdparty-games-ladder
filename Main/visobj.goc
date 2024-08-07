@@ -93,8 +93,6 @@ static void _pascal DrawValue(word pos, word val, word suf);
  ***************************************************************************
  */
 
-GStateHandle g_gstateHandle = NullHandle;  // Graphic state
-
 
 /*
  ***************************************************************************
@@ -124,11 +122,11 @@ GStateHandle g_gstateHandle = NullHandle;  // Graphic state
 static void _pascal DestroyGState(void)
 {
   // Check if the global GState is valid
-  if (g_gstateHandle != NullHandle)
+  if (g.ns.gstateHandle != NullHandle)
   {
     // Destroy the global GState and set it invalid
-    GrDestroyState(g_gstateHandle);
-    g_gstateHandle = NullHandle;
+    GrDestroyState(g.ns.gstateHandle);
+    g.ns.gstateHandle = NullHandle;
   }
 }
 
@@ -156,15 +154,15 @@ static void _pascal ClearText(word pos, word len)
 {
   sword x, y;
   // Only draw the changes if we have a valid GState
-  if (g_gstateHandle != NullHandle)
+  if (g.ns.gstateHandle != NullHandle)
   {
     // C trancates a divison of integers
     // -> ((pos - col) / LVL_COLS) == (pos / LVL_COLS)
-    x = (pos % SCN_COLS) * g.noState.font.width;
-    y = (pos / SCN_COLS) * g.noState.font.height;
-    GrFillRect(g_gstateHandle,
+    x = (pos % SCN_COLS) * g.ns.font.width;
+    y = (pos / SCN_COLS) * g.ns.font.height;
+    GrFillRect(g.ns.gstateHandle,
       x, y,
-      x + len * g.noState.font.width, y + g.noState.font.height + 1);
+      x + len * g.ns.font.width, y + g.ns.font.height + 1);
   }
 }
 
@@ -193,13 +191,13 @@ static void _pascal ClearText(word pos, word len)
 static void _pascal DrawChar(word pos, char character)
 {
   // Only draw the changes if we have a valid GState
-  if ((g_gstateHandle != NullHandle) && (character != C_SPACE))
+  if ((g.ns.gstateHandle != NullHandle) && (character != C_SPACE))
   {
     // C truncates a divison of integers
     // -> ((pos - col) / LVL_COLS) == (pos / LVL_COLS)
-    GrDrawChar(g_gstateHandle,
-      (pos % SCN_COLS) * g.noState.font.width,
-      (pos / SCN_COLS) * g.noState.font.height, character);
+    GrDrawChar(g.ns.gstateHandle,
+      (pos % SCN_COLS) * g.ns.font.width,
+      (pos / SCN_COLS) * g.ns.font.height, character);
   }
 }
 
@@ -372,11 +370,11 @@ static void _pascal DrawValue(word pos, word val, word suf)
 @method LadderScreenClass, MSG_META_CONTENT_VIEW_WIN_OPENED
 {
   // Initialize the global GState
-  g_gstateHandle = GrCreateState(viewWindow);
+  g.ns.gstateHandle = GrCreateState(viewWindow);
   // Setup default configuration
-  GrSetFont(g_gstateHandle, g.noState.font.type, g.noState.font.size);
-  GrSetTextColor(g_gstateHandle, CF_INDEX, C_LIGHT_GREEN, 0, 0);
-  GrSetAreaColor(g_gstateHandle, CF_INDEX, C_BLACK, 0, 0);
+  GrSetFont(g.ns.gstateHandle, g.ns.font.type, g.ns.font.size);
+  GrSetTextColor(g.ns.gstateHandle, CF_INDEX, g.ns.textColor, 0, 0);
+  GrSetAreaColor(g.ns.gstateHandle, CF_INDEX, g.ns.areaColor, 0, 0);
   // Do super
   @callsuper();
 }
@@ -469,7 +467,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   word n, pos;
   optr o;
   // XXX: Handle font size changes
-  GrSetFont(g_gstateHandle, g.noState.font.type, g.noState.font.size);
+  GrSetFont(g.ns.gstateHandle, g.ns.font.type, g.ns.font.size);
   // Get the screen data
   o = pself->LSI_screen;
   // Check if we have valid data
@@ -571,7 +569,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
     // Unlock the data
     MemUnlock(OptrToHandle(o));
     // Inform the childs to draw them self
-    @send @visChildren::MSG_VIS_DRAW(drawFlags, g_gstateHandle);
+    @send @visChildren::MSG_VIS_DRAW(drawFlags, g.ns.gstateHandle);
   }
 }
 
@@ -669,7 +667,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
     // Clear the background
     ClearText(pself->LTI_position, pself->LTI_length);
     // Draw the text
-    @send oself::MSG_VIS_DRAW(0, g_gstateHandle);
+    @send oself::MSG_VIS_DRAW(0, g.ns.gstateHandle);
   }
 }
 
@@ -739,7 +737,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
     // Clear the background
     ClearText(pself->LVI_position - pself->LVI_length + 1, pself->LVI_length);
     // Draw the value
-    @send oself::MSG_VIS_DRAW(0, g_gstateHandle);
+    @send oself::MSG_VIS_DRAW(0, g.ns.gstateHandle);
   }
 }
 
@@ -1194,7 +1192,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************/
 @method LadderActorsClass, MSG_ACT_DRAW
 {
-  @send oself::MSG_VIS_DRAW(0, g_gstateHandle);
+  @send oself::MSG_VIS_DRAW(0, g.ns.gstateHandle);
 }
 
 /***********************************************************************
