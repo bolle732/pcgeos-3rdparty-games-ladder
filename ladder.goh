@@ -296,7 +296,7 @@ typedef struct                 // Font data
   WWFixedAsDWord size;         //   4B+0 - Font size
   word width;                  //   2B+0 - Character width
   word height;                 //   2B+0 - Character height
-} GLFont;                      //  10B+0 = 10 Bytes used
+} GLFont;                      //  10B+0 = 10 bytes used
 
 typedef struct                 // Game data
 {
@@ -310,13 +310,13 @@ typedef struct                 // Game data
   word time;                   //   2B+0 - Remaining bonus time
   word ticks;                  //   2B+0 - Executed ticks
   word delay;                  //   2B+0 - Ticks per frame
-} GLGame;                      //  20B+0 = 18 Bytes used
+} GLGame;                      //  20B+0 = 18 bytes used
 
 typedef struct                 // Emitter data
 {
   word num;                    //   2B+0 - Number of Emitters
   word pos[EMTS_MAX];          //   6B+0 - Positions of Emitters
-} GLEmitter;                   //   8B+0 = 8 Bytes used
+} GLEmitter;                   //   8B+0 = 8 bytes used
 
 typedef struct                 // Level data
 {
@@ -326,19 +326,19 @@ typedef struct                 // Level data
   GLEmitter emts;              //   8B+0 - Number of emitters
   word ders;                   //   2B+0 - Number of Ders
   ChunkHandle data;            //   2B+0 - Level data
-} GLLevel;                     //  18B+0 = 18 Bytes used
+} GLLevel;                     //  18B+0 = 18 bytes used
 
 typedef struct                 // Rank entry
 {
   word score;                  //   2B+0 - Score
   char name[RNK_NAME_LEN];     //  20B+0 - Name
-} GLRankEntry;                 //  22B+0 = 22 Bytes used
+} GLRankEntry;                 //  22B+0 = 22 bytes used
 
 typedef struct                 // Ranks file
 {
   word id;                     //   2B+0 - Identification
   GLRankEntry ranks[RNKS];     // 110B+0 - Ranks
-} GLRankFile;                  // 112B+0 = 112 Bytes used
+} GLRankFile;                  // 112B+0 = 112 bytes used
 
 typedef struct                 // Der data
 {
@@ -346,7 +346,7 @@ typedef struct                 // Der data
   word lpos;                   //   2B+0 - Last position
   sbyte dir;                   //   1B+0 - Current direction
   sbyte state;                 //   1B+0 - State, < -1: Undefined, -1: Recycle, 0: Move, 1: Leave, 2: Ready, 3: Armed, > 3: Wait to leave
-} GLDer;                       //   6B+0 = 6 Bytes used
+} GLDer;                       //   6B+0 = 6 bytes used
 
 typedef struct                 // Lad data
 {
@@ -358,44 +358,46 @@ typedef struct                 // Lad data
   byte njump;                  //   1B+0 - Start a new jump
   char face;                   //   1B+1 - Current character (face)
   word die;                    //   2B+0 - Die counter
-} GLLad;                       //  11B+1 = 12 Bytes used
+} GLLad;                       //  11B+1 = 12 bytes used
 
 typedef struct                 // Actor data
 {
   word pos;                    //   2B+0 - Coordinate
   char face;                   //   1B+1 - Character (face)
-} GLActor;                     //   3B+1 = 4 Bytes used
+} GLActor;                     //   3B+1 = 4 bytes used
 
 typedef struct                 // Lad demo move
 {
   word tpos;                   //   2B+0 - Trigger position
   sbyte ndir;                  //   1B+0 - Next direction
   byte njump;                  //   1B+0 - Start a new jump
-} GLMove;                      //   4B+0 = 4 Bytes used
+} GLMove;                      //   4B+0 = 4 bytes used
 
 typedef struct                 // Demo data
 {
   word round;                  //   2B+0 - Round
   word level;                  //   2B+0 - Level
   ChunkHandle moves;           //   2B+0 - Moves data
-} GLDemo;                      //   6B+0 = 6 Bytes used
+} GLDemo;                      //   6B+0 = 6 bytes used
 
+// All global data which does not need to be saved into the state
 typedef struct                 // No save state structure
 {
   TimerHandle timerHandle;     //   2B+0 - Timer handle
   word timerId;                //   2B+0 - Timer id
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle
-  Rectangle screen;
+  Rectangle screen;            //   4B+0 - Screen size
   GLFont font;                 //  10B+0 - Font data
   word menuCount;              //   2B+0 - Menu counter
   char *levelPtr;              //   4B+0 - Pointer to the level buffer
-  word moveIndex;
-  ChunkHandle moves;           //   2B+0 - Demo data
-} GLNoState;
+  word moveIndex;              //   2B+0 - Current demo move
+  ChunkHandle moves;           //   2B+0 - Demo moves chunk handle
+} GLNoState;                   //  30B+0 = 30 bytes used
 
+// All global data which must be saved into the state
 typedef struct                 // Save state structure
 {
-  word fontIndex;
+  word fontIndex;              //   2B+0 - Current font
   byte executionFlags;         //   1B+1 - Execution flags (window minimized, focus lost, restored from state)
   byte executionState;         //   1B+1 - Execution state
   byte inputState;             //   1B+1 - Input state (keyboard)
@@ -405,20 +407,21 @@ typedef struct                 // Save state structure
   GLDer ders[DERS_MAX];        //  48B+0 - Der data
   GLLad lad;                   //  12B+0 - Lad data
   word hookaState;             //   2B+0 - Hooka state
-} GLSaveState;
+} GLSaveState;                 // 106B+4 = 110 bytes used
 
+// The global data used everywhere
 typedef struct                 // Global structure
 {
-  GLNoState noState;
-  GLSaveState saveState;
-} GLGlobals;                   // 116B+4 = 120 Bytes used
+  GLNoState noState;           //  30B+0 - No save state data
+  GLSaveState saveState;       // 110B+0 - Save state global data
+} GLGlobals;                   // 140B+0 = 140 bytes used
 
 // This is used for saving to and restoring from state
 typedef struct                 // Extra state structure
 {
-  GLSaveState saveState;
-  char buffer[LVL_M_SIZE];
-} GLExtraState;
+  GLSaveState saveState;       //  110B+0 - Save state global data
+  char buffer[LVL_M_SIZE];     // 1896B+0 - Level buffer
+} GLExtraState;                // 2006B+0 = 2006 bytes used
 
 
 /*
