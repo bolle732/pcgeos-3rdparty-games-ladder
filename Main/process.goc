@@ -1249,11 +1249,9 @@ static sword _pascal VerifyAndSetFont(word index)
       case C_ONE:
         @send process::MSG_LAD_FONT_SIZE_CHANGE(FNT_S_DEC);
         return;
-//      break;
       case C_TWO:
         @send process::MSG_LAD_FONT_SIZE_CHANGE(FNT_S_INC);
         return;
-//      break;
       }
     }
     // Handle the keys according the application states

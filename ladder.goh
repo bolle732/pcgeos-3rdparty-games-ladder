@@ -398,30 +398,30 @@ typedef struct                 // No save state structure
 typedef struct                 // Save state structure
 {
   word fontIndex;              //   2B+0 - Current font
-  byte executionFlags;         //   1B+1 - Execution flags (window minimized, focus lost, restored from state)
-  byte executionState;         //   1B+1 - Execution state
+  byte executionFlags;         //   1B+0 - Execution flags (window minimized, focus lost, restored from state)
+  byte executionState;         //   1B+0 - Execution state
   byte inputState;             //   1B+1 - Input state (keyboard)
-  Message restorePoint;        //   1B+1 - Restart point (from state file)
+  Message restorePoint;        //   2B+0 - Restart point (from state file)
   GLGame game;                 //  18B+0 - Game data
   GLLevel level;               //  20B+0 - Level data
   GLDer ders[DERS_MAX];        //  48B+0 - Der data
   GLLad lad;                   //  12B+0 - Lad data
   word hookaState;             //   2B+0 - Hooka state
-} GLSaveState;                 // 106B+4 = 110 bytes used
+} GLSaveState;                 // 107B+1 = 108 bytes used
 
 // The global data used everywhere
 typedef struct                 // Global structure
 {
   GLNoState noState;           //  30B+0 - No save state data
-  GLSaveState saveState;       // 110B+0 - Save state global data
-} GLGlobals;                   // 140B+0 = 140 bytes used
+  GLSaveState saveState;       // 108B+0 - Save state global data
+} GLGlobals;                   // 138B+0 = 138 bytes used
 
 // This is used for saving to and restoring from state
 typedef struct                 // Extra state structure
 {
-  GLSaveState saveState;       //  110B+0 - Save state global data
+  GLSaveState saveState;       //  108B+0 - Save state global data
   char buffer[LVL_M_SIZE];     // 1896B+0 - Level buffer
-} GLExtraState;                // 2006B+0 = 2006 bytes used
+} GLExtraState;                // 2004B+0 = 2004 bytes used
 
 
 /*
