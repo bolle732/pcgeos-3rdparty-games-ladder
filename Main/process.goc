@@ -326,6 +326,9 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
   // Set the menu as the default
   Message msg = MSG_LAD_MENU;
 
+  // Initialize error state
+  g.ns.error = L_FALSE;
+
   // Set the help file name
   MemLock(OptrToHandle(@LadderHelpFile));
   memcpy(&buf, LMemDeref(@LadderHelpFile), LMemGetChunkSize(@LadderHelpFile));
@@ -431,10 +434,11 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
       @LadderWarnVideoTooSmall,
       (GIT_NOTIFICATION << CDBF_INTERACTION_TYPE_OFFSET) | (CDT_NOTIFICATION << CDBF_DIALOG_TYPE_OFFSET)
     );
-    // XXX: This still produces a hang / crash
-//    msg = MSG_META_QUIT;
+    g.ns.error = L_TRUE;
   }
-  else
+
+  // Setup GUI if no error has occured
+  if (g.ns.error == L_FALSE)
   {
     // Set the difficulty
     @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.is.diff);
@@ -447,17 +451,25 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
     @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.is.lastScore);
     // Load the scores from the file
     @send LadderMenuRank::MSG_RNK_LOAD();
+
+    // Allocate a memory handle for the noise
+    SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.ns.noiseHandle);
+
+    // Let's start the menu or continue where we left the application
+    @send process::{MSG_LAD_PROTO} msg();
+    // Do super
+    @callsuper();
+    // Force update of view and primary
+    @send process::MSG_LAD_RESIZE_WINDOW();
+  }
+  else
+  {
+    // Do super
+    @callsuper();
+    // Send quit message to application
+    @send application::MSG_META_QUIT();
   }
 
-  // Allocate a memory handle for the noise
-  SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.ns.noiseHandle);
-
-  // Let's start the menu or continue where we left the application
-  @send process::{MSG_LAD_PROTO} msg();
-  // Do super
-  @callsuper();
-  // Force update of view and primary
-  @send process::MSG_LAD_RESIZE_WINDOW();
 }
 
 /***********************************************************************
@@ -495,6 +507,11 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
   StopTimer();
   // Stop the noise
   StopAndFreeNoise();
+  // Simply return in case of an error without saving any states
+  if (g.ns.error == L_TRUE)
+  {
+    return NullHandle;
+  }
   // Write the font size to the INI file
   InitFileWriteInteger(&ICA, &IKF, g.is.fontIndex);
   // Write the difficulty and sound state to the INI file
