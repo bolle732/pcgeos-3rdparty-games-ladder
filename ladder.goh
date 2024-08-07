@@ -392,10 +392,10 @@ typedef struct                 // No save state structure
   char *levelBuf;              //   4B+0 - Pointer to the level buffer
   word moveIndex;              //   2B+0 - Current demo move
   ChunkHandle moves;           //   2B+0 - Demo moves chunk handle
-} GLNoState;                   //  36B+0 = 36 bytes used
+} GLNoState;                   //  72B+0 = 72 bytes used
 
 // All global data which is saved to the INI file
-typedef struct                 // Game data
+typedef struct                 // INI state structure
 {
   word fontIndex;              //   2B+0 - Current font
   word diff;                   //   2B+0 - Difficulty
@@ -420,17 +420,17 @@ typedef struct                 // Save state structure
 // The global data used everywhere
 typedef struct                 // Global structure
 {
-  GLNoState ns;                //  36B+0 - Unsaved global data
-  GLSaveState ss;              // 106B+0 - Save state global data
+  GLNoState ns;                //  72B+0 - Unsaved global data
   GLIniState is;               //   8B+0 - INI state global data
-} GLGlobals;                   // 144B+0 = 144 bytes used
+  GLSaveState ss;              // 106B+0 - Save state global data
+} GLGlobals;                   // 186B+0 = 186 bytes used
 
 // This is used for saving to and restoring from state
 typedef struct                 // Extra state structure
 {
-  GLSaveState saveState;       //  108B+0 - Save state global data
-  char buffer[LVL_M_SIZE];     // 1896B+0 - Level buffer
-} GLExtraState;                // 2004B+0 = 2004 bytes used
+  GLSaveState saveState;       //   106B - Save state global data
+  char buffer[LVL_M_SIZE];     //  1896B - Level buffer
+} GLExtraState;                //  2002B = 2002 bytes used
 
 
 /*

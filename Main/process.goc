@@ -433,27 +433,29 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
     );
     msg = MSG_META_QUIT;
   }
-  // Set fixed size hint
-  @send LadderView::MSG_GEN_SET_FIXED_SIZE(
-    VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.ns.font.height + 2, SCN_COLS * g.ns.font.width
-  );
-  // XXX: Research why primary is not resized when starting from state and video resolution has changed
-  // Resize primary window
-  @send LadderPrimary::MSG_GEN_SET_WIN_SIZE(
-    GET_MM_AND_TYPE(VUM_DELAYED_VIA_APP_QUEUE, WST_AS_DESIRED), 0, 0
-  );
-
-  // Set the difficulty
-  @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.is.diff);
-  // Set the sound
-  if (g.is.sound == CFG_SND_ON)
+  else
   {
-    @send LadderMenuSound::MSG_TXT_SET_TEXT(@MenuSoundOn);
+    // Set fixed size hint
+    @send LadderView::MSG_GEN_SET_FIXED_SIZE(
+      VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.ns.font.height + 2, SCN_COLS * g.ns.font.width
+    );
+    // XXX: Research why primary is not resized when starting from state and video resolution has changed
+    // Resize primary window
+    @send LadderPrimary::MSG_GEN_SET_WIN_SIZE(
+      GET_MM_AND_TYPE(VUM_DELAYED_VIA_APP_QUEUE, WST_AS_DESIRED), 0, 0
+    );
+    // Set the difficulty
+    @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.is.diff);
+    // Set the sound
+    if (g.is.sound == CFG_SND_ON)
+    {
+      @send LadderMenuSound::MSG_TXT_SET_TEXT(@MenuSoundOn);
+    }
+    // Set the last score
+    @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.is.lastScore);
+    // Load the scores from the file
+    @send LadderMenuRank::MSG_RNK_LOAD();
   }
-  // Set the last score
-  @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.is.lastScore);
-  // Load the scores from the file
-  @send LadderMenuRank::MSG_RNK_LOAD();
 
   // Allocate a memory handle for the noise
   SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.ns.noiseHandle);
