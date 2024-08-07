@@ -286,6 +286,8 @@ static sword _pascal LoadFontConfig(word index)
 @extern method LadderProcessClass, MSG_LAD_EXEC_SET_FLAGS;
 @extern method LadderProcessClass, MSG_LAD_FONT_CHANGE_SIZE;
 @extern method LadderProcessClass, MSG_LAD_RESIZE_WINDOW;
+@extern method LadderProcessClass, MSG_LAD_ENTER_FULLSCREEN;
+@extern method LadderProcessClass, MSG_LAD_LEAVE_FULLSCREEN;
 
 
 /***********************************************************************
@@ -513,6 +515,8 @@ static sword _pascal LoadFontConfig(word index)
   StopTimer();
   // Stop the noise
   StopAndFreeNoise();
+  // Leave fullscreen
+  @send process::MSG_LAD_LEAVE_FULLSCREEN();
   // Simply return in case of an error without saving any states
   if (g.ns.error == L_TRUE)
   {
@@ -1228,6 +1232,56 @@ static sword _pascal LoadFontConfig(word index)
   );
 }
 
+
+
+
+@method LadderProcessClass, MSG_LAD_ENTER_FULLSCREEN
+{
+  GenReturnParams grp;
+  Rectangle r;
+  ColorQuad c = { C_BLUE, 0, 0, 0 };
+
+  if (g.ns.windowHandle != NullHandle)
+  {
+    return;
+  }
+
+  @call application::MSG_GEN_GUP_QUERY(&grp, GUQT_FIELD);
+  WinGetWinScreenBounds(grp.GRP_bp, &r);
+
+  g.ns.windowHandle = WinOpen(
+    grp.GRP_bp,               // parentWinOrVidDr
+    @LadderPrimary,           // inputRecipient
+    @LadderView,              // exposureRecipient
+    c.CQ_info,                // colorFlags
+    c.CQ_redOrIndex,          // redOrIndex
+    c.CQ_green,               // green
+    c.CQ_blue,                // blue
+    (LAYER_PRIO_ON_TOP << WPF_LAYER_PRIORITY_OFFSET)
+      | WIN_PRIO_ON_TOP,      // flags
+    0,                        // layerID
+    GeodeGetProcessHandle(),  // owner
+    0,                        // *winReg
+    r.R_left,                 // axParam
+    r.R_top,                  // bxParam
+    r.R_right,                // cxParam
+    r.R_bottom                // dxParam
+  );
+}
+
+
+@method LadderProcessClass, MSG_LAD_LEAVE_FULLSCREEN
+{
+  if (g.ns.windowHandle)
+  {
+    WinClose(g.ns.windowHandle);
+    g.ns.windowHandle = NullHandle;
+  }
+}
+
+
+
+
 /*
  ***************************************************************************
  *                  CODE for LadderApplicationClass
@@ -1300,6 +1354,12 @@ static sword _pascal LoadFontConfig(word index)
         return;
       case C_TWO:
         @send process::MSG_LAD_FONT_CHANGE_SIZE(FNT_S_INC);
+        return;
+      case C_NINE:
+        @send process::MSG_LAD_ENTER_FULLSCREEN();
+        return;
+      case C_ZERO:
+        @send process::MSG_LAD_LEAVE_FULLSCREEN();
         return;
       }
     }

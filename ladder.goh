@@ -382,6 +382,7 @@ typedef struct                 // No save state structure
 {
   byte error;                  //   1B+1 - Error state used during open and close application
   Rectangle screen;            //   4B+0 - Screen size
+  WindowHandle windowHandle;   //   2B+0 - Window handle (during fullscreen)
   GStateHandle gstateHandle;   //   2B+0 - GState handle
   word textColor;              //   2B+0 - Text foreground color
   word areaColor;              //   2B+0 - Text background color
@@ -390,10 +391,10 @@ typedef struct                 // No save state structure
   word timerId;                //   2B+0 - Timer id
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle
   word menuCount;              //   2B+0 - Menu counter
-  char *levelBuffer;              //   4B+0 - Pointer to the level buffer
+  char *levelBuffer;           //   4B+0 - Pointer to the level buffer
   word moveIndex;              //   2B+0 - Current demo move
   ChunkHandle moves;           //   2B+0 - Demo moves chunk handle
-} GLNoState;                   //  73B+1 = 74 bytes used
+} GLNoState;                   //  75B+1 = 76 bytes used
 
 // All global data which is saved to the INI file
 typedef struct                 // INI state structure
@@ -421,10 +422,10 @@ typedef struct                 // Save state structure
 // The global data used everywhere
 typedef struct                 // Global structure
 {
-  GLNoState ns;                //  74B+0 - Unsaved global data
+  GLNoState ns;                //  76B+0 - Unsaved global data
   GLIniState is;               //   8B+0 - INI state global data
   GLSaveState ss;              // 106B+0 - Save state global data
-} GLGlobals;                   // 188B+0 = 188 bytes used
+} GLGlobals;                   // 190B+0 = 190 bytes used
 
 // This is used for saving to and restoring from state
 typedef struct                 // Extra state structure
@@ -478,6 +479,8 @@ typedef struct                 // Extra state structure
   @message void MSG_LAD_EXEC_SET_FLAGS(byte state);
   @message void MSG_LAD_FONT_CHANGE_SIZE(byte command);
   @message (MSG_LAD_PROTO) MSG_LAD_RESIZE_WINDOW;
+  @message (MSG_LAD_PROTO) MSG_LAD_ENTER_FULLSCREEN;
+  @message (MSG_LAD_PROTO) MSG_LAD_LEAVE_FULLSCREEN;
 @endc
 
 
