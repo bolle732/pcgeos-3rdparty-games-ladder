@@ -276,8 +276,8 @@ static sword _pascal VerifyAndSetFont(word index)
 @extern method LadderProcessClass, MSG_LAD_PLAY_CLEAR;
 @extern method LadderProcessClass, MSG_LAD_PLAY_HOOKA;
 @extern method LadderProcessClass, MSG_LAD_PLAY_NEXT;
-@extern method LadderProcessClass, MSG_LAD_EXEC_FLAGS_SET;
-@extern method LadderProcessClass, MSG_LAD_FONT_SIZE_CHANGE;
+@extern method LadderProcessClass, MSG_LAD_EXEC_SET_FLAGS;
+@extern method LadderProcessClass, MSG_LAD_FONT_CHANGE_SIZE;
 
 
 /***********************************************************************
@@ -1076,7 +1076,7 @@ static sword _pascal VerifyAndSetFont(word index)
 }
 
 /***********************************************************************
- *                  MSG_LAD_EXEC_FLAGS_SET
+ *                  MSG_LAD_EXEC_SET_FLAGS
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Handle window changes minimized and focus.
@@ -1099,7 +1099,7 @@ static sword _pascal VerifyAndSetFont(word index)
  *      boa     2024-07-15    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_EXEC_FLAGS_SET
+@method LadderProcessClass, MSG_LAD_EXEC_SET_FLAGS
 {
   // Update the global window state
   switch (state)
@@ -1133,7 +1133,7 @@ static sword _pascal VerifyAndSetFont(word index)
 }
 
 /***********************************************************************
- *                  MSG_LAD_FONT_SIZE_CHANGE
+ *                  MSG_LAD_FONT_CHANGE_SIZE
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Handle font size changes.
@@ -1153,7 +1153,7 @@ static sword _pascal VerifyAndSetFont(word index)
  *      boa     2024-08-02    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_FONT_SIZE_CHANGE
+@method LadderProcessClass, MSG_LAD_FONT_CHANGE_SIZE
 {
   word cur = g.ss.fontIndex;
   sword ret;
@@ -1253,10 +1253,10 @@ static sword _pascal VerifyAndSetFont(word index)
       switch (tolower(character))
       {
       case C_ONE:
-        @send process::MSG_LAD_FONT_SIZE_CHANGE(FNT_S_DEC);
+        @send process::MSG_LAD_FONT_CHANGE_SIZE(FNT_S_DEC);
         return;
       case C_TWO:
-        @send process::MSG_LAD_FONT_SIZE_CHANGE(FNT_S_INC);
+        @send process::MSG_LAD_FONT_CHANGE_SIZE(FNT_S_INC);
         return;
       }
     }
@@ -1411,7 +1411,7 @@ static sword _pascal VerifyAndSetFont(word index)
 @method LadderApplicationClass, MSG_META_LOST_FOCUS_EXCL
 {
   // Inform process about window lost focus
-  @send process::MSG_LAD_EXEC_FLAGS_SET(EXE_F_LOST);
+  @send process::MSG_LAD_EXEC_SET_FLAGS(EXE_F_LOST);
   // Do super
   @callsuper();
 }
@@ -1439,7 +1439,7 @@ static sword _pascal VerifyAndSetFont(word index)
 @method LadderApplicationClass, MSG_META_GAINED_FOCUS_EXCL
 {
   // Inform process about window gained focus
-  @send process::MSG_LAD_EXEC_FLAGS_SET(EXE_F_GAIN);
+  @send process::MSG_LAD_EXEC_SET_FLAGS(EXE_F_GAIN);
   // Do super
   @callsuper();
 }

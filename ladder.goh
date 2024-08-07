@@ -468,8 +468,8 @@ typedef struct                 // Extra state structure
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_OVER;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HIGH;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_SAVE;
-  @message void MSG_LAD_EXEC_FLAGS_SET(byte state);
-  @message void MSG_LAD_FONT_SIZE_CHANGE(byte command);
+  @message void MSG_LAD_EXEC_SET_FLAGS(byte state);
+  @message void MSG_LAD_FONT_CHANGE_SIZE(byte command);
 @endc
 
 
