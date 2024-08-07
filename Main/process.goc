@@ -346,8 +346,7 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
     MemLock(OptrToHandle(@MenuTerminal));
     LMemReAlloc(@MenuTerminal, size + 1);
     sprintf(LMemDeref(@MenuTerminal), "%s", MemLock(mh));
-   // Unlock and free the memory handle
-//  MemUnlock(mh);
+   // Free the memory handle, no need for unlock
     MemFree(mh);
     MemUnlock(OptrToHandle(@MenuTerminal));
   }
@@ -360,11 +359,11 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
   // Handle restore from state file
   if ((attachFlags & AAF_RESTORING_FROM_STATE) && extraState)
   {
-    GLExtraState *state;
+    GLExtraState *es;
     // Get the extra state
-    state = (GLExtraState *) MemLock(extraState);
+    es = (GLExtraState *) MemLock(extraState);
     // Restore the global state
-    g.ss = state->saveState;
+    g.ss = es->saveState;
     // Restore execution state
     switch (g.ss.executionState)
     {
@@ -374,7 +373,7 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
     case EXE_S_PLAY:
       // Restore the level buffer
       MemLock(OptrToHandle(@GameLevelBuffer));
-      memcpy(LMemDeref(@GameLevelBuffer), state->buffer, LVL_M_SIZE);
+      memcpy(LMemDeref(@GameLevelBuffer), es->buffer, LVL_M_SIZE);
       MemUnlock(OptrToHandle(@GameLevelBuffer));
       // Set the message where we leaved the game play
       msg = g.ss.restorePoint;
@@ -431,7 +430,8 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
       @LadderWarnVideoTooSmall,
       (GIT_NOTIFICATION << CDBF_INTERACTION_TYPE_OFFSET) | (CDT_NOTIFICATION << CDBF_DIALOG_TYPE_OFFSET)
     );
-    msg = MSG_META_QUIT;
+    // XXX: This still produces a hang / crash
+//    msg = MSG_META_QUIT;
   }
   else
   {
@@ -495,7 +495,7 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
  ***********************************************************************/
 @method LadderProcessClass, MSG_GEN_PROCESS_CLOSE_APPLICATION
 {
-  GLExtraState *state;
+  GLExtraState *es;
   MemHandle mh;
   // Stop the current timer
   StopTimer();
@@ -503,7 +503,7 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
   StopAndFreeNoise();
   // Write the font size to the INI file
   InitFileWriteInteger(&ICA, &IKF, g.is.fontIndex);
-  // Write the state to the INI file
+  // Write the difficulty and sound state to the INI file
   InitFileWriteInteger(&ICA, &IKS, (g.is.diff << 8) | (g.is.sound & 0x0F));
   // Write the last score to the INI file
   InitFileWriteInteger(&ICA, &IKL, g.is.lastScore);
@@ -513,9 +513,9 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
   g.ss.executionFlags |= EXE_M_RST;
   // Allocate memory for our struct to save the extra state
   mh = MemAlloc(sizeof(GLExtraState), HF_DYNAMIC | HF_SHARABLE, 0);
-  state = (GLExtraState *) MemLock(mh);
+  es = (GLExtraState *) MemLock(mh);
   // Save the global state
-  state->saveState = g.ss;
+  es->saveState = g.ss;
   // Save the game objects and the level buffer if we are in a play
   if (g.ss.executionState == EXE_S_PLAY)
   {
@@ -528,7 +528,7 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
     ObjMarkDirty(@LadderGameTime);
     // Save the level buffer
     MemLock(OptrToHandle(@GameLevelBuffer));
-    memcpy(state->buffer, LMemDeref(@GameLevelBuffer), LVL_M_SIZE);
+    memcpy(es->buffer, LMemDeref(@GameLevelBuffer), LVL_M_SIZE);
     MemUnlock(OptrToHandle(@GameLevelBuffer));
   }
   // Unlock memory of extra state
