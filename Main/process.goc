@@ -1185,7 +1185,7 @@ static sword _pascal LoadFontConfig(word index)
     ret = LoadFontConfig(cur - 1);
 //  break;
   }
-  // Update only if we could change font
+  // Update only if the font has changed
   if ((ret != -1) && (ret != cur))
   {
     // XXX: Update GState with new font
