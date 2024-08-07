@@ -432,7 +432,7 @@ static sword _pascal VerifyAndLoadFontConfig(word index)
     UserStandardDialogOptr(
       NullOptr, NullOptr, NullOptr, NullOptr,
       @LadderWarnVideoTooSmall,
-      (GIT_NOTIFICATION << CDBF_INTERACTION_TYPE_OFFSET) | (CDT_NOTIFICATION << CDBF_DIALOG_TYPE_OFFSET)
+      (GIT_NOTIFICATION << CDBF_INTERACTION_TYPE_OFFSET) | (CDT_ERROR << CDBF_DIALOG_TYPE_OFFSET)
     );
     g.ns.error = L_TRUE;
   }

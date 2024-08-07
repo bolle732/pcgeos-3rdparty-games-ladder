@@ -359,7 +359,7 @@ static byte _pascal CanMove(word cpos, word npos)
     return L_FALSE;
   }
   // Get the target character
-  t = *(g.ns.levelBuf + npos);
+  t = *(g.ns.levelBuffer + npos);
   // Check for solids
   if ((t == LSD_C_BASE) || (t == LSD_C_BASE2) || (t == LSD_C_WALL))
   {
@@ -394,14 +394,14 @@ static byte _pascal CanStay(word pos)
 {
   char t;
   // Get the target character
-  t = *(g.ns.levelBuf + pos);
+  t = *(g.ns.levelBuffer + pos);
   // Check for on ladder
   if (t == LSD_C_LADDER)
   {
     return L_TRUE;
   }
   // Get the target character
-  t = *(g.ns.levelBuf + pos + LVL_COLS);
+  t = *(g.ns.levelBuffer + pos + LVL_COLS);
   // Check for solids
   if ((t == LSD_C_BASE) || (t == LSD_C_BASE2) || (t == LSD_C_WALL))
   {
@@ -444,12 +444,12 @@ static byte _pascal LadCanClimb(void)
 {
   char t;
   // Check for top row or not on ladder
-  if ((g.ss.lad.cpos < LVL_COLS) || (*(g.ns.levelBuf + g.ss.lad.cpos) != LSD_C_LADDER))
+  if ((g.ss.lad.cpos < LVL_COLS) || (*(g.ns.levelBuffer + g.ss.lad.cpos) != LSD_C_LADDER))
   {
     return L_FALSE;
   }
   // Get the target character
-  t = *(g.ns.levelBuf + g.ss.lad.cpos - LVL_COLS);
+  t = *(g.ns.levelBuffer + g.ss.lad.cpos - LVL_COLS);
   // Check for ladder or exit
   if ((t == LSD_C_LADDER) || (t == LSD_C_EXIT))
   {
@@ -482,7 +482,7 @@ static byte _pascal LadCanClimb(void)
 static byte _pascal LadCanStartJump(void)
 {
   // Check for rubber ball or not on ladder and Lad can stay
-  if ((*(g.ns.levelBuf + g.ss.lad.cpos) == LSD_C_BALL) || (CanStay(g.ss.lad.cpos) == L_TRUE))
+  if ((*(g.ns.levelBuffer + g.ss.lad.cpos) == LSD_C_BALL) || (CanStay(g.ss.lad.cpos) == L_TRUE))
   {
     return L_TRUE;
   }
@@ -532,7 +532,7 @@ static byte _pascal DerCanChangeOver(word cpos, sbyte dir)
     return L_FALSE;
   }
   // Check for ladder
-  if (*(g.ns.levelBuf + npos) == LSD_C_LADDER)
+  if (*(g.ns.levelBuffer + npos) == LSD_C_LADDER)
   {
     return L_TRUE;
   }
@@ -562,7 +562,7 @@ static byte _pascal DerCanChangeOver(word cpos, sbyte dir)
 static byte _pascal DerCanDescend(word cpos)
 {
   // Check for ladder
-  if (*(g.ns.levelBuf + cpos + LVL_COLS) == LSD_C_LADDER)
+  if (*(g.ns.levelBuffer + cpos + LVL_COLS) == LSD_C_LADDER)
   {
     return L_TRUE;
   }
@@ -1266,22 +1266,22 @@ static void _pascal MoveDers(void)
   // Lock the level buffer
   MemLock(OptrToHandle(@GameLevelBuffer));
   // Get the pointer of the level buffer
-  g.ns.levelBuf = LMemDeref(@GameLevelBuffer);
+  g.ns.levelBuffer = LMemDeref(@GameLevelBuffer);
   // ::: HANDLE LAD :::
   // Move the Lad
   MoveLad();
   // Handle disappearing floor
-  if (*(g.ns.levelBuf + g.ss.lad.lpos + LVL_COLS) == LSD_C_BASE2)
+  if (*(g.ns.levelBuffer + g.ss.lad.lpos + LVL_COLS) == LSD_C_BASE2)
   {
-    *(g.ns.levelBuf + g.ss.lad.lpos + LVL_COLS) = LSD_C_SPACE;
+    *(g.ns.levelBuffer + g.ss.lad.lpos + LVL_COLS) = LSD_C_SPACE;
     @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.ss.lad.lpos + LVL_COLS, LSD_C_SPACE);
   }
   // Handle gold statue, exit, trap and ball
-  switch (*(g.ns.levelBuf + g.ss.lad.cpos))
+  switch (*(g.ns.levelBuffer + g.ss.lad.cpos))
   {
   case LSD_C_GOLD:
     pnts += PNT_GOLD;
-    *(g.ns.levelBuf + g.ss.lad.cpos) = LSD_C_SPACE;
+    *(g.ns.levelBuffer + g.ss.lad.cpos) = LSD_C_SPACE;
     break;
   case LSD_C_EXIT:
     g.ss.restorePoint = MSG_LAD_PLAY_HOOKA;
@@ -1299,7 +1299,7 @@ static void _pascal MoveDers(void)
     }
   }
   // Add the Lad and its last background to the actors
-  f = *(g.ns.levelBuf + g.ss.lad.lpos);
+  f = *(g.ns.levelBuffer + g.ss.lad.lpos);
   @send LadderGameActors::MSG_ACT_ADD(g.ss.lad.lpos, f, g.ss.lad.cpos, g.ss.lad.face);
   // ::: HANDLE DERS :::
   // Move the Ders
@@ -1308,7 +1308,7 @@ static void _pascal MoveDers(void)
   for (i = 0; i < g.ss.level.ders; i++)
   {
     // Handle receiver
-    if (*(g.ns.levelBuf + g.ss.ders[i].cpos) == LSD_C_RECV)
+    if (*(g.ns.levelBuffer + g.ss.ders[i].cpos) == LSD_C_RECV)
     {
       g.ss.ders[i].state = DER_S_RECYCLE;
     }
@@ -1336,7 +1336,7 @@ static void _pascal MoveDers(void)
       msg = MSG_LAD_PLAY_FAIL;
     }
     // Add the Der and its last background to the actors
-    f = *(g.ns.levelBuf + g.ss.ders[i].lpos);
+    f = *(g.ns.levelBuffer + g.ss.ders[i].lpos);
     switch (g.ss.ders[i].state)
     {
     case DER_S_LEAVE:
