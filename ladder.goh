@@ -300,13 +300,10 @@ typedef struct                 // Font data
 
 typedef struct                 // Game data
 {
-  word diff;                   //   2B+0 - Difficulty
-  word sound;                  //   2B+0 - Sound state
   word lads;                   //   2B+0 - Remaining lads
   word round;                  //   2B+0 - Round
   word level;                  //   2B+0 - Level
   word score;                  //   2B+0 - Score
-  word lastScore;              //   2B+0 - Last score
   word time;                   //   2B+0 - Remaining bonus time
   word ticks;                  //   2B+0 - Executed ticks
   word delay;                  //   2B+0 - Ticks per frame
@@ -397,10 +394,18 @@ typedef struct                 // No save state structure
   ChunkHandle moves;           //   2B+0 - Demo moves chunk handle
 } GLNoState;                   //  36B+0 = 36 bytes used
 
-// All global data which must be saved into the state
-typedef struct                 // Save state structure
+// All global data which is saved to the INI file
+typedef struct                 // Game data
 {
   word fontIndex;              //   2B+0 - Current font
+  word diff;                   //   2B+0 - Difficulty
+  word sound;                  //   2B+0 - Sound state
+  word lastScore;              //   2B+0 - Last score
+} GLIniState;                  //   8B+0 = 8 bytes used
+
+// All global data which must be saved into the extra state
+typedef struct                 // Save state structure
+{
   byte executionFlags;         //   1B+0 - Execution flags (window minimized, focus lost, restored from state)
   byte executionState;         //   1B+0 - Execution state
   byte inputState;             //   1B+1 - Input state (keyboard)
@@ -410,13 +415,14 @@ typedef struct                 // Save state structure
   GLDer ders[DERS_MAX];        //  48B+0 - Der data
   GLLad lad;                   //  12B+0 - Lad data
   word hookaState;             //   2B+0 - Hooka state
-} GLSaveState;                 // 107B+1 = 108 bytes used
+} GLSaveState;                 // 105B+1 = 106 bytes used
 
 // The global data used everywhere
 typedef struct                 // Global structure
 {
-  GLNoState ns;                //  36B+0 - No save state data
-  GLSaveState ss;              // 108B+0 - Save state global data
+  GLNoState ns;                //  36B+0 - Unsaved global data
+  GLSaveState ss;              // 106B+0 - Save state global data
+  GLIniState is;               //   8B+0 - INI state global data
 } GLGlobals;                   // 144B+0 = 144 bytes used
 
 // This is used for saving to and restoring from state

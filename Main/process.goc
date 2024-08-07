@@ -205,11 +205,11 @@ static word _pascal TicksByDifficulty(word diff)
 }
 
 /***********************************************************************
- *                  VerifyAndSetFont
+ *                  VerifyAndLoadFontConfig
  ***********************************************************************
  * SYNOPSIS:        Verify that the requested font size can be used
  *                  with the current video resolution and set the most
- *                  accomodating font size.
+ *                  accommodating font size.
  * CALLED BY:       Internal
  * PARAMETERS:      sword ( word index )
  * RETURN:          A signed word containing font index we could set or
@@ -226,7 +226,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2024-08-06    Initial Revision
  *
  ***********************************************************************/
-static sword _pascal VerifyAndSetFont(word index)
+static sword _pascal VerifyAndLoadFontConfig(word index)
 {
   int i;
   sbyte retVal;
@@ -238,12 +238,13 @@ static sword _pascal VerifyAndSetFont(word index)
   }
   else
   {
+    // XXX: Make better code!
     for (i = index; i >= 0; i--)
     {
       ChunkArrayGetElement(@FontConfigs, i, &font);
       if ((font.width * SCN_COLS < g.ns.screen.R_right) && (font.height * SCN_ROWS < g.ns.screen.R_bottom))
       {
-        g.ss.fontIndex = i;
+        g.is.fontIndex = i;
         ChunkArrayGetElement(@FontConfigs, i, &g.ns.font);
         break;
       }
@@ -356,7 +357,7 @@ static sword _pascal VerifyAndSetFont(word index)
   LMemReAlloc(@GameLevelBuffer, LVL_M_SIZE);
   MemUnlock(OptrToHandle(@GameLevelBuffer));
 
-  // Handle restore from state
+  // Handle restore from state file
   if ((attachFlags & AAF_RESTORING_FROM_STATE) && extraState)
   {
     GLExtraState *state;
@@ -382,35 +383,32 @@ static sword _pascal VerifyAndSetFont(word index)
     // Unlock the extra state
     MemUnlock(extraState);
   }
-  // Handle normal startup
+
+  // Get the font size from the INI file
+  if (InitFileReadInteger(&ICA, &IKF, &g.is.fontIndex))
+  {
+    // No entry found, set defaults
+    g.is.fontIndex = 1;
+  }
+  // Get the difficulty and sound state from the INI file
+  if (InitFileReadInteger(&ICA, &IKS, &state))
+  {
+    // No entry found, set defaults
+    g.is.diff = 1;
+    g.is.sound = CFG_SND_OFF;
+  }
   else
   {
-    // Get the font size from the INI file
-    if (InitFileReadInteger(&ICA, &IKF, &g.ss.fontIndex))
-    {
-      // No entry found, set defaults
-      g.ss.fontIndex = 1;
-    }
-    // Get the state from the INI file
-    if (InitFileReadInteger(&ICA, &IKS, &state))
-    {
-      // No entry found, set defaults
-      g.ss.game.diff = 1;
-      g.ss.game.sound = CFG_SND_OFF;
-    }
-    else
-    {
-      // Get the difficulty from the high byte
-      g.ss.game.diff = state >> 8;
-      // Get the sound from the low byte
-      g.ss.game.sound = state & 0x0F;
-    }
-    // Get the last score from the INI file
-    if (InitFileReadInteger(&ICA, &IKL, &g.ss.game.lastScore))
-    {
-      // No entry found, set defaults
-      g.ss.game.lastScore = 0;
-    }
+    // Get the difficulty from the high byte
+    g.is.diff = state >> 8;
+    // Get the sound from the low byte
+    g.is.sound = state & 0x0F;
+  }
+  // Get the last score from the INI file
+  if (InitFileReadInteger(&ICA, &IKL, &g.is.lastScore))
+  {
+    // No entry found, set defaults
+    g.is.lastScore = 0;
   }
 
   // Get the video resolution
@@ -419,14 +417,14 @@ static sword _pascal VerifyAndSetFont(word index)
   WinGetWinScreenBounds(grp.GRP_bp, &g.ns.screen);
 
   // Set defaults to no state globals
-  // XXX: Check and set colors according the available one (monochrome)
+  // XXX: Check and set colors according the available ones (monochrome)
   g.ns.gstateHandle = NullHandle;
   g.ns.textColor = C_LIGHT_GREEN;
   g.ns.areaColor = C_BLACK;
 
   // Warn user if current video resolution is too small
   // No MemLock / MemUnlock needed as the function does it for us
-  if (VerifyAndSetFont(g.ss.fontIndex) == -1)
+  if (VerifyAndLoadFontConfig(g.is.fontIndex) == -1)
   {
     UserStandardDialogOptr(
       NullOptr, NullOptr, NullOptr, NullOptr,
@@ -446,14 +444,14 @@ static sword _pascal VerifyAndSetFont(word index)
   );
 
   // Set the difficulty
-  @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.ss.game.diff);
+  @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.is.diff);
   // Set the sound
-  if (g.ss.game.sound == CFG_SND_ON)
+  if (g.is.sound == CFG_SND_ON)
   {
     @send LadderMenuSound::MSG_TXT_SET_TEXT(@MenuSoundOn);
   }
   // Set the last score
-  @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.ss.game.lastScore);
+  @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.is.lastScore);
   // Load the scores from the file
   @send LadderMenuRank::MSG_RNK_LOAD();
 
@@ -502,11 +500,11 @@ static sword _pascal VerifyAndSetFont(word index)
   // Stop the noise
   StopAndFreeNoise();
   // Write the font size to the INI file
-  InitFileWriteInteger(&ICA, &IKF, g.ss.fontIndex);
+  InitFileWriteInteger(&ICA, &IKF, g.is.fontIndex);
   // Write the state to the INI file
-  InitFileWriteInteger(&ICA, &IKS, (g.ss.game.diff << 8) | (g.ss.game.sound & 0x0F));
+  InitFileWriteInteger(&ICA, &IKS, (g.is.diff << 8) | (g.is.sound & 0x0F));
   // Write the last score to the INI file
-  InitFileWriteInteger(&ICA, &IKL, g.ss.game.lastScore);
+  InitFileWriteInteger(&ICA, &IKL, g.is.lastScore);
   // Do super
   @callsuper();
   // Set saved to state
@@ -622,28 +620,28 @@ static sword _pascal VerifyAndSetFont(word index)
   {
   case MSG_LAD_MENU_DIFF:
     // Increase the difficulty
-    g.ss.game.diff++;
+    g.is.diff++;
     // On overflow set it to the minimum
-    if (g.ss.game.diff > CFG_DIFF_MAX)
+    if (g.is.diff > CFG_DIFF_MAX)
     {
-      g.ss.game.diff = CFG_DIFF_MIN;
+      g.is.diff = CFG_DIFF_MIN;
     }
     // Update the value on screen
-    @send LadderMenuDiff::MSG_VAL_UPDATE_VALUE(g.ss.game.diff);
+    @send LadderMenuDiff::MSG_VAL_UPDATE_VALUE(g.is.diff);
     break;
   case MSG_LAD_MENU_SOUND:
     // Switch the sound state
-    if (g.ss.game.sound == CFG_SND_OFF)
+    if (g.is.sound == CFG_SND_OFF)
     {
       // Set the sound state
-      g.ss.game.sound = CFG_SND_ON;
+      g.is.sound = CFG_SND_ON;
       // Update the text on screen
       @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@MenuSoundOn);
     }
     else  // CFG_SND_ON
     {
       // Set the sound state
-      g.ss.game.sound = CFG_SND_OFF;
+      g.is.sound = CFG_SND_OFF;
       // Update the text on screen
       @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@MenuSoundOff);
     }
@@ -851,7 +849,7 @@ static sword _pascal VerifyAndSetFont(word index)
   // Initialize the game
   g.ss.game.lads = LAD_D_LIVES;
   g.ss.game.score = 0;
-  g.ss.game.delay = TicksByDifficulty(g.ss.game.diff);
+  g.ss.game.delay = TicksByDifficulty(g.is.diff);
   // Handle message type
   switch (message)
   {
@@ -924,8 +922,8 @@ static sword _pascal VerifyAndSetFont(word index)
   if (message == MSG_LAD_PLAY_STOP)
   {
     // Update last score
-    g.ss.game.lastScore = g.ss.game.score;
-    @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.ss.game.lastScore);
+    g.is.lastScore = g.ss.game.score;
+    @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.is.lastScore);
     // Reset the image of the mouse cursor / pointer
     @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(NullOptr, PIL_WINDOW);
   }
@@ -1156,16 +1154,16 @@ static sword _pascal VerifyAndSetFont(word index)
  ***********************************************************************/
 @method LadderProcessClass, MSG_LAD_FONT_CHANGE_SIZE
 {
-  word cur = g.ss.fontIndex;
+  word cur = g.is.fontIndex;
   sword ret;
   // 
   switch (command)
   {
   case FNT_S_INC:
-    ret = VerifyAndSetFont(cur + 1);
+    ret = VerifyAndLoadFontConfig(cur + 1);
     break;
   case FNT_S_DEC:
-    ret = VerifyAndSetFont(cur - 1);
+    ret = VerifyAndLoadFontConfig(cur - 1);
 //  break;
   }
   // Update only if we could change font
