@@ -64,7 +64,7 @@ XCCOMFLAGS += -ox
 # ::: LINKFLAGS ::: (will be passed to the GLUE linker)
 
 # Set the copyrigth notice
-LINKFLAGS += -N ©2010\20by\20YoYu-Productions
+LINKFLAGS += -N "Â©2010 by YoYu-Productions"
 
 #include <$(SYSMAKEFILE)>
 

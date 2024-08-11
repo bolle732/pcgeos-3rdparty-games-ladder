@@ -516,7 +516,7 @@ static sword _pascal LoadFontConfig(word index)
   // Stop the noise
   StopAndFreeNoise();
   // Leave fullscreen
-  @send process::MSG_LAD_LEAVE_FULLSCREEN();
+  @call process::MSG_LAD_LEAVE_FULLSCREEN();
   // Simply return in case of an error without saving any states
   if (g.ns.error == L_TRUE)
   {
