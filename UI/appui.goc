@@ -89,7 +89,7 @@
 @chunkArray GLFont FontConfigs =
 {
   {
-    FID_BISON, MakeWWFixed(9.0), 6, 12
+    FID_BISON, MakeWWFixed(9.0), 7, 12
   },
   {
     FID_BISON, MakeWWFixed(12.0), 8, 16
