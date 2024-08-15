@@ -35,9 +35,9 @@ NO_EC = 1
 # -3     386 (possibly problematic with SWAT)
 # -4     ??? (used by Rainer in R-Basic)
 # -1- -2- -3-    8086
-XCCOMFLAGS += -2
+#XCCOMFLAGS += -2
 
-# Speed and size (no garanties !!!)
+# Speed and size (no guarantees !!!)
 # -b-    Make enums size of byte instead of int
 # -O     Optimize for jumps
 # -Ob    Remove dead code (needed for -Oe)
