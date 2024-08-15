@@ -286,8 +286,6 @@ static sword _pascal LoadFontConfig(word index)
 @extern method LadderProcessClass, MSG_LAD_EXEC_SET_FLAGS;
 @extern method LadderProcessClass, MSG_LAD_FONT_CHANGE_SIZE;
 @extern method LadderProcessClass, MSG_LAD_RESIZE_WINDOW;
-@extern method LadderProcessClass, MSG_LAD_ENTER_FULLSCREEN;
-@extern method LadderProcessClass, MSG_LAD_LEAVE_FULLSCREEN;
 
 
 /***********************************************************************
@@ -509,6 +507,7 @@ static sword _pascal LoadFontConfig(word index)
  ***********************************************************************/
 @method LadderProcessClass, MSG_GEN_PROCESS_CLOSE_APPLICATION
 {
+  Boolean fs;
   GLExtraState *es;
   MemHandle mh;
   // Stop the current timer
@@ -516,7 +515,11 @@ static sword _pascal LoadFontConfig(word index)
   // Stop the noise
   StopAndFreeNoise();
   // Leave fullscreen
-  @call process::MSG_LAD_LEAVE_FULLSCREEN();
+  fs = @call LadderPrimary::MSG_GEN_DISPLAY_GET_MAXIMIZED();
+  if (fs == TRUE)
+  {
+    @call LadderPrimary::MSG_GEN_DISPLAY_SET_NOT_MAXIMIZED();
+  }
   // Simply return in case of an error without saving any states
   if (g.ns.error == L_TRUE)
   {
@@ -1222,64 +1225,22 @@ static sword _pascal LoadFontConfig(word index)
  ***********************************************************************/
 @method LadderProcessClass, MSG_LAD_RESIZE_WINDOW
 {
+  Boolean fs;
   // Set fixed size hint
   @send LadderView::MSG_GEN_SET_FIXED_SIZE(
     VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.ns.font.height + 2, SCN_COLS * g.ns.font.width
   );
+  // Don't resize primary if in full screen mode
+  fs = @call LadderPrimary::MSG_GEN_DISPLAY_GET_MAXIMIZED();
+  if (fs == TRUE)
+  {
+    return;
+  }
   // Resize primary window
   @send LadderPrimary::MSG_GEN_SET_WIN_SIZE(
     GET_MM_AND_TYPE(VUM_DELAYED_VIA_APP_QUEUE, WST_AS_DESIRED), 0, 0
   );
 }
-
-
-
-
-@method LadderProcessClass, MSG_LAD_ENTER_FULLSCREEN
-{
-  GenReturnParams grp;
-  Rectangle r;
-  ColorQuad c = { C_BLUE, 0, 0, 0 };
-
-  if (g.ns.windowHandle != NullHandle)
-  {
-    return;
-  }
-
-  @call application::MSG_GEN_GUP_QUERY(&grp, GUQT_FIELD);
-  WinGetWinScreenBounds(grp.GRP_bp, &r);
-
-  g.ns.windowHandle = WinOpen(
-    grp.GRP_bp,               // parentWinOrVidDr
-    @LadderPrimary,           // inputRecipient
-    @LadderView,              // exposureRecipient
-    c.CQ_info,                // colorFlags
-    c.CQ_redOrIndex,          // redOrIndex
-    c.CQ_green,               // green
-    c.CQ_blue,                // blue
-    (LAYER_PRIO_ON_TOP << WPF_LAYER_PRIORITY_OFFSET)
-      | WIN_PRIO_ON_TOP,      // flags
-    0,                        // layerID
-    GeodeGetProcessHandle(),  // owner
-    0,                        // *winReg
-    r.R_left,                 // axParam
-    r.R_top,                  // bxParam
-    r.R_right,                // cxParam
-    r.R_bottom                // dxParam
-  );
-}
-
-
-@method LadderProcessClass, MSG_LAD_LEAVE_FULLSCREEN
-{
-  if (g.ns.windowHandle)
-  {
-    WinClose(g.ns.windowHandle);
-    g.ns.windowHandle = NullHandle;
-  }
-}
-
-
 
 
 /*
@@ -1347,6 +1308,7 @@ static sword _pascal LoadFontConfig(word index)
     // Handle change font size
     if ((flags >> 8) & (SS_LCTRL | SS_RCTRL))
     {
+      Boolean fs;
       switch (tolower(character))
       {
       case C_ONE:
@@ -1355,11 +1317,16 @@ static sword _pascal LoadFontConfig(word index)
       case C_TWO:
         @send process::MSG_LAD_FONT_CHANGE_SIZE(FNT_S_INC);
         return;
-      case C_NINE:
-        @send process::MSG_LAD_ENTER_FULLSCREEN();
-        return;
       case C_ZERO:
-        @send process::MSG_LAD_LEAVE_FULLSCREEN();
+        fs = @call LadderPrimary::MSG_GEN_DISPLAY_GET_MAXIMIZED();
+        if (fs == FALSE)
+        {
+          @send LadderPrimary::MSG_GEN_DISPLAY_SET_MAXIMIZED();
+        }
+        else
+        {
+          @send LadderPrimary::MSG_GEN_DISPLAY_SET_NOT_MAXIMIZED();
+        }
         return;
       }
     }

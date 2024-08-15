@@ -334,6 +334,36 @@ static void _pascal DrawValue(word pos, word val, word suf)
 }
 
 
+@method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_MAXIMIZED
+{
+  @call oself::MSG_GEN_SET_NOT_USABLE(VUM_NOW);
+  @call oself::MSG_GEN_ADD_GEOMETRY_HINT(HINT_WINDOW_NO_TITLE_BAR, 0, VUM_DELAYED_VIA_APP_QUEUE);
+  @call oself::MSG_META_ADD_VAR_DATA(HINT_PRIMARY_NO_EXPRESS_MENU, 0, NULL);
+  @call oself::MSG_META_ADD_VAR_DATA(HINT_PRIMARY_NO_HELP_BUTTON, 0, NULL);
+  @call oself::MSG_GEN_SET_USABLE(VUM_DELAYED_VIA_APP_QUEUE);
+  // Bring us to the front
+  // Grab target exclusive to bring the system menu behind us
+  @send oself::MSG_META_GRAB_TARGET_EXCL();
+  // Grab focus exclusive to keep receiving keyboard input
+  @send oself::MSG_META_GRAB_FOCUS_EXCL();
+  @callsuper();
+}
+
+@method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_NOT_MAXIMIZED
+{
+  @call oself::MSG_GEN_SET_NOT_USABLE(VUM_NOW);
+  @call oself::MSG_META_DELETE_VAR_DATA(HINT_PRIMARY_NO_EXPRESS_MENU);
+  @call oself::MSG_META_DELETE_VAR_DATA(HINT_PRIMARY_NO_HELP_BUTTON);
+  @call oself::MSG_GEN_REMOVE_GEOMETRY_HINT(HINT_WINDOW_NO_TITLE_BAR, VUM_DELAYED_VIA_APP_QUEUE);
+  @call oself::MSG_GEN_SET_USABLE(VUM_DELAYED_VIA_APP_QUEUE);
+  // Grab target exclusive to bring the system menu into title bar
+  @send oself::MSG_META_GRAB_TARGET_EXCL();
+  // Grab focus exclusive to keep receiving keyboard input
+  @send oself::MSG_META_GRAB_FOCUS_EXCL();
+  @callsuper();
+}
+
+
 /*
  ***************************************************************************
  *                  CODE for LadderScreenClass

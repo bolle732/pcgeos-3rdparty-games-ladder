@@ -479,8 +479,6 @@ typedef struct                 // Extra state structure
   @message void MSG_LAD_EXEC_SET_FLAGS(byte state);
   @message void MSG_LAD_FONT_CHANGE_SIZE(byte command);
   @message (MSG_LAD_PROTO) MSG_LAD_RESIZE_WINDOW;
-  @message (MSG_LAD_PROTO) MSG_LAD_ENTER_FULLSCREEN;
-  @message (MSG_LAD_PROTO) MSG_LAD_LEAVE_FULLSCREEN;
 @endc
 
 
