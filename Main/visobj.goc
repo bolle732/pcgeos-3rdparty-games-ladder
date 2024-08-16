@@ -45,6 +45,7 @@
  */
 
 @include <stdapp.goh>
+@include <Objects/gSysC.goh>
 @include <Objects/visC.goh>
 
 @include <ladder.goh>
@@ -336,6 +337,13 @@ static void _pascal DrawValue(word pos, word val, word suf)
 
 @method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_MAXIMIZED
 {
+  EventHandle evt;
+  // Hide mouse pointer by setting an empty pointer image
+  MemLock(OptrToHandle(@LadderGamePointer));
+  evt = @record GenClass::MSG_GEN_SYSTEM_SET_PTR_IMAGE(@LadderGamePointer, PIL_SYSTEM);
+  @call oself::MSG_GEN_CALL_SYSTEM(evt);
+  MemUnlock(OptrToHandle(@LadderGamePointer));
+  // Hide window frame and buttons
   @call oself::MSG_GEN_SET_NOT_USABLE(VUM_NOW);
   @call oself::MSG_GEN_ADD_GEOMETRY_HINT(HINT_WINDOW_NO_TITLE_BAR, 0, VUM_DELAYED_VIA_APP_QUEUE);
   @call oself::MSG_META_ADD_VAR_DATA(HINT_PRIMARY_NO_EXPRESS_MENU, 0, NULL);
@@ -351,6 +359,11 @@ static void _pascal DrawValue(word pos, word val, word suf)
 
 @method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_NOT_MAXIMIZED
 {
+  EventHandle evt;
+  // Restore mouse pointer
+  evt = @record GenClass::MSG_GEN_SYSTEM_SET_PTR_IMAGE(0, PIL_SYSTEM);
+  @call oself::MSG_GEN_CALL_SYSTEM(evt);
+  // Restore window frame and buttons
   @call oself::MSG_GEN_SET_NOT_USABLE(VUM_NOW);
   @call oself::MSG_META_DELETE_VAR_DATA(HINT_PRIMARY_NO_EXPRESS_MENU);
   @call oself::MSG_META_DELETE_VAR_DATA(HINT_PRIMARY_NO_HELP_BUTTON);
