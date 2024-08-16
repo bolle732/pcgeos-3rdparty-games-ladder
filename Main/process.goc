@@ -507,19 +507,14 @@ static sword _pascal LoadFontConfig(word index)
  ***********************************************************************/
 @method LadderProcessClass, MSG_GEN_PROCESS_CLOSE_APPLICATION
 {
-  Boolean fs;
   GLExtraState *es;
   MemHandle mh;
   // Stop the current timer
   StopTimer();
   // Stop the noise
   StopAndFreeNoise();
-  // Leave fullscreen
-  fs = @call LadderPrimary::MSG_GEN_DISPLAY_GET_MAXIMIZED();
-  if (fs == TRUE)
-  {
-    @call LadderPrimary::MSG_GEN_DISPLAY_SET_NOT_MAXIMIZED();
-  }
+  // Unconditionally set not maximized as it's too late to check
+  @call LadderPrimary::MSG_GEN_DISPLAY_SET_NOT_MAXIMIZED();
   // Simply return in case of an error without saving any states
   if (g.ns.error == L_TRUE)
   {
