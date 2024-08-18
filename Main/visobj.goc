@@ -122,13 +122,14 @@ static void _pascal DrawValue(word pos, word val, word suf);
  ***********************************************************************/
 static void _pascal DestroyGState(void)
 {
-  // Check if the global GState is valid
-  if (g.ns.gstateHandle != NullHandle)
+  // Verify we have a valid GStateHandle
+  if (g.ns.gstateHandle == NullHandle)
   {
-    // Destroy the global GState and set it invalid
-    GrDestroyState(g.ns.gstateHandle);
-    g.ns.gstateHandle = NullHandle;
+    return;
   }
+  // Destroy the global GState and set it invalid
+  GrDestroyState(g.ns.gstateHandle);
+  g.ns.gstateHandle = NullHandle;
 }
 
 /***********************************************************************
@@ -154,17 +155,18 @@ static void _pascal DestroyGState(void)
 static void _pascal ClearText(word pos, word len)
 {
   sword x, y;
-  // Only draw the changes if we have a valid GState
-  if (g.ns.gstateHandle != NullHandle)
+  // Verify we have a valid GStateHandle
+  if (g.ns.gstateHandle == NullHandle)
   {
-    // C trancates a divison of integers
-    // -> ((pos - col) / LVL_COLS) == (pos / LVL_COLS)
-    x = (pos % SCN_COLS) * g.ns.font.width;
-    y = (pos / SCN_COLS) * g.ns.font.height;
-    GrFillRect(g.ns.gstateHandle,
-      x, y,
-      x + len * g.ns.font.width, y + g.ns.font.height + 1);
+    return;
   }
+  // C trancates a divison of integers
+  // -> ((pos - col) / LVL_COLS) == (pos / LVL_COLS)
+  x = (pos % SCN_COLS) * g.ns.font.width;
+  y = (pos / SCN_COLS) * g.ns.font.height;
+  GrFillRect(g.ns.gstateHandle,
+    x, y,
+    x + len * g.ns.font.width, y + g.ns.font.height + 1);
 }
 
 /***********************************************************************
@@ -191,15 +193,16 @@ static void _pascal ClearText(word pos, word len)
  ***********************************************************************/
 static void _pascal DrawChar(word pos, char character)
 {
-  // Only draw the changes if we have a valid GState
-  if ((g.ns.gstateHandle != NullHandle) && (character != C_SPACE))
+  // Verify we have a valid GStateHandle and the character is not a space
+  if ((g.ns.gstateHandle == NullHandle) || (character == C_SPACE))
   {
-    // C truncates a divison of integers
-    // -> ((pos - col) / LVL_COLS) == (pos / LVL_COLS)
-    GrDrawChar(g.ns.gstateHandle,
-      (pos % SCN_COLS) * g.ns.font.width,
-      (pos / SCN_COLS) * g.ns.font.height, character);
+    return;
   }
+  // C truncates a divison of integers
+  // -> ((pos - col) / LVL_COLS) == (pos / LVL_COLS)
+  GrDrawChar(g.ns.gstateHandle,
+    (pos % SCN_COLS) * g.ns.font.width,
+    (pos / SCN_COLS) * g.ns.font.height, character);
 }
 
 /***********************************************************************
@@ -372,8 +375,24 @@ static void _pascal DrawValue(word pos, word val, word suf)
   // Grab target exclusive to bring the system menu into title bar
   @send oself::MSG_META_GRAB_TARGET_EXCL();
   // Grab focus exclusive to keep receiving keyboard input
-  @send oself::MSG_META_GRAB_FOCUS_EXCL();
+  @send oself::MSG_META_GRAB_FOCUS_EXCL(); 
   @callsuper();
+}
+
+
+@method LadderPrimaryClass, MSG_VIS_DRAW
+{
+  Boolean fs;
+  fs = @call oself::MSG_GEN_DISPLAY_GET_MAXIMIZED();
+  if (fs == FALSE)
+  {
+    @callsuper();
+  }
+  else
+  {
+    GrSetAreaColor(gstate, CF_INDEX, g.ns.areaColor, 0, 0);
+    GrFillRect(gstate, g.ns.screen.R_left, g.ns.screen.R_top, g.ns.screen.R_right + 2, g.ns.screen.R_bottom + 2);
+  }
 }
 
 
@@ -509,6 +528,11 @@ static void _pascal DrawValue(word pos, word val, word suf)
   char c;
   word n, pos;
   optr o;
+  // Verify we have a valid GStateHandle
+  if (g.ns.gstateHandle == NullHandle)
+  {
+    return;
+  }
   // XXX: Handle font size changes
   GrSetFont(g.ns.gstateHandle, g.ns.font.type, g.ns.font.size);
   // Get the screen data
