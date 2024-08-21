@@ -393,10 +393,13 @@ static void _pascal DrawValue(word pos, word val, word suf)
   @send oself::MSG_META_GRAB_FOCUS_EXCL();
   // Do super
   @callsuper();
-  // Hide mouse pointer of view again if we're in a play
-  MemLock(OptrToHandle(@LadderGamePointer));
-  @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
-  MemUnlock(OptrToHandle(@LadderGamePointer));
+  // Hide again mouse pointer of view if we're in a play
+  if (g.ss.executionState == EXE_S_PLAY && g.ss.inputState != INP_S_HOLD)
+  {
+    MemLock(OptrToHandle(@LadderGamePointer));
+    @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
+    MemUnlock(OptrToHandle(@LadderGamePointer));
+  }
 }
 
 
