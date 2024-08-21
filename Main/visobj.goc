@@ -303,8 +303,13 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************/
 @method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_MINIMIZED
 {
-  // Inform process about window minimized
-  @send process::MSG_LAD_EXEC_CHANGE_STATE(WIN_S_MINI);
+  // Update the global state
+  g.ss.windowState = WIN_S_MINI;
+  // Handle menu
+  if (g.ss.executionState == EXE_S_MENU)
+  {
+    @send process::MSG_LAD_MENU_STOP();
+  }
   // Do super
   @callsuper();
 }
@@ -331,8 +336,13 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************/
 @method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_NOT_MINIMIZED
 {
-  // Inform process about window not minimized
-  @send process::MSG_LAD_EXEC_CHANGE_STATE(WIN_S_NORM);
+  // Update the global state
+  g.ss.windowState = WIN_S_NORM;
+  // Handle menu
+  if (g.ss.executionState == EXE_S_MENU)
+  {
+    @send process::MSG_LAD_MENU_AUTO();
+  }
   // Do super
   @callsuper();
 }
@@ -341,6 +351,8 @@ static void _pascal DrawValue(word pos, word val, word suf)
 @method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_MAXIMIZED
 {
   EventHandle evt;
+  // Update the global state
+  g.ss.windowState = WIN_S_MAXI;
   // Hide mouse pointer by setting an empty pointer image
   MemLock(OptrToHandle(@LadderGamePointer));
   evt = @record GenClass::MSG_GEN_SYSTEM_SET_PTR_IMAGE(@LadderGamePointer, PIL_SYSTEM);
@@ -357,12 +369,15 @@ static void _pascal DrawValue(word pos, word val, word suf)
   @send oself::MSG_META_GRAB_TARGET_EXCL();
   // Grab focus exclusive to keep receiving keyboard input
   @send oself::MSG_META_GRAB_FOCUS_EXCL();
+  // Do super
   @callsuper();
 }
 
 @method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_NOT_MAXIMIZED
 {
   EventHandle evt;
+  // Update the global state
+  g.ss.windowState = WIN_S_NORM;
   // Restore mouse pointer
   evt = @record GenClass::MSG_GEN_SYSTEM_SET_PTR_IMAGE(0, PIL_SYSTEM);
   @call oself::MSG_GEN_CALL_SYSTEM(evt);
@@ -375,8 +390,13 @@ static void _pascal DrawValue(word pos, word val, word suf)
   // Grab target exclusive to bring the system menu into title bar
   @send oself::MSG_META_GRAB_TARGET_EXCL();
   // Grab focus exclusive to keep receiving keyboard input
-  @send oself::MSG_META_GRAB_FOCUS_EXCL(); 
+  @send oself::MSG_META_GRAB_FOCUS_EXCL();
+  // Do super
   @callsuper();
+  // Hide mouse pointer of view again if we're in a play
+  MemLock(OptrToHandle(@LadderGamePointer));
+  @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
+  MemUnlock(OptrToHandle(@LadderGamePointer));
 }
 
 

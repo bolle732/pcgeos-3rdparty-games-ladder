@@ -283,7 +283,6 @@ static sword _pascal LoadFontConfig(word index)
 @extern method LadderProcessClass, MSG_LAD_PLAY_CLEAR;
 @extern method LadderProcessClass, MSG_LAD_PLAY_HOOKA;
 @extern method LadderProcessClass, MSG_LAD_PLAY_NEXT;
-@extern method LadderProcessClass, MSG_LAD_EXEC_CHANGE_STATE;
 @extern method LadderProcessClass, MSG_LAD_FONT_CHANGE_SIZE;
 @extern method LadderProcessClass, MSG_LAD_RESIZE_WINDOW;
 
@@ -1094,63 +1093,6 @@ static sword _pascal LoadFontConfig(word index)
 }
 
 /***********************************************************************
- *                  MSG_LAD_EXEC_CHANGE_STATE
- *                  for LadderProcessClass
- ***********************************************************************
- * SYNOPSIS:        Handle window changes minimized and focus.
-
- * CALLED BY:       Internal by intercepted messages:
- *                  MSG_GEN_DISPLAY_SET_MINIMIZED
- *                  MSG_GEN_DISPLAY_SET_NOT_MINIMIZED
- *                  MSG_META_LOST_FOCUS_EXCL
- *                  MSG_META_GAINED_FOCUS_EXCL
- * PARAMETERS:      void ( byte state )
- * RETURN:          nothing
- * SIDE EFFECTS:    none
- *
- * STRATEGY:        1/ Update the global variable.
- *                  2/ Start or stop the menu if applicable.
- *
- * REVISION HISTORY:
- *      Name    Date          Description
- *      ----    ----          -----------
- *      boa     2024-07-15    Initial Revision
- *
- ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_EXEC_CHANGE_STATE
-{
-  // Update the global window state
-  switch (state)
-  {
-  case WIN_S_NORM:
-    g.ss.windowState = WIN_S_NORM;
-    break;
-  case WIN_S_MINI:
-    g.ss.windowState = WIN_S_MINI;
-    break;
-  case FOC_S_GAIN:
-    g.ss.focusState = FOC_S_GAIN;
-    break;
-  case FOC_S_LOST:
-    g.ss.focusState = FOC_S_LOST;
-//  break;
-  }
-  // Handle menu here
-  if (g.ss.executionState == EXE_S_MENU)
-  {
-    switch (state)
-    {
-    case WIN_S_NORM:
-      @send oself::MSG_LAD_MENU_AUTO();
-      break;
-    case WIN_S_MINI:
-      @send oself::MSG_LAD_MENU_STOP();
-//    break;
-    }
-  }
-}
-
-/***********************************************************************
  *                  MSG_LAD_FONT_CHANGE_SIZE
  *                  for LadderProcessClass
  ***********************************************************************
@@ -1473,8 +1415,8 @@ static sword _pascal LoadFontConfig(word index)
  ***********************************************************************/
 @method LadderApplicationClass, MSG_META_LOST_FOCUS_EXCL
 {
-  // Inform process about window lost focus
-  @send process::MSG_LAD_EXEC_CHANGE_STATE(FOC_S_LOST);
+  // Update the global state
+  g.ss.focusState = FOC_S_LOST;
   // Do super
   @callsuper();
 }
@@ -1501,8 +1443,8 @@ static sword _pascal LoadFontConfig(word index)
  ***********************************************************************/
 @method LadderApplicationClass, MSG_META_GAINED_FOCUS_EXCL
 {
-  // Inform process about window gained focus
-  @send process::MSG_LAD_EXEC_CHANGE_STATE(FOC_S_GAIN);
+  // Update the global state
+  g.ss.focusState = FOC_S_GAIN;
   // Do super
   @callsuper();
 }

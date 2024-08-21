@@ -76,8 +76,8 @@
 
 // Focus states
 // Used for keeping track of user interface
-#define FOC_S_GAIN          4  // Focus state gained
-#define FOC_S_LOST          5  // Focus state lost
+#define FOC_S_GAIN          0  // Focus state gained
+#define FOC_S_LOST          1  // Focus state lost
 
 // Input states
 // Used for keyboard input handling
@@ -469,7 +469,6 @@ typedef struct                 // Extra state structure
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_OVER;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HIGH;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_SAVE;
-  @message void MSG_LAD_EXEC_CHANGE_STATE(byte state);
   @message void MSG_LAD_FONT_CHANGE_SIZE(byte command);
   @message (MSG_LAD_PROTO) MSG_LAD_RESIZE_WINDOW;
 @endc
