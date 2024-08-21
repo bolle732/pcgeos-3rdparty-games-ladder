@@ -373,6 +373,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   @callsuper();
 }
 
+
 @method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_NOT_MAXIMIZED
 {
   EventHandle evt;
@@ -394,7 +395,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   // Do super
   @callsuper();
   // Hide again mouse pointer of view if we're in a play
-  if (g.ss.executionState == EXE_S_PLAY && g.ss.inputState != INP_S_HOLD)
+  if (g.ss.executionState == EXE_S_PLAY && g.ss.restorePoint != MSG_LAD_PLAY_HOLD)
   {
     MemLock(OptrToHandle(@LadderGamePointer));
     @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
