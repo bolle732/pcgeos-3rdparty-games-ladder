@@ -60,24 +60,24 @@
 #define EXE_S_DEMO          3  // Execution state demo
 #define EXE_S_PLAY          4  // Execution state play
 
-// Font states
-// Used for handling change of font size, enter and leave full screen
-#define FNT_S_NONE          0  // Font state none
-#define FNT_S_DEC           1  // Font state decrease font size
-#define FNT_S_INC           2  // Font state increase font size
+// Font commands
+// Used for changing font size
+#define FNT_C_NONE          0  // Font state none
+#define FNT_C_DEC           1  // Font state decrease font size
+#define FNT_C_INC           2  // Font state increase font size
+#define FNT_C_MAX           3  // Font state maximum font size
 
-// GUI states
+// Window states
 // Used for keeping track of user interface
-#define GUI_F_NORM          0  // GUI state not minimized
-#define GUI_F_MINI          1  // GUI state minimized
-#define GUI_F_WIND          2  // GUI state window state
-#define GUI_F_FULL          3  // GUI state fullscreen state
-#define GUI_F_GAIN          4  // GUI state gained focus
-#define GUI_F_LOST          5  // GUI state lost focus
+#define WIN_S_NORM          0  // Window state normal
+#define WIN_S_MINI          1  // Window state minimized
+#define WIN_S_MAXI          2  // Window state window state
+#define WIN_S_FULL          3  // Window state fullscreen state
 
-// GUI state masks
-#define GUI_M_MIN        0x01  // GUI state minimized mask
-#define GUI_M_FOC        0x02  // GUI state focus mask
+// Focus states
+// Used for keeping track of user interface
+#define FOC_S_GAIN          4  // Focus state gained
+#define FOC_S_LOST          5  // Focus state lost
 
 // Input states
 // Used for keyboard input handling
@@ -401,15 +401,16 @@ typedef struct                 // INI state structure
 typedef struct                 // Save state structure
 {
   byte executionState;         //   1B+0 - Execution state
-  byte guiFlags;               //   1B+0 - GUI flags (window minimized, focus lost, restored from state)
-  byte inputState;             //   1B+1 - Input state (keyboard)
+  byte inputState;             //   1B+0 - Input state (keyboard)
+  byte focusState;             //   1B+0 - Focus state
+  byte windowState;            //   1B+0 - Window state
   Message restorePoint;        //   2B+0 - Restart point (from state file)
   GLGame game;                 //  18B+0 - Game data
   GLLevel level;               //  20B+0 - Level data
   GLDer ders[DERS_MAX];        //  48B+0 - Der data
   GLLad lad;                   //  12B+0 - Lad data
   word hookaState;             //   2B+0 - Hooka state
-} GLSaveState;                 // 105B+1 = 106 bytes used
+} GLSaveState;                 // 106B+0 = 106 bytes used
 
 // The global data used everywhere
 typedef struct                 // Global structure
@@ -468,7 +469,7 @@ typedef struct                 // Extra state structure
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_OVER;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HIGH;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_SAVE;
-  @message void MSG_LAD_EXEC_SET_FLAGS(byte state);
+  @message void MSG_LAD_EXEC_CHANGE_STATE(byte state);
   @message void MSG_LAD_FONT_CHANGE_SIZE(byte command);
   @message (MSG_LAD_PROTO) MSG_LAD_RESIZE_WINDOW;
 @endc

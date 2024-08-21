@@ -1401,13 +1401,13 @@ static void _pascal MoveDers(void)
   switch (message)
   {
   case MSG_LAD_DEMO_EXEC:
-    if (g.ss.guiFlags & GUI_M_MIN)
+    if (g.ss.windowState == WIN_S_MINI)
     {
       @send process::MSG_LAD_DEMO_STOP();
     }
     break;
   case MSG_LAD_PLAY_EXEC:
-    if (g.ss.guiFlags != 0)
+    if (g.ss.windowState == WIN_S_MINI || g.ss.focusState == FOC_S_LOST)
     {
       g.ss.restorePoint = MSG_LAD_PLAY_HOLD;
       @send process::MSG_LAD_PLAY_HOLD();

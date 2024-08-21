@@ -283,7 +283,7 @@ static sword _pascal LoadFontConfig(word index)
 @extern method LadderProcessClass, MSG_LAD_PLAY_CLEAR;
 @extern method LadderProcessClass, MSG_LAD_PLAY_HOOKA;
 @extern method LadderProcessClass, MSG_LAD_PLAY_NEXT;
-@extern method LadderProcessClass, MSG_LAD_EXEC_SET_FLAGS;
+@extern method LadderProcessClass, MSG_LAD_EXEC_CHANGE_STATE;
 @extern method LadderProcessClass, MSG_LAD_FONT_CHANGE_SIZE;
 @extern method LadderProcessClass, MSG_LAD_RESIZE_WINDOW;
 
@@ -588,7 +588,7 @@ static sword _pascal LoadFontConfig(word index)
   // Show the menu screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderMenu);
   // Handle window minimized
-  if (g.ss.guiFlags & GUI_M_MIN)
+  if (g.ss.windowState == WIN_S_MINI)
   {
     // Arm the jokes or demo
     @send oself::MSG_LAD_MENU_STOP();
@@ -1094,7 +1094,7 @@ static sword _pascal LoadFontConfig(word index)
 }
 
 /***********************************************************************
- *                  MSG_LAD_EXEC_SET_FLAGS
+ *                  MSG_LAD_EXEC_CHANGE_STATE
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Handle window changes minimized and focus.
@@ -1117,22 +1117,22 @@ static sword _pascal LoadFontConfig(word index)
  *      boa     2024-07-15    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_EXEC_SET_FLAGS
+@method LadderProcessClass, MSG_LAD_EXEC_CHANGE_STATE
 {
   // Update the global window state
   switch (state)
   {
-  case GUI_F_NORM:
-    g.ss.guiFlags &= ~GUI_M_MIN;  // Clear bit 0
+  case WIN_S_NORM:
+    g.ss.windowState = WIN_S_NORM;
     break;
-  case GUI_F_MINI:
-    g.ss.guiFlags |= GUI_M_MIN;  // Set bit 0
+  case WIN_S_MINI:
+    g.ss.windowState = WIN_S_MINI;
     break;
-  case GUI_F_GAIN:
-    g.ss.guiFlags &= ~GUI_M_FOC;  // Clear bit 1
+  case FOC_S_GAIN:
+    g.ss.focusState = FOC_S_GAIN;
     break;
-  case GUI_F_LOST:
-    g.ss.guiFlags |= GUI_M_FOC;  // Set bit 1
+  case FOC_S_LOST:
+    g.ss.focusState = FOC_S_LOST;
 //  break;
   }
   // Handle menu here
@@ -1140,10 +1140,10 @@ static sword _pascal LoadFontConfig(word index)
   {
     switch (state)
     {
-    case GUI_F_NORM:
+    case WIN_S_NORM:
       @send oself::MSG_LAD_MENU_AUTO();
       break;
-    case GUI_F_MINI:
+    case WIN_S_MINI:
       @send oself::MSG_LAD_MENU_STOP();
 //    break;
     }
@@ -1178,10 +1178,10 @@ static sword _pascal LoadFontConfig(word index)
   // 
   switch (command)
   {
-  case FNT_S_INC:
+  case FNT_C_INC:
     ret = LoadFontConfig(cur + 1);
     break;
-  case FNT_S_DEC:
+  case FNT_C_DEC:
     ret = LoadFontConfig(cur - 1);
 //  break;
   }
@@ -1273,7 +1273,7 @@ static sword _pascal LoadFontConfig(word index)
 {
   Message msg;
   // Handle key presses during dedicated input states
-  if (!(flags & CF_RELEASE) && (g.ss.inputState != INP_S_NONE) && !(g.ss.guiFlags & GUI_M_MIN))
+  if (!(flags & CF_RELEASE) && (g.ss.inputState != INP_S_NONE) && !(g.ss.windowState == WIN_S_MINI))
   {
     // Set the default message to nothing
     msg = NULL;
@@ -1305,10 +1305,10 @@ static sword _pascal LoadFontConfig(word index)
       switch (tolower(character))
       {
       case C_ONE:
-        @send process::MSG_LAD_FONT_CHANGE_SIZE(FNT_S_DEC);
+        @send process::MSG_LAD_FONT_CHANGE_SIZE(FNT_C_DEC);
         return;
       case C_TWO:
-        @send process::MSG_LAD_FONT_CHANGE_SIZE(FNT_S_INC);
+        @send process::MSG_LAD_FONT_CHANGE_SIZE(FNT_C_INC);
         return;
       case C_ZERO:
         fs = @call LadderPrimary::MSG_GEN_DISPLAY_GET_MAXIMIZED();
@@ -1474,7 +1474,7 @@ static sword _pascal LoadFontConfig(word index)
 @method LadderApplicationClass, MSG_META_LOST_FOCUS_EXCL
 {
   // Inform process about window lost focus
-  @send process::MSG_LAD_EXEC_SET_FLAGS(GUI_F_LOST);
+  @send process::MSG_LAD_EXEC_CHANGE_STATE(FOC_S_LOST);
   // Do super
   @callsuper();
 }
@@ -1502,7 +1502,7 @@ static sword _pascal LoadFontConfig(word index)
 @method LadderApplicationClass, MSG_META_GAINED_FOCUS_EXCL
 {
   // Inform process about window gained focus
-  @send process::MSG_LAD_EXEC_SET_FLAGS(GUI_F_GAIN);
+  @send process::MSG_LAD_EXEC_CHANGE_STATE(FOC_S_GAIN);
   // Do super
   @callsuper();
 }
