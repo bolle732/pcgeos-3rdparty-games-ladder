@@ -405,18 +405,18 @@ static void _pascal DrawValue(word pos, word val, word suf)
 
 @method LadderPrimaryClass, MSG_VIS_DRAW
 {
-  Boolean fs;
   Rectangle r;
-  fs = @call oself::MSG_GEN_DISPLAY_GET_MAXIMIZED();
-  if (fs == FALSE)
-  {
-    @callsuper();
-  }
-  else
+  // Fill the background if maximized ...
+  if (g.ss.windowState == WIN_S_MAXI)
   {
     @call oself::MSG_VIS_GET_BOUNDS(&r);
     GrSetAreaColor(gstate, CF_INDEX, g.ns.areaColor, 0, 0);
     GrFillRect(gstate, r.R_left, r.R_top, r.R_right, r.R_bottom);
+  }
+  // ... else do super
+  else
+  {
+    @callsuper();
   }
 }
 

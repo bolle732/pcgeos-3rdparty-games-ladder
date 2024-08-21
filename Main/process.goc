@@ -1160,14 +1160,12 @@ static sword _pascal LoadFontConfig(word index)
  ***********************************************************************/
 @method LadderProcessClass, MSG_LAD_RESIZE_WINDOW
 {
-  Boolean fs;
   // Set fixed size hint
   @send LadderView::MSG_GEN_SET_FIXED_SIZE(
     VUM_DELAYED_VIA_APP_QUEUE, 0, SCN_ROWS * g.ns.font.height + 2, SCN_COLS * g.ns.font.width
   );
   // Don't resize primary if in full screen mode
-  fs = @call LadderPrimary::MSG_GEN_DISPLAY_GET_MAXIMIZED();
-  if (fs == TRUE)
+  if (g.ss.windowState == WIN_S_MAXI)
   {
     return;
   }
@@ -1243,7 +1241,6 @@ static sword _pascal LoadFontConfig(word index)
     // Handle change font size
     if ((flags >> 8) & (SS_LCTRL | SS_RCTRL))
     {
-      Boolean fs;
       switch (tolower(character))
       {
       case C_ONE:
@@ -1253,14 +1250,13 @@ static sword _pascal LoadFontConfig(word index)
         @send process::MSG_LAD_FONT_CHANGE_SIZE(FNT_C_INC);
         return;
       case C_ZERO:
-        fs = @call LadderPrimary::MSG_GEN_DISPLAY_GET_MAXIMIZED();
-        if (fs == FALSE)
+        if (g.ss.windowState == WIN_S_MAXI)
         {
-          @send LadderPrimary::MSG_GEN_DISPLAY_SET_MAXIMIZED();
+          @send LadderPrimary::MSG_GEN_DISPLAY_SET_NOT_MAXIMIZED();
         }
         else
         {
-          @send LadderPrimary::MSG_GEN_DISPLAY_SET_NOT_MAXIMIZED();
+          @send LadderPrimary::MSG_GEN_DISPLAY_SET_MAXIMIZED();
         }
         return;
       }
