@@ -304,7 +304,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
 @method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_MINIMIZED
 {
   // Inform process about window minimized
-  @send process::MSG_LAD_EXEC_SET_FLAGS(EXE_F_MINI);
+  @send process::MSG_LAD_EXEC_SET_FLAGS(GUI_F_MINI);
   // Do super
   @callsuper();
 }
@@ -332,7 +332,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
 @method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_NOT_MINIMIZED
 {
   // Inform process about window not minimized
-  @send process::MSG_LAD_EXEC_SET_FLAGS(EXE_F_NORM);
+  @send process::MSG_LAD_EXEC_SET_FLAGS(GUI_F_NORM);
   // Do super
   @callsuper();
 }

@@ -1401,13 +1401,13 @@ static void _pascal MoveDers(void)
   switch (message)
   {
   case MSG_LAD_DEMO_EXEC:
-    if (g.ss.executionFlags & EXE_M_MIN)
+    if (g.ss.guiFlags & GUI_M_MIN)
     {
       @send process::MSG_LAD_DEMO_STOP();
     }
     break;
   case MSG_LAD_PLAY_EXEC:
-    if (g.ss.executionFlags != 0)
+    if (g.ss.guiFlags != 0)
     {
       g.ss.restorePoint = MSG_LAD_PLAY_HOLD;
       @send process::MSG_LAD_PLAY_HOLD();
@@ -1441,8 +1441,6 @@ static void _pascal MoveDers(void)
   StopTimer();
   // Set the input state for the handling of key presses
   g.ss.inputState = INP_S_HOLD;
-  // Reset restored from state
-  g.ss.executionFlags &= ~EXE_M_RST;
   // Reset the image of the mouse cursor / pointer
   @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(NullOptr, PIL_WINDOW);
   // Update the info line with the wait message

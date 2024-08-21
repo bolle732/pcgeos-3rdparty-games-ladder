@@ -52,23 +52,6 @@
 // Application name
 #define APP_NAME            "GeoLadder"  // Application name
 
-// Execution flags
-// Used to control execution depending environment
-#define EXE_F_NORM          0  // Execution flag not minimized
-#define EXE_F_MINI          1  // Execution flag minimized
-#define EXE_F_GAIN          2  // Execution flag gained focus
-#define EXE_F_LOST          3  // Execution flag lost focus
-#define EXE_F_SAVE          4  // Execution flag save state
-#define EXE_F_REST          5  // Execution flag restore state
-#define EXE_F_WIND          6  // Execution flag window state
-#define EXE_F_FULL          7  // Execution flag fullscreen state
-
-// Execution flag masks
-#define EXE_M_MIN        0x01  // Execution flag minimized mask
-#define EXE_M_FOC        0x02  // Execution flag focus mask
-#define EXE_M_RST        0x04  // Execution flag save state mask
-#define EXE_M_SCR        0x08  // Execution flag screen mask
-
 // Execution states
 // Used for generic handling after coming back from state
 #define EXE_S_NONE          0  // Execution state none
@@ -79,13 +62,22 @@
 
 // Font states
 // Used for handling change of font size, enter and leave full screen
-#define FNT_S_NONE          0  // FNT state none
-#define FNT_S_DEC           1  // FNT state decrease font size
-#define FNT_S_INC           2  // FNT state increase font size
+#define FNT_S_NONE          0  // Font state none
+#define FNT_S_DEC           1  // Font state decrease font size
+#define FNT_S_INC           2  // Font state increase font size
 
-// Windows states
-//#define GUI_S_ENTER         3  // GUI state enter full screen
-//#define GUI_S_LEAVE         4  // GUI state leave full screen
+// GUI states
+// Used for keeping track of user interface
+#define GUI_F_NORM          0  // GUI state not minimized
+#define GUI_F_MINI          1  // GUI state minimized
+#define GUI_F_WIND          2  // GUI state window state
+#define GUI_F_FULL          3  // GUI state fullscreen state
+#define GUI_F_GAIN          4  // GUI state gained focus
+#define GUI_F_LOST          5  // GUI state lost focus
+
+// GUI state masks
+#define GUI_M_MIN        0x01  // GUI state minimized mask
+#define GUI_M_FOC        0x02  // GUI state focus mask
 
 // Input states
 // Used for keyboard input handling
@@ -408,8 +400,8 @@ typedef struct                 // INI state structure
 // All global data which must be saved into the extra state
 typedef struct                 // Save state structure
 {
-  byte executionFlags;         //   1B+0 - Execution flags (window minimized, focus lost, restored from state)
   byte executionState;         //   1B+0 - Execution state
+  byte guiFlags;               //   1B+0 - GUI flags (window minimized, focus lost, restored from state)
   byte inputState;             //   1B+1 - Input state (keyboard)
   Message restorePoint;        //   2B+0 - Restart point (from state file)
   GLGame game;                 //  18B+0 - Game data
