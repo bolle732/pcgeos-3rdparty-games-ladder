@@ -243,7 +243,7 @@ static word _pascal LoadFontConfig(word index)
       // Check if the font can be used with current screen size
       if ((font.width * SCN_COLS < g.ns.screen.R_right) && (font.height * SCN_ROWS < g.ns.screen.R_bottom))
       {
-        f = i;  // Ok, proceed with next
+        f = i;  // Store and proceed with next
       }
       else
       {
