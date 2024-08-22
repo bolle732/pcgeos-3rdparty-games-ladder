@@ -84,7 +84,7 @@ static char IKP[] = INI_KEY_PRODUCT;
 // Lookup table for jokes
 static optr LJK[JOKS] =
 {
-  @MenuJoke1, @MenuJoke2, @MenuJoke3, @MenuJoke4
+  @MenuJoke1, @MenuJoke2, @MenuJoke3, @MenuJoke4, @MenuJoke5
 };
 // Lookup table for score of compliments
 static word LHS[CMPS] =

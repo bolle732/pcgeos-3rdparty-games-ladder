@@ -559,6 +559,9 @@
 // I8N_DE  "Warte nicht auf GEOS32, spiel mit mir!"
 @chunk char MenuJoke4[] = "Don\'t wait for GEOS32, play with me!";
 @localize { "The 4th joke" 3-77 };
+// I8N_DE  "Zu Lad oder Der ist keine Frage!"
+@chunk char MenuJoke5[] = "To Lad or Der is not a question!";
+@localize { "The 5th joke" 3-77 };
 
 // I8N_DE  "Beende..."
 @chunk char MenuExit[] = "Exiting...";

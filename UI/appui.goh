@@ -81,6 +81,7 @@
 @extern chunk MenuJoke2;
 @extern chunk MenuJoke3;
 @extern chunk MenuJoke4;
+@extern chunk MenuJoke5;
 @extern chunk MenuExit;
 
 @extern chunk ScreenHelp;
