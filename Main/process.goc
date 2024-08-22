@@ -226,10 +226,10 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2024-08-06    Initial Revision
  *
  ***********************************************************************/
-static sword _pascal LoadFontConfig(word index)
+static word _pascal LoadFontConfig(word index)
 {
   word i;
-  sbyte f = -1;
+  word f = FNT_S_NONE;
   GLFont font;
   MemLock(OptrToHandle(@FontConfigs));
   // Check for index out of bound
@@ -251,7 +251,7 @@ static sword _pascal LoadFontConfig(word index)
       }
     }
     // Set the new font config if we found one
-    if (f != -1)
+    if (f != FNT_S_NONE)
     {
       g.is.fontIndex = f;
       ChunkArrayGetElement(@FontConfigs, f, &g.ns.font);
@@ -432,7 +432,7 @@ static sword _pascal LoadFontConfig(word index)
 
   // Warn user if current video resolution is too small
   // No MemLock / MemUnlock needed as the function does it for us
-  if (LoadFontConfig(g.is.fontIndex) == -1)
+  if (LoadFontConfig(g.is.fontIndex) == FNT_S_NONE)
   {
     UserStandardDialogOptr(
       NullOptr, NullOptr, NullOptr, NullOptr,
@@ -1100,7 +1100,7 @@ static sword _pascal LoadFontConfig(word index)
 
  * CALLED BY:       Internal by intercepted messages:
  *                  MSG_META_KBD_CHAR
- * PARAMETERS:      void ( byte command )
+ * PARAMETERS:      void ( word index )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1116,19 +1116,11 @@ static sword _pascal LoadFontConfig(word index)
 @method LadderProcessClass, MSG_LAD_FONT_CHANGE_SIZE
 {
   word cur = g.is.fontIndex;
-  sword ret;
-  // 
-  switch (command)
-  {
-  case FNT_C_INC:
-    ret = LoadFontConfig(cur + 1);
-    break;
-  case FNT_C_DEC:
-    ret = LoadFontConfig(cur - 1);
-//  break;
-  }
+  word ret;
+  // Try to change the font size
+  ret = LoadFontConfig(index);
   // Update only if the font has changed
-  if ((ret != -1) && (ret != cur))
+  if ((ret != FNT_S_NONE) && (ret != cur))
   {
     // XXX: Update GState with new font
     // ...
@@ -1244,10 +1236,10 @@ static sword _pascal LoadFontConfig(word index)
       switch (tolower(character))
       {
       case C_ONE:
-        @send process::MSG_LAD_FONT_CHANGE_SIZE(FNT_C_DEC);
+        @send process::MSG_LAD_FONT_CHANGE_SIZE(g.is.fontIndex - 1);
         return;
       case C_TWO:
-        @send process::MSG_LAD_FONT_CHANGE_SIZE(FNT_C_INC);
+        @send process::MSG_LAD_FONT_CHANGE_SIZE(g.is.fontIndex + 1);
         return;
       case C_ZERO:
         if (g.ss.windowState == WIN_S_MAXI)

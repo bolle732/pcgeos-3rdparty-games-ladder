@@ -62,10 +62,13 @@
 
 // Font commands
 // Used for changing font size
-#define FNT_C_NONE          0  // Font state none
-#define FNT_C_DEC           1  // Font state decrease font size
-#define FNT_C_INC           2  // Font state increase font size
-#define FNT_C_MAX           3  // Font state maximum font size
+#define FNT_C_NONE          0  // Font command none
+#define FNT_C_DEC           1  // Font command decrease font size
+#define FNT_C_INC           2  // Font command increase font size
+#define FNT_C_MAX           3  // Font command maximum font size
+
+#define FNT_S_MAX         254  // Font search maximum size
+#define FNT_S_NONE        255  // Font search no suitable found
 
 // Window states
 // Used for keeping track of user interface
@@ -469,7 +472,7 @@ typedef struct                 // Extra state structure
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_OVER;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HIGH;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_SAVE;
-  @message void MSG_LAD_FONT_CHANGE_SIZE(byte command);
+  @message void MSG_LAD_FONT_CHANGE_SIZE(word index);
   @message (MSG_LAD_PROTO) MSG_LAD_RESIZE_WINDOW;
 @endc
 
