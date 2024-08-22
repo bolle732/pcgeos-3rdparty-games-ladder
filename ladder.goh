@@ -62,10 +62,10 @@
 
 // Font commands
 // Used for changing font size
-#define FNT_C_NONE          0  // Font command none
-#define FNT_C_DEC           1  // Font command decrease font size
-#define FNT_C_INC           2  // Font command increase font size
-#define FNT_C_MAX           3  // Font command maximum font size
+#define FNT_C_SET           0  // Font command set size
+#define FNT_C_DEC           1  // Font command decrease size
+#define FNT_C_INC           2  // Font command increase size
+#define FNT_C_MAX           3  // Font command maximum size
 
 #define FNT_S_MAX         254  // Font search maximum size
 #define FNT_S_NONE        255  // Font search no suitable found
