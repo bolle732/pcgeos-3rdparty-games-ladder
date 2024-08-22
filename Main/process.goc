@@ -1122,8 +1122,7 @@ static word _pascal LoadFontConfig(word index)
   // Update only if the font has changed
   if ((ret != FNT_R_NONE) && (ret != cur))
   {
-    // XXX: Update GState with new font
-    // ...
+    // Resize the window to reflect new font size
     @send oself::MSG_LAD_RESIZE_WINDOW();
   }
 }
