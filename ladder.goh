@@ -395,11 +395,12 @@ typedef struct                 // No save state structure
 // All global data which is saved to the INI file
 typedef struct                 // INI state structure
 {
-  word fontIndex;              //   2B+0 - Current font
-  word diff;                   //   2B+0 - Difficulty
+  word fontIndex;              //   2B+0 - Current font index
+  word fontLast;               //   2B+0 - Last font index (fullscreen)
+  word diff;                   //   2B+0 - Difficulty value
   word sound;                  //   2B+0 - Sound state
   word lastScore;              //   2B+0 - Last score
-} GLIniState;                  //   8B+0 = 8 bytes used
+} GLIniState;                  //  10B+0 = 10 bytes used
 
 // All global data which must be saved into the extra state
 typedef struct                 // Save state structure
@@ -420,9 +421,9 @@ typedef struct                 // Save state structure
 typedef struct                 // Global structure
 {
   GLNoState ns;                //  76B+0 - Unsaved global data
-  GLIniState is;               //   8B+0 - INI state global data
+  GLIniState is;               //  10B+0 - INI state global data
   GLSaveState ss;              // 106B+0 - Save state global data
-} GLGlobals;                   // 190B+0 = 190 bytes used
+} GLGlobals;                   // 192B+0 = 192 bytes used
 
 // This is used for saving to and restoring from state
 typedef struct                 // Extra state structure
