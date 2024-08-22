@@ -67,8 +67,9 @@
 #define FNT_C_INC           2  // Font command increase size
 #define FNT_C_MAX           3  // Font command maximum size
 
-#define FNT_S_MAX         254  // Font search maximum size
-#define FNT_S_NONE        255  // Font search no suitable found
+// Font results
+// Returned if no suitable font found
+#define FNT_R_NONE        255  // Font result none
 
 // Window states
 // Used for keeping track of user interface

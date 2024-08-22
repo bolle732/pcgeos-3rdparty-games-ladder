@@ -229,7 +229,7 @@ static word _pascal TicksByDifficulty(word diff)
 static word _pascal LoadFontConfig(word index)
 {
   word i;
-  word f = FNT_S_NONE;
+  word f = FNT_R_NONE;
   GLFont font;
   MemLock(OptrToHandle(@FontConfigs));
   // Check for index out of bound
@@ -251,7 +251,7 @@ static word _pascal LoadFontConfig(word index)
       }
     }
     // Set the new font config if we found one
-    if (f != FNT_S_NONE)
+    if (f != FNT_R_NONE)
     {
       g.is.fontIndex = f;
       ChunkArrayGetElement(@FontConfigs, f, &g.ns.font);
@@ -432,7 +432,7 @@ static word _pascal LoadFontConfig(word index)
 
   // Warn user if current video resolution is too small
   // No MemLock / MemUnlock needed as the function does it for us
-  if (LoadFontConfig(g.is.fontIndex) == FNT_S_NONE)
+  if (LoadFontConfig(g.is.fontIndex) == FNT_R_NONE)
   {
     UserStandardDialogOptr(
       NullOptr, NullOptr, NullOptr, NullOptr,
@@ -1120,7 +1120,7 @@ static word _pascal LoadFontConfig(word index)
   // Try to change the font size
   ret = LoadFontConfig(index);
   // Update only if the font has changed
-  if ((ret != FNT_S_NONE) && (ret != cur))
+  if ((ret != FNT_R_NONE) && (ret != cur))
   {
     // XXX: Update GState with new font
     // ...
