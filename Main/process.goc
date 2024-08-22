@@ -243,7 +243,7 @@ static word _pascal LoadFontConfig(word index)
       // Check if the font can be used with current screen size
       if ((font.width * SCN_COLS < g.ns.screen.R_right) && (font.height * SCN_ROWS < g.ns.screen.R_bottom))
       {
-        f = i;  // Store and proceed with next
+        f = i;  // Ok, store and proceed with next
       }
       else
       {
@@ -1236,10 +1236,16 @@ static word _pascal LoadFontConfig(word index)
       switch (tolower(character))
       {
       case C_ONE:
-        @send process::MSG_LAD_FONT_CHANGE_SIZE(g.is.fontIndex - 1);
+        if (g.ss.windowState != WIN_S_MAXI)
+        {
+          @send process::MSG_LAD_FONT_CHANGE_SIZE(g.is.fontIndex - 1);
+        }
         return;
       case C_TWO:
-        @send process::MSG_LAD_FONT_CHANGE_SIZE(g.is.fontIndex + 1);
+        if (g.ss.windowState != WIN_S_MAXI)
+        {
+          @send process::MSG_LAD_FONT_CHANGE_SIZE(g.is.fontIndex + 1);
+        }
         return;
       case C_ZERO:
         if (g.ss.windowState == WIN_S_MAXI)
