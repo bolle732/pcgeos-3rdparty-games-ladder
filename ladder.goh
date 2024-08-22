@@ -60,6 +60,9 @@
 #define EXE_S_DEMO          3  // Execution state demo
 #define EXE_S_PLAY          4  // Execution state play
 
+// Font
+#define FNTS                3  // Number of fonts
+
 // Font commands
 // Used for changing font size
 #define FNT_C_SET           0  // Font command set size
@@ -380,6 +383,7 @@ typedef struct                 // No save state structure
   Rectangle screen;            //   4B+0 - Screen size
   WindowHandle windowHandle;   //   2B+0 - Window handle (during fullscreen)
   GStateHandle gstateHandle;   //   2B+0 - GState handle
+  word fontLast;               //   2B+0 - Last font index (fullscreen)
   word textColor;              //   2B+0 - Text foreground color
   word areaColor;              //   2B+0 - Text background color
   GLFont font;                 //  10B+0 - Font data
@@ -390,17 +394,16 @@ typedef struct                 // No save state structure
   char *levelBuffer;           //   4B+0 - Pointer to the level buffer
   word moveIndex;              //   2B+0 - Current demo move
   ChunkHandle moves;           //   2B+0 - Demo moves chunk handle
-} GLNoState;                   //  75B+1 = 76 bytes used
+} GLNoState;                   //  77B+1 = 78 bytes used
 
 // All global data which is saved to the INI file
 typedef struct                 // INI state structure
 {
   word fontIndex;              //   2B+0 - Current font index
-  word fontLast;               //   2B+0 - Last font index (fullscreen)
   word diff;                   //   2B+0 - Difficulty value
   word sound;                  //   2B+0 - Sound state
   word lastScore;              //   2B+0 - Last score
-} GLIniState;                  //  10B+0 = 10 bytes used
+} GLIniState;                  //   8B+0 = 8 bytes used
 
 // All global data which must be saved into the extra state
 typedef struct                 // Save state structure
@@ -420,8 +423,8 @@ typedef struct                 // Save state structure
 // The global data used everywhere
 typedef struct                 // Global structure
 {
-  GLNoState ns;                //  76B+0 - Unsaved global data
-  GLIniState is;               //  10B+0 - INI state global data
+  GLNoState ns;                //  78B+0 - Unsaved global data
+  GLIniState is;               //   8B+0 - INI state global data
   GLSaveState ss;              // 106B+0 - Save state global data
 } GLGlobals;                   // 192B+0 = 192 bytes used
 
