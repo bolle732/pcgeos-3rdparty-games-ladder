@@ -1236,69 +1236,6 @@
 @chunk char GameLevel7Name[] = "Gang Land";
 @localize { "The name of the 7th level" 3-25 };
 
-// Name, Bonus Time, Lad Start Position,
-// { Number of Emitters, { Positions of Emitters } },
-// Maximum Ders,
-// Level Data
-@chunkArray GLLevel GameLevels =
-{
-  {
-    ChunkOf(@GameLevel1Name), 35, GPOS(18,5),
-    {
-      1, { GPOS(0,39) }
-    },
-    5,
-    ChunkOf(@GameLevel1Data)
-  },
-  {
-    ChunkOf(@GameLevel2Name), 45, GPOS(18,17),
-    {
-      2, { GPOS(2,13), GPOS(2,67) }
-    },
-    8,
-    ChunkOf(@GameLevel2Data)
-  },
-  {
-    ChunkOf(@GameLevel3Name), 33, GPOS(2,5),
-    {
-      3, { GPOS(0,28), GPOS(0,44), GPOS(0,56) }
-    },
-    5,
-    ChunkOf(@GameLevel3Data)
-  },
-  {
-    ChunkOf(@GameLevel4Name), 32, GPOS(16,77),
-    {
-      2, { GPOS(0,44), GPOS(0,68) }
-    },
-    5,
-    ChunkOf(@GameLevel4Data)
-  },
-  {
-    ChunkOf(@GameLevel5Name), 29, GPOS(3,74),
-    {
-      2, { GPOS(1,61), GPOS(4,29) }
-    },
-    7,
-    ChunkOf(@GameLevel5Data)
-  },
-  {
-    ChunkOf(@GameLevel6Name), 29, GPOS(8,33),
-    {
-      2, { GPOS(0,63), GPOS(4,44) }
-    },
-    6,
-    ChunkOf(@GameLevel6Data)
-  },
-  {
-    ChunkOf(@GameLevel7Name), 22, GPOS(2,6),
-    {
-      2, { GPOS(0,60), GPOS(4,6) }
-    },
-    6,
-    ChunkOf(@GameLevel7Data)
-  }
-};
 
 // Data of Level 1
 @chunk byte GameLevel1Data[] = {
@@ -1969,41 +1906,70 @@
   LSP_T_END
 };
 
-
-// Round, Level, Demo Moves
-@chunkArray GLDemo GameDemos =
+// Name, Bonus Time, Lad Start Position,
+// { Number of Emitters, { Positions of Emitters } },
+// Maximum Ders,
+// Level Data
+@chunkArray GLLevel GameLevels =
 {
   {
-    1, 1, ChunkOf(@GameDemo1Moves)
+    ChunkOf(@GameLevel1Name), 35, GPOS(18,5),
+    {
+      1, { GPOS(0,39) }
+    },
+    5,
+    ChunkOf(@GameLevel1Data)
   },
   {
-    1, 1, ChunkOf(@GameDemo2Moves)
+    ChunkOf(@GameLevel2Name), 45, GPOS(18,17),
+    {
+      2, { GPOS(2,13), GPOS(2,67) }
+    },
+    8,
+    ChunkOf(@GameLevel2Data)
   },
   {
-    1, 1, ChunkOf(@GameDemo3Moves)
+    ChunkOf(@GameLevel3Name), 33, GPOS(2,5),
+    {
+      3, { GPOS(0,28), GPOS(0,44), GPOS(0,56) }
+    },
+    5,
+    ChunkOf(@GameLevel3Data)
   },
   {
-    1, 1, ChunkOf(@GameDemo4Moves)
+    ChunkOf(@GameLevel4Name), 32, GPOS(16,77),
+    {
+      2, { GPOS(0,44), GPOS(0,68) }
+    },
+    5,
+    ChunkOf(@GameLevel4Data)
   },
   {
-    2, 2, ChunkOf(@GameDemo5Moves)
+    ChunkOf(@GameLevel5Name), 29, GPOS(3,74),
+    {
+      2, { GPOS(1,61), GPOS(4,29) }
+    },
+    7,
+    ChunkOf(@GameLevel5Data)
   },
   {
-    2, 2, ChunkOf(@GameDemo6Moves)
+    ChunkOf(@GameLevel6Name), 29, GPOS(8,33),
+    {
+      2, { GPOS(0,63), GPOS(4,44) }
+    },
+    6,
+    ChunkOf(@GameLevel6Data)
   },
   {
-    2, 2, ChunkOf(@GameDemo7Moves)
-  },
-  {
-    5, 3, ChunkOf(@GameDemo8Moves)
-  },
-  {
-    5, 3, ChunkOf(@GameDemo9Moves)
-  },
-  {
-    9, 4, ChunkOf(@GameDemo10Moves)
+    ChunkOf(@GameLevel7Name), 22, GPOS(2,6),
+    {
+      2, { GPOS(0,60), GPOS(4,6) }
+    },
+    6,
+    ChunkOf(@GameLevel7Data)
   }
 };
+
 
 // Moves of Demo 1 - Level 1 - Straight Forward
 @chunk GLMove GameDemo1Moves[] = {
@@ -2141,6 +2107,41 @@
   { GPOS(14,43), DIR_W, L_TRUE }, { GPOS(14,33), DIR_W, L_TRUE },
   { GPOS(14,23), DIR_W, L_TRUE }, { GPOS(14,15), DIR_W, L_TRUE },
   { GPOS(13,4), DIR_E, L_FALSE }, { GPOS(18,7), DIR_W, L_FALSE }
+};
+
+// Round, Level, Demo Moves
+@chunkArray GLDemo GameDemos =
+{
+  {
+    1, 1, ChunkOf(@GameDemo1Moves)
+  },
+  {
+    1, 1, ChunkOf(@GameDemo2Moves)
+  },
+  {
+    1, 1, ChunkOf(@GameDemo3Moves)
+  },
+  {
+    1, 1, ChunkOf(@GameDemo4Moves)
+  },
+  {
+    2, 2, ChunkOf(@GameDemo5Moves)
+  },
+  {
+    2, 2, ChunkOf(@GameDemo6Moves)
+  },
+  {
+    2, 2, ChunkOf(@GameDemo7Moves)
+  },
+  {
+    5, 3, ChunkOf(@GameDemo8Moves)
+  },
+  {
+    5, 3, ChunkOf(@GameDemo9Moves)
+  },
+  {
+    9, 4, ChunkOf(@GameDemo10Moves)
+  }
 };
 
 

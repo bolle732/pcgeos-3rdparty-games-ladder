@@ -177,8 +177,6 @@
 #define TSP_T_END        0xF0  // End of text string data
 
 // Level
-#define LVLS                7  // Number of levels in game
-
 #define LVL_COLS     SCN_COLS  // Number of level columns
 #define LVL_ROWS           20  // Number of level rows
 #define LVL_M_SIZE   LVL_COLS * LVL_ROWS  // Memory size of level

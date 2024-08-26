@@ -1680,7 +1680,8 @@ static void _pascal MoveDers(void)
   // Get the level for the current round
   g.ss.game.level = LevelAndTimeReductionByRound(g.ss.game.round) & 0x0F;
   // Check if there are no more levels
-  if (g.ss.game.level > LVLS)
+  MemLock(OptrToHandle(@GameLevels));  
+  if (g.ss.game.level > ChunkArrayGetCount(@GameLevels))
   {
     // Show the last screen
     g.ss.restorePoint = MSG_LAD_PLAY_DONE;
@@ -1692,6 +1693,7 @@ static void _pascal MoveDers(void)
     g.ss.restorePoint = MSG_LAD_PLAY_LOAD_HEAD;
     @send oself::MSG_LAD_PLAY_LOAD_HEAD();
   }
+  MemUnlock(OptrToHandle(@GameLevels));
 }
 
 
