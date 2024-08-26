@@ -1069,7 +1069,7 @@
 @localize { "The 7th level of compliment text in the high score screen" 3-77 };
 
 // Points, Compliment
-@chunkArray GLRate HighCompliments =
+@chunkArray GLRate HighRatings =
 {
   {
     0, @HighCompliment1

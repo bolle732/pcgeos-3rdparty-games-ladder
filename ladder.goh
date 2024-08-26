@@ -124,9 +124,6 @@
 #define DLY_T_LOAD        150  // Delay ticks for the level load message
 #define DLY_T_SAVE         75  // Delay ticks for the high score save message
 
-// Compliment
-#define CMPS                7  // Number of compliments
-
 // Rank
 #define RNK_NAME_LEN       20  // Length of rank name
 

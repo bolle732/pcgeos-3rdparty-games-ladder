@@ -90,14 +90,7 @@
 @extern chunk DoneInfo;
 
 @extern chunk ScreenHigh;
-@extern chunk HighCompliment1;
-@extern chunk HighCompliment2;
-@extern chunk HighCompliment3;
-@extern chunk HighCompliment4;
-@extern chunk HighCompliment5;
-@extern chunk HighCompliment6;
-@extern chunk HighCompliment7;
-@extern chunk HighCompliments;
+@extern chunk HighRatings;
 @extern chunk HighInfo;
 @extern chunk HighNoName;
 @extern chunk HighSave;

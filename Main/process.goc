@@ -81,16 +81,6 @@ static char IKL[] = INI_KEY_LAST;
 static char ICU[] = INI_CAT_UI;
 static char IKP[] = INI_KEY_PRODUCT;
 
-// Lookup table for score of compliments
-static word LHS[CMPS] =
-{
-  0, 100, 200, 500, 1000, 2000, 5000
-};
-// Lookup table for text of compliments
-static optr LHT[CMPS] =
-{
-  @HighCompliment1, @HighCompliment2, @HighCompliment3, @HighCompliment4, @HighCompliment5, @HighCompliment6, @HighCompliment7
-};
 
 void _pascal StopTimer(void);
 static word _pascal TicksByDifficulty(word diff);
@@ -1037,6 +1027,7 @@ word _pascal LoadFontConfig(word index)
 @method LadderProcessClass, MSG_LAD_PLAY_HIGH
 {
   word i;
+  GLRate r;
   // Set the input state for the handling of key presses
   g.ss.inputState = INP_S_HIGH;
   // Reset the input
@@ -1044,15 +1035,18 @@ word _pascal LoadFontConfig(word index)
   // Clear the info line
   @send LadderInfo::MSG_TXT_SET_TEXT(NullOptr);
   // Find the compliment message for the score
-  for (i = CMPS; i > 0; i--)
+  MemLock(OptrToHandle(@HighRatings));
+  for (i = ChunkArrayGetCount(@HighRatings); i > 0; i--)
   {
-    if (g.ss.game.score >= LHS[i - 1])
+    ChunkArrayGetElement(@HighRatings, i - 1, &r);
+    if (g.ss.game.score >= r.points)
     {
       // Set the text of the compliment
-      @send LadderHighCompliment::MSG_TXT_SET_TEXT(LHT[i - 1]);
+      @send LadderHighCompliment::MSG_TXT_SET_TEXT(r.compliment);
       break;
     }
   }
+  MemUnlock(OptrToHandle(@HighRatings));
   // Show the high score screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderHigh);
   // Set the text of the info line
