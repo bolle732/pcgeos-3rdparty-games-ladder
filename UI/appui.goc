@@ -1951,70 +1951,175 @@
     ChunkOf(@GameDemo2Moves)
   },
   {
-    2, 2,
+    1, 1,
     ChunkOf(@GameDemo3Moves)
   },
   {
-    2, 2,
+    1, 1,
     ChunkOf(@GameDemo4Moves)
+  },
+  {
+    2, 2,
+    ChunkOf(@GameDemo5Moves)
+  },
+  {
+    2, 2,
+    ChunkOf(@GameDemo6Moves)
+  },
+  {
+    2, 2,
+    ChunkOf(@GameDemo7Moves)
+  },
+  {
+    5, 3,
+    ChunkOf(@GameDemo8Moves)
+  },
+  {
+    5, 3,
+    ChunkOf(@GameDemo9Moves)
+  },
+  {
+    9, 4,
+    ChunkOf(@GameDemo10Moves)
   }
 };
 
-// Moves of Demo 1
+// Moves of Demo 1 - Level 1 - Straight Forward
 @chunk GLMove GameDemo1Moves[] = {
-  { GPOS(18,5), DIR_E, L_FALSE }, { GPOS(18,33), DIR_E, L_TRUE },
-  { GPOS(18,57), DIR_N, L_FALSE }, { GPOS(14,57), DIR_W, L_FALSE },
-  { GPOS(14,48), DIR_W, L_TRUE }, { GPOS(14,26), DIR_W, L_TRUE },
-  { GPOS(14,17), DIR_N, L_FALSE }, { GPOS(10,16), DIR_NONE, L_FALSE },
-  { GPOS(10,16), DIR_N, L_TRUE }, { GPOS(10,16), DIR_E, L_FALSE },
-  { GPOS(10,24), DIR_N, L_TRUE }, { GPOS(6,27), DIR_W, L_FALSE },
-  { GPOS(6,16), DIR_N, L_FALSE }, { GPOS(2,16), DIR_E, L_FALSE },
-  { GPOS(2,54), DIR_N, L_TRUE }
+  { GPOS(18,5), DIR_E, L_FALSE }, { GPOS(18,57), DIR_N, L_FALSE },
+  { GPOS(14,57), DIR_W, L_FALSE }, { GPOS(14,48), DIR_W, L_TRUE },
+  { GPOS(14,25), DIR_W, L_TRUE }, { GPOS(14,16), DIR_N, L_FALSE },
+  { GPOS(10,16), DIR_E, L_FALSE }, { GPOS(10,24), DIR_N, L_TRUE },
+  { GPOS(6,27), DIR_W, L_FALSE }, { GPOS(6,16), DIR_N, L_FALSE },
+  { GPOS(2,16), DIR_E, L_FALSE }, { GPOS(2,57), DIR_N, L_FALSE }
 };
 
-// Moves of Demo 2
+// Moves of Demo 2 - Level 1 - Rich Way
 @chunk GLMove GameDemo2Moves[] = {
+  { GPOS(18,5), DIR_E, L_FALSE }, { GPOS(18,55), DIR_N, L_TRUE },
+  { GPOS(16,57), DIR_N, L_FALSE }, { GPOS(14,57), DIR_W, L_FALSE },
+  { GPOS(14,49), DIR_W, L_TRUE }, { GPOS(14,26), DIR_W, L_TRUE },
+  { GPOS(14,18), DIR_N, L_TRUE }, { GPOS(10,16), DIR_NONE, L_TRUE },
+  { GPOS(10,16), DIR_E, L_FALSE }, { GPOS(10,25), DIR_N, L_TRUE },
+  { GPOS(6,27), DIR_W, L_FALSE }, { GPOS(6,18), DIR_N, L_TRUE },
+  { GPOS(2,16), DIR_E, L_FALSE }, { GPOS(2,37), DIR_E, L_TRUE },
+  { GPOS(2,55), DIR_N, L_TRUE }
+};
+
+// Moves of Demo 3 - Level 1 - Long Run
+@chunk GLMove GameDemo3Moves[] = {
   { GPOS(18,5), DIR_E, L_FALSE }, { GPOS(18,20), DIR_E, L_TRUE },
   { GPOS(18,43), DIR_E, L_TRUE }, { GPOS(18,57), DIR_N, L_FALSE },
-  { GPOS(14,57), DIR_W, L_FALSE }, { GPOS(14,49), DIR_W, L_TRUE },
-  { GPOS(14,26), DIR_W, L_TRUE },  { GPOS(14,17), DIR_N, L_FALSE },
-  { GPOS(10,16), DIR_E, L_FALSE }, { GPOS(10,25), DIR_E, L_TRUE },
-  { GPOS(10,35), DIR_E, L_TRUE }, { GPOS(10,56), DIR_N, L_FALSE },
+  { GPOS(14,57), DIR_W, L_FALSE }, { GPOS(14,48), DIR_W, L_TRUE },
+  { GPOS(14,25), DIR_W, L_TRUE }, { GPOS(14,16), DIR_N, L_FALSE },
+  { GPOS(10,16), DIR_NONE, L_TRUE }, { GPOS(10,16), DIR_E, L_FALSE },
+  { GPOS(10,26), DIR_E, L_TRUE }, { GPOS(10,35), DIR_E, L_TRUE },
+  { GPOS(10,45), DIR_E, L_TRUE }, { GPOS(10,57), DIR_N, L_FALSE },
   { GPOS(6,57), DIR_W, L_FALSE }, { GPOS(6,49), DIR_W, L_TRUE },
-  { GPOS(6,29), DIR_W, L_TRUE }, { GPOS(6,17), DIR_N, L_FALSE },
-  { GPOS(2,16), DIR_E, L_FALSE }, { GPOS(2,54), DIR_N, L_TRUE }
+  { GPOS(6,29), DIR_W, L_TRUE }, { GPOS(6,16), DIR_N, L_FALSE },
+  { GPOS(2,16), DIR_E, L_FALSE }, { GPOS(2,35), DIR_E, L_TRUE },
+  { GPOS(2,57), DIR_N, L_FALSE }
 };
 
-// Moves of Demo 3
-@chunk GLMove GameDemo3Moves[] = {
+// Moves of Demo 4 - Level 1 - Crazy Lad
+@chunk GLMove GameDemo4Moves[] = {
+  { GPOS(18,5), DIR_E, L_FALSE }, { GPOS(18,11), DIR_E, L_TRUE },
+  { GPOS(18,21), DIR_E, L_TRUE }, { GPOS(18,31), DIR_E, L_TRUE },
+  { GPOS(18,44), DIR_E, L_TRUE }, { GPOS(18,60), DIR_W, L_TRUE },
+  { GPOS(16,57), DIR_N, L_FALSE }, { GPOS(14,57), DIR_W, L_FALSE },
+  { GPOS(14,47), DIR_W, L_TRUE }, { GPOS(14,39), DIR_W, L_TRUE },
+  { GPOS(14,24), DIR_W, L_TRUE }, { GPOS(14,13), DIR_E, L_TRUE },
+  { GPOS(12,16), DIR_N, L_FALSE }, { GPOS(10,16), DIR_W, L_FALSE },
+  { GPOS(10,14), DIR_E, L_TRUE }, { GPOS(10,26), DIR_E, L_TRUE },
+  { GPOS(10,35), DIR_E, L_TRUE }, { GPOS(10,45), DIR_E, L_TRUE },
+  { GPOS(10,59), DIR_W, L_TRUE }, { GPOS(8,57), DIR_N, L_FALSE },
+  { GPOS(6,57), DIR_W, L_FALSE }, { GPOS(6,50), DIR_W, L_TRUE },
+  { GPOS(6,41), DIR_W, L_TRUE }, { GPOS(6,29), DIR_W, L_TRUE },
+  { GPOS(6,13), DIR_E, L_TRUE }, { GPOS(4,16), DIR_N, L_FALSE },
+  { GPOS(2,16), DIR_W, L_FALSE }, { GPOS(2,14), DIR_E, L_TRUE },
+  { GPOS(2,36), DIR_E, L_TRUE }, { GPOS(2,60), DIR_W, L_TRUE }
+};
+
+// Moves of Demo 5 - Level 2 - Straight Forward
+@chunk GLMove GameDemo5Moves[] = {
   { GPOS(18,17), DIR_E, L_FALSE }, { GPOS(18,33), DIR_E, L_TRUE },
   { GPOS(16,36), DIR_NONE, L_FALSE }, { GPOS(16,36), DIR_W, L_TRUE },
   { GPOS(14,30), DIR_W, L_TRUE }, { GPOS(12,27), DIR_NONE, L_FALSE },
   { GPOS(12,27), DIR_NONE, L_TRUE }, { GPOS(12,27), DIR_NONE, L_FALSE },
   { GPOS(12,27), DIR_NONE, L_TRUE }, { GPOS(12,27), DIR_NONE, L_FALSE },
-  { GPOS(12,27), DIR_E, L_TRUE }, { GPOS(10,32), DIR_E, L_TRUE },
+  { GPOS(12,27), DIR_E, L_TRUE }, { GPOS(10,31), DIR_E, L_TRUE },
   { GPOS(8,34), DIR_NONE, L_FALSE }, { GPOS(8,34), DIR_W, L_TRUE },
   { GPOS(6,29), DIR_W, L_TRUE }, { GPOS(6,4), DIR_N, L_FALSE },
   { GPOS(2,4), DIR_E, L_FALSE }, { GPOS(2,10), DIR_E, L_TRUE },
   { GPOS(2,25), DIR_E, L_TRUE }, { GPOS(2,51), DIR_E, L_TRUE },
-  { GPOS(2,59), DIR_E, L_TRUE }, { GPOS(2,65), DIR_E, L_TRUE },
+  { GPOS(2,64), DIR_E, L_TRUE }, { GPOS(2,72), DIR_E, L_TRUE }
+};
+
+// Moves of Demo 6 - Level 2 - Rich Way
+@chunk GLMove GameDemo6Moves[] = {
+  { GPOS(18,17), DIR_E, L_FALSE }, { GPOS(18,32), DIR_E, L_TRUE },
+  { GPOS(16,36), DIR_W, L_TRUE }, { GPOS(14,31), DIR_W, L_TRUE },
+  { GPOS(12,27), DIR_E, L_TRUE }, { GPOS(10,30), DIR_E, L_TRUE },
+  { GPOS(8,34), DIR_W, L_TRUE }, { GPOS(6,31), DIR_W, L_TRUE },
+  { GPOS(6,7), DIR_W, L_TRUE }, { GPOS(4,4), DIR_N, L_FALSE },
+  { GPOS(2,4), DIR_E, L_FALSE }, { GPOS(2,11), DIR_E, L_TRUE },
+  { GPOS(2,26), DIR_E, L_TRUE }, { GPOS(2,53), DIR_E, L_TRUE },
+  { GPOS(2,60), DIR_E, L_TRUE }, { GPOS(2,66), DIR_E, L_TRUE },
   { GPOS(2,72), DIR_E, L_TRUE }
 };
 
-// Moves of Demo 3
-@chunk GLMove GameDemo4Moves[] = {
-  { GPOS(18,17), DIR_E, L_FALSE }, { GPOS(18,34), DIR_E, L_TRUE },
+// Moves of Demo 7 - Level 2 - Long Run
+@chunk GLMove GameDemo7Moves[] = {
+  { GPOS(18,17), DIR_E, L_FALSE }, { GPOS(18,25), DIR_E, L_TRUE },
+  { GPOS(18,34), DIR_E, L_TRUE }, { GPOS(18,52), DIR_E, L_TRUE },
   { GPOS(18,74), DIR_N, L_FALSE }, { GPOS(14,74), DIR_W, L_FALSE },
-  { GPOS(14,56), DIR_W, L_TRUE }, { GPOS(14,40), DIR_W, L_TRUE },
-  { GPOS(14,29), DIR_W, L_TRUE }, { GPOS(14,4), DIR_N, L_FALSE },
-  { GPOS(10,4), DIR_E, L_FALSE }, { GPOS(10,24), DIR_E, L_TRUE },
-  { GPOS(10,32), DIR_E, L_TRUE }, { GPOS(10,51), DIR_E, L_TRUE },
+  { GPOS(14,57), DIR_W, L_TRUE }, { GPOS(14,40), DIR_W, L_TRUE },
+  { GPOS(14,30), DIR_W, L_TRUE }, { GPOS(14,4), DIR_N, L_FALSE },
+  { GPOS(10,4), DIR_E, L_FALSE }, { GPOS(10,25), DIR_E, L_TRUE },
+  { GPOS(10,32), DIR_E, L_TRUE }, { GPOS(10,52), DIR_E, L_TRUE },
   { GPOS(10,74), DIR_N, L_FALSE }, { GPOS(6,74), DIR_W, L_FALSE },
-  { GPOS(6,56), DIR_W, L_TRUE }, { GPOS(6,36), DIR_W, L_TRUE },
-  { GPOS(6,29) , DIR_W, L_TRUE }, { GPOS(6,4), DIR_N, L_FALSE },
-  { GPOS(2,4), DIR_E, L_FALSE }, { GPOS(2,10), DIR_E, L_TRUE },
-  { GPOS(2,26), DIR_E, L_TRUE }, { GPOS(2,52), DIR_E, L_TRUE },
-  { GPOS(2,65), DIR_E, L_TRUE }, { GPOS(2,74), DIR_N, L_FALSE }
+  { GPOS(6,56), DIR_W, L_TRUE }, { GPOS(6,37), DIR_W, L_TRUE },
+  { GPOS(6,30), DIR_W, L_TRUE }, { GPOS(6,4), DIR_N, L_FALSE },
+  { GPOS(2,4), DIR_E, L_FALSE }, { GPOS(2,11), DIR_E, L_TRUE },
+  { GPOS(2,27), DIR_E, L_TRUE }, { GPOS(2,52), DIR_E, L_TRUE },
+  { GPOS(2,63), DIR_E, L_TRUE }, { GPOS(2,71), DIR_E, L_TRUE }
+};
+
+// Moves of Demo 8 - Level 3 - Straight Forward
+@chunk GLMove GameDemo8Moves[] = {
+  { GPOS(2,5), DIR_E, L_FALSE }, { GPOS(2,9), DIR_E, L_TRUE },
+  { GPOS(5,16), DIR_E, L_TRUE }, { GPOS(5,25), DIR_E, L_TRUE },
+  { GPOS(5,31), DIR_E, L_TRUE }, { GPOS(5,40), DIR_E, L_TRUE },
+  { GPOS(5,46), DIR_E, L_TRUE }, { GPOS(5,52), DIR_E, L_TRUE },
+  { GPOS(5,63), DIR_N, L_FALSE }, { GPOS(2,63), DIR_E, L_FALSE }
+};
+
+// Moves of Demo 9 - Level 3 - Rich Way
+@chunk GLMove GameDemo9Moves[] = {
+  { GPOS(2,5), DIR_E, L_FALSE }, { GPOS(2,10), DIR_E, L_TRUE },
+  { GPOS(5,17), DIR_E, L_TRUE }, { GPOS(5,25), DIR_E, L_TRUE },
+  { GPOS(5,31), DIR_E, L_TRUE }, { GPOS(5,41), DIR_W, L_FALSE },
+  { GPOS(5,40), DIR_E, L_TRUE }, { GPOS(5,46), DIR_E, L_TRUE },
+  { GPOS(5,53), DIR_E, L_TRUE }, { GPOS(9,69), DIR_W, L_TRUE },
+  { GPOS(13,57), DIR_W, L_TRUE }, { GPOS(13,48), DIR_W, L_TRUE },
+  { GPOS(13,39), DIR_W, L_TRUE }, { GPOS(13,30), DIR_W, L_TRUE },
+  { GPOS(13,23), DIR_W, L_TRUE }, { GPOS(13,16), DIR_W, L_TRUE },
+  { GPOS(11,13), DIR_E, L_FALSE }, { GPOS(13,21), DIR_E, L_TRUE },
+  { GPOS(13,28), DIR_E, L_TRUE }, { GPOS(11,32), DIR_N, L_FALSE },
+  { GPOS(9,32), DIR_E, L_FALSE }, { GPOS(9,35), DIR_E, L_TRUE },
+  { GPOS(9,48), DIR_E, L_TRUE }, { GPOS(9,56), DIR_E, L_TRUE },
+  { GPOS(9,62), DIR_E, L_TRUE }, { GPOS(9,68), DIR_E, L_TRUE },
+  { GPOS(9,74), DIR_E, L_TRUE }
+};
+
+// Moves of Demo 10 - Level 4 - Straight Forward
+@chunk GLMove GameDemo10Moves[] = {
+  { GPOS(16,77), DIR_W, L_FALSE }, { GPOS(16,72), DIR_W, L_TRUE },
+  { GPOS(18,66), DIR_W, L_TRUE }, { GPOS(16,62), DIR_N, L_FALSE },
+  { GPOS(14,62), DIR_W, L_TRUE }, { GPOS(14,51), DIR_W, L_TRUE },
+  { GPOS(14,43), DIR_W, L_TRUE }, { GPOS(14,33), DIR_W, L_TRUE },
+  { GPOS(14,23), DIR_W, L_TRUE }, { GPOS(14,15), DIR_W, L_TRUE },
+  { GPOS(13,4), DIR_E, L_FALSE }, { GPOS(18,7), DIR_W, L_FALSE }
 };
 
 
