@@ -77,11 +77,7 @@
 @extern chunk MenuSoundOn;
 @extern chunk MenuVersion;
 @extern chunk MenuTerminal;
-@extern chunk MenuJoke1;
-@extern chunk MenuJoke2;
-@extern chunk MenuJoke3;
-@extern chunk MenuJoke4;
-@extern chunk MenuJoke5;
+@extern chunk MenuJokes;
 @extern chunk MenuExit;
 
 @extern chunk ScreenHelp;
@@ -101,6 +97,7 @@
 @extern chunk HighCompliment5;
 @extern chunk HighCompliment6;
 @extern chunk HighCompliment7;
+@extern chunk HighCompliments;
 @extern chunk HighInfo;
 @extern chunk HighNoName;
 @extern chunk HighSave;

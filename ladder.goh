@@ -124,9 +124,6 @@
 #define DLY_T_LOAD        150  // Delay ticks for the level load message
 #define DLY_T_SAVE         75  // Delay ticks for the high score save message
 
-// Joke
-#define JOKS                5  // Number of jokes
-
 // Compliment
 #define CMPS                7  // Number of compliments
 
@@ -335,6 +332,12 @@ typedef struct                 // Ranks file
   word id;                     //   2B+0 - Identification
   GLRankEntry ranks[RNKS];     // 110B+0 - Ranks
 } GLRankFile;                  // 112B+0 = 112 bytes used
+
+typedef struct                 // Font data
+{
+  word points;                 //   2B+0 - Points
+  optr compliment;             //   4B+0 - Font size
+} GLRate;                      //   6B+0 = 6 bytes used
 
 typedef struct                 // Der data
 {

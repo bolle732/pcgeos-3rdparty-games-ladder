@@ -81,11 +81,6 @@ static char IKL[] = INI_KEY_LAST;
 static char ICU[] = INI_CAT_UI;
 static char IKP[] = INI_KEY_PRODUCT;
 
-// Lookup table for jokes
-static optr LJK[JOKS] =
-{
-  @MenuJoke1, @MenuJoke2, @MenuJoke3, @MenuJoke4, @MenuJoke5
-};
 // Lookup table for score of compliments
 static word LHS[CMPS] =
 {
@@ -425,8 +420,8 @@ word _pascal LoadFontConfig(word index)
   WinGetWinScreenBounds(grp.GRP_bp, &g.ns.screen);
 
   // Set defaults to no state globals
-  // XXX: Check and set colors according the available ones (monochrome)
   g.ns.gstateHandle = NullHandle;
+  // XXX: Check and set colors according the available ones (monochrome)
   g.ns.textColor = C_LIGHT_GREEN;
   g.ns.areaColor = C_BLACK;
 
@@ -760,8 +755,10 @@ word _pascal LoadFontConfig(word index)
       // Check show time
       if (g.ns.menuCount % 2 == 0)
       {
-        // Set the text of the joke
-        o = LJK[Random(JOKS)];
+        // Set the text of a random joke
+        MemLock(OptrToHandle(@MenuJokes));
+        ChunkArrayGetElement(@MenuJokes, Random(ChunkArrayGetCount(@MenuJokes)), &o);
+        MemUnlock(OptrToHandle(@MenuJokes));
       }
     }
     // Increase control state

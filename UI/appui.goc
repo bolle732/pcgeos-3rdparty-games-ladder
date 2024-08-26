@@ -563,6 +563,12 @@
 @chunk char MenuJoke5[] = "To Lad or Der is not a question!";
 @localize { "The 5th joke" 3-77 };
 
+// Joke
+@chunkArray optr MenuJokes =
+{
+  @MenuJoke1, @MenuJoke2, @MenuJoke3, @MenuJoke4, @MenuJoke5
+};
+
 // I8N_DE  "Beende..."
 @chunk char MenuExit[] = "Exiting...";
 @localize { "The exiting text" 3-77 };
@@ -1061,6 +1067,32 @@
 @localize { "The 6th level of compliment text in the high score screen" 3-77 };
 @chunk char HighCompliment7[] = "You are a true Lad-Master!!!";
 @localize { "The 7th level of compliment text in the high score screen" 3-77 };
+
+// Points, Compliment
+@chunkArray GLRate HighCompliments =
+{
+  {
+    0, @HighCompliment1
+  },
+  {
+    100, @HighCompliment2
+  },
+  {
+    200, @HighCompliment3
+  },
+  {
+    500, @HighCompliment4
+  },
+  {
+    1000, @HighCompliment5
+  },
+  {
+    2000, @HighCompliment6
+  },
+  {
+    5000, @HighCompliment7
+  }
+};
 
 // I8N_DE
 /*
@@ -1938,49 +1970,38 @@
 };
 
 
-// Round, Level
-// Demo Moves
+// Round, Level, Demo Moves
 @chunkArray GLDemo GameDemos =
 {
   {
-    1, 1,
-    ChunkOf(@GameDemo1Moves)
+    1, 1, ChunkOf(@GameDemo1Moves)
   },
   {
-    1, 1,
-    ChunkOf(@GameDemo2Moves)
+    1, 1, ChunkOf(@GameDemo2Moves)
   },
   {
-    1, 1,
-    ChunkOf(@GameDemo3Moves)
+    1, 1, ChunkOf(@GameDemo3Moves)
   },
   {
-    1, 1,
-    ChunkOf(@GameDemo4Moves)
+    1, 1, ChunkOf(@GameDemo4Moves)
   },
   {
-    2, 2,
-    ChunkOf(@GameDemo5Moves)
+    2, 2, ChunkOf(@GameDemo5Moves)
   },
   {
-    2, 2,
-    ChunkOf(@GameDemo6Moves)
+    2, 2, ChunkOf(@GameDemo6Moves)
   },
   {
-    2, 2,
-    ChunkOf(@GameDemo7Moves)
+    2, 2, ChunkOf(@GameDemo7Moves)
   },
   {
-    5, 3,
-    ChunkOf(@GameDemo8Moves)
+    5, 3, ChunkOf(@GameDemo8Moves)
   },
   {
-    5, 3,
-    ChunkOf(@GameDemo9Moves)
+    5, 3, ChunkOf(@GameDemo9Moves)
   },
   {
-    9, 4,
-    ChunkOf(@GameDemo10Moves)
+    9, 4, ChunkOf(@GameDemo10Moves)
   }
 };
 
