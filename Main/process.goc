@@ -226,7 +226,7 @@ static word _pascal TicksByDifficulty(word diff)
  *      boa     2024-08-06    Initial Revision
  *
  ***********************************************************************/
-static word _pascal LoadFontConfig(word index)
+word _pascal LoadFontConfig(word index)
 {
   word i;
   word f = FNT_R_NONE;
@@ -512,8 +512,12 @@ static word _pascal LoadFontConfig(word index)
   StopTimer();
   // Stop the noise
   StopAndFreeNoise();
-  // Unconditionally set not maximized as it's too late to check
-  @call LadderPrimary::MSG_GEN_DISPLAY_SET_NOT_MAXIMIZED();
+  // Return to not maximized
+  if (g.ss.windowState == WIN_S_MAXI)
+  {
+    g.is.fontIndex = g.ns.fontLast;
+    g.ss.windowState = WIN_S_NORM;
+  }
   // Simply return in case of an error without saving any states
   if (g.ns.error == L_TRUE)
   {
