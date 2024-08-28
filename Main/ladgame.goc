@@ -411,7 +411,6 @@ static byte _pascal CanStay(word pos)
   return L_FALSE;
 }
 
-
 /*
  ***************************************************************************
  *                  FUNCTIONS for Lad
@@ -569,7 +568,6 @@ static byte _pascal DerCanDescend(word cpos)
   // Default
   return L_FALSE;
 }
-
 
 /*
  ***************************************************************************
