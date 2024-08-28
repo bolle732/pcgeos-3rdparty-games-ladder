@@ -681,7 +681,6 @@ static void _pascal DrawValue(word pos, word val, word suf)
 
 @classdecl LadderTextClass;
 
-
 /***********************************************************************
  *                  MSG_VIS_DRAW
  *                  for LadderTextClass
@@ -779,7 +778,6 @@ static void _pascal DrawValue(word pos, word val, word suf)
 
 @classdecl LadderValueClass;
 
-
 /***********************************************************************
  *                  MSG_VIS_DRAW
  *                  for LadderValueClass
@@ -848,7 +846,6 @@ static void _pascal DrawValue(word pos, word val, word suf)
  */
 
 @classdecl LadderRankClass;
-
 
 /***********************************************************************
  *                  MSG_VIS_DRAW
@@ -1067,7 +1064,6 @@ static void _pascal DrawValue(word pos, word val, word suf)
 
 @classdecl LadderLevelClass;
 
-
 /***********************************************************************
  *                  MSG_VIS_DRAW
  *                  for LadderLevelClass
@@ -1238,7 +1234,6 @@ static void _pascal DrawValue(word pos, word val, word suf)
 
 @classdecl LadderActorsClass;
 
-
 /***********************************************************************
  *                  MSG_VIS_DRAW
  *                  for LadderActorsClass
@@ -1386,7 +1381,6 @@ static void _pascal DrawValue(word pos, word val, word suf)
  */
 
 @classdecl LadderInputClass;
-
 
 /***********************************************************************
  *                  MSG_VIS_DRAW

@@ -189,8 +189,6 @@ static word _pascal TicksByDifficulty(word diff)
   return d + 4;
 }
 
-
-
 /***********************************************************************
  *                  InitFontConfig
  ***********************************************************************
@@ -289,9 +287,6 @@ void _pascal InitFontConfig(word index)
   }
   MemUnlock(OptrToHandle(@FontConfigs));
 }
-
-
-
 
 /***********************************************************************
  *                  LoadFontConfig
