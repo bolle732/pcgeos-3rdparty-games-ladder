@@ -191,7 +191,28 @@ static word _pascal TicksByDifficulty(word diff)
 
 
 
-
+/***********************************************************************
+ *                  InitFontConfig
+ ***********************************************************************
+ * SYNOPSIS:        Verify that the requested font size can be used
+ *                  with the window mode.
+ * CALLED BY:       Internal
+ * PARAMETERS:      void ( word index )
+ * RETURN:          Nothing.
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ Search the smallest font config.
+ *                  2/ Search the 40% font config for windowed mode.
+ *                  3/ Search the 80% font config for windowed mode.
+ *                  4/ Search the largest font config for fullscreen mode.
+ *                  5/ Do fallback for 40% and 80% font sizes if not found.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-08-28    Initial Revision
+ *
+ ***********************************************************************/
 void _pascal InitFontConfig(word index)
 {
   word i, min;
@@ -276,22 +297,21 @@ void _pascal InitFontConfig(word index)
  *                  LoadFontConfig
  ***********************************************************************
  * SYNOPSIS:        Verify that the requested font size can be used
- *                  with the current video resolution and set the most
- *                  accommodating font size.
+ *                  with the window mode.
  * CALLED BY:       Internal
- * PARAMETERS:      sword ( word index )
- * RETURN:          A signed word containing font index we could set or
- *                  -1 of out of index or no font size is found.
+ * PARAMETERS:      word ( word index )
+ * RETURN:          A word containing the font index if we could load it
+ *                  or the constant 'FNT_R_NONE' if not.
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ Check index is in range.
- *                  2/ Search the largest font by the index which can be
- *                     used with the current video resolution.
+ *                  2/ Load the font data into the globals and set the index.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
  *      ----    ----          -----------
  *      boa     2024-08-06    Initial Revision
+ *      boa     2024-08-28    Rewrite for new font handling
  *
  ***********************************************************************/
 word _pascal LoadFontConfig(word index)
