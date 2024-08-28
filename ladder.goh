@@ -60,9 +60,6 @@
 #define EXE_S_DEMO          3  // Execution state demo
 #define EXE_S_PLAY          4  // Execution state play
 
-// Font
-#define FNTS                3  // Number of fonts
-
 // Font commands
 // Used for changing font size
 #define FNT_C_SET           0  // Font command set size
@@ -381,10 +378,13 @@ typedef struct                 // No save state structure
   Rectangle screen;            //   4B+0 - Screen size
   WindowHandle windowHandle;   //   2B+0 - Window handle (during fullscreen)
   GStateHandle gstateHandle;   //   2B+0 - GState handle
-  word fontLast;               //   2B+0 - Last font index (fullscreen)
   word textColor;              //   2B+0 - Text foreground color
   word areaColor;              //   2B+0 - Text background color
   GLFont font;                 //  10B+0 - Font data
+  word fontWinMin;             //   2B+0 - Minimum font index window
+  word fontWinMax;             //   2B+0 - Maximum font index window
+  word fontFull;               //   2B+0 - Font index fullscreen
+  word fontSaved;              //   2B+0 - Saved font index (windowed)
   TimerHandle timerHandle;     //   2B+0 - Timer handle
   word timerId;                //   2B+0 - Timer id
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle
@@ -392,12 +392,12 @@ typedef struct                 // No save state structure
   char *levelBuffer;           //   4B+0 - Pointer to the level buffer
   word moveIndex;              //   2B+0 - Current demo move
   ChunkHandle moves;           //   2B+0 - Demo moves chunk handle
-} GLNoState;                   //  77B+1 = 78 bytes used
+} GLNoState;                   //  83B+1 = 84 bytes used
 
 // All global data which is saved to the INI file
 typedef struct                 // INI state structure
 {
-  word fontIndex;              //   2B+0 - Current font index
+  word fontCurrent;            //   2B+0 - Current font index
   word diff;                   //   2B+0 - Difficulty value
   word sound;                  //   2B+0 - Sound state
   word lastScore;              //   2B+0 - Last score
@@ -421,10 +421,10 @@ typedef struct                 // Save state structure
 // The global data used everywhere
 typedef struct                 // Global structure
 {
-  GLNoState ns;                //  78B+0 - Unsaved global data
+  GLNoState ns;                //  84B+0 - Unsaved global data
   GLIniState is;               //   8B+0 - INI state global data
   GLSaveState ss;              // 106B+0 - Save state global data
-} GLGlobals;                   // 192B+0 = 192 bytes used
+} GLGlobals;                   // 198B+0 = 198 bytes used
 
 // This is used for saving to and restoring from state
 typedef struct                 // Extra state structure
