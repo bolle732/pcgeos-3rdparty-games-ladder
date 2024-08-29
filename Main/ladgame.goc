@@ -262,7 +262,7 @@ static byte _pascal NewLadByScoreIncrease(word incr)
  ***********************************************************************
  * SYNOPSIS:        Increase the lads if not at maximum.
  * CALLED BY:       Internal
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    The global variable "g.ss.game.lads" must contain the
  *                  current lads.
@@ -903,7 +903,7 @@ static void _pascal MoveDers(void)
  *                      from MSG_LAD_DEMO
  *                  (b) MSG_LAD_PLAY_LOAD_HEAD
  *                      from MSG_LAD_PLAY or MSG_LAD_PLAY_NEXT
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -954,7 +954,7 @@ static void _pascal MoveDers(void)
  ***********************************************************************
  * SYNOPSIS:        Load the level header and show the loading screen.
  * CALLED BY:       MSG_LAD_PLAY or MSG_LAD_PLAY_NEXT
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -997,7 +997,7 @@ static void _pascal MoveDers(void)
  *                      from MSG_LAD_DEMO_LOAD_HEAD
  *                  (b) MSG_LAD_PLAY_LOAD_DATA:
  *                      from MSG_LAD_PLAY_LOAD_HEAD
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1057,7 +1057,7 @@ static void _pascal MoveDers(void)
  *                  (b) MSG_LAD_PLAY_INIT:
  *                      One shot timer from MSG_LAD_PLAY_LOAD_DATA or
  *                      MSG_LAD_PLAY_CLEAR
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1122,7 +1122,7 @@ static void _pascal MoveDers(void)
  ***********************************************************************
  * SYNOPSIS:        Show get ready message.
  * CALLED BY:       MSG_LAD_PLAY_INIT
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1160,7 +1160,7 @@ static void _pascal MoveDers(void)
  *                  (b) MSG_LAD_PLAY_START:
  *                      One shot timer from MSG_LAD_PLAY_READY or user
  *                      by pressing the key 'ENTER' when game is paused.
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1208,7 +1208,7 @@ static void _pascal MoveDers(void)
  *                      Continual timer from MSG_LAD_DEMO_START
  *                  (b) MSG_LAD_PLAY_EXEC:
  *                      Continual timer from MSG_LAD_PLAY_START
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1420,7 +1420,7 @@ static void _pascal MoveDers(void)
  ***********************************************************************
  * SYNOPSIS:        Pause the game.
  * CALLED BY:       User by pressing the key 'p' during the game.
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1452,7 +1452,7 @@ static void _pascal MoveDers(void)
  * SYNOPSIS:        The Lad collided with a Der, touched a trap or run
  *                  out of bonus time.
  * CALLED BY:       MSG_LAD_PLAY_EXEC
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1488,7 +1488,7 @@ static void _pascal MoveDers(void)
  ***********************************************************************
  * SYNOPSIS:        The Lad has died.
  * CALLED BY:       MSG_LAD_PLAY_FAIL
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1542,7 +1542,7 @@ static void _pascal MoveDers(void)
  ***********************************************************************
  * SYNOPSIS:        Reset and clear the actors.
  * CALLED BY:       MSG_LAD_PLAY_DIES
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1590,7 +1590,7 @@ static void _pascal MoveDers(void)
  ***********************************************************************
  * SYNOPSIS:        Handle bonus time.
  * CALLED BY:       MSG_LAD_PLAY_EXEC or one shot timer from self
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1657,7 +1657,7 @@ static void _pascal MoveDers(void)
  ***********************************************************************
  * SYNOPSIS:        Prepare the next round.
  * CALLED BY:       MSG_LAD_PLAY_HOOKA
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *

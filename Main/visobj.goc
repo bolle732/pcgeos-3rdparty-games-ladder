@@ -288,13 +288,13 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************
  * SYNOPSIS:        Intercept the message when the primary is minimized.
  * CALLED BY:       Internal
- * PARAMETERS:      void ( )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
- * STRATEGY:        1/ Send a message to the process so the minimized
- *                     state is stored in the global variable of it.
- *                  2/ Call super for default actions.
+ * STRATEGY:        1/ Set the global window state.
+ *                  2/ Stop menu actions if applicable.
+ *                  3/ Call super for default actions.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
@@ -321,13 +321,13 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************
  * SYNOPSIS:        Intercept the message when the primary is minimized.
  * CALLED BY:       Internal
- * PARAMETERS:      void ( )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
- * STRATEGY:        1/ Call super for default actions.
- *                  2/ Send a message to the process so the not minimized
- *                     state is stored in the global variable of it.
+ * STRATEGY:        1/ Set the global window state.
+ *                  2/ Start menu actions if applicable.
+ *                  3/ Call super for default actions.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
@@ -348,7 +348,32 @@ static void _pascal DrawValue(word pos, word val, word suf)
   @callsuper();
 }
 
-
+/***********************************************************************
+ *                  MSG_GEN_DISPLAY_SET_MAXIMIZED
+ *                  for LadderPrimaryClass
+ ***********************************************************************
+ * SYNOPSIS:        Intercept the message when the primary is maximized.
+ * CALLED BY:       Internal and by intercepted messages:
+ *                  MSG_META_KBD_CHAR
+ * PARAMETERS:      void ( void )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ Set the global window state.
+ *                  2/ Hide system wide mouse pointer.
+ *                  3/ Set our self to not be usable.
+ *                  4/ Remove gadgets from primary.
+ *                  5/ Set our self to be usable.
+ *                  6/ Save window font and set font to full screen.
+ *                  7/ Grab target and focus.
+ *                  8/ Call super for default actions.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-08-02    Initial Revision
+ *
+ ***********************************************************************/
 @method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_MAXIMIZED
 {
   EventHandle evt;
@@ -377,7 +402,32 @@ static void _pascal DrawValue(word pos, word val, word suf)
   @callsuper();
 }
 
-
+/***********************************************************************
+ *                  MSG_GEN_DISPLAY_SET_NOT_MAXIMIZED
+ *                  for LadderPrimaryClass
+ ***********************************************************************
+ * SYNOPSIS:        Intercept the message when the primary is maximized.
+ * CALLED BY:       Internal and by intercepted messages:
+ *                  MSG_META_KBD_CHAR
+ * PARAMETERS:      void ( void )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ Set the global window state.
+ *                  2/ Reveal system wide mouse pointer.
+ *                  3/ Set our self to not be usable.
+ *                  4/ Restore gadgets of primary.
+ *                  5/ Set our self to be usable.
+ *                  6/ Restire window font.
+ *                  7/ Grab target and focus.
+ *                  8/ Call super for default actions.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-08-02    Initial Revision
+ *
+ ***********************************************************************/
 @method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_NOT_MAXIMIZED
 {
   EventHandle evt;
@@ -409,7 +459,29 @@ static void _pascal DrawValue(word pos, word val, word suf)
   }
 }
 
+/***********************************************************************
+ *                  MSG_VIS_DRAW
+ *                  for LadderPrimaryClass
+ ***********************************************************************
+ * SYNOPSIS:        Draw our background.
+ * CALLED BY:       Internal
+ * PARAMETERS:      void ( DrawFlags drawFlags,
+ *                         GStateHandle gstate )
+ * RETURN:          nothing
 
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ Check the global window state.
+ *                  2/ If window s maximized, draw black background.
+ *                  3/ If window is not maximized, do call super.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2011-01-18    Initial Revision
+ *      bos     2024-06-28    Added chunk command
+ *
+ ***********************************************************************/
 @method LadderPrimaryClass, MSG_VIS_DRAW
 {
   Rectangle r;
@@ -509,7 +581,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  * SYNOPSIS:        Destroy the GState when the window of the view is
  *                  shut down (taken from the screen).
  * CALLED BY:       Internal
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -910,7 +982,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************
  * SYNOPSIS:        Load the ranking list from the file.
  * CALLED BY:       Internal
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    No error is thrown if the ranking list could not
  *                  be read to the file.
@@ -1272,7 +1344,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************
  * SYNOPSIS:        Force the drawing of our content.
  * CALLED BY:       Internal
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1355,7 +1427,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************
  * SYNOPSIS:        Reset our count to 0.
  * CALLED BY:       Internal
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1447,7 +1519,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************
  * SYNOPSIS:        Delete the last character or reset the input.
  * CALLED BY:       Internal
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *

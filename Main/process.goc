@@ -1545,7 +1545,7 @@ word _pascal LoadFontConfig(word index)
  ***********************************************************************
  * SYNOPSIS:        Handle lost of focus of the application object.
  * CALLED BY:       Internal
- * PARAMETERS:      void ( )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1574,7 +1574,7 @@ word _pascal LoadFontConfig(word index)
  ***********************************************************************
  * SYNOPSIS:        Handle gain of focus of the application object.
  * CALLED BY:       Internal
- * PARAMETERS:      void ( )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
