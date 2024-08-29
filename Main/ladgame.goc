@@ -82,7 +82,7 @@ static char LDC[] =
 };
 
 word _pascal Random(word max);
-static void _pascal PlayNoise(word noise);
+void _pascal PlayNoise(word noise);
 static word _pascal LevelAndTimeReductionByRound(word round);
 static byte _pascal NewLadByScoreIncrease(word incr);
 static void _pascal IncreaseLads(void);
@@ -160,7 +160,7 @@ word _pascal Random(word max)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-static void _pascal PlayNoise(word noise)
+void _pascal PlayNoise(word noise)
 {
   MemHandle mh;
   if (g.is.sound == CFG_SND_ON)

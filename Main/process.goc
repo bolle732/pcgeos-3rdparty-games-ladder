@@ -65,6 +65,7 @@
 extern GLGlobals g;
 
 extern word _pascal Random(word max);
+extern void _pascal PlayNoise(word noise);
 
 
 /*
@@ -740,6 +741,8 @@ word _pascal LoadFontConfig(word index)
     {
       // Set the sound state
       g.is.sound = CFG_SND_ON;
+      // Play notification sound
+      PlayNoise(1);
       // Update the text on screen
       @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@MenuSoundOn);
     }
