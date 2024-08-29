@@ -315,7 +315,7 @@ word _pascal LoadFontConfig(word index)
   // Check index for out of bound
   if (((index >= g.ns.fontWinMin)
        && (index <= g.ns.fontWinMax))
-       || g.ss.windowState == WIN_S_MAXI)
+       || (g.ss.windowState == WIN_S_MAXI) && (index == g.ns.fontFull))
   {
     // Get the font config
     MemLock(OptrToHandle(@FontConfigs));
