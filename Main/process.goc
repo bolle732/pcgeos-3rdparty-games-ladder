@@ -391,6 +391,7 @@ word _pascal LoadFontConfig(word index)
   static char buf[32] = "";
   word size, state;
   GenReturnParams grp;
+  DisplayScheme ds;
   MemHandle mh;
   ReleaseNumber rn;
   // Set the menu as the default
@@ -489,11 +490,20 @@ word _pascal LoadFontConfig(word index)
   @call application::MSG_GEN_GUP_QUERY(&grp, GUQT_FIELD);
   WinGetWinScreenBounds(grp.GRP_bp, &g.ns.screen);
 
-  // Set defaults to no state globals
-  g.ns.gstateHandle = NullHandle;
-  // XXX: Check and set colors according the available ones (monochrome)
-  g.ns.textColor = C_LIGHT_GREEN;
+  // Setup colors according the available ones (monochrome)
   g.ns.areaColor = C_BLACK;
+  @call application::MSG_GEN_APPLICATION_GET_DISPLAY_SCHEME(&ds);
+  if ((ds.DS_displayType & DT_DISP_CLASS) > DC_COLOR_2)
+  {
+    g.ns.textColor = C_LIGHT_GREEN;
+  }
+  else
+  {
+    g.ns.textColor = C_WHITE;
+  }
+
+  // Clear global GState
+  g.ns.gstateHandle = NullHandle;
 
   // Warn user if current video resolution is too small
   InitFontConfig(g.is.fontCurrent);
@@ -512,7 +522,7 @@ word _pascal LoadFontConfig(word index)
     LoadFontConfig(g.is.fontCurrent);
   }
 
-  // Setup GUI if no error has occured
+  // Setup user interface if no error has occured
   if (g.ns.error == L_FALSE)
   {
     // Set the difficulty
