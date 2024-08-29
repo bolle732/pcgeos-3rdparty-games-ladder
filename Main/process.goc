@@ -164,7 +164,7 @@ void _pascal StopAndFreeNoise(void)
  ***********************************************************************
  * SYNOPSIS:        Calculate the ticks between two frames from the
  *                  difficulty set by the user.
- * FORMULA:         ticks = abs(diff - CFG_DIFF_MAX) + 4
+ * FORMULA:         ticks = abs(diff - CFG_DIFF_MAX) + 5
  * CALLED BY:       Internal
  * PARAMETERS:      word ( word diff )
  * RETURN:          A word containing the number of ticks.
@@ -176,6 +176,7 @@ void _pascal StopAndFreeNoise(void)
  *      Name    Date          Description
  *      ----    ----          -----------
  *      boa     2011-01-18    Initial Revision
+ *      boa     2024-08-29    Increase base ticks from 4 to 5
  *
  ***********************************************************************/
 static word _pascal TicksByDifficulty(word diff)
@@ -186,7 +187,7 @@ static word _pascal TicksByDifficulty(word diff)
   {
     d = -d;
   }
-  return d + 4;
+  return d + 5;
 }
 
 /***********************************************************************

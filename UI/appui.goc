@@ -1915,7 +1915,7 @@
 @chunkArray GLLevel GameLevels =
 {
   {
-    ChunkOf(@GameLevel1Name), 35, GPOS(18,5),
+    ChunkOf(@GameLevel1Name), 39, GPOS(18,5),  // Old time 35
     {
       1, { GPOS(0,39) }
     },
@@ -1923,7 +1923,7 @@
     ChunkOf(@GameLevel1Data)
   },
   {
-    ChunkOf(@GameLevel2Name), 45, GPOS(18,17),
+    ChunkOf(@GameLevel2Name), 49, GPOS(18,17),  // Old time 45
     {
       2, { GPOS(2,13), GPOS(2,67) }
     },
@@ -1931,7 +1931,7 @@
     ChunkOf(@GameLevel2Data)
   },
   {
-    ChunkOf(@GameLevel3Name), 33, GPOS(2,5),
+    ChunkOf(@GameLevel3Name), 37, GPOS(2,5),  // Old time 33
     {
       3, { GPOS(0,28), GPOS(0,44), GPOS(0,56) }
     },
@@ -1939,7 +1939,7 @@
     ChunkOf(@GameLevel3Data)
   },
   {
-    ChunkOf(@GameLevel4Name), 32, GPOS(16,77),
+    ChunkOf(@GameLevel4Name), 36, GPOS(16,77),  // Old time 32
     {
       2, { GPOS(0,44), GPOS(0,68) }
     },
@@ -1947,7 +1947,7 @@
     ChunkOf(@GameLevel4Data)
   },
   {
-    ChunkOf(@GameLevel5Name), 29, GPOS(3,74),
+    ChunkOf(@GameLevel5Name), 29, GPOS(3,74),  // Old time 29
     {
       2, { GPOS(1,61), GPOS(4,29) }
     },
@@ -1955,7 +1955,7 @@
     ChunkOf(@GameLevel5Data)
   },
   {
-    ChunkOf(@GameLevel6Name), 29, GPOS(8,33),
+    ChunkOf(@GameLevel6Name), 32, GPOS(8,33),  // Old time 29
     {
       2, { GPOS(0,63), GPOS(4,44) }
     },
@@ -1963,7 +1963,7 @@
     ChunkOf(@GameLevel6Data)
   },
   {
-    ChunkOf(@GameLevel7Name), 22, GPOS(2,6),
+    ChunkOf(@GameLevel7Name), 27, GPOS(2,6),  // Old time 22
     {
       2, { GPOS(0,60), GPOS(4,6) }
     },
