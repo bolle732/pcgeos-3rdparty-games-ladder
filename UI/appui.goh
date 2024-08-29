@@ -38,8 +38,10 @@
 @extern chunk LadderWarnVideoTooSmall;
 
 // RESOURCE Icon
-@extern visMoniker LadderIcon15x15;
-@extern visMoniker LadderIcon48x30;
+@extern visMoniker LadderIcon15x15x1;
+@extern visMoniker LadderIcon15x15x4;
+@extern visMoniker LadderIcon48x30x1;
+@extern visMoniker LadderIcon48x30x4;
 @extern chunk LadderGamePointer;
 
 // RESOURCE Interface

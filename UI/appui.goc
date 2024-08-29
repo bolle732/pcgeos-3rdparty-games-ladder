@@ -69,8 +69,10 @@
 @object LadderApplicationClass LadderApplication = {
   GI_visMoniker = list {
     @LadderTextMoniker,
-    @LadderIcon15x15,
-    @LadderIcon48x30
+    @LadderIcon15x15x1,
+    @LadderIcon15x15x4,
+    @LadderIcon48x30x1,
+    @LadderIcon48x30x4
   }
   GI_comp = @LadderPrimary;
   gcnList(MANUFACTURER_ID_GEOWORKS, GAGCNLT_WINDOWS) = @LadderPrimary;
