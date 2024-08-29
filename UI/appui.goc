@@ -593,8 +593,8 @@
 "erhälst die restliche Bonuszeit wenn Du den Level beendet hast."
 "Denk daran, viele Wege führen nach Rom. (Syhra)"
 ""
-"Drücke P um das Spiel zu pausieren oder ESCape um es zu beenden."
-""
+"Drücke P um das Spiel zu pausieren oder ESCape um es zu beenden.  Verwende"
+"CTRL-1 und CTRL-2 um die Fontgrösse zu ändern oder CTRL-0 für Vollbild."
 "Viel Glück Lad."
 */
 // Translatable strings in Ladder help screen
@@ -630,9 +630,9 @@
 @localize { "The 15th line in the help screen" 0-77 };
 @chunk char HelpText15[] = " ";
 @localize { "The 16th line in the help screen" 0-77 };
-@chunk char HelpText16[] = "Type a P to pause the game or an ESCape to end it.";
+@chunk char HelpText16[] = "Type a P to pause the game or an ESCape to end it.  Use CTRL-1 and";
 @localize { "The 17th line in the help screen" 0-77 };
-@chunk char HelpText17[] = " ";
+@chunk char HelpText17[] = "CTRL-2 to change font size or CTRL-0 to enter or leave fullscreen.";
 @localize { "The 18th line in the help screen" 0-77 };
 @chunk char HelpTextWish[] = "Good luck Lad.";
 @localize { "The good wishes text" 3-77 };
@@ -683,7 +683,7 @@
   TSD_T_CHNK, 16, // ScreenHelpStrings[16] / Text "Type a P to pause the game or an ESCape to end it."
   TSPOS(18, 1),
   TSD_T_CHNK, 17, // ScreenHelpStrings[17] / Text " "
-  TSPOS(19, 1),
+  TSPOS(20, 1),
   TSD_T_CHNK, 18, // ScreenHelpStrings[18] / Text "Good luck Lad."
   TSP_T_END
 };
