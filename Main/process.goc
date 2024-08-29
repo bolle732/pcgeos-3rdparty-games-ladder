@@ -349,7 +349,9 @@ word _pascal LoadFontConfig(word index)
 @extern method LadderProcessClass, MSG_LAD_PLAY_CLEAR;
 @extern method LadderProcessClass, MSG_LAD_PLAY_HOOKA;
 @extern method LadderProcessClass, MSG_LAD_PLAY_NEXT;
-@extern method LadderProcessClass, MSG_LAD_FONT_CHANGE_SIZE;
+@extern method LadderProcessClass, MSG_LAD_FONT_SET_SIZE;
+@extern method LadderProcessClass, MSG_LAD_FONT_DEC_SIZE;
+@extern method LadderProcessClass, MSG_LAD_FONT_INC_SIZE;
 @extern method LadderProcessClass, MSG_LAD_RESIZE_WINDOW;
 
 
@@ -1184,13 +1186,16 @@ word _pascal LoadFontConfig(word index)
 }
 
 /***********************************************************************
- *                  MSG_LAD_FONT_CHANGE_SIZE
+ *                  MSG_LAD_FONT_SET_SIZE
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Handle font size changes.
 
  * CALLED BY:       Internal by intercepted messages:
- *                  MSG_META_KBD_CHAR
+ *                  MSG_GEN_DISPLAY_SET_MAXIMIZED
+ *                  MSG_GEN_DISPLAY_SET_NOT_MAXIMIZED
+ *                  MSG_LAD_FONT_DEC_SIZE
+ *                  MSG_LAD_FONT_INC_SIZE
  * PARAMETERS:      void ( word index )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -1204,7 +1209,7 @@ word _pascal LoadFontConfig(word index)
  *      boa     2024-08-02    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_FONT_CHANGE_SIZE
+@method LadderProcessClass, MSG_LAD_FONT_SET_SIZE
 {
   word cur = g.is.fontCurrent;
   word ret;
@@ -1219,6 +1224,64 @@ word _pascal LoadFontConfig(word index)
 }
 
 /***********************************************************************
+ *                  MSG_LAD_FONT_DEC_SIZE
+ *                  for LadderProcessClass
+ ***********************************************************************
+ * SYNOPSIS:        Handle font size decrement.
+
+ * CALLED BY:       Internal by intercepted messages:
+ *                  MSG_META_KBD_CHAR
+ * PARAMETERS:      void ( void )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ Verify if font can decreased.
+ *                  2/ Send messages to resize font.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-08-29    Initial Revision
+ *
+ ***********************************************************************/
+@method LadderProcessClass, MSG_LAD_FONT_DEC_SIZE
+{
+  if (g.is.fontCurrent > g.ns.fontWinMin)
+  {
+    @send oself::MSG_LAD_FONT_SET_SIZE(g.is.fontCurrent - 1);
+  }
+}
+
+/***********************************************************************
+ *                  MSG_LAD_FONT_INC_SIZE
+ *                  for LadderProcessClass
+ ***********************************************************************
+ * SYNOPSIS:        Handle font size increment.
+
+ * CALLED BY:       Internal by intercepted messages:
+ *                  MSG_META_KBD_CHAR
+ * PARAMETERS:      void ( void )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ Verify if font can increased.
+ *                  2/ Send messages to resize font.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-08-29    Initial Revision
+ *
+ ***********************************************************************/
+@method LadderProcessClass, MSG_LAD_FONT_INC_SIZE
+{
+  if (g.is.fontCurrent < g.ns.fontWinMax)
+  {
+    @send oself::MSG_LAD_FONT_SET_SIZE(g.is.fontCurrent + 1);
+  }
+}
+
+/***********************************************************************
  *                  MSG_LAD_RESIZE_WINDOW
  *                  for LadderProcessClass
  ***********************************************************************
@@ -1226,7 +1289,7 @@ word _pascal LoadFontConfig(word index)
 
  * CALLED BY:       Internal by intercepted messages:
  *                  MSG_GEN_PROCESS_OPEN_APPLICATION
- *                  MSG_LAD_FONT_CHANGE_SIZE
+ *                  MSG_LAD_FONT_SET_SIZE
  * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -1328,13 +1391,13 @@ word _pascal LoadFontConfig(word index)
       case C_ONE:
         if (g.ss.windowState != WIN_S_MAXI)
         {
-          @send process::MSG_LAD_FONT_CHANGE_SIZE(g.is.fontCurrent - 1);
+          @send process::MSG_LAD_FONT_DEC_SIZE();
         }
         return;
       case C_TWO:
         if (g.ss.windowState != WIN_S_MAXI)
         {
-          @send process::MSG_LAD_FONT_CHANGE_SIZE(g.is.fontCurrent + 1);
+          @send process::MSG_LAD_FONT_INC_SIZE();
         }
         return;
       case C_ZERO:

@@ -475,7 +475,9 @@ typedef struct                 // Extra state structure
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_OVER;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HIGH;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_SAVE;
-  @message void MSG_LAD_FONT_CHANGE_SIZE(word index);
+  @message void MSG_LAD_FONT_SET_SIZE(word index);
+  @message void MSG_LAD_FONT_DEC_SIZE();
+  @message void MSG_LAD_FONT_INC_SIZE();
   @message (MSG_LAD_PROTO) MSG_LAD_RESIZE_WINDOW;
 @endc
 
