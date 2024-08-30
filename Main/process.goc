@@ -342,6 +342,7 @@ word _pascal LoadFontConfig(word index)
 @extern method LadderProcessClass, MSG_LAD_PLAY_LOAD_SHOW;
 @extern method LadderProcessClass, MSG_LAD_DEMO_INIT, MSG_LAD_PLAY_INIT;
 @extern method LadderProcessClass, MSG_LAD_PLAY_READY;
+@extern method LadderProcessClass, MSG_LAD_PLAY_READY_COUNT;
 @extern method LadderProcessClass, MSG_LAD_DEMO_START, MSG_LAD_PLAY_START;
 @extern method LadderProcessClass, MSG_LAD_DEMO_EXEC, MSG_LAD_PLAY_EXEC;
 @extern method LadderProcessClass, MSG_LAD_PLAY_HOLD;

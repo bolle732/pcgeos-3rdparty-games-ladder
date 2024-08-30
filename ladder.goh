@@ -117,7 +117,7 @@
 #define DLY_T_MENU        600  // Delay ticks for the menu auto tasks first start
 #define DLY_T_MENU_MIN    151  // Delay ticks for the menu auto tasks minimum time
 #define DLY_T_MENU_RND    113  // Delay ticks for the menu auto tasks random time
-#define DLY_T_READY        75  // Delay ticks for the get ready message
+#define DLY_T_READY        30  // Delay ticks for the get ready message
 #define DLY_T_HOOKA        15  // Delay ticks for the Hooka message
 #define DLY_T_DIES         10  // Delay ticks for the Lad dies
 #define DLY_T_EXIT         75  // Delay ticks for the exit message
@@ -392,10 +392,11 @@ typedef struct                 // No save state structure
   word timerId;                //   2B+0 - Timer id
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle
   word menuCount;              //   2B+0 - Menu counter
+  word readyCount;             //   2B+0 - Get ready counter
   char *levelBuffer;           //   4B+0 - Pointer to the level buffer
   word moveIndex;              //   2B+0 - Current demo move
   ChunkHandle moves;           //   2B+0 - Demo moves chunk handle
-} GLNoState;                   //  83B+1 = 84 bytes used
+} GLNoState;                   //  85B+1 = 86 bytes used
 
 // All global data which is saved to the INI file
 typedef struct                 // INI state structure
@@ -465,6 +466,7 @@ typedef struct                 // Extra state structure
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_LOAD_DATA;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_INIT;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_READY;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_READY_COUNT;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_START;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_EXEC;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HOLD;

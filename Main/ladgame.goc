@@ -1127,12 +1127,14 @@ static void _pascal MoveDers(void)
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ Show the get ready text in the info line.
- *                  2/ Start the round.
+ *                  2/ Hide mouse pointer.
+ *                  2/ Start get ready count down.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
  *      ----    ----          -----------
  *      boa     2011-01-18    Initial Revision
+ *      boa     2024-08-30    Splited for count down
  *
  ***********************************************************************/
 @extern method LadderProcessClass, MSG_LAD_PLAY_READY
@@ -1143,12 +1145,57 @@ static void _pascal MoveDers(void)
   MemLock(OptrToHandle(@LadderGamePointer));
   @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
   MemUnlock(OptrToHandle(@LadderGamePointer));
-  // Play "Get ready" sound
-  PlayNoise(1);
-  // Start the timer for end of get ready
-  g.ss.restorePoint = MSG_LAD_PLAY_START;
-  g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_READY, MSG_LAD_PLAY_START, 0, &g.ns.timerId);
+  // Initialize the get ready counter
+  g.ns.readyCount = 3;
+  // Start get ready count down
+  @send process::MSG_LAD_PLAY_READY_COUNT();
 }
+
+/***********************************************************************
+ *                  MSG_LAD_PLAY_READY_COUNT
+ *                  for LadderProcessClass
+ ***********************************************************************
+ * SYNOPSIS:        Do count down and start the game.
+ * CALLED BY:       MSG_LAD_PLAY_READY
+ * PARAMETERS:      void ( void )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    none
+
+ *
+ * STRATEGY:        1/ Check the count down.
+ *                  2/ If count down has not finished play count down 
+ *                     sound and continue with count down.
+ *                  3/ If count down has finished play count down finish
+ *                     sound and start the game.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-08-30    Initial Revision
+ *
+ ***********************************************************************/
+// One shot timer 
+@extern method LadderProcessClass, MSG_LAD_PLAY_READY_COUNT
+{
+  if (g.ns.readyCount > 0)
+  {
+    // Decrement count down
+    g.ns.readyCount = g.ns.readyCount - 1;
+    // Play "Get ready" sound
+    PlayNoise(1);
+    // Start the timer to continue with the count down
+    g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_READY, message, 0, &g.ns.timerId);
+  }
+  else
+  {
+    // Play "Get ready" sound
+    PlayNoise(2);
+    // Start the game
+    g.ss.restorePoint = MSG_LAD_PLAY_START;
+    @send process::MSG_LAD_PLAY_START();
+  }
+}
+
 
 /***********************************************************************
  *                  MSG_LAD_DEMO_START, MSG_LAD_PLAY_START
@@ -1158,8 +1205,8 @@ static void _pascal MoveDers(void)
  * CALLED BY:       (a) MSG_LAD_DEMO_START:
  *                      from MSG_LAD_DEMO_INIT
  *                  (b) MSG_LAD_PLAY_START:
- *                      One shot timer from MSG_LAD_PLAY_READY or user
- *                      by pressing the key 'ENTER' when game is paused.
+ *                      from MSG_LAD_PLAY_READY_COUNT or user by
+ *                      pressing the key 'ENTER' when game is paused.
  * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -1647,7 +1694,7 @@ static void _pascal MoveDers(void)
     // Update the status line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(o);
     // Play "Lad hooka" sound
-    PlayNoise(5);
+    PlayNoise(2);
     // Start the timer for our self
     g.ss.restorePoint = MSG_LAD_PLAY_HOOKA;
     g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_HOOKA, message, 0, &g.ns.timerId);
