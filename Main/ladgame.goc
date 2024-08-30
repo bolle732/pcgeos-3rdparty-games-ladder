@@ -72,13 +72,13 @@ extern void _pascal StopTimer(void);
 // Lookup table for playing noises
 static word NEI[][2] =
 {
-  { IP_VIBRASLAP, FR_VIBRASLAP },
-  { IP_LOW_BONGO, FR_LOW_BONGO },
-  { IP_SIDE_STICK, FR_SIDE_STICK },
-  { IP_HI_BONGO, FR_HI_BONGO },
-  { IP_BASS_DRUM_1, FR_BASS_DRUM_1 },
-  { IP_TAMBOURINE, FR_TAMBOURINE },
-  { IP_LOW_TIMBALE, FR_LOW_TIMBALE }
+  { IP_VIBRASLAP, FR_VIBRASLAP },      // Menu enable sound
+  { IP_LOW_BONGO, FR_LOW_BONGO },      // Play get ready & last seconds
+  { IP_HI_BONGO, FR_HI_BONGO },        // Play increase points
+  { IP_BASS_DRUM_1, FR_BASS_DRUM_1 },  // Play Der release
+  { IP_SIDE_STICK, FR_SIDE_STICK },    // Play Der recycle
+  { IP_TAMBOURINE, FR_TAMBOURINE },    // Play Lad hooka
+  { IP_LOW_TIMBALE, FR_LOW_TIMBALE }   // Play Lad dies
 };
 // Lookup table for Lad dying characters
 static char LDC[] =
@@ -825,16 +825,16 @@ static void _pascal MoveDers(void)
     // ::: HANDLE LEAVE ::: (an emitter)
     case DER_S_LEAVE:
       g.ss.ders[i].state--;
-      // Play notification sound
-      PlayNoise(4);
+      // Play "Der release" sound
+      PlayNoise(3);
       break;
     // ::: HANDLE RECYCLE ::: (by an emitter)
     case DER_S_RECYCLE:
       g.ss.ders[i].cpos = POS_NONE;
       g.ss.ders[i].lpos = POS_NONE;
       g.ss.ders[i].state = g.ss.level.ders;
-      // Play notification sound
-      PlayNoise(5);
+      // Play "Der recycle" sound
+      PlayNoise(4);
       continue;
     // ::: HANDLE > ARMED :::
     default:
@@ -1143,7 +1143,7 @@ static void _pascal MoveDers(void)
   MemLock(OptrToHandle(@LadderGamePointer));
   @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
   MemUnlock(OptrToHandle(@LadderGamePointer));
-  // Play notification sound
+  // Play "Get ready" sound
   PlayNoise(1);
   // Start the timer for end of get ready
   g.ss.restorePoint = MSG_LAD_PLAY_START;
@@ -1363,8 +1363,8 @@ static void _pascal MoveDers(void)
     }
     IncreaseScore(pnts);
     @send LadderGameScore::MSG_VAL_UPDATE_VALUE(g.ss.game.score);
-    // Play notification sound
-    PlayNoise(3);
+    // Play "Increase points" sound
+    PlayNoise(2);
   }
   // ::: HANDLE BONUS TIME :::
   // Process the bonus time
@@ -1374,8 +1374,11 @@ static void _pascal MoveDers(void)
   {
     g.ss.game.time = g.ss.level.time - secs;
     @send LadderGameTime::MSG_VAL_UPDATE_VALUE(g.ss.game.time);
-    // Play notification sound
-    PlayNoise(2);
+    if (g.ss.game.time < 10)
+    {
+      // Play "Last seconds" sound
+      PlayNoise(1);
+    }
   }
   // Check for bonus time exhausted
   if (g.ss.game.time == 0)
@@ -1519,7 +1522,7 @@ static void _pascal MoveDers(void)
     @send LadderGameActors::MSG_ACT_DRAW();
     // Increase the state
     g.ss.lad.die++;
-    // Play error sound
+    // Play "Lad dies" sound
     PlayNoise(6);
     // Call our self
     g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_DIES, message, 0, &g.ns.timerId);
@@ -1643,8 +1646,8 @@ static void _pascal MoveDers(void)
     }
     // Update the status line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(o);
-    // Play notification sound
-    PlayNoise(3);
+    // Play "Lad hooka" sound
+    PlayNoise(5);
     // Start the timer for our self
     g.ss.restorePoint = MSG_LAD_PLAY_HOOKA;
     g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_HOOKA, message, 0, &g.ns.timerId);

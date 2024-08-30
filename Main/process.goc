@@ -741,7 +741,7 @@ word _pascal LoadFontConfig(word index)
     {
       // Set the sound state
       g.is.sound = CFG_SND_ON;
-      // Play notification sound
+      // Play "Sound enabled" sound
       PlayNoise(0);
       // Update the text on screen
       @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@MenuSoundOn);
