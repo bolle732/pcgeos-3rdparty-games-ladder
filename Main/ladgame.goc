@@ -1177,10 +1177,11 @@ static void _pascal MoveDers(void)
 // One shot timer 
 @extern method LadderProcessClass, MSG_LAD_PLAY_READY_COUNT
 {
+  // Check if we have reached the end of the count down
   if (g.ns.readyCount > 0)
   {
     // Decrement count down
-    g.ns.readyCount = g.ns.readyCount - 1;
+    g.ns.readyCount--;
     // Play "Get ready" sound
     PlayNoise(1);
     // Start the timer to continue with the count down
