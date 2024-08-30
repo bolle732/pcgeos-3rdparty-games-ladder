@@ -101,9 +101,9 @@
   }
 };
 
-// I8N_DE  "Aktuelle Video-Auflösung ist zu klein!"
-@chunk char LadderWarnVideoTooSmall[] = "Current video resolution is too small!";
-@localize "The current video resolution too small info";
+// I8N_DE  "Die aktuelle Video-Auflösung ist zu klein! Wir benötigen mindestens 640 x 350 Pixel."
+@chunk char LadderWarnVideoTooSmall[] = "The current video resolution is too small! We need at least 640 x 350 pixel.";
+@localize "The current video resolution too small warning";
 
 @end APPLICATION;
 
