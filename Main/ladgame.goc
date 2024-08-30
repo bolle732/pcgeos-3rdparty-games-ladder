@@ -836,7 +836,7 @@ static void _pascal MoveDers(void)
       // Play "Der recycle" sound
       PlayNoise(4);
       continue;
-    // ::: HANDLE > ARMED :::
+    // ::: HANDLE ARMED :::
     default:
       g.ss.ders[i].state--;
       continue;
