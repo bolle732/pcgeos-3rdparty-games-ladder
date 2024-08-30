@@ -202,10 +202,10 @@ static word _pascal TicksByDifficulty(word diff)
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ Search the smallest font config.
- *                  2/ Search the 40% font config for windowed mode.
- *                  3/ Search the 80% font config for windowed mode.
+ *                  2/ Search the 40% font config for smallest window mode.
+ *                  3/ Search the 80% font config for largest window mode.
  *                  4/ Search the largest font config for fullscreen mode.
- *                  5/ Do fallback for 40% and 80% font sizes if not found.
+ *                  5/ Do fallback for 40% and 80% font sizes if none found.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
