@@ -678,12 +678,12 @@ word _pascal LoadFontConfig(word index)
   if (g.ss.windowState == WIN_S_MINI)
   {
     // Arm the jokes or demo
-    @send oself::MSG_LAD_MENU_STOP();
+    @send process::MSG_LAD_MENU_STOP();
   }
   else
   {
     // Disarm the jokes or demo
-    @send oself::MSG_LAD_MENU_AUTO();
+    @send process::MSG_LAD_MENU_AUTO();
   }
 }
 
@@ -829,7 +829,7 @@ word _pascal LoadFontConfig(word index)
     // Reset control state
     g.ns.menuCount = 0;
     // Run the demo
-    @send oself::MSG_LAD_DEMO();
+    @send process::MSG_LAD_DEMO();
   }
   // Handle joke
   else
@@ -979,7 +979,7 @@ word _pascal LoadFontConfig(word index)
     g.ss.game.level = d.level;
     g.ns.moves = d.moves;
     // Start the demo level
-    @send oself::MSG_LAD_DEMO_LOAD_HEAD();
+    @send process::MSG_LAD_DEMO_LOAD_HEAD();
     break;
   case MSG_LAD_PLAY:
     // Set the input state for the handling of key presses
@@ -991,7 +991,7 @@ word _pascal LoadFontConfig(word index)
     g.ss.game.level = 1; // 1, 2, 3, 4, 5, 6, 7
     // Start the first level
     g.ss.restorePoint = MSG_LAD_PLAY_LOAD_HEAD;
-    @send oself::MSG_LAD_PLAY_LOAD_HEAD();
+    @send process::MSG_LAD_PLAY_LOAD_HEAD();
 //  break;
   }
 }
@@ -1038,7 +1038,7 @@ word _pascal LoadFontConfig(word index)
     @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(NullOptr, PIL_WINDOW);
   }
   // Return to main menu
-  @send oself::MSG_LAD_MENU();
+  @send process::MSG_LAD_MENU();
 }
 
 /***********************************************************************
@@ -1222,7 +1222,7 @@ word _pascal LoadFontConfig(word index)
   if ((ret != FNT_R_NONE) && (ret != cur))
   {
     // Resize the window to reflect new font size
-    @send oself::MSG_LAD_RESIZE_WINDOW();
+    @send process::MSG_LAD_RESIZE_WINDOW();
   }
 }
 
@@ -1251,7 +1251,7 @@ word _pascal LoadFontConfig(word index)
 {
   if (g.is.fontCurrent > g.ns.fontWinMin)
   {
-    @send oself::MSG_LAD_FONT_SET_SIZE(g.is.fontCurrent - 1);
+    @send process::MSG_LAD_FONT_SET_SIZE(g.is.fontCurrent - 1);
   }
 }
 
@@ -1280,7 +1280,7 @@ word _pascal LoadFontConfig(word index)
 {
   if (g.is.fontCurrent < g.ns.fontWinMax)
   {
-    @send oself::MSG_LAD_FONT_SET_SIZE(g.is.fontCurrent + 1);
+    @send process::MSG_LAD_FONT_SET_SIZE(g.is.fontCurrent + 1);
   }
 }
 
