@@ -72,8 +72,13 @@ extern void _pascal StopTimer(void);
 // Lookup table for playing noises
 static word NEI[][2] =
 {
-  { IP_ACOUSTIC_BASS_DRUM, FR_ACOUSTIC_BASS_DRUM },
-  { IP_MUTE_TRIANGLE, FR_MUTE_TRIANGLE }
+  { IP_VIBRASLAP, FR_VIBRASLAP },
+  { IP_LOW_BONGO, FR_LOW_BONGO },
+  { IP_SIDE_STICK, FR_SIDE_STICK },
+  { IP_HI_BONGO, FR_HI_BONGO },
+  { IP_BASS_DRUM_1, FR_BASS_DRUM_1 },
+  { IP_TAMBOURINE, FR_TAMBOURINE },
+  { IP_LOW_TIMBALE, FR_LOW_TIMBALE }
 };
 // Lookup table for Lad dying characters
 static char LDC[] =
@@ -820,12 +825,16 @@ static void _pascal MoveDers(void)
     // ::: HANDLE LEAVE ::: (an emitter)
     case DER_S_LEAVE:
       g.ss.ders[i].state--;
+      // Play notification sound
+      PlayNoise(4);
       break;
     // ::: HANDLE RECYCLE ::: (by an emitter)
     case DER_S_RECYCLE:
       g.ss.ders[i].cpos = POS_NONE;
       g.ss.ders[i].lpos = POS_NONE;
       g.ss.ders[i].state = g.ss.level.ders;
+      // Play notification sound
+      PlayNoise(5);
       continue;
     // ::: HANDLE > ARMED :::
     default:
@@ -1130,12 +1139,12 @@ static void _pascal MoveDers(void)
 {
   // Update the info line with the get ready text
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayReady);
-  // Lock the cursor definition
+  // Hide mouse pointer by setting an empty pointer image
   MemLock(OptrToHandle(@LadderGamePointer));
-  // Set the image of the mouse cursor / pointer
   @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
-  // Unlock the cursor definition
   MemUnlock(OptrToHandle(@LadderGamePointer));
+  // Play notification sound
+  PlayNoise(1);
   // Start the timer for end of get ready
   g.ss.restorePoint = MSG_LAD_PLAY_START;
   g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_READY, MSG_LAD_PLAY_START, 0, &g.ns.timerId);
@@ -1355,7 +1364,7 @@ static void _pascal MoveDers(void)
     IncreaseScore(pnts);
     @send LadderGameScore::MSG_VAL_UPDATE_VALUE(g.ss.game.score);
     // Play notification sound
-    PlayNoise(1);
+    PlayNoise(3);
   }
   // ::: HANDLE BONUS TIME :::
   // Process the bonus time
@@ -1365,6 +1374,8 @@ static void _pascal MoveDers(void)
   {
     g.ss.game.time = g.ss.level.time - secs;
     @send LadderGameTime::MSG_VAL_UPDATE_VALUE(g.ss.game.time);
+    // Play notification sound
+    PlayNoise(2);
   }
   // Check for bonus time exhausted
   if (g.ss.game.time == 0)
@@ -1509,7 +1520,7 @@ static void _pascal MoveDers(void)
     // Increase the state
     g.ss.lad.die++;
     // Play error sound
-    PlayNoise(0);
+    PlayNoise(6);
     // Call our self
     g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_DIES, message, 0, &g.ns.timerId);
     // Return from method
@@ -1633,7 +1644,7 @@ static void _pascal MoveDers(void)
     // Update the status line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(o);
     // Play notification sound
-    PlayNoise(1);
+    PlayNoise(3);
     // Start the timer for our self
     g.ss.restorePoint = MSG_LAD_PLAY_HOOKA;
     g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_HOOKA, message, 0, &g.ns.timerId);
