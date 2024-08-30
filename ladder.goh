@@ -49,6 +49,9 @@
 #define L_FALSE             0  // False value used for functions
 #define L_TRUE              1  // True value used for functions
 
+// PC/GEOS system
+#define GEOS_TICKS_P_SEC   60  // Ticks per second
+
 // Application name
 #define APP_NAME            "GeoLadder"  // Application name
 

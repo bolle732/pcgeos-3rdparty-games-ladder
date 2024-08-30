@@ -1369,7 +1369,7 @@ static void _pascal MoveDers(void)
   // ::: HANDLE BONUS TIME :::
   // Process the bonus time
   g.ss.game.ticks += g.ss.game.delay;
-  secs = g.ss.game.ticks / 60;  // XXX: -> Use constant ticks per second !!!
+  secs = g.ss.game.ticks / GEOS_TICKS_P_SEC;
   if (g.ss.game.time != (g.ss.level.time - secs))
   {
     g.ss.game.time = g.ss.level.time - secs;

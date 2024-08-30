@@ -637,7 +637,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   {
     return;
   }
-  // XXX: Handle font size changes
+  // Handle font size changes
   GrSetFont(g.ns.gstateHandle, g.ns.font.type, g.ns.font.size);
   // Get the screen data
   o = pself->LSI_screen;
