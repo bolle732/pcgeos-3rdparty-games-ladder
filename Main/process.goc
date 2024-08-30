@@ -966,13 +966,11 @@ word _pascal LoadFontConfig(word index)
   case MSG_LAD_DEMO:
     // Set the input state for the handling of key presses
     g.ss.inputState = INP_S_DEMO;
-    // Set the execution state
+    // XXX: Set the execution state
     g.ss.executionState = EXE_S_DEMO;
-    // Lock the game demos
+    // Load a random game demo
     MemLock(OptrToHandle(@GameDemos));
-    // Get the game demo
     ChunkArrayGetElement(@GameDemos, Random(ChunkArrayGetCount(@GameDemos)), &d);
-    // Unlock the game demos
     MemUnlock(OptrToHandle(@GameDemos));
     // Set the round, level and moves
     g.ss.game.round = d.round;
