@@ -11,7 +11,7 @@
 ##############################################################################
 
 
-# ::: XGOCFLAGS ::: (will be passed to the GOC preprozessor)
+# ::: XGOCFLAGS ::: (will be passed to the GOC pre-processor)
 
 # Do not create an EC version
 # NO_EC = 1
