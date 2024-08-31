@@ -1332,6 +1332,8 @@ static void _pascal MoveDers(void)
   case LSD_C_GOLD:
     pnts += PNT_GOLD;
     *(g.ns.levelBuffer + g.ss.lad.cpos) = LSD_C_SPACE;
+    // Play "Increase points" sound
+    PlayNoise(2);
     break;
   case LSD_C_EXIT:
     g.ss.restorePoint = MSG_LAD_PLAY_HOOKA;
@@ -1371,6 +1373,8 @@ static void _pascal MoveDers(void)
         (g.ss.lad.lpos + 2 * LVL_COLS == g.ss.ders[i].cpos))
     {
       pnts += PNT_DER;
+      // Play "Increase points" sound
+      PlayNoise(2);
     }
     // Handle collision of Lad and Der
     if (g.ss.lad.cpos == g.ss.ders[i].cpos)
@@ -1415,8 +1419,6 @@ static void _pascal MoveDers(void)
     }
     IncreaseScore(pnts);
     @send LadderGameScore::MSG_VAL_UPDATE_VALUE(g.ss.game.score);
-    // Play "Increase points" sound
-    PlayNoise(2);
   }
   // ::: HANDLE BONUS TIME :::
   // Process the bonus time
