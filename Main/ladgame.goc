@@ -73,11 +73,10 @@ extern void _pascal StopTimer(void);
 static word NEI[][2] =
 {
   { IP_VIBRASLAP, FR_VIBRASLAP },      // Menu enable sound
-  { IP_LOW_BONGO, FR_LOW_BONGO },      // Play get ready & last seconds
+  { IP_LOW_BONGO, FR_LOW_BONGO },      // Play get ready & last seconds & Lad hooka
   { IP_HI_BONGO, FR_HI_BONGO },        // Play increase points
   { IP_BASS_DRUM_1, FR_BASS_DRUM_1 },  // Play Der release
   { IP_SIDE_STICK, FR_SIDE_STICK },    // Play Der recycle
-  { IP_TAMBOURINE, FR_TAMBOURINE },    // Play Lad hooka
   { IP_LOW_TIMBALE, FR_LOW_TIMBALE }   // Play Lad dies
 };
 // Lookup table for Lad dying characters
@@ -1571,7 +1570,7 @@ static void _pascal MoveDers(void)
     // Increase the state
     g.ss.lad.die++;
     // Play "Lad dies" sound
-    PlayNoise(6);
+    PlayNoise(5);
     // Call our self
     g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_DIES, message, 0, &g.ns.timerId);
     // Return from method
