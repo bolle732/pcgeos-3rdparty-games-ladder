@@ -1280,6 +1280,11 @@ static void _pascal MoveDers(void)
   msg = NULL;
   // Set the earning points to zero
   pnts = 0;
+  // Verify we have a valid TimerHandle
+  if (g.ns.timerHandle == NullHandle)
+  {
+    return;
+  }
   // Reset the actors
   @send LadderGameActors::MSG_ACT_RESET();
   // Handle demo moves
