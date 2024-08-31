@@ -150,13 +150,81 @@ void _pascal StopTimer(void)
  *      boa     2013-01-07    Initial Revision
  *
  ***********************************************************************/
-void _pascal StopAndFreeNoise(void)
+static void _pascal StopAndFreeNoise(void)
 {
   if (g.ns.noiseHandle != NullHandle)
   {
     SoundStopMusicNote(g.ns.noiseHandle);
     SoundFreeMusicNote(g.ns.noiseHandle);
     g.ns.noiseHandle = NullHandle;
+  }
+}
+
+/***********************************************************************
+ *                  PlayMusic
+ ***********************************************************************
+ * SYNOPSIS:        Play the music pointed by the parameter.
+ * CALLED BY:       Internal
+ * PARAMETERS:      void ( optr music )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    The global MemHandle "g.ns.musicHandle" for the music
+ *                  must be allocated.
+ *
+ * STRATEGY:        1/ Check if playing of sound is enabled.
+ *                  2/ Stop an already playing music.
+ *                  3/ Play the music.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-08-31    Initial Revision
+ *
+ ***********************************************************************/
+static void _pascal PlayMusic(optr music)
+{
+  MemHandle mh;
+  if (g.is.sound == CFG_SND_ON)
+  {
+    mh = g.ns.musicHandle;
+    SoundStopMusic(mh);
+    MemLock(OptrToHandle(music));
+    // Control (MemHandle), Song (pointer to word array)
+    SoundReallocMusic(mh, LMemDeref(music));
+    // Control (MemHandle), Priority (word), Tempo (word), Flags (EndOfSongFlags)
+    SoundPlayMusic(mh, SP_GAME, DOTTED_EIGHTH, UNLOCK_ON_EOS);
+    MemUnlock(OptrToHandle(music));
+  }
+}
+
+/***********************************************************************
+ *                  StopAndFreeMusic
+ ***********************************************************************
+ * SYNOPSIS:        Stop a playing music and reset the global variables
+ *                  of the music.
+ * CALLED BY:       Internal
+ * PARAMETERS:      void ( void )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    We do not flush the message queue which could
+ *                  contain an already sent message.
+ *
+ * STRATEGY:        1/ Check if the global MemHandle is not a
+ *                     NullHandle.
+ *                  2/ Stop the music and free the global MemHandle.
+ *                  3/ Set the global SoundHandle to a NullHandle.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-08-31    Initial Revision
+ *
+ ***********************************************************************/
+static void _pascal StopAndFreeMusic(void)
+{
+  if (g.ns.musicHandle != NullHandle)
+  {
+    SoundStopMusic(g.ns.musicHandle);
+    SoundFreeMusic(g.ns.musicHandle);
+    g.ns.musicHandle = NullHandle;
   }
 }
 
@@ -542,8 +610,11 @@ word _pascal LoadFontConfig(word index)
     // Load the scores from the file
     @send LadderMenuRank::MSG_RNK_LOAD();
 
-    // Allocate a memory handle for the noise
+    // Allocate a memory handle for the noise and the music
+    // Instrument (InstrumentPatch), Instrument Table (word), Frequency word), Volume (word), Delta Type (SoundStremDeltyTimeType), Duration (word), Control (Pointer to MemHandle)
     SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.ns.noiseHandle);
+    // Song (Pointer), Voices (word), Control (Pointer to MemHandle)
+    SoundAllocMusic(0, 4, &g.ns.musicHandle);
 
     // Let's start the menu or continue where we left the application
     @send process::{MSG_LAD_PROTO} msg();
@@ -595,8 +666,9 @@ word _pascal LoadFontConfig(word index)
   MemHandle mh;
   // Stop the current timer
   StopTimer();
-  // Stop the noise
+  // Stop the noise and music
   StopAndFreeNoise();
+  StopAndFreeMusic();
   // Return to not maximized
   if (g.ss.windowState == WIN_S_MAXI)
   {
@@ -1151,6 +1223,8 @@ word _pascal LoadFontConfig(word index)
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderHigh);
   // Set the text of the info line
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@HighInfo);
+  // Play the high score music
+  PlayMusic(@HighSong);
 }
 
 /***********************************************************************

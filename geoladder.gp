@@ -53,6 +53,7 @@ resource APPLICATION ui-object
 resource INTERFACE ui-object
 resource ICON ui-object read-only shared
 resource GAME lmem
+resource SONG lmem
 resource TEXT lmem
 
 export LadderApplicationClass

@@ -391,12 +391,13 @@ typedef struct                 // No save state structure
   TimerHandle timerHandle;     //   2B+0 - Timer handle
   word timerId;                //   2B+0 - Timer id
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle
+  MemHandle musicHandle;       //   2B+0 - Music memory handle
   word menuCount;              //   2B+0 - Menu counter
   word readyCount;             //   2B+0 - Get ready counter
   char *levelBuffer;           //   4B+0 - Pointer to the level buffer
   word moveIndex;              //   2B+0 - Current demo move
   ChunkHandle moves;           //   2B+0 - Demo moves chunk handle
-} GLNoState;                   //  85B+1 = 86 bytes used
+} GLNoState;                   //  87B+1 = 88 bytes used
 
 // All global data which is saved to the INI file
 typedef struct                 // INI state structure

@@ -98,6 +98,10 @@
 @extern chunk HighSave;
 
 
+// RESOURCE Song
+@extern chunk HighSong;
+
+
 // RESOURCE Game
 @extern chunk ScreenLoad;
 
