@@ -197,13 +197,13 @@
 }
 
 @object LadderValueClass LadderLoadRound = {
-  LVI_position = GPOS(12, 45);
+  LVI_position = GPOS(12, 46);
   LVI_length = 2;
   LVI_value = 1;
 }
 
 @object LadderValueClass LadderLoadLevel = {
-  LVI_position = GPOS(13, 45);
+  LVI_position = GPOS(13, 46);
   LVI_length = 2;
   LVI_value = 1;
 }
