@@ -171,7 +171,7 @@ void _pascal PlayNoise(word noise)
   {
     mh = g.ns.noiseHandle;
     SoundStopMusicNote(mh);
-    // Control (MemHandle), Frequency (word), Volume (word), Timer (word), Duration (word), Instrument (word)
+    // Control (MemHandle), Frequency (word), Volume (word), Timer (word), Duration (word), Instrument (word), Instrument Table
     SoundReallocMusicNote(mh, NEI[noise][1], DYNAMIC_FFF, SSDTT_TICKS, 4, NEI[noise][0], IT_STANDARD_TABLE);
     // Control (MemHandle), Priority (word), Tempo (word), Flags (EndOfSongFlags)
     SoundPlayMusicNote(mh, SP_GAME + SP_IMMEDIATE, 0, UNLOCK_ON_EOS);

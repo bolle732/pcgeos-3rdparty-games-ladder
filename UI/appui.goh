@@ -99,6 +99,7 @@
 
 
 // RESOURCE Song
+@extern chunk DoneSong;
 @extern chunk HighSong;
 
 

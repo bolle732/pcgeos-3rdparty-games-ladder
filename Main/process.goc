@@ -1145,6 +1145,8 @@ word _pascal LoadFontConfig(word index)
   @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(NullOptr, PIL_WINDOW);
   // Set the text of the info line
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@DoneInfo);
+  // Play the game done music
+  PlayMusic(@DoneSong);
 }
 
 /***********************************************************************
