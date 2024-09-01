@@ -152,6 +152,7 @@ void _pascal StopTimer(void)
  ***********************************************************************/
 static void _pascal StopAndFreeNoise(void)
 {
+  // Stop the noise only if we have a valid MemHamdle
   if (g.ns.noiseHandle != NullHandle)
   {
     SoundStopMusicNote(g.ns.noiseHandle);
@@ -186,7 +187,9 @@ static void _pascal PlayMusic(optr music)
   if (g.is.sound == CFG_SND_ON)
   {
     mh = g.ns.musicHandle;
+    // Stop music as we'll realocate it
     SoundStopMusic(mh);
+    // Play the music
     MemLock(OptrToHandle(music));
     // Control (MemHandle), Song (pointer to word array)
     SoundReallocMusic(mh, LMemDeref(music));
@@ -220,6 +223,7 @@ static void _pascal PlayMusic(optr music)
  ***********************************************************************/
 static void _pascal StopAndFreeMusic(void)
 {
+  // Stop the music only if we have a valid MemHamdle
   if (g.ns.musicHandle != NullHandle)
   {
     SoundStopMusic(g.ns.musicHandle);
