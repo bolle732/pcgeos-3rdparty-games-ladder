@@ -1561,6 +1561,8 @@ word _pascal LoadFontConfig(word index)
       // Key 'Enter'
       if (character == 0xFF0D)
       {
+        // XXX: To verify
+        g.ss.inputState = INP_S_PLAY;
         g.ss.restorePoint = MSG_LAD_PLAY_READY;
         msg = MSG_LAD_PLAY_READY;
       }

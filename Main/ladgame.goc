@@ -1280,7 +1280,7 @@ static void _pascal MoveDers(void)
   msg = NULL;
   // Set the earning points to zero
   pnts = 0;
-  // Verify we have a valid TimerHandle
+  // Return if we don't have a valid TimerHandle or the input state is not DEMO or EXEC
   if ((g.ns.timerHandle == NullHandle) || ((g.ss.inputState != INP_S_DEMO) && (g.ss.inputState != INP_S_EXEC)))
   {
     return;
@@ -1440,39 +1440,39 @@ static void _pascal MoveDers(void)
     g.ss.restorePoint = MSG_LAD_PLAY_FAIL;
     msg = MSG_LAD_PLAY_FAIL;
   }
-
-
-  // ::: HANDLE MINIMIZED and FOCUS LOST :::
-  switch (message)
+  // ::: HANDLE MINIMIZED and FOCUS LOST if no other message has been triggered :::
+  if (msg == NULL)
   {
-  case MSG_LAD_DEMO_EXEC:
-    if ((msg != NULL) || (g.ss.windowState == WIN_S_MINI))
+    switch (message)
     {
-      // Stop the demo in all cases
-      msg = MSG_LAD_DEMO_STOP;
+    case MSG_LAD_DEMO_EXEC:
+      if (g.ss.windowState == WIN_S_MINI)
+      {
+        // Stop the demo in all cases
+        msg = MSG_LAD_DEMO_STOP;
+      }
+      break;
+    case MSG_LAD_PLAY_EXEC:
+      if (g.ss.windowState == WIN_S_MINI || g.ss.focusState == FOC_S_LOST)
+      {
+        // Pause the play
+        g.ss.restorePoint = MSG_LAD_PLAY_HOLD;
+        msg = MSG_LAD_PLAY_HOLD;
+      }
+//    break;
     }
-    break;
-  case MSG_LAD_PLAY_EXEC:
-    if (g.ss.windowState == WIN_S_MINI || g.ss.focusState == FOC_S_LOST)
-    {
-      // Pause the play
-      g.ss.restorePoint = MSG_LAD_PLAY_HOLD;
-      msg = MSG_LAD_PLAY_HOLD;
-    }
-//  break;
   }
-
-
   // ::: HANDLE HOOKA, FAIL, DEMO STOP and PLAY HOLD :::
-  // Handle the result
+  // Handle the message
   if (msg != NULL)
   {
-    // Stop the our timer
+    // Stop the our continual timer
     StopTimer();
+    // Set input state
+    g.ss.inputState = INP_S_PLAY;
     // Send the message
     @send process::{MSG_LAD_PROTO} msg();
   }
-
 }
 
 /***********************************************************************
