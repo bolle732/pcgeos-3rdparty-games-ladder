@@ -1440,7 +1440,7 @@ static void _pascal MoveDers(void)
     g.ss.restorePoint = MSG_LAD_PLAY_FAIL;
     msg = MSG_LAD_PLAY_FAIL;
   }
-  // ::: HANDLE MINIMIZED and FOCUS LOST if no other message has been triggered :::
+  // ::: HANDLE MINIMIZED and FOCUS LOST nothing else has to be done :::
   if (msg == NULL)
   {
     switch (message)
@@ -1448,7 +1448,7 @@ static void _pascal MoveDers(void)
     case MSG_LAD_DEMO_EXEC:
       if (g.ss.windowState == WIN_S_MINI)
       {
-        // Stop the demo in all cases
+        // Stop the demo
         msg = MSG_LAD_DEMO_STOP;
       }
       break;
@@ -1468,8 +1468,18 @@ static void _pascal MoveDers(void)
   {
     // Stop the our continual timer
     StopTimer();
-    // Set input state
-    g.ss.inputState = INP_S_PLAY;
+    // Handle additional tasks
+    switch (message)
+    {
+    case MSG_LAD_DEMO_EXEC:
+      // Stop the demo in all cases
+      msg = MSG_LAD_DEMO_STOP;
+      break;
+    case MSG_LAD_PLAY_EXEC:
+      // Set input state
+      g.ss.inputState = INP_S_PLAY;
+//    break;
+    }
     // Send the message
     @send process::{MSG_LAD_PROTO} msg();
   }
