@@ -1231,8 +1231,6 @@ static void _pascal MoveDers(void)
   case MSG_LAD_DEMO_START:
     // Set the text in the info line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@DemoInfo);
-    // Set the input state for the handling of key presses
-    g.ss.inputState = INP_S_DEMO;
     // Start the timer for the demo
     g.ns.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.ss.game.delay, MSG_LAD_DEMO_EXEC, g.ss.game.delay, &g.ns.timerId);
     break;
@@ -1283,7 +1281,7 @@ static void _pascal MoveDers(void)
   // Set the earning points to zero
   pnts = 0;
   // Verify we have a valid TimerHandle
-  if (g.ns.timerHandle == NullHandle)
+  if ((g.ns.timerHandle == NullHandle) || ((g.ss.inputState != INP_S_DEMO) && (g.ss.inputState != INP_S_EXEC)))
   {
     return;
   }
@@ -1442,43 +1440,39 @@ static void _pascal MoveDers(void)
     g.ss.restorePoint = MSG_LAD_PLAY_FAIL;
     msg = MSG_LAD_PLAY_FAIL;
   }
-  // ::: HANDLE HOOKA, FAIL OR DEMO STOP :::
-  // Handle the result
-  if (msg != NULL)
-  {
-    // XXX: Stop the play timer
-    StopTimer();
-    // Handle demo mode
-    if (message == MSG_LAD_DEMO_EXEC)
-    {
-      // Stop the demo in all cases
-      msg = MSG_LAD_DEMO_STOP;
-    }
-    // Send the message
-    @send process::{MSG_LAD_PROTO} msg();
-  }
+
+
+  // ::: HANDLE MINIMIZED and FOCUS LOST :::
   switch (message)
   {
   case MSG_LAD_DEMO_EXEC:
-    if (g.ss.windowState == WIN_S_MINI)
+    if ((msg != NULL) || (g.ss.windowState == WIN_S_MINI))
     {
-      // XXX: Stop the play timer
-      StopTimer();
-      // Stop the demo
-      @send process::MSG_LAD_DEMO_STOP();
+      // Stop the demo in all cases
+      msg = MSG_LAD_DEMO_STOP;
     }
     break;
   case MSG_LAD_PLAY_EXEC:
     if (g.ss.windowState == WIN_S_MINI || g.ss.focusState == FOC_S_LOST)
     {
-      // XXX: Stop the play timer
-      StopTimer();
       // Pause the play
       g.ss.restorePoint = MSG_LAD_PLAY_HOLD;
-      @send process::MSG_LAD_PLAY_HOLD();
+      msg = MSG_LAD_PLAY_HOLD;
     }
 //  break;
   }
+
+
+  // ::: HANDLE HOOKA, FAIL, DEMO STOP and PLAY HOLD :::
+  // Handle the result
+  if (msg != NULL)
+  {
+    // Stop the our timer
+    StopTimer();
+    // Send the message
+    @send process::{MSG_LAD_PROTO} msg();
+  }
+
 }
 
 /***********************************************************************
