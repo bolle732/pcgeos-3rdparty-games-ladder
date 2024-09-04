@@ -1148,6 +1148,8 @@ static void _pascal MoveDers(void)
   MemUnlock(OptrToHandle(@LadderGamePointer));
   // Initialize the get ready counter
   g.ns.readyCount = 3;
+  // Set the input state for the handling of key presses
+  g.ss.inputState = INP_S_PLAY;
   // Start get ready count down
   @send process::MSG_LAD_PLAY_READY_COUNT();
 }
@@ -1192,7 +1194,7 @@ static void _pascal MoveDers(void)
   {
     // Play "Get ready" sound
     PlayNoise(2);
-    // Start the game
+    // Set restore point and start the game
     g.ss.restorePoint = MSG_LAD_PLAY_START;
     @send process::MSG_LAD_PLAY_START();
   }
@@ -1239,7 +1241,7 @@ static void _pascal MoveDers(void)
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
     // Set the input state for the handling of key presses
     g.ss.inputState = INP_S_EXEC;
-    // Start the timer for the play
+    // Set restore point and start the timer for the play execution
     g.ss.restorePoint = MSG_LAD_PLAY_EXEC;
     g.ns.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.ss.game.delay, MSG_LAD_PLAY_EXEC, g.ss.game.delay, &g.ns.timerId);
 //  break;
@@ -1336,10 +1338,12 @@ static void _pascal MoveDers(void)
     PlayNoise(2);
     break;
   case LSD_C_EXIT:
+    // Set restore point and message to stop play
     g.ss.restorePoint = MSG_LAD_PLAY_HOOKA;
     msg = MSG_LAD_PLAY_HOOKA;
     break;
   case LSD_C_TRAP:
+    // Set restore point and message to stop play
     g.ss.restorePoint = MSG_LAD_PLAY_FAIL;
     msg = MSG_LAD_PLAY_FAIL;
     break;
@@ -1455,7 +1459,7 @@ static void _pascal MoveDers(void)
     case MSG_LAD_PLAY_EXEC:
       if (g.ss.windowState == WIN_S_MINI || g.ss.focusState == FOC_S_LOST)
       {
-        // Pause the play
+        // Set restore point and message to pause the game
         g.ss.restorePoint = MSG_LAD_PLAY_HOLD;
         msg = MSG_LAD_PLAY_HOLD;
       }
@@ -1548,7 +1552,7 @@ static void _pascal MoveDers(void)
   g.ss.lad.die = 0;
   // Clear the actors
   @send LadderGameActors::MSG_ACT_RESET();
-  // Do the lad death
+  // Set restore point and do the dying Lad
   g.ss.restorePoint = MSG_LAD_PLAY_DIES;
   @send process::MSG_LAD_PLAY_DIES();
 }
@@ -1594,13 +1598,13 @@ static void _pascal MoveDers(void)
   }
   if (g.ss.game.lads > 0)
   {
-    // Clear the actors in the level
+    // Set restore point and message to clear the actors in the level
     g.ss.restorePoint = MSG_LAD_PLAY_CLEAR;
     msg = MSG_LAD_PLAY_CLEAR;
   }
   else
   {
-    // The game is over
+    // Set restore point and message to the game is over
     g.ss.restorePoint = MSG_LAD_PLAY_OVER;
     msg = MSG_LAD_PLAY_OVER;
   }
@@ -1650,7 +1654,7 @@ static void _pascal MoveDers(void)
   MemUnlock(OptrToHandle(@GameLevelBuffer));
   // Draw the background of the actors
   @send LadderGameActors::MSG_ACT_DRAW();
-  // Restart the level
+  // Set restore point and restart the level
   g.ss.restorePoint = MSG_LAD_PLAY_INIT;
   @send process::MSG_LAD_PLAY_INIT();
 }
@@ -1717,6 +1721,7 @@ static void _pascal MoveDers(void)
   }
   else
   {
+    // Set restore point and start the next level
     g.ss.restorePoint = MSG_LAD_PLAY_NEXT;
     @send process::MSG_LAD_PLAY_NEXT();
   }
@@ -1752,13 +1757,13 @@ static void _pascal MoveDers(void)
   MemLock(OptrToHandle(@GameLevels));  
   if (g.ss.game.level > ChunkArrayGetCount(@GameLevels))
   {
-    // Show the last screen
+    // Set restore point and show the last screen
     g.ss.restorePoint = MSG_LAD_PLAY_DONE;
     @send process::MSG_LAD_PLAY_DONE();
   }
   else
   {
-    // Start next level
+    // Set restore point and load header of next level
     g.ss.restorePoint = MSG_LAD_PLAY_LOAD_HEAD;
     @send process::MSG_LAD_PLAY_LOAD_HEAD();
   }

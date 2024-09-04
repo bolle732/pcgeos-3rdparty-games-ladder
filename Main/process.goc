@@ -1064,7 +1064,7 @@ word _pascal LoadFontConfig(word index)
     // Initialize the round and level
     g.ss.game.round = 1; // 1, 2, 5, 9, 14, 20, 27
     g.ss.game.level = 1; // 1, 2, 3, 4, 5, 6, 7
-    // Start the first level
+    // Set restore point and start the first level
     g.ss.restorePoint = MSG_LAD_PLAY_LOAD_HEAD;
     @send process::MSG_LAD_PLAY_LOAD_HEAD();
 //  break;
@@ -1455,7 +1455,7 @@ word _pascal LoadFontConfig(word index)
         break;
       case INP_S_PLAY:
       case INP_S_EXEC:
-        // Stop play
+        // Set restore point and message to stop play
         g.ss.restorePoint = MSG_LAD_PLAY_STOP;
         msg = MSG_LAD_PLAY_STOP;
         break;
@@ -1522,6 +1522,7 @@ word _pascal LoadFontConfig(word index)
         return;
       case C_SMALL_P:
       case C_CAP_P:
+        // Set restore point and message
         g.ss.restorePoint = MSG_LAD_PLAY_HOLD;
         msg = MSG_LAD_PLAY_HOLD;
         break;
@@ -1561,8 +1562,7 @@ word _pascal LoadFontConfig(word index)
       // Key 'Enter'
       if (character == 0xFF0D)
       {
-        // XXX: To verify
-        g.ss.inputState = INP_S_PLAY;
+        // Set restore point and message
         g.ss.restorePoint = MSG_LAD_PLAY_READY;
         msg = MSG_LAD_PLAY_READY;
       }
@@ -1573,6 +1573,7 @@ word _pascal LoadFontConfig(word index)
       {
       // Key 'Enter'
       case 0xFF0D:
+        // Set restore point and message
         g.ss.restorePoint = MSG_LAD_PLAY_SAVE;
         msg = MSG_LAD_PLAY_SAVE;
         break;
@@ -1599,11 +1600,13 @@ word _pascal LoadFontConfig(word index)
         // Check for new high score
         if (@call LadderMenuRank::MSG_RNK_IS_NEW_RANK(g.ss.game.score) == L_TRUE)
         {
+          // Set restore point and message
           g.ss.restorePoint = MSG_LAD_PLAY_HIGH;
           msg = MSG_LAD_PLAY_HIGH;
         }
         else
         {
+          // Set restore point and message
           g.ss.restorePoint = MSG_LAD_PLAY_STOP;
           msg = MSG_LAD_PLAY_STOP;
         }
