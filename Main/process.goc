@@ -1447,14 +1447,13 @@ word _pascal LoadFontConfig(word index)
     // Handle escape key
     if (character == 0xFF1B)
     {
-      switch (g.ss.inputState)
+      switch (g.ss.executionState)
       {
-      case INP_S_DEMO:
+      case EXE_S_DEMO:
         // Stop demo
         msg = MSG_LAD_DEMO_STOP;
         break;
-      case INP_S_PLAY:
-      case INP_S_EXEC:
+      case EXE_S_PLAY:
         // Set restore point and message to stop play
         g.ss.restorePoint = MSG_LAD_PLAY_STOP;
         msg = MSG_LAD_PLAY_STOP;
