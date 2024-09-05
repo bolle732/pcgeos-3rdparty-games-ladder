@@ -1061,8 +1061,8 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *                  MSG_RNK_SAVE_RANK
  *                  for LadderRankClass
  ***********************************************************************
- * SYNOPSIS:        Add a rank our ranking list and save the list into
- *                  our file.
+ * SYNOPSIS:        Add a rank to the ranking list and save the list
+ *                  into our file.
  * CALLED BY:       Internal
  * PARAMETERS:      void ( word score,
  *                         void *name )
