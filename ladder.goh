@@ -450,9 +450,9 @@ typedef struct                 // Extra state structure
   @message (MSG_LAD_PROTO) MSG_LAD_MENU;
   @message (MSG_LAD_PROTO) MSG_LAD_MENU_SOUND;
   @message (MSG_LAD_PROTO) MSG_LAD_MENU_DIFF;
-  @message (MSG_LAD_PROTO) MSG_LAD_MENU_EXIT;
   @message (MSG_LAD_PROTO) MSG_LAD_MENU_EXEC;
   @message (MSG_LAD_PROTO) MSG_LAD_MENU_STOP;
+  @message (MSG_LAD_PROTO) MSG_LAD_EXIT;
   @message (MSG_LAD_PROTO) MSG_LAD_HELP;
   @message (MSG_LAD_PROTO) MSG_LAD_DEMO;
   @message (MSG_LAD_PROTO) MSG_LAD_DEMO_LOAD_HEAD;

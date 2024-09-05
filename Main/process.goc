@@ -837,7 +837,7 @@ word _pascal LoadFontConfig(word index)
 }
 
 /***********************************************************************
- *                  MSG_LAD_MENU_EXIT
+ *                  MSG_LAD_EXIT
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Close the application.
@@ -858,7 +858,7 @@ word _pascal LoadFontConfig(word index)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_MENU_EXIT
+@method LadderProcessClass, MSG_LAD_EXIT
 {
   // Stop the timer
   StopTimer();
@@ -1553,7 +1553,7 @@ word _pascal LoadFontConfig(word index)
         msg = MSG_LAD_HELP;
         break;
       case C_SMALL_E:
-        msg = MSG_LAD_MENU_EXIT;
+        msg = MSG_LAD_EXIT;
 //      break;
       }
       break;
