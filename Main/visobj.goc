@@ -391,9 +391,9 @@ static void _pascal DrawValue(word pos, word val, word suf)
   MemUnlock(OptrToHandle(@LadderGamePointer));
   // Hide window frame and buttons
   @call oself::MSG_GEN_SET_NOT_USABLE(VUM_NOW);
-  @call oself::MSG_GEN_ADD_GEOMETRY_HINT(HINT_WINDOW_NO_TITLE_BAR, 0, VUM_DELAYED_VIA_APP_QUEUE);
-  @call oself::MSG_META_ADD_VAR_DATA(HINT_PRIMARY_NO_EXPRESS_MENU, 0, NULL);
-  @call oself::MSG_META_ADD_VAR_DATA(HINT_PRIMARY_NO_HELP_BUTTON, 0, NULL);
+  ObjVarAddData(oself, HINT_WINDOW_NO_TITLE_BAR, 0);
+  ObjVarAddData(oself, HINT_PRIMARY_NO_EXPRESS_MENU, 0);
+  ObjVarAddData(oself, HINT_PRIMARY_NO_HELP_BUTTON, 0);
   @call oself::MSG_GEN_SET_USABLE(VUM_DELAYED_VIA_APP_QUEUE);
   // Save current and load largest font size
   g.ns.fontSaved = g.is.fontCurrent;
@@ -443,9 +443,9 @@ static void _pascal DrawValue(word pos, word val, word suf)
   @call oself::MSG_GEN_CALL_SYSTEM(evt);
   // Restore window frame and buttons
   @call oself::MSG_GEN_SET_NOT_USABLE(VUM_NOW);
-  @call oself::MSG_META_DELETE_VAR_DATA(HINT_PRIMARY_NO_EXPRESS_MENU);
-  @call oself::MSG_META_DELETE_VAR_DATA(HINT_PRIMARY_NO_HELP_BUTTON);
-  @call oself::MSG_GEN_REMOVE_GEOMETRY_HINT(HINT_WINDOW_NO_TITLE_BAR, VUM_DELAYED_VIA_APP_QUEUE);
+  ObjVarDeleteData(oself, HINT_WINDOW_NO_TITLE_BAR);
+  ObjVarDeleteData(oself, HINT_PRIMARY_NO_EXPRESS_MENU);
+  ObjVarDeleteData(oself, HINT_PRIMARY_NO_HELP_BUTTON);
   @call oself::MSG_GEN_SET_USABLE(VUM_DELAYED_VIA_APP_QUEUE);
   // Restore saved font size
   @send process::MSG_LAD_FONT_SET_SIZE(g.ns.fontSaved);
