@@ -306,10 +306,14 @@ static void _pascal DrawValue(word pos, word val, word suf)
 {
   // Update the global state
   g.ss.windowState = WIN_S_MINI;
-  // Handle menu
-  if (g.ss.executionState == EXE_S_MENU)
+  // Stop execution at the next possible moment
+  switch (g.ss.executionState)
   {
-    @send process::MSG_LAD_MENU_STOP();
+  case EXE_S_MENU:
+  case EXE_S_DEMO:
+  case EXE_S_PLAY:
+    g.ss.cancelExecution = L_TRUE;
+//  break;
   }
   // Do super
   @callsuper();
@@ -339,9 +343,10 @@ static void _pascal DrawValue(word pos, word val, word suf)
 {
   // Update the global state
   g.ss.windowState = WIN_S_NORM;
-  // Handle menu
+  // Restart execution of the menu
   if (g.ss.executionState == EXE_S_MENU)
   {
+    g.ss.cancelExecution = L_FALSE;
     @send process::MSG_LAD_MENU_EXEC();
   }
   // Do super

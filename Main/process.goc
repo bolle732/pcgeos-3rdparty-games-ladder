@@ -534,6 +534,10 @@ word _pascal LoadFontConfig(word index)
     // Unlock the extra state
     MemUnlock(extraState);
   }
+  else
+  {
+    g.ss.cancelExecution = L_FALSE;
+  }
 
   // Get the font size from the INI file
   if (InitFileReadInteger(&ICA, &IKF, &g.is.fontCurrent))
@@ -901,6 +905,12 @@ word _pascal LoadFontConfig(word index)
 {
   word d;
   optr o;
+  // Check if we should cancel the execution
+  if (g.ss.cancelExecution == L_TRUE)
+  {
+    @send process::MSG_LAD_MENU_STOP();
+    return;
+  }
   // Check for not first time and demo time
   if (g.ns.menuCount != 0 && (g.ns.menuCount % 8 == 0))
   {
@@ -963,6 +973,8 @@ word _pascal LoadFontConfig(word index)
 {
   // Stop the timer
   StopTimer();
+  // Reset cancel execution
+  g.ss.cancelExecution = L_FALSE;
   // Reset the control state
   g.ns.menuCount = 0;
   // Clear the text in the info line
@@ -1102,6 +1114,8 @@ word _pascal LoadFontConfig(word index)
 {
   // Stop the game timer
   StopTimer();
+  // Reset cancel execution
+  g.ss.cancelExecution = L_FALSE;
   // Set the input state for the handling of key presses
   g.ss.inputState = INP_S_NONE;
   // Handle message type
@@ -1651,6 +1665,11 @@ word _pascal LoadFontConfig(word index)
 {
   // Update the global state
   g.ss.focusState = FOC_S_LOST;
+  // Inform the game to stop at the next possible moment
+  if (g.ss.executionState == EXE_S_PLAY)
+  {
+    g.ss.cancelExecution = L_TRUE;
+  }
   // Do super
   @callsuper();
 }

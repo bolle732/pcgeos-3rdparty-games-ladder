@@ -1140,6 +1140,12 @@ static void _pascal MoveDers(void)
  ***********************************************************************/
 @extern method LadderProcessClass, MSG_LAD_PLAY_READY
 {
+  // Check if we should cancel the execution
+  if (g.ss.cancelExecution == L_TRUE)
+  {
+    @send process::MSG_LAD_PLAY_HOLD();
+    return;
+  }
   // Update the info line with the get ready text
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayReady);
   // Hide mouse pointer by setting an empty pointer image
@@ -1180,6 +1186,12 @@ static void _pascal MoveDers(void)
 // One shot timer 
 @extern method LadderProcessClass, MSG_LAD_PLAY_READY_COUNT
 {
+  // Check if we should cancel the execution
+  if (g.ss.cancelExecution == L_TRUE)
+  {
+    @send process::MSG_LAD_PLAY_HOLD();
+    return;
+  }
   // Check if we have reached the end of the count down
   if (g.ns.readyCount > 0)
   {
@@ -1285,6 +1297,23 @@ static void _pascal MoveDers(void)
   // Return if we don't have a valid TimerHandle or the input state is not DEMO or EXEC
   if ((g.ns.timerHandle == NullHandle) || ((g.ss.inputState != INP_S_DEMO) && (g.ss.inputState != INP_S_EXEC)))
   {
+    return;
+  }
+  // Check if we should cancel the execution
+  if (g.ss.cancelExecution == L_TRUE)
+  {
+    switch (message)
+    {
+    case MSG_LAD_DEMO_EXEC:
+      // Stop the demo
+      @send process::MSG_LAD_DEMO_STOP();
+      break;
+    case MSG_LAD_PLAY_EXEC:
+      // Set restore point and message to pause the game
+      g.ss.restorePoint = MSG_LAD_PLAY_HOLD;
+      @send process::MSG_LAD_PLAY_HOLD();
+//    break;
+    }
     return;
   }
   // Reset the actors
@@ -1444,28 +1473,6 @@ static void _pascal MoveDers(void)
     g.ss.restorePoint = MSG_LAD_PLAY_FAIL;
     msg = MSG_LAD_PLAY_FAIL;
   }
-  // ::: HANDLE MINIMIZED and FOCUS LOST nothing else has to be done :::
-  if (msg == NULL)
-  {
-    switch (message)
-    {
-    case MSG_LAD_DEMO_EXEC:
-      if (g.ss.windowState == WIN_S_MINI)
-      {
-        // Stop the demo
-        msg = MSG_LAD_DEMO_STOP;
-      }
-      break;
-    case MSG_LAD_PLAY_EXEC:
-      if (g.ss.windowState == WIN_S_MINI || g.ss.focusState == FOC_S_LOST)
-      {
-        // Set restore point and message to pause the game
-        g.ss.restorePoint = MSG_LAD_PLAY_HOLD;
-        msg = MSG_LAD_PLAY_HOLD;
-      }
-//    break;
-    }
-  }
   // ::: HANDLE HOOKA, FAIL, DEMO STOP and PLAY HOLD :::
   // Handle the message
   if (msg != NULL)
@@ -1512,6 +1519,8 @@ static void _pascal MoveDers(void)
 {
   // Stop the play timer
   StopTimer();
+  // Reset cancel execution
+  g.ss.cancelExecution = L_FALSE;
   // Set the input state for the handling of key presses
   g.ss.inputState = INP_S_HOLD;
   // Reset the image of the mouse cursor / pointer
