@@ -342,7 +342,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   // Handle menu
   if (g.ss.executionState == EXE_S_MENU)
   {
-    @send process::MSG_LAD_MENU_AUTO();
+    @send process::MSG_LAD_MENU_EXEC();
   }
   // Do super
   @callsuper();

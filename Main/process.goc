@@ -679,7 +679,7 @@ word _pascal LoadFontConfig(word index)
     g.is.fontCurrent = g.ns.fontSaved;
     g.ss.windowState = WIN_S_NORM;
   }
-  // Simply return in case of an error without saving any states
+  // In case of an error simply return without saving any states
   if (g.ns.error == L_TRUE)
   {
     return NullHandle;
@@ -759,8 +759,8 @@ word _pascal LoadFontConfig(word index)
   }
   else
   {
-    // Disarm the jokes or demo
-    @send process::MSG_LAD_MENU_AUTO();
+    // Do the jokes and demos
+    @send process::MSG_LAD_MENU_EXEC();
   }
 }
 
@@ -833,7 +833,7 @@ word _pascal LoadFontConfig(word index)
 //  break;
   }
   // Disarm the jokes or demo
-  @send process::MSG_LAD_MENU_AUTO();
+  @send process::MSG_LAD_MENU_EXEC();
 }
 
 /***********************************************************************
@@ -873,7 +873,7 @@ word _pascal LoadFontConfig(word index)
 }
 
 /***********************************************************************
- *                  MSG_LAD_MENU_AUTO
+ *                  MSG_LAD_MENU_EXEC
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Show a random message in the info line or start the
@@ -896,7 +896,7 @@ word _pascal LoadFontConfig(word index)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderProcessClass, MSG_LAD_MENU_AUTO
+@method LadderProcessClass, MSG_LAD_MENU_EXEC
 {
   word d;
   optr o;
@@ -1008,7 +1008,7 @@ word _pascal LoadFontConfig(word index)
  ***********************************************************************
  * SYNOPSIS:        Start the demo or a new game.
  * CALLED BY:       (a) MSG_LAD_DEMO:
- *                      from MSG_LAD_MENU_AUTO
+ *                      from MSG_LAD_MENU_EXEC
  *                  (b) MSG_LAD_PLAY:
  *                      User by pressing the key 'p' in the menu.
  * PARAMETERS:      void (  )

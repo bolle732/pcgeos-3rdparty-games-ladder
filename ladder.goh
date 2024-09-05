@@ -411,16 +411,17 @@ typedef struct                 // INI state structure
 typedef struct                 // Save state structure
 {
   byte executionState;         //   1B+0 - Execution state
+  byte cancelExecution;        //   1B+0 - Request cancel of execution
   byte inputState;             //   1B+0 - Input state (keyboard)
   byte focusState;             //   1B+0 - Focus state
-  byte windowState;            //   1B+0 - Window state
+  byte windowState;            //   1B+1 - Window state
   Message restorePoint;        //   2B+0 - Restart point (from state file)
   GLGame game;                 //  18B+0 - Game data
   GLLevel level;               //  20B+0 - Level data
   GLDer ders[DERS_MAX];        //  48B+0 - Der data
   GLLad lad;                   //  12B+0 - Lad data
   word hookaState;             //   2B+0 - Hooka state
-} GLSaveState;                 // 106B+0 = 106 bytes used
+} GLSaveState;                 // 107B+1 = 108 bytes used
 
 // The global data used everywhere
 typedef struct                 // Global structure
@@ -433,9 +434,9 @@ typedef struct                 // Global structure
 // This is used for saving to and restoring from state
 typedef struct                 // Extra state structure
 {
-  GLSaveState saveState;       //   106B - Save state global data
+  GLSaveState saveState;       //   108B - Save state global data
   char buffer[LVL_M_SIZE];     //  1896B - Level buffer
-} GLExtraState;                //  2002B = 2002 bytes used
+} GLExtraState;                //  2004B = 2002 bytes used
 
 
 /*
@@ -450,7 +451,7 @@ typedef struct                 // Extra state structure
   @message (MSG_LAD_PROTO) MSG_LAD_MENU_SOUND;
   @message (MSG_LAD_PROTO) MSG_LAD_MENU_DIFF;
   @message (MSG_LAD_PROTO) MSG_LAD_MENU_EXIT;
-  @message (MSG_LAD_PROTO) MSG_LAD_MENU_AUTO;
+  @message (MSG_LAD_PROTO) MSG_LAD_MENU_EXEC;
   @message (MSG_LAD_PROTO) MSG_LAD_MENU_STOP;
   @message (MSG_LAD_PROTO) MSG_LAD_HELP;
   @message (MSG_LAD_PROTO) MSG_LAD_DEMO;
