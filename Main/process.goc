@@ -876,16 +876,17 @@ word _pascal LoadFontConfig(word index)
  *                  MSG_LAD_MENU_EXEC
  *                  for LadderProcessClass
  ***********************************************************************
- * SYNOPSIS:        Show a random message in the info line or start the
- *                  demo game.
+ * SYNOPSIS:        Start a demo game or show a random joke in the info
+ *                  line.
  * CALLED BY:       Internal or by our self
  * PARAMETERS:      void (  )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
- * STRATEGY:        1/ Depending on the global state, show a random
- *                     message in the info line, clear it or start
- *                     the demo.
+ * STRATEGY:        1/ Depending on the global state:
+ *                     (a) show a random joke in the info line
+ *                     (b) clear the info line
+ *                     (c) start a demo
  *                     When called the first time, we wait a longer
  *                     time.
  *                  2/ Use a timer to call our self.
