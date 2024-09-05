@@ -1143,6 +1143,8 @@ static void _pascal MoveDers(void)
   // Check if we should cancel the execution
   if (g.ss.cancelExecution == L_TRUE)
   {
+    // Set restore point and pause the game
+    g.ss.restorePoint = MSG_LAD_PLAY_HOLD;
     @send process::MSG_LAD_PLAY_HOLD();
     return;
   }
@@ -1189,6 +1191,8 @@ static void _pascal MoveDers(void)
   // Check if we should cancel the execution
   if (g.ss.cancelExecution == L_TRUE)
   {
+    // Set restore point and pause the game
+    g.ss.restorePoint = MSG_LAD_PLAY_HOLD;
     @send process::MSG_LAD_PLAY_HOLD();
     return;
   }
@@ -1245,7 +1249,7 @@ static void _pascal MoveDers(void)
   case MSG_LAD_DEMO_START:
     // Set the text in the info line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@DemoInfo);
-    // Start the timer for the demo
+    // Start the execution of the demo
     g.ns.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.ss.game.delay, MSG_LAD_DEMO_EXEC, g.ss.game.delay, &g.ns.timerId);
     break;
   case MSG_LAD_PLAY_START:
@@ -1253,7 +1257,7 @@ static void _pascal MoveDers(void)
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
     // Set the input state for the handling of key presses
     g.ss.inputState = INP_S_EXEC;
-    // Set restore point and start the timer for the play execution
+    // Set restore point and start the execution of the play
     g.ss.restorePoint = MSG_LAD_PLAY_EXEC;
     g.ns.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.ss.game.delay, MSG_LAD_PLAY_EXEC, g.ss.game.delay, &g.ns.timerId);
 //  break;
@@ -1309,7 +1313,7 @@ static void _pascal MoveDers(void)
       @send process::MSG_LAD_DEMO_STOP();
       break;
     case MSG_LAD_PLAY_EXEC:
-      // Set restore point and message to pause the game
+      // Set restore point and the pause the game
       g.ss.restorePoint = MSG_LAD_PLAY_HOLD;
       @send process::MSG_LAD_PLAY_HOLD();
 //    break;
@@ -1367,7 +1371,7 @@ static void _pascal MoveDers(void)
     PlayNoise(2);
     break;
   case LSD_C_EXIT:
-    // Set restore point and message to stop play
+    // Set restore point and message to do the hooka
     g.ss.restorePoint = MSG_LAD_PLAY_HOOKA;
     msg = MSG_LAD_PLAY_HOOKA;
     break;
@@ -1613,7 +1617,7 @@ static void _pascal MoveDers(void)
   }
   else
   {
-    // Set restore point and message to the game is over
+    // Set restore point and message to show the game over
     g.ss.restorePoint = MSG_LAD_PLAY_OVER;
     msg = MSG_LAD_PLAY_OVER;
   }
@@ -1663,7 +1667,7 @@ static void _pascal MoveDers(void)
   MemUnlock(OptrToHandle(@GameLevelBuffer));
   // Draw the background of the actors
   @send LadderGameActors::MSG_ACT_DRAW();
-  // Set restore point and restart the level
+  // Set restore point and initialize the level
   g.ss.restorePoint = MSG_LAD_PLAY_INIT;
   @send process::MSG_LAD_PLAY_INIT();
 }
@@ -1772,7 +1776,7 @@ static void _pascal MoveDers(void)
   }
   else
   {
-    // Set restore point and load header of next level
+    // Set restore point and load the header of next level
     g.ss.restorePoint = MSG_LAD_PLAY_LOAD_HEAD;
     @send process::MSG_LAD_PLAY_LOAD_HEAD();
   }
