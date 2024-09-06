@@ -947,14 +947,17 @@ static void _pascal DrawValue(word pos, word val, word suf)
 {
   word i, l, pos;
   static char s[3];
+  // Draw the high scores
   for (i = 0; i < RNKS; i++)
   {
-    pos = pself->LRI_position + i * SCN_COLS;
+    pos = pself->LRI_positionHigh + i * SCN_COLS;
     l = sprintf(&s, "%1u)", i);
     DrawText(pos, s, l);
     DrawValue(pos + 9, pself->LRI_file.ranks[i].score, L_TRUE);
     DrawText(pos + 12, &pself->LRI_file.ranks[i].name, RNK_NAME_LEN);
   }
+  // Draw the last score
+  DrawValue(pself->LRI_positionLast, pself->LRI_file.lastScore, L_TRUE);
 }
 
 /***********************************************************************
@@ -1011,7 +1014,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   word i, id;
   FileHandle fh;
   // Set the identification
-  pself->LRI_file.id = RNKS_V_ID;
+  pself->LRI_file.id = RNKS_M_ID;
   // Set the working path
   FileSetCurrentPath(RNKS_P_TOP, &RPS);
   // Open the ranks file
@@ -1047,10 +1050,16 @@ static void _pascal DrawValue(word pos, word val, word suf)
      // Read the id from the file
     FileRead(fh, &id, sizeof(id), 0);
     // Check the identification
-    if (id == RNKS_V_ID)
+    if (id == RNKS_M_ID)
     {
-      // Read the ranks from the file
+      // Read the high scores from the file
       FileRead(fh, &pself->LRI_file.ranks, sizeof(pself->LRI_file.ranks), 0);
+      // Read the last score the file
+      FileRead(fh, &pself->LRI_file.lastScore, sizeof(pself->LRI_file.lastScore), 0);
+    }
+    else
+    {
+      pself->LRI_file.lastScore = 0;
     }
   }
   // Close the ranks file
@@ -1058,11 +1067,11 @@ static void _pascal DrawValue(word pos, word val, word suf)
 }
 
 /***********************************************************************
- *                  MSG_RNK_SAVE_RANK
+ *                  MSG_RNK_SAVE_HIGH
  *                  for LadderRankClass
  ***********************************************************************
- * SYNOPSIS:        Add a rank to the ranking list and save the list
- *                  into our file.
+ * SYNOPSIS:        Add a high score to the ranking list and save the
+ *                  list into our file.
  * CALLED BY:       Internal
  * PARAMETERS:      void ( word score,
  *                         void *name )
@@ -1081,7 +1090,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  *      boa     2011-01-18    Initial Revision
  *
  ***********************************************************************/
-@method LadderRankClass, MSG_RNK_SAVE_RANK
+@method LadderRankClass, MSG_RNK_SAVE_HIGH
 {
   word i, id, pos;
   FileHandle fh;
@@ -1123,10 +1132,61 @@ static void _pascal DrawValue(word pos, word val, word suf)
   // Read the id from the file
   FileRead(fh, &id, sizeof(id), 0);
   // Check the identification
-  if (id == RNKS_V_ID)
+  if (id == RNKS_M_ID)
   {
     // Write the ranks to the file
     FileWrite(fh, &pself->LRI_file.ranks, sizeof(pself->LRI_file.ranks), 0);
+  }
+  // Close the ranks file
+  FileClose(fh, 0);
+}
+
+/***********************************************************************
+ *                  MSG_RNK_SAVE_LAST
+ *                  for LadderRankClass
+ ***********************************************************************
+ * SYNOPSIS:        Save the last score into our file.
+ * CALLED BY:       Internal
+ * PARAMETERS:      void ( word score, )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    No error is thrown if the last score could not be
+ *                  written to the file.
+ *
+ * STRATEGY:        1/ Update the last score.
+ *                  2/ Save the last score into our file. If saving
+ *                     failed, silently return.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-09-06    Initial Revision
+ *
+ ***********************************************************************/
+@method LadderRankClass, MSG_RNK_SAVE_LAST
+{
+  word id;
+  FileHandle fh;
+  // Update the last score
+  pself->LRI_file.lastScore = score;
+  // Set the working path
+  FileSetCurrentPath(RNKS_P_TOP, &RPS);
+  // Open the ranks file
+  fh = FileOpen(&RFN, FILE_ACCESS_RW | FILE_DENY_RW);
+  // Check if we could open the ranks file ...
+  if (fh == NullHandle)
+  {
+    // ... simply return if not
+    return;
+  }
+  // Read the id from the file
+  FileRead(fh, &id, sizeof(id), 0);
+  // Check the identification
+  if (id == RNKS_M_ID)
+  {
+    // Move over high scores to position of last score
+    FilePos(fh, sizeof(pself->LRI_file.ranks), FILE_POS_RELATIVE);
+    // Write the last score to the file
+    FileWrite(fh, &pself->LRI_file.lastScore, sizeof(pself->LRI_file.lastScore), 0);
   }
   // Close the ranks file
   FileClose(fh, 0);

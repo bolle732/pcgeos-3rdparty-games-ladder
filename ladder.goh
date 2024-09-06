@@ -131,7 +131,7 @@
 #define RNKS_P_TOP          SP_USER_DATA  // Top path of rank file
 #define RNKS_P_SUB          "Game"        // Sub path of rank file
 #define RNKS_F_NAME         "GeoLadder Scores"  // Name of rank file
-#define RNKS_V_ID      0xAB88  // ID of the VM block with the ranks
+#define RNKS_M_ID      0xAB8C  // Magic ID of the rank file
 
 // Play sound states
 #define CFG_SND_OFF         0  // Play sound state off
@@ -405,8 +405,7 @@ typedef struct                 // INI state structure
   word fontCurrent;            //   2B+0 - Current font index
   word diff;                   //   2B+0 - Difficulty value
   word sound;                  //   2B+0 - Sound state
-  word lastScore;              //   2B+0 - Last score
-} GLIniState;                  //   8B+0 = 8 bytes used
+} GLIniState;                  //   6B+0 = 6 bytes used
 
 // All global data which must be saved into the extra state
 typedef struct                 // Save state structure
@@ -428,9 +427,9 @@ typedef struct                 // Save state structure
 typedef struct                 // Global structure
 {
   GLNoState ns;                //  84B+0 - Unsaved global data
-  GLIniState is;               //   8B+0 - INI state global data
+  GLIniState is;               //   6B+0 - INI state global data
   GLSaveState ss;              // 106B+0 - Save state global data
-} GLGlobals;                   // 198B+0 = 198 bytes used
+} GLGlobals;                   // 196B+0 = 196 bytes used
 
 // This is used for saving to and restoring from state
 typedef struct                 // Extra state structure
@@ -579,12 +578,14 @@ typedef struct                 // Extra state structure
   @default VI_geoAttrs = (@default)
     | VGA_NO_SIZE_HINTS
     | VGA_ONLY_RECALC_SIZE_WHEN_INVALID;
-  @instance word LRI_position = 0;
+  @instance word LRI_positionHigh = 0;
+  @instance word LRI_positionLast = 0;
   @instance optr LRI_noname = NullOptr;
   @instance GLRankFile LRI_file = 0;
   @message word MSG_RNK_IS_NEW_RANK(word score);
   @message void MSG_RNK_LOAD();
-  @message void MSG_RNK_SAVE_RANK(word score, void *name);
+  @message void MSG_RNK_SAVE_HIGH(word score, void *name);
+  @message void MSG_RNK_SAVE_LAST(word score);
 @endc
 
 

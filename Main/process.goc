@@ -559,12 +559,6 @@ word _pascal LoadFontConfig(word index)
     // Get the sound from the low byte
     g.is.sound = state & 0x0F;
   }
-  // Get the last score from the INI file
-  if (InitFileReadInteger(&ICA, &IKL, &g.is.lastScore))
-  {
-    // No entry found, set defaults
-    g.is.lastScore = 0;
-  }
 
   // Get the video resolution
   //  @call application::MSG_VIS_GET_BOUNDS(&g.ns.screen);
@@ -613,9 +607,7 @@ word _pascal LoadFontConfig(word index)
     {
       @send LadderMenuSound::MSG_TXT_SET_TEXT(@MenuSoundOn);
     }
-    // Set the last score
-    @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.is.lastScore);
-    // Load the scores from the file
+    // Load the high and last scores from the file
     @send LadderMenuRank::MSG_RNK_LOAD();
 
     // Allocate a memory handle for the noise and the music
@@ -692,8 +684,6 @@ word _pascal LoadFontConfig(word index)
   InitFileWriteInteger(&ICA, &IKF, g.is.fontCurrent);
   // Write the difficulty and sound state to the INI file
   InitFileWriteInteger(&ICA, &IKS, (g.is.diff << 8) | (g.is.sound & 0x0F));
-  // Write the last score to the INI file
-  InitFileWriteInteger(&ICA, &IKL, g.is.lastScore);
   // Do super
   @callsuper();
   // Allocate memory for our struct to save the extra state
@@ -1122,8 +1112,7 @@ word _pascal LoadFontConfig(word index)
   if (message == MSG_LAD_PLAY_STOP)
   {
     // Update last score
-    g.is.lastScore = g.ss.game.score;
-    @send LadderMenuLastScore::MSG_VAL_SET_VALUE(g.is.lastScore);
+    @send LadderMenuRank::MSG_RNK_SAVE_LAST(g.ss.game.score);
     // Reset the image of the mouse cursor / pointer
     @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(NullOptr, PIL_WINDOW);
   }
@@ -1277,7 +1266,7 @@ word _pascal LoadFontConfig(word index)
   // Get the name from the imput
   @call LadderHighName::MSG_INP_GET_INPUT(&lhs);
   // Add the rank to the ranks
-  @call LadderMenuRank::MSG_RNK_SAVE_RANK(g.ss.game.score, &lhs);
+  @call LadderMenuRank::MSG_RNK_SAVE_HIGH(g.ss.game.score, &lhs);
   // Start the timer to quit to main menu
   g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_SAVE, MSG_LAD_PLAY_STOP, 0, &g.ns.timerId);
 }

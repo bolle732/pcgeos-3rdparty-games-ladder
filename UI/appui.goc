@@ -141,7 +141,6 @@
   VCI_comp =
     @LadderMenuDiff, @LadderMenuSound,
     @LadderMenuRank,
-    @LadderMenuLastScore,
     @LadderMenuInfo;
   LSI_screen = @ScreenMenu;
   LSI_chunks = @ScreenMenuStrings;
@@ -160,14 +159,9 @@
 }
 
 @object LadderRankClass LadderMenuRank = {
-  LRI_position = GPOS(15, 41); 
+  LRI_positionHigh = GPOS(15, 41); 
+  LRI_positionLast = GPOS(21, 72);
   LRI_noname = @HighNoName;
-}
-
-@object LadderValueClass LadderMenuLastScore = {
-  LVI_position = GPOS(21, 72);
-  LVI_length = 7;  // Maximum '65536' + suffix '00'  
-  LVI_suffix = L_TRUE;
 }
 
 @object LadderTextClass LadderMenuInfo = {

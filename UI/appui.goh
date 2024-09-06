@@ -51,7 +51,6 @@
 @extern object LadderMenuDiff;
 @extern object LadderMenuSound;
 @extern object LadderMenuRank;
-@extern object LadderMenuLastScore;
 @extern object LadderMenuInfo;
 @extern object LadderHelp;
 @extern object LadderLoad;
