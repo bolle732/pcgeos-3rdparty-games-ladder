@@ -327,7 +327,7 @@ typedef struct                 // Ranks file
   word id;                     //   2B+0 - Identification
   GLRankEntry ranks[RNKS];     // 110B+0 - Ranks
   word lastScore;              //   2B+0 - Last score
-} GLRankFile;                  // 112B+0 = 112 bytes used
+} GLRankFile;                  // 114B+0 = 114 bytes used
 
 typedef struct                 // Font data
 {
