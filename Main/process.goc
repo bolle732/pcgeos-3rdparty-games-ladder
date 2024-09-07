@@ -194,7 +194,7 @@ static void _pascal PlayMusic(optr music)
     // Control (MemHandle), Song (pointer to word array)
     SoundReallocMusic(mh, LMemDeref(music));
     // Control (MemHandle), Priority (word), Tempo (word), Flags (EndOfSongFlags)
-    SoundPlayMusic(mh, SP_GAME, DOTTED_EIGHTH, UNLOCK_ON_EOS);
+    SoundPlayMusic(mh, SP_STANDARD, DOTTED_EIGHTH, UNLOCK_ON_EOS);
     MemUnlock(OptrToHandle(music));
   }
 }
