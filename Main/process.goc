@@ -648,7 +648,7 @@ word _pascal LoadFontConfig(word index)
  *
  * STRATEGY:        1/ Stop any potentially running timer.
  *                  2/ Stop and free the MemHandle for playing noises.
- *                  3/ Save the difficulty, sound and last score to the
+ *                  3/ Save the difficulty and sound state to the
  *                     INI file.
  *                  4/ Call super to do the default behaviour.
  *                  5/ Return a NullHandle to indicate we don't have
