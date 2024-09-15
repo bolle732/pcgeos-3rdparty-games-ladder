@@ -1100,6 +1100,8 @@ static void _pascal MoveDers(void)
   @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.ss.lad.cpos, g.ss.lad.face);
   // Show the play screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderGame);
+  // Force redrawing of Lad if view was already set (coming from MSG_LAD_PLAY_CLEAR)
+  @send LadderGameActors::MSG_ACT_DRAW();
   // Handle message type
   switch (message)
   {
