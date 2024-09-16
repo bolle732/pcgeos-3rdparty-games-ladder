@@ -77,7 +77,6 @@ extern void _pascal PlayNoise(word noise);
 static char ICA[] = INI_CAT_APP;
 static char IKF[] = INI_KEY_FONT;
 static char IKS[] = INI_KEY_STATE;
-static char IKL[] = INI_KEY_LAST;
 
 static char ICU[] = INI_CAT_UI;
 static char IKP[] = INI_KEY_PRODUCT;
