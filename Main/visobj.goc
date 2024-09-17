@@ -381,14 +381,8 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************/
 @method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_MAXIMIZED
 {
-  EventHandle evt;
   // Update the global state
   g.ss.windowState = WIN_S_MAXI;
-  // Hide mouse pointer by setting an empty pointer image
-  MemLock(OptrToHandle(@LadderGamePointer));
-  evt = @record GenClass::MSG_GEN_SYSTEM_SET_PTR_IMAGE(@LadderGamePointer, PIL_SYSTEM);
-  @call oself::MSG_GEN_CALL_SYSTEM(evt);
-  MemUnlock(OptrToHandle(@LadderGamePointer));
   // Hide window frame and buttons
   @call oself::MSG_GEN_SET_NOT_USABLE(VUM_NOW);
   ObjVarAddData(oself, HINT_WINDOW_NO_TITLE_BAR, 0);
@@ -405,6 +399,12 @@ static void _pascal DrawValue(word pos, word val, word suf)
   @send oself::MSG_META_GRAB_FOCUS_EXCL();
   // Do super
   @callsuper();
+  // Unconditionally hide mouse pointer by setting an empty pointer image
+  MemLock(OptrToHandle(@LadderGamePointer));
+  @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
+  MemUnlock(OptrToHandle(@LadderGamePointer));
+  // XXX: Move mouse the pointer into the center of the screen,
+  //      where it will be hidden by the view
 }
 
 /***********************************************************************
@@ -435,12 +435,8 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************/
 @method LadderPrimaryClass, MSG_GEN_DISPLAY_SET_NOT_MAXIMIZED
 {
-  EventHandle evt;
   // Update the global state
   g.ss.windowState = WIN_S_NORM;
-  // Restore mouse pointer
-  evt = @record GenClass::MSG_GEN_SYSTEM_SET_PTR_IMAGE(0, PIL_SYSTEM);
-  @call oself::MSG_GEN_CALL_SYSTEM(evt);
   // Restore window frame and buttons
   @call oself::MSG_GEN_SET_NOT_USABLE(VUM_NOW);
   ObjVarDeleteData(oself, HINT_WINDOW_NO_TITLE_BAR);
@@ -455,7 +451,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   @send oself::MSG_META_GRAB_FOCUS_EXCL();
   // Do super
   @callsuper();
-  // Hide again mouse pointer of view if we're in a play
+  // Hide again mouse pointer if in a play and not on hold
   if (g.ss.executionState == EXE_S_PLAY && g.ss.restorePoint != MSG_LAD_PLAY_HOLD)
   {
     MemLock(OptrToHandle(@LadderGamePointer));

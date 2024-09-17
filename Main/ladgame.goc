@@ -943,10 +943,6 @@ static void _pascal MoveDers(void)
   case MSG_LAD_PLAY_LOAD_HEAD:
     // Reset hooka state
     g.ss.hookaState = L_FALSE;
-    // Hide mouse pointer for the view by setting an empty pointer image
-    MemLock(OptrToHandle(@LadderGamePointer));
-    @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
-    MemUnlock(OptrToHandle(@LadderGamePointer));
     // Show the loading screen
     g.ss.restorePoint = MSG_LAD_PLAY_LOAD_SHOW;
     @send process::MSG_LAD_PLAY_LOAD_SHOW();
@@ -1152,10 +1148,13 @@ static void _pascal MoveDers(void)
   }
   // Update the info line with the get ready text
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayReady);
-  // Hide mouse pointer by setting an empty pointer image
-  MemLock(OptrToHandle(@LadderGamePointer));
-  @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
-  MemUnlock(OptrToHandle(@LadderGamePointer));
+  // Hide mouse pointer by setting an empty pointer image if not maximized
+  if (g.ss.windowState != WIN_S_MAXI)
+  {
+    MemLock(OptrToHandle(@LadderGamePointer));
+    @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
+    MemUnlock(OptrToHandle(@LadderGamePointer));
+  }
   // Initialize the get ready counter
   g.ns.readyCount = 3;
   // Set the input state for the handling of key presses
@@ -1529,8 +1528,11 @@ static void _pascal MoveDers(void)
   g.ss.cancelExecution = L_FALSE;
   // Set the input state for the handling of key presses
   g.ss.inputState = INP_S_HOLD;
-  // Reset the image of the mouse cursor / pointer
-  @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(NullOptr, PIL_WINDOW);
+  // Reset the image of the mouse cursor / pointer if not maximized
+  if (g.ss.windowState != WIN_S_MAXI)
+  {
+    @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(NullOptr, PIL_WINDOW);
+  }
   // Update the info line with the wait message
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayContinue);
 }
