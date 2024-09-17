@@ -221,12 +221,6 @@
 
 @object LadderActorsClass LadderGameActors = {
   LAI_count = 0;
-/*
-  // XXX: -> Dynamic allocation possible ???
-  LAI_actors[ACTS_MAX] = {
-    { POS_NONE, 0 }
-  };
-*/
 }
 
 @object LadderValueClass LadderGameLads = {
