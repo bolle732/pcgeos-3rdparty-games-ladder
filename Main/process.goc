@@ -1117,6 +1117,8 @@ word _pascal LoadFontConfig(word index)
   // Handle message type
   if (message == MSG_LAD_PLAY_STOP)
   {
+    // Stop the music
+    StopAndFreeMusic();
     // Update last score
     @send LadderMenuRank::MSG_RNK_SAVE_LAST(g.ss.game.score);
     // Reset the image of the mouse cursor / pointer if not maximized
