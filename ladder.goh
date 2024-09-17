@@ -384,10 +384,10 @@ typedef struct                 // No save state structure
   word textColor;              //   2B+0 - Text foreground color
   word areaColor;              //   2B+0 - Text background color
   GLFont font;                 //  10B+0 - Font data
-  word fontWinMin;             //   2B+0 - Minimum font index window
-  word fontWinMax;             //   2B+0 - Maximum font index window
-  word fontFull;               //   2B+0 - Font index fullscreen
-  word fontSaved;              //   2B+0 - Saved font index (windowed)
+  word fontWinMin;             //   2B+0 - Minimum font index window mode
+  word fontWinMax;             //   2B+0 - Maximum font index window mode
+  word fontFull;               //   2B+0 - Font index fullscreen mode
+  word fontSaved;              //   2B+0 - Saved font index of window mode
   TimerHandle timerHandle;     //   2B+0 - Timer handle
   word timerId;                //   2B+0 - Timer id
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle
