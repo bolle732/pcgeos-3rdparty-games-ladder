@@ -1200,6 +1200,8 @@ static void _pascal MoveDers(void)
   // Start the play when the count down has reached 0
   if (g.ns.readyCount == 0)
   {
+    // Update the info line with the go text
+//    @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayGo);
     // Play "Start" sound
     PlayNoise(2);
     // Set restore point and start the game
@@ -1208,7 +1210,7 @@ static void _pascal MoveDers(void)
     return;
   }
   // Either show or clear the get ready message
-  if (g.ns.readyCount % 2)
+  if (g.ns.readyCount % 2 == 0)
   {
     // Play "Get ready" sound
     PlayNoise(1);
