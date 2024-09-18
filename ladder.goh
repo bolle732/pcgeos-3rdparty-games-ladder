@@ -124,6 +124,9 @@
 #define DLY_T_LOAD        150  // Delay ticks for the level load message
 #define DLY_T_SAVE         75  // Delay ticks for the high score save message
 
+// Ready
+#define RDY_STPS            6  // Ready count down start value
+
 // Rank
 #define RNK_NAME_LEN       20  // Length of rank name
 
@@ -394,10 +397,11 @@ typedef struct                 // No save state structure
   MemHandle musicHandle;       //   2B+0 - Music memory handle
   word menuCount;              //   2B+0 - Menu counter
   word readyCount;             //   2B+0 - Get ready counter
+  word readyTicks;             //   2B+0 - Get ready ticks
   char *levelBuffer;           //   4B+0 - Pointer to the level buffer
   word moveIndex;              //   2B+0 - Current demo move
   ChunkHandle moves;           //   2B+0 - Demo moves chunk handle
-} GLNoState;                   //  85B+1 = 86 bytes used
+} GLNoState;                   //  87B+1 = 88 bytes used
 
 // All global data which is saved to the INI file
 typedef struct                 // INI state structure
@@ -426,10 +430,10 @@ typedef struct                 // Save state structure
 // The global data used everywhere
 typedef struct                 // Global structure
 {
-  GLNoState ns;                //  84B+0 - Unsaved global data
+  GLNoState ns;                //  88B+0 - Unsaved global data
   GLIniState is;               //   6B+0 - INI state global data
   GLSaveState ss;              // 106B+0 - Save state global data
-} GLGlobals;                   // 196B+0 = 196 bytes used
+} GLGlobals;                   // 200B+0 = 200 bytes used
 
 // This is used for saving to and restoring from state
 typedef struct                 // Extra state structure
