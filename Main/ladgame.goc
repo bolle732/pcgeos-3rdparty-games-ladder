@@ -1160,11 +1160,11 @@ static void _pascal MoveDers(void)
   // Set the input state for the handling of key presses
   g.ss.inputState = INP_S_PLAY;
   // Start get ready count down
-  @send process::MSG_LAD_PLAY_READY_COUNT();
+  @send process::MSG_LAD_PLAY_READY_EXEC();
 }
 
 /***********************************************************************
- *                  MSG_LAD_PLAY_READY_COUNT
+ *                  MSG_LAD_PLAY_READY_EXEC
  *                  for LadderProcessClass
  ***********************************************************************
  * SYNOPSIS:        Do count down and start the game.
@@ -1187,7 +1187,7 @@ static void _pascal MoveDers(void)
  *
  ***********************************************************************/
 // One shot timer 
-@extern method LadderProcessClass, MSG_LAD_PLAY_READY_COUNT
+@extern method LadderProcessClass, MSG_LAD_PLAY_READY_EXEC
 {
   // Check if we should cancel the execution
   if (g.ss.cancelExecution == L_TRUE)
@@ -1237,7 +1237,7 @@ static void _pascal MoveDers(void)
  * CALLED BY:       (a) MSG_LAD_DEMO_START:
  *                      from MSG_LAD_DEMO_INIT
  *                  (b) MSG_LAD_PLAY_START:
- *                      from MSG_LAD_PLAY_READY_COUNT or user by
+ *                      from MSG_LAD_PLAY_READY_EXEC or user by
  *                      pressing the key 'ENTER' when game is paused.
  * PARAMETERS:      void ( void )
  * RETURN:          nothing

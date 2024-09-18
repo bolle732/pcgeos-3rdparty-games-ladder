@@ -467,7 +467,7 @@ typedef struct                 // Extra state structure
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_LOAD_DATA;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_INIT;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_READY;
-  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_READY_COUNT;
+  @message (MSG_LAD_PROTO) MSG_LAD_PLAY_READY_EXEC;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_START;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_EXEC;
   @message (MSG_LAD_PROTO) MSG_LAD_PLAY_HOLD;
