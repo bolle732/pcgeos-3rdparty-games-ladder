@@ -288,7 +288,7 @@ void _pascal InitFontConfig(word index)
 {
   word i, min;
   GLFont font;
-  MemLock(OptrToHandle(@FontConfigs));
+  MemLock(HandleOf(@FontConfigs));
   for (i = 0; i < ChunkArrayGetCount(@FontConfigs); i++)
   {
     ChunkArrayGetElement(@FontConfigs, i, &font);
@@ -390,7 +390,7 @@ word _pascal LoadFontConfig(word index)
        || (g.ss.windowState == WIN_S_MAXI) && (index == g.ns.fontFull))
   {
     // Get the font config
-    MemLock(OptrToHandle(@FontConfigs));
+    MemLock(HandleOf(@FontConfigs));
     ChunkArrayGetElement(@FontConfigs, index, &g.ns.font);
     MemUnlock(OptrToHandle(@FontConfigs));
     g.is.fontCurrent = index;
@@ -477,14 +477,14 @@ word _pascal LoadFontConfig(word index)
   g.ns.error = L_FALSE;
 
   // Set the help file name
-  MemLock(OptrToHandle(@LadderHelpFile));
+  MemLock(HandleOf(@LadderHelpFile));
   memcpy(&buf, LMemDeref(@LadderHelpFile), LMemGetChunkSize(@LadderHelpFile));
   @call application::MSG_META_SET_HELP_FILE(buf);
   MemUnlock(OptrToHandle(@LadderHelpFile));
 
   // Get and set the version number
   GeodeGetInfo(GeodeGetProcessHandle(), GGIT_GEODE_RELEASE, &rn);
-  MemLock(OptrToHandle(@MenuVersion));
+  MemLock(HandleOf(@MenuVersion));
   LMemReAlloc(@MenuVersion, 24);
   sprintf(LMemDeref(@MenuVersion), "%u.%u %u-%u", rn.RN_major, rn.RN_minor, rn.RN_change, rn.RN_engineering);
   MemUnlock(OptrToHandle(@MenuVersion));
@@ -494,7 +494,7 @@ word _pascal LoadFontConfig(word index)
   if (!InitFileReadStringBlock(&ICU, &IKP, &mh, 0, &size))
   {
     if (size > 23) size = 23;
-    MemLock(OptrToHandle(@MenuTerminal));
+    MemLock(HandleOf(@MenuTerminal));
     LMemReAlloc(@MenuTerminal, size + 1);
     sprintf(LMemDeref(@MenuTerminal), "%s", MemLock(mh));
    // Free the memory handle, no need for unlock
@@ -503,7 +503,7 @@ word _pascal LoadFontConfig(word index)
   }
 
   // Resize the level buffer
-  MemLock(OptrToHandle(@GameLevelBuffer));
+  MemLock(HandleOf(@GameLevelBuffer));
   LMemReAlloc(@GameLevelBuffer, LVL_M_SIZE);
   MemUnlock(OptrToHandle(@GameLevelBuffer));
 
@@ -523,7 +523,7 @@ word _pascal LoadFontConfig(word index)
       break;
     case EXE_S_PLAY:
       // Restore the level buffer
-      MemLock(OptrToHandle(@GameLevelBuffer));
+      MemLock(HandleOf(@GameLevelBuffer));
       memcpy(LMemDeref(@GameLevelBuffer), es->buffer, LVL_M_SIZE);
       MemUnlock(OptrToHandle(@GameLevelBuffer));
       // Set the message where we leaved the game play
@@ -701,7 +701,7 @@ word _pascal LoadFontConfig(word index)
     ObjMarkDirty(@LadderGameScore);
     ObjMarkDirty(@LadderGameTime);
     // Save the level buffer
-    MemLock(OptrToHandle(@GameLevelBuffer));
+    MemLock(HandleOf(@GameLevelBuffer));
     memcpy(es->buffer, LMemDeref(@GameLevelBuffer), LVL_M_SIZE);
     MemUnlock(OptrToHandle(@GameLevelBuffer));
   }
@@ -924,7 +924,7 @@ word _pascal LoadFontConfig(word index)
       if (g.ns.menuCount % 2 == 0)
       {
         // Set the text of a random joke
-        MemLock(OptrToHandle(@MenuJokes));
+        MemLock(HandleOf(@MenuJokes));
         ChunkArrayGetElement(@MenuJokes, Random(ChunkArrayGetCount(@MenuJokes)), &o);
         MemUnlock(OptrToHandle(@MenuJokes));
       }
@@ -1048,7 +1048,7 @@ word _pascal LoadFontConfig(word index)
     // XXX: Set the execution state
     g.ss.executionState = EXE_S_DEMO;
     // Load a random game demo
-    MemLock(OptrToHandle(@GameDemos));
+    MemLock(HandleOf(@GameDemos));
     ChunkArrayGetElement(@GameDemos, Random(ChunkArrayGetCount(@GameDemos)), &d);
     MemUnlock(OptrToHandle(@GameDemos));
     // Set the round, level and moves
@@ -1069,7 +1069,7 @@ word _pascal LoadFontConfig(word index)
     // Hide mouse pointer by setting an empty pointer image if not maximized
     if (g.ss.windowState != WIN_S_MAXI)
     {
-      MemLock(OptrToHandle(@LadderGamePointer));
+      MemLock(HandleOf(@LadderGamePointer));
       @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
       MemUnlock(OptrToHandle(@LadderGamePointer));
     }
@@ -1224,7 +1224,7 @@ word _pascal LoadFontConfig(word index)
   // Clear the info line
   @send LadderInfo::MSG_TXT_SET_TEXT(NullOptr);
   // Find the compliment message for the score
-  MemLock(OptrToHandle(@HighRatings));
+  MemLock(HandleOf(@HighRatings));
   for (i = ChunkArrayGetCount(@HighRatings); i > 0; i--)
   {
     ChunkArrayGetElement(@HighRatings, i - 1, &r);

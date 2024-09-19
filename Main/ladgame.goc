@@ -930,7 +930,7 @@ static void _pascal MoveDers(void)
                                    MSG_LAD_PLAY_LOAD_HEAD
 {
   // Load the level headers
-  MemLock(OptrToHandle(@GameLevels));
+  MemLock(HandleOf(@GameLevels));
   ChunkArrayGetElement(@GameLevels, g.ss.game.level - 1, &g.ss.level);
   MemUnlock(OptrToHandle(@GameLevels));
   // Handle message type
@@ -978,7 +978,7 @@ static void _pascal MoveDers(void)
   // Set the value of the current level
   @send LadderLoadLevel::MSG_VAL_SET_VALUE(g.ss.game.level);
   // Lock the level headers
-  MemLock(OptrToHandle(@GameLevels));
+  MemLock(HandleOf(@GameLevels));
   // Set the text of the level name
   @call LadderLoadName::MSG_TXT_SET_TEXT(ConstructOptr(OptrToHandle(@GameLevels), g.ss.level.name));
   // Unlock the level headers
@@ -1016,7 +1016,7 @@ static void _pascal MoveDers(void)
                                    MSG_LAD_PLAY_LOAD_DATA
 {
   // Load the level data
-  MemLock(OptrToHandle(@GameLevels));
+  MemLock(HandleOf(@GameLevels));
   // No need to MemLock because the resource is already locked
   @call LadderGameLevel::MSG_LVL_LOAD_LEVEL(ConstructOptr(OptrToHandle(@GameLevels), g.ss.level.data));
   MemUnlock(OptrToHandle(@GameLevels));
@@ -1151,7 +1151,7 @@ static void _pascal MoveDers(void)
   // Hide mouse pointer by setting an empty pointer image if not maximized
   if (g.ss.windowState != WIN_S_MAXI)
   {
-    MemLock(OptrToHandle(@LadderGamePointer));
+    MemLock(HandleOf(@LadderGamePointer));
     @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
     MemUnlock(OptrToHandle(@LadderGamePointer));
   }
@@ -1378,7 +1378,7 @@ static void _pascal MoveDers(void)
     }
   }
   // Lock the level buffer
-  MemLock(OptrToHandle(@GameLevelBuffer));
+  MemLock(HandleOf(@GameLevelBuffer));
   // Get the pointer of the level buffer
   g.ns.levelBuffer = LMemDeref(@GameLevelBuffer);
   // ::: HANDLE LAD :::
@@ -1683,7 +1683,7 @@ static void _pascal MoveDers(void)
   // Reset the actors
   @send LadderGameActors::MSG_ACT_RESET();
   // Lock and dereference the level buffer
-  MemLock(OptrToHandle(@GameLevelBuffer));
+  MemLock(HandleOf(@GameLevelBuffer));
   p_level = LMemDeref(@GameLevelBuffer);
   // Restore background of Ders
   for (i = 0; i < g.ss.level.ders; i++)
@@ -1799,7 +1799,7 @@ static void _pascal MoveDers(void)
   // Get the level for the current round
   g.ss.game.level = LevelAndTimeReductionByRound(g.ss.game.round) & 0x0F;
   // Check if there are no more levels
-  MemLock(OptrToHandle(@GameLevels));  
+  MemLock(HandleOf(@GameLevels));  
   if (g.ss.game.level > ChunkArrayGetCount(@GameLevels))
   {
     // Set restore point and show the last screen

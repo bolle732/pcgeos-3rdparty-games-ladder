@@ -89,20 +89,6 @@
 @chunk char LadderHelpFile[] = "GeoLadder Help";
 @localize { "The GeoLadder help file name" 3-32 };
 
-// Type, Size, Width, Height
-@chunkArray GLFont FontConfigs =
-{
-  {
-    FID_BISON, MakeWWFixed(9.0), 7, 12
-  },
-  {
-    FID_BISON, MakeWWFixed(12.0), 8, 16
-  },
-  {
-    FID_BISON, MakeWWFixed(14.0), 10, 20
-  }
-};
-
 // I8N_DE  "Die aktuelle Video-Auflösung ist zu klein! Wir benötigen mindestens 640 x 350 Pixel."
 @chunk char LadderWarnVideoTooSmall[] = "The current video resolution is too small! We need at least 640 x 350 pixel.";
 @localize "The current video resolution too small warning";
@@ -1388,6 +1374,21 @@
  */
 
 @start GAME, data;
+
+// Type, Size, Width, Height
+@chunkArray GLFont FontConfigs =
+{
+  {
+    FID_BISON, MakeWWFixed(9.0), 7, 12
+  },
+  {
+    FID_BISON, MakeWWFixed(12.0), 8, 16
+  },
+  {
+    FID_BISON, MakeWWFixed(14.0), 10, 20
+  }
+};
+
 
 // I8N_DE  "Drück ESC um die Vorführung abzubrechen:"
 @chunk char DemoInfo[] = "Type ESC to abort the demonstration:";

@@ -34,7 +34,6 @@
 @extern object LadderApplication;
 @extern visMoniker LadderTextMoniker;
 @extern chunk LadderHelpFile;
-@extern chunk FontConfigs;  // chunkArray
 @extern chunk LadderWarnVideoTooSmall;
 
 // RESOURCE Icon
@@ -103,6 +102,8 @@
 
 
 // RESOURCE Game
+@extern chunk FontConfigs;  // chunkArray
+
 @extern chunk ScreenLoad;
 
 @extern chunk ScreenGame;
