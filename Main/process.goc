@@ -1478,7 +1478,7 @@ word _pascal LoadFontConfig(word index)
     // Handle change font size
     if ((flags >> 8) & (SS_LCTRL | SS_RCTRL))
     {
-      switch (tolower(character))
+      switch (character)
       {
       case C_ONE:
         if (g.ss.windowState != WIN_S_MAXI)
