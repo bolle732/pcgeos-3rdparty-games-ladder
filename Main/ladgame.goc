@@ -930,9 +930,9 @@ static void _pascal MoveDers(void)
                                    MSG_LAD_PLAY_LOAD_HEAD
 {
   // Load the level headers
-  MemLock(HandleOf(@GameLevels));
+  MemLock(OptrToHandle(@GameLevels));
   ChunkArrayGetElement(@GameLevels, g.ss.game.level - 1, &g.ss.level);
-  MemUnlock(HandleOf(@GameLevels));
+  MemUnlock(OptrToHandle(@GameLevels));
   // Handle message type
   switch (message)
   {
@@ -978,11 +978,11 @@ static void _pascal MoveDers(void)
   // Set the value of the current level
   @send LadderLoadLevel::MSG_VAL_SET_VALUE(g.ss.game.level);
   // Lock the level headers
-  MemLock(HandleOf(@GameLevels));
+  MemLock(OptrToHandle(@GameLevels));
   // Set the text of the level name
-  @call LadderLoadName::MSG_TXT_SET_TEXT(ConstructOptr(HandleOf(@GameLevels), g.ss.level.name));
+  @call LadderLoadName::MSG_TXT_SET_TEXT(ConstructOptr(OptrToHandle(@GameLevels), g.ss.level.name));
   // Unlock the level headers
-  MemUnlock(HandleOf(@GameLevels));
+  MemUnlock(OptrToHandle(@GameLevels));
   // Show the loading screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderLoad);
   // Load the level data
@@ -1016,10 +1016,10 @@ static void _pascal MoveDers(void)
                                    MSG_LAD_PLAY_LOAD_DATA
 {
   // Load the level data
-  MemLock(HandleOf(@GameLevels));
+  MemLock(OptrToHandle(@GameLevels));
   // No need to MemLock because the resource is already locked
-  @call LadderGameLevel::MSG_LVL_LOAD_LEVEL(ConstructOptr(HandleOf(@GameLevels), g.ss.level.data));
-  MemUnlock(HandleOf(@GameLevels));
+  @call LadderGameLevel::MSG_LVL_LOAD_LEVEL(ConstructOptr(OptrToHandle(@GameLevels), g.ss.level.data));
+  MemUnlock(OptrToHandle(@GameLevels));
   // Set the values of the current lads, round and score
   @send LadderGameLads::MSG_VAL_SET_VALUE(g.ss.game.lads);
   @send LadderGameRound::MSG_VAL_SET_VALUE(g.ss.game.round);
@@ -1151,9 +1151,9 @@ static void _pascal MoveDers(void)
   // Hide mouse pointer by setting an empty pointer image if not maximized
   if (g.ss.windowState != WIN_S_MAXI)
   {
-    MemLock(HandleOf(@LadderGamePointer));
-    @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
-    MemUnlock(HandleOf(@LadderGamePointer));
+    MemLock(OptrToHandle(@LadderHidePointer));
+    @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderHidePointer, PIL_WINDOW);
+    MemUnlock(OptrToHandle(@LadderHidePointer));
   }
   // Initialize the get ready counter
   g.ns.readyCount = RDY_STPS;
@@ -1338,7 +1338,7 @@ static void _pascal MoveDers(void)
   if (message == MSG_LAD_DEMO_EXEC)
   {
     optr o;
-    o = ConstructOptr(HandleOf(@GameDemos), g.ns.moves);
+    o = ConstructOptr(OptrToHandle(@GameDemos), g.ns.moves);
     // Lock the demo moves
     MemLock(OptrToHandle(o));
     // Verify we don't read beyond
@@ -1378,7 +1378,7 @@ static void _pascal MoveDers(void)
     }
   }
   // Lock the level buffer
-  MemLock(HandleOf(@GameLevelBuffer));
+  MemLock(OptrToHandle(@GameLevelBuffer));
   // Get the pointer of the level buffer
   g.ns.levelBuffer = LMemDeref(@GameLevelBuffer);
   // ::: HANDLE LAD :::
@@ -1471,7 +1471,7 @@ static void _pascal MoveDers(void)
     }
   }
   // Unlock the level buffer
-  MemUnlock(HandleOf(@GameLevelBuffer));
+  MemUnlock(OptrToHandle(@GameLevelBuffer));
   // Draw the actors
   @send LadderGameActors::MSG_ACT_DRAW();
   // ::: HANDLE POINTS :::
@@ -1683,7 +1683,7 @@ static void _pascal MoveDers(void)
   // Reset the actors
   @send LadderGameActors::MSG_ACT_RESET();
   // Lock and dereference the level buffer
-  MemLock(HandleOf(@GameLevelBuffer));
+  MemLock(OptrToHandle(@GameLevelBuffer));
   p_level = LMemDeref(@GameLevelBuffer);
   // Restore background of Ders
   for (i = 0; i < g.ss.level.ders; i++)
@@ -1696,7 +1696,7 @@ static void _pascal MoveDers(void)
   // Restore background of Lad
   @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.ss.lad.cpos, *(p_level + g.ss.lad.cpos));
   // Unlock the level buffer
-  MemUnlock(HandleOf(@GameLevelBuffer));
+  MemUnlock(OptrToHandle(@GameLevelBuffer));
   // Draw the background of the actors
   @send LadderGameActors::MSG_ACT_DRAW();
   // Set restore point and initialize the level
@@ -1799,7 +1799,7 @@ static void _pascal MoveDers(void)
   // Get the level for the current round
   g.ss.game.level = LevelAndTimeReductionByRound(g.ss.game.round) & 0x0F;
   // Check if there are no more levels
-  MemLock(HandleOf(@GameLevels));  
+  MemLock(OptrToHandle(@GameLevels));  
   if (g.ss.game.level > ChunkArrayGetCount(@GameLevels))
   {
     // Set restore point and show the last screen
@@ -1812,7 +1812,7 @@ static void _pascal MoveDers(void)
     g.ss.restorePoint = MSG_LAD_PLAY_LOAD_HEAD;
     @send process::MSG_LAD_PLAY_LOAD_HEAD();
   }
-  MemUnlock(HandleOf(@GameLevels));
+  MemUnlock(OptrToHandle(@GameLevels));
 }
 
 

@@ -85,14 +85,6 @@
 @visMoniker LadderTextMoniker = "GeoLadder";
 @localize "The GeoLadder application name";
 
-// I8N_DE  "GeoLadder Hilfe"
-@chunk char LadderHelpFile[] = "GeoLadder Help";
-@localize { "The GeoLadder help file name" 3-32 };
-
-// I8N_DE  "Die aktuelle Video-Auflösung ist zu klein! Wir benötigen mindestens 640 x 350 Pixel."
-@chunk char LadderWarnVideoTooSmall[] = "The current video resolution is too small! We need at least 640 x 350 pixel.";
-@localize "The current video resolution too small warning";
-
 @end APPLICATION;
 
 
@@ -1389,6 +1381,14 @@
   }
 };
 
+// I8N_DE  "GeoLadder Hilfe"
+@chunk char LadderHelpFile[] = "GeoLadder Help";
+@localize { "The GeoLadder help file name" 3-32 };
+
+// I8N_DE  "Die aktuelle Video-Auflösung ist zu klein! Wir benötigen mindestens 640 x 350 Pixel."
+@chunk char LadderWarnVideoTooSmall[] = "The current video resolution is too small! We need at least 640 x 350 pixel.";
+@localize "The current video resolution too small warning";
+
 
 // I8N_DE  "Drück ESC um die Vorführung abzubrechen:"
 @chunk char DemoInfo[] = "Type ESC to abort the demonstration:";
@@ -2190,60 +2190,60 @@
 @chunkArray GLLevel GameLevels =
 {
   {
-    ChunkOf(@GameLevel1Name), 39, GPOS(18,5),  // Old time 35
+    OptrToChunk(@GameLevel1Name), 39, GPOS(18,5),  // Old time 35
     {
       1, { GPOS(0,39) }
     },
     5,
-    ChunkOf(@GameLevel1Data)
+    OptrToChunk(@GameLevel1Data)
   },
   {
-    ChunkOf(@GameLevel2Name), 49, GPOS(18,17),  // Old time 45
+    OptrToChunk(@GameLevel2Name), 49, GPOS(18,17),  // Old time 45
     {
       2, { GPOS(2,13), GPOS(2,67) }
     },
     8,
-    ChunkOf(@GameLevel2Data)
+    OptrToChunk(@GameLevel2Data)
   },
   {
-    ChunkOf(@GameLevel3Name), 37, GPOS(2,5),  // Old time 33
+    OptrToChunk(@GameLevel3Name), 37, GPOS(2,5),  // Old time 33
     {
       3, { GPOS(0,28), GPOS(0,44), GPOS(0,56) }
     },
     5,
-    ChunkOf(@GameLevel3Data)
+    OptrToChunk(@GameLevel3Data)
   },
   {
-    ChunkOf(@GameLevel4Name), 36, GPOS(16,77),  // Old time 32
+    OptrToChunk(@GameLevel4Name), 36, GPOS(16,77),  // Old time 32
     {
       2, { GPOS(0,44), GPOS(0,68) }
     },
     5,
-    ChunkOf(@GameLevel4Data)
+    OptrToChunk(@GameLevel4Data)
   },
   {
-    ChunkOf(@GameLevel5Name), 29, GPOS(3,74),  // Old time 29
+    OptrToChunk(@GameLevel5Name), 29, GPOS(3,74),  // Old time 29
     {
       2, { GPOS(1,61), GPOS(4,29) }
     },
     7,
-    ChunkOf(@GameLevel5Data)
+    OptrToChunk(@GameLevel5Data)
   },
   {
-    ChunkOf(@GameLevel6Name), 32, GPOS(8,33),  // Old time 29
+    OptrToChunk(@GameLevel6Name), 32, GPOS(8,33),  // Old time 29
     {
       2, { GPOS(0,63), GPOS(4,44) }
     },
     6,
-    ChunkOf(@GameLevel6Data)
+    OptrToChunk(@GameLevel6Data)
   },
   {
-    ChunkOf(@GameLevel7Name), 27, GPOS(2,6),  // Old time 22
+    OptrToChunk(@GameLevel7Name), 27, GPOS(2,6),  // Old time 22
     {
       2, { GPOS(0,60), GPOS(4,6) }
     },
     6,
-    ChunkOf(@GameLevel7Data)
+    OptrToChunk(@GameLevel7Data)
   }
 };
 
@@ -2390,34 +2390,34 @@
 @chunkArray GLDemo GameDemos =
 {
   {
-    1, 1, ChunkOf(@GameDemo1Moves)
+    1, 1, OptrToChunk(@GameDemo1Moves)
   },
   {
-    1, 1, ChunkOf(@GameDemo2Moves)
+    1, 1, OptrToChunk(@GameDemo2Moves)
   },
   {
-    1, 1, ChunkOf(@GameDemo3Moves)
+    1, 1, OptrToChunk(@GameDemo3Moves)
   },
   {
-    1, 1, ChunkOf(@GameDemo4Moves)
+    1, 1, OptrToChunk(@GameDemo4Moves)
   },
   {
-    2, 2, ChunkOf(@GameDemo5Moves)
+    2, 2, OptrToChunk(@GameDemo5Moves)
   },
   {
-    2, 2, ChunkOf(@GameDemo6Moves)
+    2, 2, OptrToChunk(@GameDemo6Moves)
   },
   {
-    2, 2, ChunkOf(@GameDemo7Moves)
+    2, 2, OptrToChunk(@GameDemo7Moves)
   },
   {
-    5, 3, ChunkOf(@GameDemo8Moves)
+    5, 3, OptrToChunk(@GameDemo8Moves)
   },
   {
-    5, 3, ChunkOf(@GameDemo9Moves)
+    5, 3, OptrToChunk(@GameDemo9Moves)
   },
   {
-    9, 4, ChunkOf(@GameDemo10Moves)
+    9, 4, OptrToChunk(@GameDemo10Moves)
   }
 };
 

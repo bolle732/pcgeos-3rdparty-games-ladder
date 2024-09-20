@@ -198,7 +198,7 @@
   }
 }
 
-@chunk PointerDef16 LadderGamePointer = {
+@chunk PointerDef16 LadderHidePointer = {
   // Width, height, hot x, hot y
   16, 16, 0, 0,
   {  // Mask

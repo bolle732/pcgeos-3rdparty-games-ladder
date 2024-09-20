@@ -33,15 +33,16 @@
 // RESOURCE Application
 @extern object LadderApplication;
 @extern visMoniker LadderTextMoniker;
-@extern chunk LadderHelpFile;
-@extern chunk LadderWarnVideoTooSmall;
+
 
 // RESOURCE Icon
 @extern visMoniker LadderIcon15x15x1;
 @extern visMoniker LadderIcon15x15x4;
 @extern visMoniker LadderIcon48x30x1;
 @extern visMoniker LadderIcon48x30x4;
-@extern chunk LadderGamePointer;
+
+@extern chunk LadderHidePointer;
+
 
 // RESOURCE Interface
 @extern object LadderPrimary;
@@ -103,6 +104,9 @@
 
 // RESOURCE Game
 @extern chunk FontConfigs;  // chunkArray
+
+@extern chunk LadderHelpFile;
+@extern chunk LadderWarnVideoTooSmall;
 
 @extern chunk ScreenLoad;
 
