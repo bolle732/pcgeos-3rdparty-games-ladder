@@ -50,6 +50,7 @@
 @include <UI/appui.goh>
 
 #include "initfile.h"
+#include "localize.h"
 #include <sound.h>
 #include <Ansi/ctype.h>
 #include <Ansi/stdio.h>
@@ -1551,7 +1552,7 @@ word _pascal LoadFontConfig(word index)
       break;
     case INP_S_MENU:
       // Handle the key press
-      switch (tolower(character & 0xFF))
+      switch (LocalDowncaseChar(character & 0xFF))
       {
       case C_SMALL_D:
         msg = MSG_LAD_MENU_DIFF;
