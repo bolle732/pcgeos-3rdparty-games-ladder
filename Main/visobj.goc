@@ -1009,8 +1009,6 @@ static void _pascal DrawValue(word pos, word val, word suf)
   // XXX: -> Move to MSG_VIS_OPEN / MSG_META_INITIALIZE ?!?
   word i, id;
   FileHandle fh;
-  // Set the identification
-  pself->LRI_file.id = RNKS_M_ID;
   // Set the working path
   FileSetCurrentPath(RNKS_P_TOP, &RPS);
   // Open the ranks file
@@ -1018,6 +1016,8 @@ static void _pascal DrawValue(word pos, word val, word suf)
   // Check if we could open the ranks file ...
   if (fh == NullHandle)
   {
+    // Set the identification
+    pself->LRI_file.id = RNKS_M_ID;
     // ... if not, initialize the ranks structure
     memset(&pself->LRI_file.ranks, LSD_C_SPACE, sizeof(pself->LRI_file.ranks));
     // Fill the ranks structure with the default values
@@ -1030,6 +1030,8 @@ static void _pascal DrawValue(word pos, word val, word suf)
      memcpy(&pself->LRI_file.ranks[i].name, LMemDeref(pself->LRI_noname), LMemGetChunkSize(pself->LRI_noname));
      MemUnlock(OptrToHandle(pself->LRI_noname));
     }
+    // Set last score
+    pself->LRI_file.lastScore = 0;
     // Create the file
     fh = FileCreate(&RFN, (FILE_ACCESS_RW | FILE_DENY_RW), FA_ARCHIVE);
     // Check if we could create the file ...
