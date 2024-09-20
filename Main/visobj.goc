@@ -402,7 +402,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   // Unconditionally hide mouse pointer by setting an empty pointer image
   MemLock(HandleOf(@LadderGamePointer));
   @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
-  MemUnlock(OptrToHandle(@LadderGamePointer));
+  MemUnlock(HandleOf(@LadderGamePointer));
   // XXX: Move mouse the pointer into the center of the screen,
   //      where it will be hidden by the view
 }
@@ -456,7 +456,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   {
     MemLock(HandleOf(@LadderGamePointer));
     @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
-    MemUnlock(OptrToHandle(@LadderGamePointer));
+    MemUnlock(HandleOf(@LadderGamePointer));
   }
 }
 

@@ -932,7 +932,7 @@ static void _pascal MoveDers(void)
   // Load the level headers
   MemLock(HandleOf(@GameLevels));
   ChunkArrayGetElement(@GameLevels, g.ss.game.level - 1, &g.ss.level);
-  MemUnlock(OptrToHandle(@GameLevels));
+  MemUnlock(HandleOf(@GameLevels));
   // Handle message type
   switch (message)
   {
@@ -980,9 +980,9 @@ static void _pascal MoveDers(void)
   // Lock the level headers
   MemLock(HandleOf(@GameLevels));
   // Set the text of the level name
-  @call LadderLoadName::MSG_TXT_SET_TEXT(ConstructOptr(OptrToHandle(@GameLevels), g.ss.level.name));
+  @call LadderLoadName::MSG_TXT_SET_TEXT(ConstructOptr(HandleOf(@GameLevels), g.ss.level.name));
   // Unlock the level headers
-  MemUnlock(OptrToHandle(@GameLevels));
+  MemUnlock(HandleOf(@GameLevels));
   // Show the loading screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderLoad);
   // Load the level data
@@ -1018,8 +1018,8 @@ static void _pascal MoveDers(void)
   // Load the level data
   MemLock(HandleOf(@GameLevels));
   // No need to MemLock because the resource is already locked
-  @call LadderGameLevel::MSG_LVL_LOAD_LEVEL(ConstructOptr(OptrToHandle(@GameLevels), g.ss.level.data));
-  MemUnlock(OptrToHandle(@GameLevels));
+  @call LadderGameLevel::MSG_LVL_LOAD_LEVEL(ConstructOptr(HandleOf(@GameLevels), g.ss.level.data));
+  MemUnlock(HandleOf(@GameLevels));
   // Set the values of the current lads, round and score
   @send LadderGameLads::MSG_VAL_SET_VALUE(g.ss.game.lads);
   @send LadderGameRound::MSG_VAL_SET_VALUE(g.ss.game.round);
@@ -1153,7 +1153,7 @@ static void _pascal MoveDers(void)
   {
     MemLock(HandleOf(@LadderGamePointer));
     @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
-    MemUnlock(OptrToHandle(@LadderGamePointer));
+    MemUnlock(HandleOf(@LadderGamePointer));
   }
   // Initialize the get ready counter
   g.ns.readyCount = RDY_STPS;
@@ -1338,7 +1338,7 @@ static void _pascal MoveDers(void)
   if (message == MSG_LAD_DEMO_EXEC)
   {
     optr o;
-    o = ConstructOptr(OptrToHandle(@GameDemos), g.ns.moves);
+    o = ConstructOptr(HandleOf(@GameDemos), g.ns.moves);
     // Lock the demo moves
     MemLock(OptrToHandle(o));
     // Verify we don't read beyond
@@ -1471,7 +1471,7 @@ static void _pascal MoveDers(void)
     }
   }
   // Unlock the level buffer
-  MemUnlock(OptrToHandle(@GameLevelBuffer));
+  MemUnlock(HandleOf(@GameLevelBuffer));
   // Draw the actors
   @send LadderGameActors::MSG_ACT_DRAW();
   // ::: HANDLE POINTS :::
@@ -1696,7 +1696,7 @@ static void _pascal MoveDers(void)
   // Restore background of Lad
   @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.ss.lad.cpos, *(p_level + g.ss.lad.cpos));
   // Unlock the level buffer
-  MemUnlock(OptrToHandle(@GameLevelBuffer));
+  MemUnlock(HandleOf(@GameLevelBuffer));
   // Draw the background of the actors
   @send LadderGameActors::MSG_ACT_DRAW();
   // Set restore point and initialize the level
@@ -1812,7 +1812,7 @@ static void _pascal MoveDers(void)
     g.ss.restorePoint = MSG_LAD_PLAY_LOAD_HEAD;
     @send process::MSG_LAD_PLAY_LOAD_HEAD();
   }
-  MemUnlock(OptrToHandle(@GameLevels));
+  MemUnlock(HandleOf(@GameLevels));
 }
 
 

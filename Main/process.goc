@@ -358,7 +358,7 @@ void _pascal InitFontConfig(word index)
       g.is.fontCurrent = (g.ns.fontWinMin + g.ns.fontWinMax) / 2;
     }
   }
-  MemUnlock(OptrToHandle(@FontConfigs));
+  MemUnlock(HandleOf(@FontConfigs));
 }
 
 /***********************************************************************
@@ -392,7 +392,7 @@ word _pascal LoadFontConfig(word index)
     // Get the font config
     MemLock(HandleOf(@FontConfigs));
     ChunkArrayGetElement(@FontConfigs, index, &g.ns.font);
-    MemUnlock(OptrToHandle(@FontConfigs));
+    MemUnlock(HandleOf(@FontConfigs));
     g.is.fontCurrent = index;
     return index;
   }
@@ -480,14 +480,14 @@ word _pascal LoadFontConfig(word index)
   MemLock(HandleOf(@LadderHelpFile));
   memcpy(&buf, LMemDeref(@LadderHelpFile), LMemGetChunkSize(@LadderHelpFile));
   @call application::MSG_META_SET_HELP_FILE(buf);
-  MemUnlock(OptrToHandle(@LadderHelpFile));
+  MemUnlock(HandleOf(@LadderHelpFile));
 
   // Get and set the version number
   GeodeGetInfo(GeodeGetProcessHandle(), GGIT_GEODE_RELEASE, &rn);
   MemLock(HandleOf(@MenuVersion));
   LMemReAlloc(@MenuVersion, 24);
   sprintf(LMemDeref(@MenuVersion), "%u.%u %u-%u", rn.RN_major, rn.RN_minor, rn.RN_change, rn.RN_engineering);
-  MemUnlock(OptrToHandle(@MenuVersion));
+  MemUnlock(HandleOf(@MenuVersion));
 
   // Get the product name and set it as the terminal name
   // There is _NO_ null terminator!
@@ -499,13 +499,13 @@ word _pascal LoadFontConfig(word index)
     sprintf(LMemDeref(@MenuTerminal), "%s", MemLock(mh));
    // Free the memory handle, no need for unlock
     MemFree(mh);
-    MemUnlock(OptrToHandle(@MenuTerminal));
+    MemUnlock(HandleOf(@MenuTerminal));
   }
 
   // Resize the level buffer
   MemLock(HandleOf(@GameLevelBuffer));
   LMemReAlloc(@GameLevelBuffer, LVL_M_SIZE);
-  MemUnlock(OptrToHandle(@GameLevelBuffer));
+  MemUnlock(HandleOf(@GameLevelBuffer));
 
   // Handle restore from state file
   if ((attachFlags & AAF_RESTORING_FROM_STATE) && extraState)
@@ -525,7 +525,7 @@ word _pascal LoadFontConfig(word index)
       // Restore the level buffer
       MemLock(HandleOf(@GameLevelBuffer));
       memcpy(LMemDeref(@GameLevelBuffer), es->buffer, LVL_M_SIZE);
-      MemUnlock(OptrToHandle(@GameLevelBuffer));
+      MemUnlock(HandleOf(@GameLevelBuffer));
       // Set the message where we leaved the game play
       msg = g.ss.restorePoint;
 //    break;
@@ -693,17 +693,19 @@ word _pascal LoadFontConfig(word index)
   // Save the game objects and the level buffer if we are in a play
   if (g.ss.executionState == EXE_S_PLAY)
   {
-    // Set the objects dirty so they get saved into the state
+    // Lock (for Swat) and set the objects dirty so they get saved into the state
+    MemLock(HandleOf(oself));
     ObjMarkDirty(@LadderView);
     ObjMarkDirty(@LadderGameActors);
     ObjMarkDirty(@LadderGameLads);
     ObjMarkDirty(@LadderGameRound);
     ObjMarkDirty(@LadderGameScore);
     ObjMarkDirty(@LadderGameTime);
+    MemUnlock(HandleOf(oself));
     // Save the level buffer
     MemLock(HandleOf(@GameLevelBuffer));
     memcpy(es->buffer, LMemDeref(@GameLevelBuffer), LVL_M_SIZE);
-    MemUnlock(OptrToHandle(@GameLevelBuffer));
+    MemUnlock(HandleOf(@GameLevelBuffer));
   }
   // Unlock memory of extra state
   MemUnlock(mh);
@@ -926,7 +928,7 @@ word _pascal LoadFontConfig(word index)
         // Set the text of a random joke
         MemLock(HandleOf(@MenuJokes));
         ChunkArrayGetElement(@MenuJokes, Random(ChunkArrayGetCount(@MenuJokes)), &o);
-        MemUnlock(OptrToHandle(@MenuJokes));
+        MemUnlock(HandleOf(@MenuJokes));
       }
     }
     // Increase control state
@@ -1050,7 +1052,7 @@ word _pascal LoadFontConfig(word index)
     // Load a random game demo
     MemLock(HandleOf(@GameDemos));
     ChunkArrayGetElement(@GameDemos, Random(ChunkArrayGetCount(@GameDemos)), &d);
-    MemUnlock(OptrToHandle(@GameDemos));
+    MemUnlock(HandleOf(@GameDemos));
     // Set the round, level and moves
     g.ss.game.round = d.round;
     g.ss.game.level = d.level;
@@ -1071,7 +1073,7 @@ word _pascal LoadFontConfig(word index)
     {
       MemLock(HandleOf(@LadderGamePointer));
       @call LadderView::MSG_GEN_VIEW_SET_PTR_IMAGE(@LadderGamePointer, PIL_WINDOW);
-      MemUnlock(OptrToHandle(@LadderGamePointer));
+      MemUnlock(HandleOf(@LadderGamePointer));
     }
     // Set restore point and start the first level
     g.ss.restorePoint = MSG_LAD_PLAY_LOAD_HEAD;
@@ -1235,7 +1237,7 @@ word _pascal LoadFontConfig(word index)
       break;
     }
   }
-  MemUnlock(OptrToHandle(@HighRatings));
+  MemUnlock(HandleOf(@HighRatings));
   // Show the high score screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderHigh);
   // Set the text of the info line
@@ -1549,7 +1551,7 @@ word _pascal LoadFontConfig(word index)
       break;
     case INP_S_MENU:
       // Handle the key press
-      switch (tolower(character))
+      switch (tolower(character & 0xFF))
       {
       case C_SMALL_D:
         msg = MSG_LAD_MENU_DIFF;
