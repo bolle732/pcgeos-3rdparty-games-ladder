@@ -1264,14 +1264,14 @@ static void _pascal MoveDers(void)
     // Set the text in the info line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@DemoInfo);
     // Start the execution of the demo
-    g.ns.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.ss.game.delay, MSG_LAD_DEMO_EXEC, g.ss.game.delay, &g.ns.timerId);
+    g.ns.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, 0, MSG_LAD_DEMO_EXEC, g.ss.game.delay, &g.ns.timerId);
     break;
   case MSG_LAD_PLAY_START:
     // Set the input state for the handling of key presses
     g.ss.inputState = INP_S_EXEC;
     // Set restore point and start the execution of the play
     g.ss.restorePoint = MSG_LAD_PLAY_EXEC;
-    g.ns.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, g.ss.game.delay, MSG_LAD_PLAY_EXEC, g.ss.game.delay, &g.ns.timerId);
+    g.ns.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, 0, MSG_LAD_PLAY_EXEC, g.ss.game.delay, &g.ns.timerId);
 //  break;
   }
 }
