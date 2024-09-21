@@ -72,12 +72,16 @@ extern void _pascal StopTimer(void);
 // Lookup table for playing noises
 static word NEI[][2] =
 {
-  { IP_VIBRASLAP, FR_VIBRASLAP },      // Menu enable sound
-  { IP_LOW_BONGO, FR_LOW_BONGO },      // Play get ready & last seconds & Lad hooka
-  { IP_HI_BONGO, FR_HI_BONGO },        // Play increase points
-  { IP_BASS_DRUM_1, FR_BASS_DRUM_1 },  // Play Der release
-  { IP_SIDE_STICK, FR_SIDE_STICK },    // Play Der recycle
-  { IP_LOW_TIMBALE, FR_LOW_TIMBALE }   // Play Lad dies
+  { IP_OPEN_CUICA, FR_OPEN_CUICA },         // Menu enable sound
+  { IP_LOW_BONGO, FR_LOW_BONGO },           // Play get ready
+  { IP_LOW_BONGO, FR_HI_BONGO },            // Play ready go
+  { IP_RIDE_BELL, FR_RIDE_BELL },           // Play earn gold statue
+  { IP_MUTE_CUICA, FR_MUTE_CUICA },         // Play jump over Der
+  { IP_HIGH_AGOGO, FR_HIGH_AGOGO },         // Play last seconds
+  { IP_BASS_DRUM_1, FR_BASS_DRUM_1 },       // Play Der release
+  { IP_SIDE_STICK, FR_SIDE_STICK },         // Play Der recycle
+  { IP_VIBRASLAP, FR_VIBRASLAP },           // Play Lad hooka
+  { IP_ELECTRIC_SNARE, FR_ELECTRIC_SNARE }  // Play Lad dies
 };
 // Lookup table for Lad dying characters
 static char LDC[] =
@@ -827,7 +831,7 @@ static void _pascal MoveDers(void)
     case DER_S_LEAVE:
       g.ss.ders[i].state--;
       // Play "Der release" sound
-      PlayNoise(3);
+      PlayNoise(6);
       break;
     // ::: HANDLE RECYCLE ::: (by an emitter)
     case DER_S_RECYCLE:
@@ -835,7 +839,7 @@ static void _pascal MoveDers(void)
       g.ss.ders[i].lpos = POS_NONE;
       g.ss.ders[i].state = g.ss.level.ders;
       // Play "Der recycle" sound
-      PlayNoise(4);
+      PlayNoise(7);
       continue;
     // ::: HANDLE ARMED :::
     default:
@@ -1396,8 +1400,8 @@ static void _pascal MoveDers(void)
   case LSD_C_GOLD:
     pnts += PNT_GOLD;
     *(g.ns.levelBuffer + g.ss.lad.cpos) = LSD_C_SPACE;
-    // Play "Increase points" sound
-    PlayNoise(2);
+    // Play "Earn gold statue" sound
+    PlayNoise(3);
     break;
   case LSD_C_EXIT:
     // Set restore point and message to do the hooka
@@ -1439,8 +1443,8 @@ static void _pascal MoveDers(void)
         (g.ss.lad.lpos + 2 * LVL_COLS == g.ss.ders[i].cpos))
     {
       pnts += PNT_DER;
-      // Play "Increase points" sound
-      PlayNoise(2);
+      // Play "Jump over Der" sound
+      PlayNoise(4);
     }
     // Handle collision of Lad and Der
     if (g.ss.lad.cpos == g.ss.ders[i].cpos)
@@ -1497,7 +1501,7 @@ static void _pascal MoveDers(void)
     if (g.ss.game.time < 10)
     {
       // Play "Last seconds" sound
-      PlayNoise(1);
+      PlayNoise(5);
     }
   }
   // Check for bonus time exhausted
@@ -1635,7 +1639,7 @@ static void _pascal MoveDers(void)
     // Increase the state
     g.ss.lad.die++;
     // Play "Lad dies" sound
-    PlayNoise(5);
+    PlayNoise(9);
     // Call our self
     g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_DIES, message, 0, &g.ns.timerId);
     // Return from method
@@ -1759,7 +1763,7 @@ static void _pascal MoveDers(void)
     // Update the status line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(o);
     // Play "Lad hooka" sound
-    PlayNoise(2);
+    PlayNoise(8);
     // Start the timer for our self
     g.ss.restorePoint = MSG_LAD_PLAY_HOOKA;
     g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_HOOKA, message, 0, &g.ns.timerId);
