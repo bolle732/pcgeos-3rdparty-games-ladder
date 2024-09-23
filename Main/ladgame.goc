@@ -1594,8 +1594,6 @@ static void _pascal MoveDers(void)
 {
   // Decrease the Lads
   g.ss.game.lads--;
-  // Update the Lads
-  @send LadderGameLads::MSG_VAL_UPDATE_VALUE(g.ss.game.lads);
   // Reset the Lad state
   g.ss.lad.die = 0;
   // Clear the actors
