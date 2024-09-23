@@ -119,14 +119,16 @@
 #define DLY_T_MENU_RND    113  // Delay ticks for the menu auto tasks random time
 #define DLY_T_BORED       120  // Delay ticks for the menu bored message
 #define DLY_T_READY        30  // Delay ticks for the get ready message
+#define DLY_T_READY_GO     90  // Delay ticks for the ready go message
 #define DLY_T_HOOKA        15  // Delay ticks for the Hooka message
 #define DLY_T_DIES         10  // Delay ticks for the Lad dies
 #define DLY_T_EXIT         75  // Delay ticks for the exit message
 #define DLY_T_LOAD        150  // Delay ticks for the level load message
 #define DLY_T_SAVE         75  // Delay ticks for the high score save message
 
-// Ready
-#define RDY_STPS            6  // Ready count down start value
+// Count down
+#define CNT_S_MENU         10  // Menu count down start value
+#define CNT_S_READY         7  // Ready count down start value, 0 = done, 1 = go, 3,5,7 = show, 2,4,6 = clear
 
 // Rank
 #define RNK_NAME_LEN       20  // Length of rank name

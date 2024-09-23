@@ -1160,7 +1160,7 @@ static void _pascal MoveDers(void)
     MemUnlock(OptrToHandle(@LadderHidePointer));
   }
   // Initialize the get ready counter
-  g.ns.readyCount = RDY_STPS;
+  g.ns.readyCount = CNT_S_READY;
   // Set the input state for the handling of key presses
   g.ss.inputState = INP_S_PLAY;
   // Start get ready count down
@@ -1200,8 +1200,8 @@ static void _pascal MoveDers(void)
     @send process::MSG_LAD_PLAY_HOLD();
     return;
   }
-  // Start the play when the count down has reached 0
-  if (g.ns.readyCount == 0)
+  // Start the play when the count down has reached 1
+  if (g.ns.readyCount == 1)
   {
     // Update the info line with the go text
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayGo);
@@ -1215,7 +1215,7 @@ static void _pascal MoveDers(void)
     return;
   }
   // Either show or clear the get ready message
-  if (g.ns.readyCount % 2 == 0)
+  if (g.ns.readyCount % 2 == 1)
   {
     // Update the info line with the get ready text
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayReady);
@@ -1367,16 +1367,16 @@ static void _pascal MoveDers(void)
   if (message == MSG_LAD_PLAY_EXEC)
   {
     // Check if ready go message is active
-    if (g.ns.readyCount == 0)
+    if (g.ns.readyCount > 0)
     {
       // Increase our counter by the passed ticks
       g.ns.readyTicks += g.ss.game.delay;
-      if (g.ns.readyTicks > GEOS_TICKS_P_SEC)
+      if (g.ns.readyTicks > DLY_T_READY_GO)
       {
         // Clear the text in the info line
         @send LadderInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
-        // Simply increase ready count to finish handling
-        g.ns.readyCount++;
+        // Set ready counter to 0 to finish handling
+        g.ns.readyCount = 0;
       }
     }
   }
