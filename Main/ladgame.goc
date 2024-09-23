@@ -1580,9 +1580,8 @@ static void _pascal MoveDers(void)
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ Decrease the Lad counter.
- *                  2/ Update the Lad counter on the screen.
- *                  3/ Reset the actors.
- *                  4/ Let the Lad die.
+ *                  2/ Reset the actors.
+ *                  3/ Let the Lad die.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
