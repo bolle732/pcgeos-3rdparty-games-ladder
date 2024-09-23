@@ -741,7 +741,7 @@ word _pascal LoadFontConfig(word index)
   // Set the execution state
   g.ss.executionState = EXE_S_MENU;
   // Reset the control state
-  g.ns.menuCount = 0;
+  g.ns.menuCount = CNT_S_MENU;
   // Clear the text in the info line
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
   // Show the menu screen
@@ -902,44 +902,51 @@ word _pascal LoadFontConfig(word index)
     @send process::MSG_LAD_MENU_STOP();
     return;
   }
-  // Check for not first time and demo time
-  if (g.ns.menuCount != 0 && (g.ns.menuCount % 8 == 0))
+  // Set default delay
+  d = DLY_T_MENU;
+  // Set default empty text
+  o = NullOptr;
+  // Handle menu counter
+  switch (g.ns.menuCount)
   {
+  // Demo time
+  case 0:
     // Reset control state
-    g.ns.menuCount = 0;
-    // Set the text in the info line
-    @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(@MenuBored);
+    g.ns.menuCount = CNT_S_MENU;
     // Start the timer to run the demo
-    g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_BORED, MSG_LAD_DEMO, 0, &g.ns.timerId);
-  }
-  // Handle joke
-  else
-  {
-    // Set default delay
-    d = DLY_T_MENU;
-    // Set emtpy text
-    o = NullOptr;
-    // Check for not first time
-    if (g.ns.menuCount != 0)
-    {
-      // Calculate the delay
-      d = DLY_T_MENU_MIN + Random(DLY_T_MENU_RND);
-      // Check show time
-      if (g.ns.menuCount % 2 == 0)
-      {
-        // Set the text of a random joke
-        MemLock(OptrToHandle(@MenuJokes));
-        ChunkArrayGetElement(@MenuJokes, Random(ChunkArrayGetCount(@MenuJokes)), &o);
-        MemUnlock(OptrToHandle(@MenuJokes));
-      }
-    }
-    // Increase control state
-    g.ns.menuCount++;
+    @send process::MSG_LAD_DEMO();
+    return;
+  // Clear bored
+  case 1:
+    d = DLY_T_READY;
+    break;
+  // We got bored
+  case 2:
+    // Set the delay
+    d = DLY_T_BORED;
     // Set the text in the info line
-    @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(o);
-    // Start the timer
-    g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, d, message, 0, &g.ns.timerId);
+    o = @MenuBored;
+    break;
+  // Do a joke
+  case 4: case 6: case 8: case 10:
+    // Set the text of a random joke
+    MemLock(OptrToHandle(@MenuJokes));
+    ChunkArrayGetElement(@MenuJokes, Random(ChunkArrayGetCount(@MenuJokes)), &o);
+    MemUnlock(OptrToHandle(@MenuJokes));
+//  break;
   }
+  // Handle delay if not default or set above
+  if (g.ns.menuCount > 2 && g.ns.menuCount < CNT_S_MENU)
+  {
+    // Calculate the delay
+    d = DLY_T_MENU_MIN + Random(DLY_T_MENU_RND);
+  }
+  // Decrement control state
+  g.ns.menuCount--;
+  // Set the text in the info line
+  @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(o);
+  // Start the timer
+  g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, d, message, 0, &g.ns.timerId);
 }
 
 /***********************************************************************
@@ -969,7 +976,7 @@ word _pascal LoadFontConfig(word index)
   // Reset cancel execution
   g.ss.cancelExecution = L_FALSE;
   // Reset the control state
-  g.ns.menuCount = 0;
+  g.ns.menuCount = CNT_S_MENU;
   // Clear the text in the info line
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
 }

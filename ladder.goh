@@ -127,8 +127,10 @@
 #define DLY_T_SAVE         75  // Delay ticks for the high score save message
 
 // Count down
-#define CNT_S_MENU         10  // Menu count down start value
-#define CNT_S_READY         7  // Ready count down start value, 0 = done, 1 = go, 3,5,7 = show, 2,4,6 = clear
+#define CNT_S_MENU         11  // Menu count down start value
+                               // 0 = demo, 1 = clear, 2 = bored, 3,5,7,9 = clear, 4,6,8,10 = joke, 11 = wait
+#define CNT_S_READY         7  // Ready count down start value
+                               // 0 = done, 2,4,6 = clear, 1 = go, 3,5,7 = show
 
 // Rank
 #define RNK_NAME_LEN       20  // Length of rank name
