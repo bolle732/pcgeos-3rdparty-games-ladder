@@ -539,6 +539,10 @@
   @MenuJoke1, @MenuJoke2, @MenuJoke3, @MenuJoke4, @MenuJoke5
 };
 
+// I8N_DE  "Mir ist so langweilig..."
+@chunk char MenuBored[] = "I\'m so bored...";
+@localize { "The bored text" 3-77 };
+
 // I8N_DE  "Beende..."
 @chunk char MenuExit[] = "Exiting...";
 @localize { "The exiting text" 3-77 };

@@ -907,8 +907,10 @@ word _pascal LoadFontConfig(word index)
   {
     // Reset control state
     g.ns.menuCount = 0;
-    // Run the demo
-    @send process::MSG_LAD_DEMO();
+    // Set the text in the info line
+    @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(@MenuBored);
+    // Start the timer to run the demo
+    g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_BORED, MSG_LAD_DEMO, 0, &g.ns.timerId);
   }
   // Handle joke
   else
