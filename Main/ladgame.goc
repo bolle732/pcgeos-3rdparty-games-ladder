@@ -1654,7 +1654,7 @@ static void _pascal MoveDers(void)
     g.ss.restorePoint = MSG_LAD_PLAY_OVER;
     msg = MSG_LAD_PLAY_OVER;
   }
-  @send process:: {MSG_LAD_PROTO} msg();
+  g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_READY, msg, 0, &g.ns.timerId);
 }
 
 /***********************************************************************
