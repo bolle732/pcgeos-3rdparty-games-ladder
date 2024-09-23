@@ -1024,15 +1024,8 @@ static void _pascal MoveDers(void)
   // No need to MemLock because the resource is already locked
   @call LadderGameLevel::MSG_LVL_LOAD_LEVEL(ConstructOptr(OptrToHandle(@GameLevels), g.ss.level.data));
   MemUnlock(OptrToHandle(@GameLevels));
-  // Set the values of the current lads, round and score
-  @send LadderGameLads::MSG_VAL_SET_VALUE(g.ss.game.lads);
-  @send LadderGameRound::MSG_VAL_SET_VALUE(g.ss.game.round);
-  @send LadderGameScore::MSG_VAL_SET_VALUE(g.ss.game.score);
   // Calculate the bonus time
   g.ss.level.time -= LevelAndTimeReductionByRound(g.ss.game.round) >> 8;
-  // Set the value of the current bonus time
-  g.ss.game.time = g.ss.level.time;
-  @send LadderGameTime::MSG_VAL_SET_VALUE(g.ss.game.time);
   // Handle message type
   switch (message)
   {
@@ -1100,6 +1093,13 @@ static void _pascal MoveDers(void)
   @send LadderGameActors::MSG_ACT_ADD(POS_NONE, 0, g.ss.lad.cpos, g.ss.lad.face);
   // Show the play screen
   @send LadderView::MSG_GEN_VIEW_SET_CONTENT(@LadderGame);
+  // Set the values of the current lads, round and score
+  @send LadderGameLads::MSG_VAL_UPDATE_VALUE(g.ss.game.lads);
+  @send LadderGameRound::MSG_VAL_UPDATE_VALUE(g.ss.game.round);
+  @send LadderGameScore::MSG_VAL_UPDATE_VALUE(g.ss.game.score);
+  // Set the value of the current bonus time
+  g.ss.game.time = g.ss.level.time;
+  @send LadderGameTime::MSG_VAL_UPDATE_VALUE(g.ss.game.time);
   // Force redrawing of Lad if view was already set (coming from MSG_LAD_PLAY_CLEAR)
   @send LadderGameActors::MSG_ACT_DRAW();
   // Handle message type
