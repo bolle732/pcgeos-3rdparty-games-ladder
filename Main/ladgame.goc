@@ -1190,7 +1190,6 @@ static void _pascal MoveDers(void)
  *      boa     2024-08-30    Initial Revision
  *
  ***********************************************************************/
-// One shot timer 
 @extern method LadderProcessClass, MSG_LAD_PLAY_READY_EXEC
 {
   // Check if we should cancel the execution
