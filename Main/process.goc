@@ -791,7 +791,7 @@ word _pascal LoadFontConfig(word index)
 @method LadderProcessClass, MSG_LAD_MENU_DIFF,
                             MSG_LAD_MENU_SOUND
 {
-  // Stop the jokes od demo
+  // Stop the jokes or demo
   @send process::MSG_LAD_MENU_STOP();
   // Handle message type
   switch (message)
@@ -828,7 +828,7 @@ word _pascal LoadFontConfig(word index)
 //  break;
   }
   // Disarm the jokes or demo
-  @send process::MSG_LAD_MENU_EXEC();
+  @send process::MSG_LAD_MENU();
 }
 
 /***********************************************************************
@@ -975,8 +975,6 @@ word _pascal LoadFontConfig(word index)
   StopTimer();
   // Reset cancel execution
   g.ss.cancelExecution = L_FALSE;
-  // Reset the control state
-  g.ns.menuCount = CNT_S_MENU;
   // Clear the text in the info line
   @send LadderMenuInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
 }

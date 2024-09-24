@@ -347,7 +347,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
   if (g.ss.executionState == EXE_S_MENU)
   {
     g.ss.cancelExecution = L_FALSE;
-    @send process::MSG_LAD_MENU_EXEC();
+    @send process::MSG_LAD_MENU();
   }
   // Do super
   @callsuper();
