@@ -694,14 +694,16 @@ word _pascal LoadFontConfig(word index)
   if (g.ss.executionState == EXE_S_PLAY)
   {
     // Lock (for Swat) and set the objects dirty so they get saved into the state
-    MemLock(OptrToHandle(oself));
+/*
+//    MemLock(OptrToHandle(oself));
     ObjMarkDirty(@LadderView);
     ObjMarkDirty(@LadderGameActors);
     ObjMarkDirty(@LadderGameLads);
     ObjMarkDirty(@LadderGameRound);
     ObjMarkDirty(@LadderGameScore);
     ObjMarkDirty(@LadderGameTime);
-    MemUnlock(OptrToHandle(oself));
+//    MemUnlock(OptrToHandle(oself));
+*/
     // Save the level buffer
     MemLock(OptrToHandle(@GameLevelBuffer));
     memcpy(es->buffer, LMemDeref(@GameLevelBuffer), LVL_M_SIZE);

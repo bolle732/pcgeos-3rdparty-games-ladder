@@ -216,7 +216,7 @@
 @object LadderValueClass LadderGameScore = {
   LVI_position = GPOS(20, 47);
   LVI_length = 7;  // Maximum '65535' + suffix '00'
-  LVI_value = 1;
+  LVI_value = 0;
   LVI_suffix = L_TRUE;
 }
 
