@@ -926,20 +926,20 @@ word _pascal LoadFontConfig(word index)
     d = DLY_T_BORED;
     // Set the text in the info line
     o = @MenuBored;
-    break;
-  // Do a joke
-  case 4: case 6: case 8: case 10:
-    // Set the text of a random joke
-    MemLock(OptrToHandle(@MenuJokes));
-    ChunkArrayGetElement(@MenuJokes, Random(ChunkArrayGetCount(@MenuJokes)), &o);
-    MemUnlock(OptrToHandle(@MenuJokes));
 //  break;
   }
-  // Handle delay if not default or set above
+  // Handle delay and jokes
   if (g.ns.menuCount > 2 && g.ns.menuCount < CNT_S_MENU)
   {
     // Calculate the delay
     d = DLY_T_MENU_MIN + Random(DLY_T_MENU_RND);
+    if (g.ns.menuCount % 2 == 0)
+    {
+      // Set the text of a random joke
+      MemLock(OptrToHandle(@MenuJokes));
+      ChunkArrayGetElement(@MenuJokes, Random(ChunkArrayGetCount(@MenuJokes)), &o);
+      MemUnlock(OptrToHandle(@MenuJokes));
+    }
   }
   // Decrement control state
   g.ns.menuCount--;
