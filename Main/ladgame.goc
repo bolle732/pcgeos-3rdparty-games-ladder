@@ -1641,6 +1641,7 @@ static void _pascal MoveDers(void)
     // Return from method
     return;
   }
+  // Check if we still have Lads left
   if (g.ss.game.lads > 0)
   {
     // Set restore point and message to clear the actors in the level
