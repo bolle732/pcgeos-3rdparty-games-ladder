@@ -472,23 +472,19 @@ word _pascal LoadFontConfig(word index)
   ReleaseNumber rn;
   // Set the menu as the default
   Message msg = MSG_LAD_MENU;
-
   // Initialize error state
   g.ns.error = L_FALSE;
-
   // Set the help file name
   MemLock(OptrToHandle(@LadderHelpFile));
   memcpy(&buf, LMemDeref(@LadderHelpFile), LMemGetChunkSize(@LadderHelpFile));
   @call application::MSG_META_SET_HELP_FILE(buf);
   MemUnlock(OptrToHandle(@LadderHelpFile));
-
   // Get and set the version number
   GeodeGetInfo(GeodeGetProcessHandle(), GGIT_GEODE_RELEASE, &rn);
   MemLock(OptrToHandle(@MenuVersion));
   LMemReAlloc(@MenuVersion, 24);
   sprintf(LMemDeref(@MenuVersion), "%u.%u %u-%u", rn.RN_major, rn.RN_minor, rn.RN_change, rn.RN_engineering);
   MemUnlock(OptrToHandle(@MenuVersion));
-
   // Get the product name and set it as the terminal name
   // There is _NO_ null terminator!
   if (!InitFileReadStringBlock(&ICU, &IKP, &mh, 0, &size))
@@ -501,12 +497,10 @@ word _pascal LoadFontConfig(word index)
     MemFree(mh);
     MemUnlock(OptrToHandle(@MenuTerminal));
   }
-
   // Resize the level buffer
   MemLock(OptrToHandle(@GameLevelBuffer));
   LMemReAlloc(@GameLevelBuffer, LVL_M_SIZE);
   MemUnlock(OptrToHandle(@GameLevelBuffer));
-
   // Handle restore from state file
   if ((attachFlags & AAF_RESTORING_FROM_STATE) && extraState)
   {
@@ -537,7 +531,6 @@ word _pascal LoadFontConfig(word index)
   {
     g.ss.cancelExecution = L_FALSE;
   }
-
   // Get the font size from the INI file
   if (InitFileReadInteger(&ICA, &IKF, &g.is.fontCurrent))
   {
@@ -558,12 +551,10 @@ word _pascal LoadFontConfig(word index)
     // Get the sound from the low byte
     g.is.sound = state & 0x0F;
   }
-
   // Get the video resolution
   //  @call application::MSG_VIS_GET_BOUNDS(&g.ns.screen);
   @call application::MSG_GEN_GUP_QUERY(&grp, GUQT_FIELD);
   WinGetWinScreenBounds(grp.GRP_bp, &g.ns.screen);
-
   // Setup colors according the available ones (monochrome)
   g.ns.areaColor = C_BLACK;
   @call application::MSG_GEN_APPLICATION_GET_DISPLAY_SCHEME(&ds);
@@ -575,10 +566,8 @@ word _pascal LoadFontConfig(word index)
   {
     g.ns.textColor = C_WHITE;
   }
-
   // Clear global GState
   g.ns.gstateHandle = NullHandle;
-
   // Warn user if current video resolution is too small
   InitFontConfig(g.is.fontCurrent);
   // No MemLock / MemUnlock needed as the function does it for us
@@ -595,7 +584,6 @@ word _pascal LoadFontConfig(word index)
   {
     LoadFontConfig(g.is.fontCurrent);
   }
-
   // Setup user interface if no error has occured
   if (g.ns.error == L_FALSE)
   {
@@ -608,13 +596,11 @@ word _pascal LoadFontConfig(word index)
     }
     // Load the high and last scores from the file
     @send LadderMenuRank::MSG_RNK_LOAD();
-
     // Allocate a memory handle for the noise and the music
     // Instrument (InstrumentPatch), Instrument Table (word), Frequency word), Volume (word), Delta Type (SoundStremDeltyTimeType), Duration (word), Control (Pointer to MemHandle)
     SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.ns.noiseHandle);
     // Song (Pointer), Voices (word), Control (Pointer to MemHandle)
     SoundAllocMusic(0, 4, &g.ns.musicHandle);
-
     // Let's start the menu or continue where we left the application
     @send process::{MSG_LAD_PROTO} msg();
     // Do super
@@ -629,7 +615,6 @@ word _pascal LoadFontConfig(word index)
     // Send quit message to application
     @send application::MSG_META_QUIT();
   }
-
 }
 
 /***********************************************************************
@@ -694,7 +679,7 @@ word _pascal LoadFontConfig(word index)
   if (g.ss.executionState == EXE_S_PLAY)
   {
     // Lock (for Swat) and set the objects dirty so they get saved into the state
-/*
+
 //    MemLock(OptrToHandle(oself));
     ObjMarkDirty(@LadderView);
     ObjMarkDirty(@LadderGameActors);
@@ -703,7 +688,7 @@ word _pascal LoadFontConfig(word index)
     ObjMarkDirty(@LadderGameScore);
     ObjMarkDirty(@LadderGameTime);
 //    MemUnlock(OptrToHandle(oself));
-*/
+
     // Save the level buffer
     MemLock(OptrToHandle(@GameLevelBuffer));
     memcpy(es->buffer, LMemDeref(@GameLevelBuffer), LVL_M_SIZE);
