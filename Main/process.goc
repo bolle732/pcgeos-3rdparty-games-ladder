@@ -473,7 +473,7 @@ word _pascal LoadFontConfig(word index)
   // Set the menu as the default
   Message msg = MSG_LAD_MENU;
   // Initialize error state
-  g.ns.error = L_FALSE;
+  g.ns.startupError = L_FALSE;
   // Set the help file name
   MemLock(OptrToHandle(@LadderHelpFile));
   memcpy(&buf, LMemDeref(@LadderHelpFile), LMemGetChunkSize(@LadderHelpFile));
@@ -578,14 +578,14 @@ word _pascal LoadFontConfig(word index)
       @LadderWarnVideoTooSmall,
       (GIT_NOTIFICATION << CDBF_INTERACTION_TYPE_OFFSET) | (CDT_ERROR << CDBF_DIALOG_TYPE_OFFSET)
     );
-    g.ns.error = L_TRUE;
+    g.ns.startupError = L_TRUE;
   }
   else
   {
     LoadFontConfig(g.is.fontCurrent);
   }
   // Setup user interface if no error has occured
-  if (g.ns.error == L_FALSE)
+  if (g.ns.startupError == L_FALSE)
   {
     // Set the difficulty
     @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.is.diff);
@@ -660,7 +660,7 @@ word _pascal LoadFontConfig(word index)
     g.ss.windowState = WIN_S_NORM;
   }
   // In case of an error simply return without saving any states
-  if (g.ns.error == L_TRUE)
+  if (g.ns.startupError == L_TRUE)
   {
     return NullHandle;
   }

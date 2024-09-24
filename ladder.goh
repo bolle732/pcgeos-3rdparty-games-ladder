@@ -386,7 +386,7 @@ typedef struct                 // Demo data
 // All global data which does not need to be saved into the state
 typedef struct                 // No save state structure
 {
-  byte error;                  //   1B+1 - Error state used in open and close application
+  word startupError;           //   2B+0 - Startup error used in open and close application
   Rectangle screen;            //   4B+0 - Screen size
   GStateHandle gstateHandle;   //   2B+0 - GState handle
   word textColor;              //   2B+0 - Text foreground color
@@ -406,7 +406,7 @@ typedef struct                 // No save state structure
   char *levelBuffer;           //   4B+0 - Pointer to the level buffer
   word moveIndex;              //   2B+0 - Current demo move
   ChunkHandle moves;           //   2B+0 - Demo moves chunk handle
-} GLNoState;                   //  87B+1 = 88 bytes used
+} GLNoState;                   //  88B+0 = 88 bytes used
 
 // All global data which is saved to the INI file
 typedef struct                 // INI state structure
@@ -419,26 +419,26 @@ typedef struct                 // INI state structure
 // All global data which must be saved into the extra state
 typedef struct                 // Save state structure
 {
-  byte executionState;         //   1B+0 - Execution state
-  byte cancelExecution;        //   1B+0 - Request cancel of execution
-  byte inputState;             //   1B+0 - Input state (keyboard)
-  byte focusState;             //   1B+0 - Focus state
-  byte windowState;            //   1B+1 - Window state
+  word executionState;         //   2B+0 - Execution state
+  word cancelExecution;        //   2B+0 - Request cancel of execution
+  word inputState;             //   2B+0 - Input state (keyboard)
+  word focusState;             //   2B+0 - Focus state
+  word windowState;            //   2B+0 - Window state
   Message restorePoint;        //   2B+0 - Restart point (from state file)
   GLGame game;                 //  18B+0 - Game data
   GLLevel level;               //  20B+0 - Level data
   GLDer ders[DERS_MAX];        //  48B+0 - Der data
   GLLad lad;                   //  12B+0 - Lad data
   word hookaState;             //   2B+0 - Hooka state
-} GLSaveState;                 // 107B+1 = 108 bytes used
+} GLSaveState;                 // 112B+0 = 112 bytes used
 
 // The global data used everywhere
 typedef struct                 // Global structure
 {
   GLNoState ns;                //  88B+0 - Unsaved global data
   GLIniState is;               //   6B+0 - INI state global data
-  GLSaveState ss;              // 106B+0 - Save state global data
-} GLGlobals;                   // 200B+0 = 200 bytes used
+  GLSaveState ss;              // 112B+0 - Save state global data
+} GLGlobals;                   // 206B+0 = 206 bytes used
 
 // This is used for saving to and restoring from state
 typedef struct                 // Extra state structure
