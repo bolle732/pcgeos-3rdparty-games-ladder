@@ -687,6 +687,7 @@ word _pascal LoadFontConfig(word index)
     ObjMarkDirty(@LadderGameRound);
     ObjMarkDirty(@LadderGameScore);
     ObjMarkDirty(@LadderGameTime);
+    ObjMarkDirty(@LadderHighName);
 //    MemUnlock(OptrToHandle(oself));
 
     // Save the level buffer
@@ -1215,8 +1216,6 @@ word _pascal LoadFontConfig(word index)
   GLRate r;
   // Set the input state for the handling of key presses
   g.ss.inputState = INP_S_HIGH;
-  // Reset the input
-  @send LadderHighName::MSG_INP_RESET();
   // Clear the info line
   @send LadderInfo::MSG_TXT_SET_TEXT(NullOptr);
   // Find the compliment message for the score
@@ -1606,6 +1605,8 @@ word _pascal LoadFontConfig(word index)
         // Check for new high score
         if (@call LadderMenuRank::MSG_RNK_IS_NEW_RANK(g.ss.game.score) == L_TRUE)
         {
+          // Reset the input
+          @send LadderHighName::MSG_INP_RESET();
           // Set restore point and message to show high score
           g.ss.restorePoint = MSG_LAD_PLAY_HIGH;
           msg = MSG_LAD_PLAY_HIGH;
