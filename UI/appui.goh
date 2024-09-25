@@ -115,6 +115,7 @@
 @extern chunk DemoInfo;
 @extern chunk PlayReady;
 @extern chunk PlayGo;
+@extern chunk PlayHurry;
 @extern chunk PlayHooka;
 @extern chunk PlayContinue;
 

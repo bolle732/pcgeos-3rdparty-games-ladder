@@ -1501,6 +1501,14 @@ static void _pascal MoveDers(void)
     {
       // Play "Last seconds" sound
       PlayNoise(5);
+      if (g.ss.game.time % 2 == 1)
+      {
+        @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayHurry);
+      }
+      else
+      {
+        @send LadderInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
+      }
     }
   }
   // Check for bonus time exhausted
