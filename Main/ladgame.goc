@@ -1501,13 +1501,18 @@ static void _pascal MoveDers(void)
     {
       // Play "Last seconds" sound
       PlayNoise(5);
-      if (g.ss.game.time % 2 == 1)
+      if (message == MSG_LAD_PLAY_EXEC)
       {
-        @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayHurry);
-      }
-      else
-      {
-        @send LadderInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
+        if (g.ss.game.time % 2 == 1)
+        {
+          // Update the info line with the hurry up text
+          @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayHurry);
+        }
+        else
+        {
+          // Clear the info line
+          @send LadderInfo::MSG_TXT_UPDATE_TEXT(NullOptr);
+        }
       }
     }
   }
