@@ -594,10 +594,10 @@ word _pascal LoadFontConfig(word index)
     }
     // Load the high and last scores from the file
     @send LadderMenuRank::MSG_RNK_LOAD();
-    // Allocate a memory handle for the noise and the music
+    // Allocate a memory handle for the noise
     // Instrument (InstrumentPatch), Instrument Table (word), Frequency word), Volume (word), Delta Type (SoundStremDeltyTimeType), Duration (word), Control (Pointer to MemHandle)
     SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.ns.noiseHandle);
-    // Initialize music handle to null
+    // Initialize global music handle with null
     g.ns.musicHandle = NullHandle;
     // Let's start the menu or continue where we left the application
     @send process::{MSG_LAD_PROTO} msg();
