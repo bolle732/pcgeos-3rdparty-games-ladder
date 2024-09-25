@@ -183,6 +183,13 @@ static void _pascal StopAndFreeNoise(void)
 static void _pascal PlayMusic(optr music)
 {
   MemHandle mh;
+  // XXX: Prevent once playing music if coming back from saved state 
+  if (g.ns.skipMusic == L_TRUE)
+  {
+    g.ns.skipMusic = L_FALSE;
+    return;
+  }
+  // Play music only if option is activated
   if (g.is.sound == CFG_SND_ON)
   {
     mh = g.ns.musicHandle;
@@ -472,6 +479,8 @@ word _pascal LoadFontConfig(word index)
   ReleaseNumber rn;
   // Set the menu as the default
   Message msg = MSG_LAD_MENU;
+  // Don't skip playing music as the default
+  g.ns.skipMusic = L_FALSE;
   // Initialize error state
   g.ns.startupError = L_FALSE;
   // Set the help file name
@@ -526,6 +535,13 @@ word _pascal LoadFontConfig(word index)
     }
     // Unlock the extra state
     MemUnlock(extraState);
+    // XXX: Skip music as it crashes if playing directly after restore from state
+    switch (g.ss.restorePoint)
+    {
+    case MSG_LAD_PLAY_DONE:
+    case MSG_LAD_PLAY_HIGH:
+      g.ns.skipMusic = L_TRUE;
+    }
   }
   else
   {
@@ -584,7 +600,7 @@ word _pascal LoadFontConfig(word index)
   {
     LoadFontConfig(g.is.fontCurrent);
   }
-  // Setup user interface if no error has occured
+  // Setup user interface if no error has occurred
   if (g.ns.startupError == L_FALSE)
   {
     // Set the difficulty
