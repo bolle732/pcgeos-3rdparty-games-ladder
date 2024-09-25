@@ -400,7 +400,6 @@ typedef struct                 // No save state structure
   word timerId;                //   2B+0 - Timer id
   MemHandle noiseHandle;       //   2B+0 - Noise memory handle
   MemHandle musicHandle;       //   2B+0 - Music memory handle
-  word skipMusic;              //   2B+0 - Skip playing music once after restore from state
   word menuCount;              //   2B+0 - Menu counter
   word readyCount;             //   2B+0 - Get ready counter
   word readyTicks;             //   2B+0 - Get ready ticks

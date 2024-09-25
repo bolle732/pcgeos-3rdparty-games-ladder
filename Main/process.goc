@@ -83,6 +83,7 @@ static char IKP[] = INI_KEY_PRODUCT;
 
 
 void _pascal StopTimer(void);
+static void _pascal StopAndFreeMusic(void);
 static word _pascal TicksByDifficulty(word diff);
 
 
@@ -182,25 +183,15 @@ static void _pascal StopAndFreeNoise(void)
  ***********************************************************************/
 static void _pascal PlayMusic(optr music)
 {
-  MemHandle mh;
-  // XXX: Prevent once playing music if coming back from saved state 
-  if (g.ns.skipMusic == L_TRUE)
-  {
-    g.ns.skipMusic = L_FALSE;
-    return;
-  }
   // Play music only if option is activated
   if (g.is.sound == CFG_SND_ON)
   {
-    mh = g.ns.musicHandle;
-    // Stop music as we'll realocate it
-    SoundStopMusic(mh);
-    // Play the music
+    word *p_music;
+    StopAndFreeMusic();
     MemLock(OptrToHandle(music));
-    // Control (MemHandle), Song (pointer to word array)
-    SoundReallocMusic(mh, LMemDeref(music));
-    // Control (MemHandle), Priority (word), Tempo (word), Flags (EndOfSongFlags)
-    SoundPlayMusic(mh, SP_STANDARD, EIGHTH, UNLOCK_ON_EOS);
+    p_music = LMemDeref(music);
+    SoundAllocMusic(p_music, 4, &g.ns.musicHandle);
+    SoundPlayMusic(g.ns.musicHandle, SP_STANDARD + SP_IMMEDIATE, EIGHTH, UNLOCK_ON_EOS);
     MemUnlock(OptrToHandle(music));
   }
 }
@@ -479,8 +470,6 @@ word _pascal LoadFontConfig(word index)
   ReleaseNumber rn;
   // Set the menu as the default
   Message msg = MSG_LAD_MENU;
-  // Don't skip playing music as the default
-  g.ns.skipMusic = L_FALSE;
   // Initialize error state
   g.ns.startupError = L_FALSE;
   // Set the help file name
@@ -535,13 +524,6 @@ word _pascal LoadFontConfig(word index)
     }
     // Unlock the extra state
     MemUnlock(extraState);
-    // XXX: Skip music as it crashes if playing directly after restore from state
-    switch (g.ss.restorePoint)
-    {
-    case MSG_LAD_PLAY_DONE:
-    case MSG_LAD_PLAY_HIGH:
-      g.ns.skipMusic = L_TRUE;
-    }
   }
   else
   {
@@ -615,8 +597,8 @@ word _pascal LoadFontConfig(word index)
     // Allocate a memory handle for the noise and the music
     // Instrument (InstrumentPatch), Instrument Table (word), Frequency word), Volume (word), Delta Type (SoundStremDeltyTimeType), Duration (word), Control (Pointer to MemHandle)
     SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.ns.noiseHandle);
-    // Song (Pointer), Voices (word), Control (Pointer to MemHandle)
-    SoundAllocMusic(0, 4, &g.ns.musicHandle);
+    // Initialize music handle to null
+    g.ns.musicHandle = NullHandle;
     // Let's start the menu or continue where we left the application
     @send process::{MSG_LAD_PROTO} msg();
     // Do super
