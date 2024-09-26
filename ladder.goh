@@ -531,6 +531,7 @@ typedef struct                 // Extra state structure
   @default VCI_geoAttrs = VCGA_CUSTOM_MANAGE_CHILDREN;
   @instance optr LSI_screen = NullOptr;
   @instance optr LSI_chunks = NullOptr;
+  @message void MSG_SCN_MARK_DIRTY();
 @endc
 
 
