@@ -1564,8 +1564,8 @@
 // I8N_DE  "Bereitmachen!"
 @chunk char PlayReady[] = "Get ready!";
 @localize { "The get ready text in the play screen" 3-77 };
-// I8N_DE  "Los! Los! Los!"
-@chunk char PlayGo[] = "Go! Go! Go!";
+// I8N_DE  "LOS! LOS! LOS!"
+@chunk char PlayGo[] = "GO! GO! GO!";
 @localize { "The go text in the play screen" 3-77 };
 // I8N_DE  "Beeil Dich!!!"
 @chunk char PlayHurry[] = "HURRY UP!!!";
