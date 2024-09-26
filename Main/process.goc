@@ -810,23 +810,21 @@ word _pascal LoadFontConfig(word index)
       // Set the sound state and text
       g.is.sound = CFG_SND_NOISE;
       o = @MenuSoundNoise;
+      // Play "Noise and music" sound
+      PlayNoise(0);
       break;
     case CFG_SND_NOISE:
       // Set the sound state and text
       g.is.sound = CFG_SND_BOTH;
       o = @MenuSoundBoth;
+      // Play "Noise" sound
+      PlayNoise(1);
       break;
     case CFG_SND_BOTH:
       // Set the sound state and text
       g.is.sound = CFG_SND_OFF;
       o = @MenuSoundOff;
 //    break;
-    }
-    // Check sound
-    if (g.is.sound != CFG_SND_OFF)
-    {
-      // Play "Sound enabled" sound
-      PlayNoise(0);
     }
     // Update the text on screen
     @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(o);

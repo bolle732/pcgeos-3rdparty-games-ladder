@@ -72,7 +72,8 @@ extern void _pascal StopTimer(void);
 // Lookup table for playing noises
 static word NEI[][2] =
 {
-  { IP_OPEN_CUICA, FR_OPEN_CUICA },         // Menu enable sound
+  { IP_LOW_CONGA, FR_LOW_CONGA },           // Menu sound noise
+  { IP_OPEN_CUICA, FR_OPEN_CUICA },         // Menu sound noise and music
   { IP_LOW_BONGO, FR_LOW_BONGO },           // Play get ready
   { IP_LOW_BONGO, FR_HI_BONGO },            // Play ready go
   { IP_RIDE_BELL, FR_RIDE_BELL },           // Play earn gold statue
@@ -832,7 +833,7 @@ static void _pascal MoveDers(void)
     case DER_S_LEAVE:
       g.ss.ders[i].state--;
       // Play "Der release" sound
-      PlayNoise(6);
+      PlayNoise(7);
       break;
     // ::: HANDLE RECYCLE ::: (by an emitter)
     case DER_S_RECYCLE:
@@ -840,7 +841,7 @@ static void _pascal MoveDers(void)
       g.ss.ders[i].lpos = POS_NONE;
       g.ss.ders[i].state = g.ss.level.ders;
       // Play "Der recycle" sound
-      PlayNoise(7);
+      PlayNoise(8);
       continue;
     // ::: HANDLE ARMED :::
     default:
@@ -1207,7 +1208,7 @@ static void _pascal MoveDers(void)
     // Update the info line with the go text
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayGo);
     // Play "Start" sound
-    PlayNoise(2);
+    PlayNoise(3);
     // Initialize ready ticks
     g.ns.readyTicks = 0;
     // Set restore point and start the game
@@ -1221,7 +1222,7 @@ static void _pascal MoveDers(void)
     // Update the info line with the get ready text
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayReady);
     // Play "Get ready" sound
-    PlayNoise(1);
+    PlayNoise(2);
   }
   else
   {
@@ -1401,7 +1402,7 @@ static void _pascal MoveDers(void)
     pnts += PNT_GOLD;
     *(g.ns.levelBuffer + g.ss.lad.cpos) = LSD_C_SPACE;
     // Play "Earn gold statue" sound
-    PlayNoise(3);
+    PlayNoise(4);
     break;
   case LSD_C_EXIT:
     // Set restore point and message to do the hooka
@@ -1444,7 +1445,7 @@ static void _pascal MoveDers(void)
     {
       pnts += PNT_DER;
       // Play "Jump over Der" sound
-      PlayNoise(4);
+      PlayNoise(5);
     }
     // Handle collision of Lad and Der
     if (g.ss.lad.cpos == g.ss.ders[i].cpos)
@@ -1501,7 +1502,7 @@ static void _pascal MoveDers(void)
     if (g.ss.game.time < 10)
     {
       // Play "Last seconds" sound
-      PlayNoise(5);
+      PlayNoise(6);
       if (message == MSG_LAD_PLAY_EXEC)
       {
         if (g.ss.game.time % 2 == 1)
@@ -1649,7 +1650,7 @@ static void _pascal MoveDers(void)
     // Increase the state
     g.ss.lad.die++;
     // Play "Lad dies" sound
-    PlayNoise(9);
+    PlayNoise(10);
     // Call our self
     g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_DIES, message, 0, &g.ns.timerId);
     // Return from method
@@ -1774,7 +1775,7 @@ static void _pascal MoveDers(void)
     // Update the status line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(o);
     // Play "Lad hooka" sound
-    PlayNoise(8);
+    PlayNoise(9);
     // Start the timer for our self
     g.ss.restorePoint = MSG_LAD_PLAY_HOOKA;
     g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_HOOKA, message, 0, &g.ns.timerId);

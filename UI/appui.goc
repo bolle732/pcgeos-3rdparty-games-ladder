@@ -125,13 +125,13 @@
 }
 
 @object LadderValueClass LadderMenuDiff = {
-  LVI_position = GPOS(11, 25);
+  LVI_position = GPOS(11, 23);
   LVI_length = 1;
   LVI_value = CFG_DIFF_MIN;
 }
 
 @object LadderTextClass LadderMenuSound = {
-  LTI_position = GPOS(12, 25);
+  LTI_position = GPOS(12, 23);
   LTI_length = 13;
   LTI_text = @MenuSoundOff;
 }
@@ -453,7 +453,7 @@
   TSD_T_CHNK, 1, // ScreenMenuStrings[1] / Text "Adapted for PC/GEOS in 2011 by Andreas Bollhalder"
   TSPOS(11, 1),
   TSD_T_CHNK, 6, // ScreenMenuStrings[6] / Text "Difficulty Level"
-  TSPOS(11, 23),
+  TSPOS(11, 21),
   TSD_T_CHAR + 1, ':', // Text ":"
   TSPOS(11, 41),
   TSD_T_CHNK, 2, // ScreenMenuStrings[2] / Text "Version"
@@ -463,7 +463,7 @@
   TSD_T_CHNK, 3, // ScreenMenuStrings[3] / Text "0.5 0-22"
   TSPOS(12, 1),
   TSD_T_CHNK, 7, // ScreenMenuStrings[7] / Text "Sound Output"
-  TSPOS(12, 23),
+  TSPOS(12, 21),
   TSD_T_CHAR + 1, ':', // Text ":"
   TSPOS(12, 41),
   TSD_T_CHNK, 4, // ScreenMenuStrings[4] / Text "Terminal"
@@ -513,12 +513,12 @@
 // I8N_DE  "Aus"
 @chunk char MenuSoundOff[] = "Off";
 @localize { "The sound off text" 1-13 };
-// I8N_DE  "Geräusche"
+// I8N_DE  "Töne"
 @chunk char MenuSoundNoise[] = "Noise";
-@localize { "The sound noise only text" 1-13 };
-// I8N_DE  "Alles"
-@chunk char MenuSoundBoth[] = "Both";
-@localize { "The sound noise and music text" 1-13 };
+@localize { "The sound noise only text" 1-15 };
+// I8N_DE  "Töne & Musik"
+@chunk char MenuSoundBoth[] = "Noise & Music";
+@localize { "The sound noise and music text" 1-15 };
 
 // I8N_DE  "Du isst Quiche!"
 @chunk char MenuJoke1[] = "You eat quiche!";
