@@ -184,7 +184,7 @@ static void _pascal StopAndFreeNoise(void)
 static void _pascal PlayMusic(optr music)
 {
   // Play music only if option is activated
-  if (g.is.sound == CFG_SND_ON)
+  if (g.is.sound == CFG_SND_BOTH)
   {
     word *p_music;
     StopAndFreeMusic();
@@ -585,13 +585,23 @@ word _pascal LoadFontConfig(word index)
   // Setup user interface if no error has occurred
   if (g.ns.startupError == L_FALSE)
   {
+    optr o = NullOptr;
     // Set the difficulty
     @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.is.diff);
     // Set the sound
-    if (g.is.sound == CFG_SND_ON)
+    switch (g.is.sound)
     {
-      @send LadderMenuSound::MSG_TXT_SET_TEXT(@MenuSoundOn);
+    case CFG_SND_OFF:
+      o = @MenuSoundOff;
+      break;
+    case CFG_SND_NOISE:
+      o = @MenuSoundNoise;
+      break;
+    case CFG_SND_BOTH:
+      o = @MenuSoundBoth;
+//    break;
     }
+    @send LadderMenuSound::MSG_TXT_SET_TEXT(o);
     // Load the high and last scores from the file
     @send LadderMenuRank::MSG_RNK_LOAD();
     // Allocate a memory handle for the noise
@@ -775,6 +785,7 @@ word _pascal LoadFontConfig(word index)
 @method LadderProcessClass, MSG_LAD_MENU_DIFF,
                             MSG_LAD_MENU_SOUND
 {
+  optr o = NullOptr;
   // Stop the jokes or demo
   @send process::MSG_LAD_MENU_STOP();
   // Handle message type
@@ -792,23 +803,33 @@ word _pascal LoadFontConfig(word index)
     @send LadderMenuDiff::MSG_VAL_UPDATE_VALUE(g.is.diff);
     break;
   case MSG_LAD_MENU_SOUND:
-    // Switch the sound state
-    if (g.is.sound == CFG_SND_OFF)
+    // Rotate the sound state
+    switch (g.is.sound)
     {
-      // Set the sound state
-      g.is.sound = CFG_SND_ON;
+    case CFG_SND_OFF:
+      // Set the sound state and text
+      g.is.sound = CFG_SND_NOISE;
+      o = @MenuSoundNoise;
+      break;
+    case CFG_SND_NOISE:
+      // Set the sound state and text
+      g.is.sound = CFG_SND_BOTH;
+      o = @MenuSoundBoth;
+      break;
+    case CFG_SND_BOTH:
+      // Set the sound state and text
+      g.is.sound = CFG_SND_OFF;
+      o = @MenuSoundOff;
+//    break;
+    }
+    // Check sound
+    if (g.is.sound != CFG_SND_OFF)
+    {
       // Play "Sound enabled" sound
       PlayNoise(0);
-      // Update the text on screen
-      @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@MenuSoundOn);
     }
-    else  // CFG_SND_ON
-    {
-      // Set the sound state
-      g.is.sound = CFG_SND_OFF;
-      // Update the text on screen
-      @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(@MenuSoundOff);
-    }
+    // Update the text on screen
+    @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(o);
 //  break;
   }
   // Disarm the jokes or demo

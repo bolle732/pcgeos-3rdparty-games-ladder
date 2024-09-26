@@ -171,7 +171,8 @@ word _pascal Random(word max)
 void _pascal PlayNoise(word noise)
 {
   MemHandle mh;
-  if (g.is.sound == CFG_SND_ON)
+  // Play noise only if option is activated
+  if (g.is.sound != CFG_SND_OFF)
   {
     mh = g.ns.noiseHandle;
     SoundStopMusicNote(mh);

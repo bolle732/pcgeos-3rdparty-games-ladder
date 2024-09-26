@@ -512,10 +512,13 @@
 
 // I8N_DE  "Aus"
 @chunk char MenuSoundOff[] = "Off";
-@localize { "The sound off text" 1-14 };
-// I8N_DE  "Ein"
-@chunk char MenuSoundOn[] = "On";
-@localize { "The sound on text" 1-14 };
+@localize { "The sound off text" 1-13 };
+// I8N_DE  "Geräusche"
+@chunk char MenuSoundNoise[] = "Noise";
+@localize { "The sound noise only text" 1-13 };
+// I8N_DE  "Alles"
+@chunk char MenuSoundBoth[] = "Both";
+@localize { "The sound noise and music text" 1-13 };
 
 // I8N_DE  "Du isst Quiche!"
 @chunk char MenuJoke1[] = "You eat quiche!";

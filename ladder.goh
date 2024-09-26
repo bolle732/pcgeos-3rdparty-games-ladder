@@ -143,8 +143,8 @@
 
 // Play sound states
 #define CFG_SND_OFF         0  // Play sound state off
-#define CFG_SND_ON          1  // Play sound state on
-#define CFG_SND_NA          2  // Play sound state not available
+#define CFG_SND_NOISE       1  // Play sound state noise only
+#define CFG_SND_BOTH        2  // Play sound state noise and music
 
 // Game difficulties
 #define CFG_DIFF_MIN        1  // Game difficulty minimum
