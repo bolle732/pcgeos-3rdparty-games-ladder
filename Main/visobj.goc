@@ -745,31 +745,38 @@ static void _pascal DrawValue(word pos, word val, word suf)
   }
 }
 
-
-
-
-
-
-
+/***********************************************************************
+ *                  MSG_SCN_MARK_DIRTY
+ *                  for LadderScreenClass
+ ***********************************************************************
+ * SYNOPSIS:        Mark us and our children dirty.
+ * CALLED BY:       Internal
+ * PARAMETERS:      void (  )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ Mark our self dirty.
+ *                  2/ Get the count of children.
+ *                  3/ Mark the children dirty.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-09-27    Initial Revision
+ *
+ ***********************************************************************/
 @method LadderScreenClass, MSG_SCN_MARK_DIRTY
 {
-/*
+  word i, n;
+  optr o;
   ObjMarkDirty(oself);
-  @send @visChildren::MSG_META_SET_FLAGS(OptrToChunk(oself), OCF_DIRTY, 0);
-*/
-  @call LadderView::MSG_META_SET_FLAGS(OptrToChunk(@LadderView), OCF_DIRTY, 0);
-  @call LadderGameActors::MSG_META_SET_FLAGS(OptrToChunk(@LadderGameActors), OCF_DIRTY, 0);
-  @call LadderGameLads::MSG_META_SET_FLAGS(OptrToChunk(@LadderGameLads), OCF_DIRTY, 0);
-  @call LadderGameRound::MSG_META_SET_FLAGS(OptrToChunk(@LadderGameRound), OCF_DIRTY, 0);
-  @call LadderGameScore::MSG_META_SET_FLAGS(OptrToChunk(@LadderGameScore), OCF_DIRTY, 0);
-  @call LadderGameTime::MSG_META_SET_FLAGS(OptrToChunk(@LadderGameTime), OCF_DIRTY, 0);
-  @call LadderHighName::MSG_META_SET_FLAGS(OptrToChunk(@LadderHighName), OCF_DIRTY, 0);
+  n = @call oself::MSG_VIS_COUNT_CHILDREN();
+  for (i = 0; i < n; i++)
+  {
+    o = @call oself::MSG_VIS_FIND_CHILD_AT_POSITION(i);
+    ObjMarkDirty(o);
+  }
 }
-
-
-
-
-
 
 
 /*
