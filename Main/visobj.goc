@@ -756,8 +756,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ Mark our self dirty.
- *                  2/ Get the count of children.
- *                  3/ Mark the children dirty.
+ *                  2/ Mark all children dirty.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
