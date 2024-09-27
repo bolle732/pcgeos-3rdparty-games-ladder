@@ -314,9 +314,9 @@
 @chunk char MenuTerminal[] = "Not found";
 @localize { "The terminal name if no product name is found in the INI file" 3-23 };
 @chunk char MenuText6[] = "Difficulty Level";
-@localize { "The difficulty level label" 3-18 };
+@localize { "The difficulty level label" 3-19 };
 @chunk char MenuText7[] = "Sound Output";
-@localize { "The sound output label" 3-18 };
+@localize { "The sound output label" 3-19 };
 @chunk char MenuText8[] = "Play Game";
 @localize { "The play game label" 3-33 };
 @chunk char MenuText9[] = "Change Difficulty";
