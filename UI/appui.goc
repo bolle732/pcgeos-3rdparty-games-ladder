@@ -1568,7 +1568,7 @@
 // I8N_DE  "LOS! LOS! LOS!"
 @chunk char PlayGo[] = "GO! GO! GO!";
 @localize { "The go text in the play screen" 3-77 };
-// I8N_DE  "Beeil Dich!!!"
+// I8N_DE  "BEEIL DICH!!!"
 @chunk char PlayHurry[] = "HURRY UP!!!";
 @localize { "The hurry up text in the play screen" 3-77 };
 // I8N_DE  "Shisha!"
