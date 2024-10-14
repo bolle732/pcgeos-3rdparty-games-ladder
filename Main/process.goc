@@ -915,7 +915,7 @@ word _pascal LoadFontConfig(word index)
     return;
   // Clear bored
   case 1:
-    d = DLY_T_READY;
+    d = g.ss.game.delay * DLY_M_READY;
     break;
   // We got bored
   case 2:

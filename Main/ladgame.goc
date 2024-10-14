@@ -1232,7 +1232,7 @@ static void _pascal MoveDers(void)
   // Decrement count down
   g.ns.readyCount--;
   // Start the timer to continue with the count down
-  g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_READY, message, 0, &g.ns.timerId);
+  g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, g.ss.game.delay * DLY_M_READY, message, 0, &g.ns.timerId);
 }
 
 
@@ -1669,7 +1669,7 @@ static void _pascal MoveDers(void)
     g.ss.restorePoint = MSG_LAD_PLAY_OVER;
     msg = MSG_LAD_PLAY_OVER;
   }
-  g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_T_READY, msg, 0, &g.ns.timerId);
+  g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, g.ss.game.delay * DLY_M_READY, msg, 0, &g.ns.timerId);
 }
 
 /***********************************************************************

@@ -118,7 +118,7 @@
 #define DLY_T_MENU_MIN    151  // Delay ticks for the menu auto tasks minimum time
 #define DLY_T_MENU_RND    113  // Delay ticks for the menu auto tasks random time
 #define DLY_T_BORED       120  // Delay ticks for the menu bored message
-#define DLY_T_READY        30  // Delay ticks for the get ready message
+#define DLY_M_READY         3  // Delay multiplier of game delay for the get ready message
 #define DLY_T_READY_GO     90  // Delay ticks for the ready go message
 #define DLY_T_HOOKA        15  // Delay ticks for the Hooka message
 #define DLY_T_DIES         10  // Delay ticks for the Lad dies
