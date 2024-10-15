@@ -1232,7 +1232,7 @@ static void _pascal MoveDers(void)
   // Decrement count down
   g.ns.readyCount--;
   // Start the timer to continue with the count down
-  g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, g.ss.game.delay * DLY_M_READY, message, 0, &g.ns.timerId);
+  g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_B_READY + 2 * g.ss.game.delay, message, 0, &g.ns.timerId);
 }
 
 
@@ -1652,7 +1652,7 @@ static void _pascal MoveDers(void)
     // Play "Lad dies" sound
     PlayNoise(10);
     // Call our self
-    g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_M_DIES * g.ss.game.delay, message, 0, &g.ns.timerId);
+    g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_B_DIES + g.ss.game.delay, message, 0, &g.ns.timerId);
     // Return from method
     return;
   }
@@ -1669,7 +1669,7 @@ static void _pascal MoveDers(void)
     g.ss.restorePoint = MSG_LAD_PLAY_OVER;
     msg = MSG_LAD_PLAY_OVER;
   }
-  g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, g.ss.game.delay * DLY_M_READY, msg, 0, &g.ns.timerId);
+  g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_B_READY + 2 * g.ss.game.delay, msg, 0, &g.ns.timerId);
 }
 
 /***********************************************************************
@@ -1778,7 +1778,7 @@ static void _pascal MoveDers(void)
     PlayNoise(9);
     // Start the timer for our self
     g.ss.restorePoint = MSG_LAD_PLAY_HOOKA;
-    g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_M_HOOKA * g.ss.game.delay, message, 0, &g.ns.timerId);
+    g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_B_HOOKA + g.ss.game.delay, message, 0, &g.ns.timerId);
   }
   else
   {
