@@ -122,9 +122,9 @@
 #define DLY_T_EXIT         75  // Delay ticks for the exit message
 #define DLY_T_LOAD        150  // Delay ticks for the level load message
 #define DLY_T_SAVE         75  // Delay ticks for the high score save message
-#define DLY_B_READY        15  // Delay base ticks combined with game delay for the get ready message
-#define DLY_B_HOOKA         9  // Delay base ticks combined with game delay for the Hooka message
-#define DLY_B_DIES          5  // Delay base ticks combined with game delay for the Lad dies
+#define DLY_B_READY        15  // Base delay ticks combined with game delay for the get ready message
+#define DLY_B_HOOKA         8  // Base delay ticks combined with game delay for the Hooka message
+#define DLY_B_DIES          4  // Base delay ticks combined with game delay for the Lad dies
 
 // Count down
 #define CNT_S_MENU         11  // Menu count down start value
