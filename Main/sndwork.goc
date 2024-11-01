@@ -99,7 +99,6 @@ static SWNoise SW_NOISES_MULTI[] =
 @start SOUND;
 
 @object SoundWorkerClass SoundWorker = {
-  SWI_numNoiseVoices = 0;
 }
 
 @end SOUND;
@@ -225,6 +224,7 @@ static SWNoise SW_NOISES_MULTI[] =
   MemLock(OptrToHandle(pself->SWI_musicData));
   pself->SWI_musicPartCount = ChunkArrayGetCount(pself->SWI_musicData);
   MemUnlock(OptrToHandle(pself->SWI_musicData));
+  // Play the first music part
   @send oself::MSG_SOUND_WORKER_MUSIC_PLAY_EXEC();
 }
 
@@ -234,7 +234,8 @@ static SWNoise SW_NOISES_MULTI[] =
  ***********************************************************************
  * SYNOPSIS:        Lock the current music part. Patch the notification
  *                  message. Play the music part.
- * CALLED BY:       Internal
+ * CALLED BY:       MSG_SOUND_WORKER_MUSIC_PLAY for first part, then
+ *                  by patched notificaation in music data.
  * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -300,7 +301,7 @@ static SWNoise SW_NOISES_MULTI[] =
  *                  for SoundWorkerClass
  ***********************************************************************
  * SYNOPSIS:        Stop playing the music and unlock the music part.
- * CALLED BY:       Internal
+ * CALLED BY:       Internal or by patched notificaation in music data.
  * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -332,12 +333,6 @@ static SWNoise SW_NOISES_MULTI[] =
     pself->SWI_musicPart = NullOptr;
   }
 }
-
-
-
-
-
-
 
 /***********************************************************************
  *                  MSG_SOUND_WORKER_NOISE_INIT_VOICES

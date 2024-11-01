@@ -484,7 +484,9 @@ word _pascal LoadFontConfig(word index)
   if (g.ns.startupError == L_FALSE)
   {
     optr o = NullOptr;
-    // Set the difficulty
+    // Initialize the sound worker object
+    @call SoundWorker::MSG_META_INITIALIZE();
+   // Set the difficulty
     @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.is.diff);
     // Set the sound
     switch (g.is.sound)
@@ -502,13 +504,6 @@ word _pascal LoadFontConfig(word index)
     @send LadderMenuSound::MSG_TXT_SET_TEXT(o);
     // Load the high and last scores from the file
     @send LadderMenuRank::MSG_RNK_LOAD();
-
-
-    // Initialize the sound worker object
-    @call SoundWorker::MSG_META_INITIALIZE();
-
-
-    // Let's start the menu or continue where we left the application
     @send process::{MSG_LAD_PROTO} msg();
     // Do super
     @callsuper();
@@ -557,12 +552,9 @@ word _pascal LoadFontConfig(word index)
   MemHandle mh;
   // Stop the current timer
   StopTimer();
-
-
-  // Stop and free the multi noise resources
+  // Stop the music and free noise voices
   @call SoundWorker::MSG_SOUND_WORKER_MUSIC_STOP();
   @call SoundWorker::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
-
   // Return to not maximized
   if (g.ss.windowState == WIN_S_MAXI)
   {
