@@ -241,7 +241,7 @@ static SWNoise SW_NOISES_MULTI[] =
   pself->SWI_numNoiseVoices = 0;
 }
 
-@method SoundWorkerClass, MSG_SOUND_WORKER_NOISE_ADD_NOISE
+@method SoundWorkerClass, MSG_SOUND_WORKER_NOISE_ADD_MULTI
 {
   dword currentTicks;
   word i;
@@ -301,7 +301,7 @@ static SWNoise SW_NOISES_MULTI[] =
   }
 }
 
-@method SoundWorkerClass, MSG_SOUND_WORKER_NOISE_PLAY_MULTI_NOISES
+@method SoundWorkerClass, MSG_SOUND_WORKER_NOISE_PLAY_MULTI
 {
   word i;
   SWNoise *n;
@@ -324,7 +324,7 @@ static SWNoise SW_NOISES_MULTI[] =
   }
 }
 
-@method SoundWorkerClass, MSG_SOUND_WORKER_NOISE_PLAY_SINGLE_NOISE
+@method SoundWorkerClass, MSG_SOUND_WORKER_NOISE_PLAY_SINGLE
 {
   SWNoise *n;
   SWNoiseVoice *v;

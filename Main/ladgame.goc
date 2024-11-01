@@ -784,7 +784,7 @@ static void _pascal MoveDers(void)
     case DER_S_LEAVE:
       g.ss.ders[i].state--;
       // Add "Der release" sound
-      @send SoundWorker::MSG_SOUND_WORKER_NOISE_ADD_NOISE(7);
+      @send SoundWorker::MSG_SOUND_WORKER_NOISE_ADD_MULTI(7);
       break;
     // ::: HANDLE RECYCLE ::: (by an emitter)
     case DER_S_RECYCLE:
@@ -792,7 +792,7 @@ static void _pascal MoveDers(void)
       g.ss.ders[i].lpos = POS_NONE;
       g.ss.ders[i].state = g.ss.level.ders;
       // Add "Der recycle" sound
-      @send SoundWorker::MSG_SOUND_WORKER_NOISE_ADD_NOISE(8);
+      @send SoundWorker::MSG_SOUND_WORKER_NOISE_ADD_MULTI(8);
       continue;
     // ::: HANDLE ARMED :::
     default:
@@ -1161,7 +1161,7 @@ static void _pascal MoveDers(void)
     // Update the info line with the go text
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayGo);
     // Play "Start" sound
-      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE_NOISE(3);
+      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(3);
     // Initialize ready ticks
     g.ns.readyTicks = 0;
     // Set restore point and start the game
@@ -1175,7 +1175,7 @@ static void _pascal MoveDers(void)
     // Update the info line with the get ready text
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayReady);
     // Play "Get ready" sound
-      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE_NOISE(2);
+      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(2);
   }
   else
   {
@@ -1356,7 +1356,7 @@ static void _pascal MoveDers(void)
     pnts += PNT_GOLD;
     *(g.ns.levelBuffer + g.ss.lad.cpos) = LSD_C_SPACE;
     // Add "Earn gold statue" sound
-      @send SoundWorker::MSG_SOUND_WORKER_NOISE_ADD_NOISE(4);
+      @send SoundWorker::MSG_SOUND_WORKER_NOISE_ADD_MULTI(4);
     break;
   case LSD_C_EXIT:
     // Set restore point and message to do the hooka
@@ -1399,7 +1399,7 @@ static void _pascal MoveDers(void)
     {
       pnts += PNT_DER;
       // Add "Jump over Der" sound
-      @send SoundWorker::MSG_SOUND_WORKER_NOISE_ADD_NOISE(5);
+      @send SoundWorker::MSG_SOUND_WORKER_NOISE_ADD_MULTI(5);
     }
     // Handle collision of Lad and Der
     if (g.ss.lad.cpos == g.ss.ders[i].cpos)
@@ -1456,7 +1456,7 @@ static void _pascal MoveDers(void)
     if (g.ss.game.time < 10)
     {
       // Add "Last seconds" sound
-      @send SoundWorker::MSG_SOUND_WORKER_NOISE_ADD_NOISE(6);
+      @send SoundWorker::MSG_SOUND_WORKER_NOISE_ADD_MULTI(6);
       if (message == MSG_LAD_PLAY_EXEC)
       {
         if (g.ss.game.time % 2 == 1)
@@ -1500,7 +1500,7 @@ static void _pascal MoveDers(void)
     @send process::{MSG_LAD_PROTO} msg();
   }
   // Play all added noises
-  @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_MULTI_NOISES();
+  @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_MULTI();
 }
 
 /***********************************************************************
@@ -1606,7 +1606,7 @@ static void _pascal MoveDers(void)
     // Increase the state
     g.ss.lad.die++;
     // Play "Lad dies" sound
-      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE_NOISE(10);
+      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(10);
     // Call our self
     g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_B_DIES + g.ss.game.delay, message, 0, &g.ns.timerId);
     // Return from method
@@ -1731,7 +1731,7 @@ static void _pascal MoveDers(void)
     // Update the status line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(o);
     // Play "Lad hooka" sound
-    @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE_NOISE(9);
+    @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(9);
     // Start the timer for our self
     g.ss.restorePoint = MSG_LAD_PLAY_HOOKA;
     g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_B_HOOKA + g.ss.game.delay, message, 0, &g.ns.timerId);

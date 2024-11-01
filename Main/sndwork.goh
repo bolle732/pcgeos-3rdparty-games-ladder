@@ -37,9 +37,9 @@ typedef struct
   @message void MSG_SOUND_WORKER_MUSIC_STOP();
   @message void MSG_SOUND_WORKER_NOISE_INIT_VOICES(word voices);
   @message void MSG_SOUND_WORKER_NOISE_FREE_VOICES();
-  @message void MSG_SOUND_WORKER_NOISE_ADD_NOISE(word noise);
-  @message void MSG_SOUND_WORKER_NOISE_PLAY_MULTI_NOISES();
-  @message void MSG_SOUND_WORKER_NOISE_PLAY_SINGLE_NOISE(word noise);
+  @message void MSG_SOUND_WORKER_NOISE_ADD_MULTI(word noise);
+  @message void MSG_SOUND_WORKER_NOISE_PLAY_MULTI();
+  @message void MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(word noise);
 @endc;
 @classdecl SoundWorkerClass, neverSaved;
 

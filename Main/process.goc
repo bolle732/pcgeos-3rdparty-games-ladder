@@ -560,8 +560,8 @@ word _pascal LoadFontConfig(word index)
 
 
   // Stop and free the multi noise resources
+  @call SoundWorker::MSG_SOUND_WORKER_MUSIC_STOP();
   @call SoundWorker::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
-
 
   // Return to not maximized
   if (g.ss.windowState == WIN_S_MAXI)
@@ -709,14 +709,14 @@ word _pascal LoadFontConfig(word index)
       g.is.sound = CFG_SND_NOISE;
       o = @MenuSoundNoise;
       // Play "Noise" sound
-      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE_NOISE(0);
+      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(0);
       break;
     case CFG_SND_NOISE:
       // Set the sound state and text
       g.is.sound = CFG_SND_BOTH;
       o = @MenuSoundBoth;
       // Play "Noise and music" sound
-      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE_NOISE(1);
+      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(1);
       break;
     case CFG_SND_BOTH:
       // Set the sound state and text
