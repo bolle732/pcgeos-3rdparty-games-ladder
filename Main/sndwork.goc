@@ -120,35 +120,37 @@ static SWNoise SW_NOISES_MULTI[] =
 
 @method SoundWorkerClass, MSG_SOUND_WORKER_MUSIC_PLAY
 {
+  // Save the object pointer of the music and set the index to zero
   pself->SWI_musicData = music;
   pself->SWI_musicPartIndex = 0;
+  // Get the total number of music parts
+  MemLock(OptrToHandle(pself->SWI_musicData));
+  pself->SWI_musicPartCount = ChunkArrayGetCount(pself->SWI_musicData);
+  MemUnlock(OptrToHandle(pself->SWI_musicData));
   @send oself::MSG_SOUND_WORKER_MUSIC_PLAY_EXEC();
 }
 
 
 @method SoundWorkerClass, MSG_SOUND_WORKER_MUSIC_PLAY_EXEC
 {
-  word e, numParts;
+  word e;
   word *p_music;
   Message msg;
-
-
+  // Stop an already playing music
   @call oself::MSG_SOUND_WORKER_MUSIC_STOP();
-
-
+  // Get the object pointer of the music part to play
   MemLock(OptrToHandle(pself->SWI_musicData));
-  numParts = ChunkArrayGetCount(pself->SWI_musicData);
-  msg = ((pself->SWI_musicPartIndex + 1) < numParts) ? MSG_SOUND_WORKER_MUSIC_PLAY_EXEC : MSG_SOUND_WORKER_MUSIC_STOP;
   ChunkArrayGetElement(pself->SWI_musicData, pself->SWI_musicPartIndex, &pself->SWI_musicPart);
   MemUnlock(OptrToHandle(pself->SWI_musicData));
-
-
-  // We'll unlock in StopAndFreeMusic() called explicitly or by notification at the end of the song
+  // We'll unlock in MSG_SOUND_WORKER_MUSIC_STOP() called explicitly or by notification at the end of the song
   MemLock(OptrToHandle(pself->SWI_musicPart));
   p_music = LMemDeref(pself->SWI_musicPart);
-
   // Patch message and object pointer (handle and chunk) for end of song notification
   e = LMemGetChunkSize(pself->SWI_musicPart) / 2;
+  // Get the message to patch
+  msg = ((pself->SWI_musicPartIndex + 1) < pself->SWI_musicPartCount)
+    ? MSG_SOUND_WORKER_MUSIC_PLAY_EXEC
+    : MSG_SOUND_WORKER_MUSIC_STOP;
   // Search the position
   while (e > 0)
   {
@@ -161,13 +163,13 @@ static SWNoise SW_NOISES_MULTI[] =
       break;
     }
   }
-
-
+  // Play the part
   SoundAllocMusic(p_music, 4, &pself->SWI_musicHandle);
   SoundPlayMusic(pself->SWI_musicHandle, SP_STANDARD + SP_IMMEDIATE, EIGHTH, UNLOCK_ON_EOS);  // DESTROY_ON_EOS
-
-
-  pself->SWI_musicPartIndex = ((pself->SWI_musicPartIndex + 1) < numParts) ? pself->SWI_musicPartIndex + 1 : 0;
+  // Increase the part index or set it to 0 if we reached the last one
+  pself->SWI_musicPartIndex = ((pself->SWI_musicPartIndex + 1) < pself->SWI_musicPartCount)
+    ? pself->SWI_musicPartIndex + 1
+    : 0;
 }
 
 
@@ -181,7 +183,7 @@ static SWNoise SW_NOISES_MULTI[] =
   }
   if (pself->SWI_musicPart != NullOptr)
   {
-    // We've locked in PlayMusic()
+    // We've locked in MSG_SOUND_WORKER_MUSIC_PLAY_EXEC()
     MemUnlock(OptrToHandle(pself->SWI_musicPart));
     pself->SWI_musicPart = NullOptr;
   }
