@@ -504,17 +504,8 @@ word _pascal LoadFontConfig(word index)
     @send LadderMenuRank::MSG_RNK_LOAD();
 
 
-/*
-    // Allocate a memory handle for the noise
-    // Instrument (InstrumentPatch), Instrument Table (word), Frequency word), Volume (word), Delta Type (SoundStremDeltyTimeType), Duration (word), Control (Pointer to MemHandle)
-    SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.ns.noiseHandle);
-    // Initialize global music handle with null
-    g.ns.musicHandle = NullHandle;
-*/
-
-    // Initialize the sound worker obejct
+    // Initialize the sound worker object
     @call SoundWorker::MSG_META_INITIALIZE();
-    @call SoundWorker::MSG_SOUND_WORKER_NOISE_INIT_VOICES(1);
 
 
     // Let's start the menu or continue where we left the application
@@ -568,14 +559,8 @@ word _pascal LoadFontConfig(word index)
   StopTimer();
 
 
-/*
-  // Stop the noise and music
-  StopAndFreeNoise();
-  StopAndFreeMusic();
-*/
-
   // Stop and free the multi noise resources
-//  @call SoundWorker::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
+  @call SoundWorker::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
 
 
   // Return to not maximized
@@ -714,6 +699,8 @@ word _pascal LoadFontConfig(word index)
     @send LadderMenuDiff::MSG_VAL_UPDATE_VALUE(g.is.diff);
     break;
   case MSG_LAD_MENU_SOUND:
+    // Initialize the sound worker voices
+    @call SoundWorker::MSG_SOUND_WORKER_NOISE_INIT_VOICES(1);
     // Rotate the sound state
     switch (g.is.sound)
     {
@@ -721,16 +708,14 @@ word _pascal LoadFontConfig(word index)
       // Set the sound state and text
       g.is.sound = CFG_SND_NOISE;
       o = @MenuSoundNoise;
-      // Play "Noise and music" sound
-//      PlayNoise(0);
+      // Play "Noise" sound
       @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE_NOISE(0);
       break;
     case CFG_SND_NOISE:
       // Set the sound state and text
       g.is.sound = CFG_SND_BOTH;
       o = @MenuSoundBoth;
-      // Play "Noise" sound
-//      PlayNoise(1);
+      // Play "Noise and music" sound
       @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE_NOISE(1);
       break;
     case CFG_SND_BOTH:
@@ -1090,7 +1075,7 @@ word _pascal LoadFontConfig(word index)
   // Set the text of the info line
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@DoneInfo);
   // Play the game done music
-//  PlayMusic(@DoneSong);
+  @send SoundWorker::MSG_SOUND_WORKER_MUSIC_PLAY(@DoneSong);
 }
 
 /***********************************************************************
@@ -1170,7 +1155,7 @@ word _pascal LoadFontConfig(word index)
   // Set the text of the info line
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@HighInfo);
   // Play the high score music
-//  PlayMusic(@HighSong);
+  @send SoundWorker::MSG_SOUND_WORKER_MUSIC_PLAY(@HighSong);
 }
 
 /***********************************************************************

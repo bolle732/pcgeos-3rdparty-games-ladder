@@ -32,7 +32,7 @@ typedef struct
   @instance SWNoiseVoice SWI_noiseVoices[SW_NOISE_VOICE_MAX_VOICES];
   @message word MSG_SOUND_WORKER_GET_MAX_VOICES();
   @message word MSG_SOUND_WORKER_GET_NUM_VOICES();
-  @message void MSG_SOUND_WORKER_MUSIC_PLAY_INIT(optr music);
+  @message void MSG_SOUND_WORKER_MUSIC_PLAY(optr music);
   @message void MSG_SOUND_WORKER_MUSIC_PLAY_EXEC();
   @message void MSG_SOUND_WORKER_MUSIC_STOP();
   @message void MSG_SOUND_WORKER_NOISE_INIT_VOICES(word voices);
