@@ -49,6 +49,7 @@
 
 @include <ladder.goh>
 @include <UI/appui.goh>
+@include <Main/sndwork.goh>
 
 #include "initfile.h"
 #include <sound.h>
@@ -66,7 +67,6 @@
 extern GLGlobals g;
 
 extern word _pascal Random(word max);
-extern void _pascal PlayNoise(word noise);
 
 
 /*
@@ -84,7 +84,6 @@ static char IKP[] = INI_KEY_PRODUCT;
 
 
 void _pascal StopTimer(void);
-static void _pascal StopAndFreeMusic(void);
 static word _pascal TicksByDifficulty(word diff);
 
 
@@ -125,108 +124,6 @@ void _pascal StopTimer(void)
     TimerStop(g.ns.timerHandle, g.ns.timerId);
     g.ns.timerHandle = NullHandle;
     g.ns.timerId = 0;
-  }
-}
-
-/***********************************************************************
- *                  StopAndFreeNoise
- ***********************************************************************
- * SYNOPSIS:        Stop a playing noise and reset the global variables
- *                  of the noise.
- * CALLED BY:       Internal
- * PARAMETERS:      void ( void )
- * RETURN:          nothing
- * SIDE EFFECTS:    We do not flush the message queue which could
- *                  contain an already sent message.
- *
- * STRATEGY:        1/ Check if the global SoundHandle is not a
- *                     NullHandle.
- *                  2/ Stop and free the noise referenced by the global
- *                     SoundHandle.
- *                  3/ Set the global SoundHandle to a NullHandle.
- *
- * REVISION HISTORY:
- *      Name    Date          Description
- *      ----    ----          -----------
- *      boa     2013-01-07    Initial Revision
- *
- ***********************************************************************/
-static void _pascal StopAndFreeNoise(void)
-{
-  // Stop the noise only if we have a valid MemHamdle
-  if (g.ns.noiseHandle != NullHandle)
-  {
-    SoundStopMusicNote(g.ns.noiseHandle);
-    SoundFreeMusicNote(g.ns.noiseHandle);
-    g.ns.noiseHandle = NullHandle;
-  }
-}
-
-/***********************************************************************
- *                  PlayMusic
- ***********************************************************************
- * SYNOPSIS:        Play the music pointed by the parameter.
- * CALLED BY:       Internal
- * PARAMETERS:      void ( optr music )
- * RETURN:          nothing
- * SIDE EFFECTS:    The global MemHandle "g.ns.musicHandle" for the music
- *                  must be allocated.
- *
- * STRATEGY:        1/ Check if playing of sound is enabled.
- *                  2/ Stop an already playing music.
- *                  3/ Play the music.
- *
- * REVISION HISTORY:
- *      Name    Date          Description
- *      ----    ----          -----------
- *      boa     2024-08-31    Initial Revision
- *
- ***********************************************************************/
-static void _pascal PlayMusic(optr music)
-{
-  // Play music only if option is activated
-  if (g.is.sound == CFG_SND_BOTH)
-  {
-    word *p_music;
-    StopAndFreeMusic();
-    MemLock(OptrToHandle(music));
-    p_music = LMemDeref(music);
-    SoundAllocMusic(p_music, 4, &g.ns.musicHandle);
-    SoundPlayMusic(g.ns.musicHandle, SP_STANDARD + SP_IMMEDIATE, EIGHTH, UNLOCK_ON_EOS);
-    MemUnlock(OptrToHandle(music));
-  }
-}
-
-/***********************************************************************
- *                  StopAndFreeMusic
- ***********************************************************************
- * SYNOPSIS:        Stop a playing music and reset the global variables
- *                  of the music.
- * CALLED BY:       Internal
- * PARAMETERS:      void ( void )
- * RETURN:          nothing
- * SIDE EFFECTS:    We do not flush the message queue which could
- *                  contain an already sent message.
- *
- * STRATEGY:        1/ Check if the global MemHandle is not a
- *                     NullHandle.
- *                  2/ Stop the music and free the global MemHandle.
- *                  3/ Set the global SoundHandle to a NullHandle.
- *
- * REVISION HISTORY:
- *      Name    Date          Description
- *      ----    ----          -----------
- *      boa     2024-08-31    Initial Revision
- *
- ***********************************************************************/
-static void _pascal StopAndFreeMusic(void)
-{
-  // Stop the music only if we have a valid MemHamdle
-  if (g.ns.musicHandle != NullHandle)
-  {
-    SoundStopMusic(g.ns.musicHandle);
-    SoundFreeMusic(g.ns.musicHandle);
-    g.ns.musicHandle = NullHandle;
   }
 }
 
@@ -605,11 +502,20 @@ word _pascal LoadFontConfig(word index)
     @send LadderMenuSound::MSG_TXT_SET_TEXT(o);
     // Load the high and last scores from the file
     @send LadderMenuRank::MSG_RNK_LOAD();
+
+
+/*
     // Allocate a memory handle for the noise
     // Instrument (InstrumentPatch), Instrument Table (word), Frequency word), Volume (word), Delta Type (SoundStremDeltyTimeType), Duration (word), Control (Pointer to MemHandle)
     SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &g.ns.noiseHandle);
     // Initialize global music handle with null
     g.ns.musicHandle = NullHandle;
+*/
+
+    // Initialize the sound worker obejct
+    @call SoundWorker::MSG_META_INITIALIZE();
+
+
     // Let's start the menu or continue where we left the application
     @send process::{MSG_LAD_PROTO} msg();
     // Do super
@@ -659,9 +565,18 @@ word _pascal LoadFontConfig(word index)
   MemHandle mh;
   // Stop the current timer
   StopTimer();
+
+
+/*
   // Stop the noise and music
   StopAndFreeNoise();
   StopAndFreeMusic();
+*/
+
+  // Stop and free the multi noise resources
+//  @call SoundWorker::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
+
+
   // Return to not maximized
   if (g.ss.windowState == WIN_S_MAXI)
   {
@@ -806,14 +721,14 @@ word _pascal LoadFontConfig(word index)
       g.is.sound = CFG_SND_NOISE;
       o = @MenuSoundNoise;
       // Play "Noise and music" sound
-      PlayNoise(0);
+//      PlayNoise(0);
       break;
     case CFG_SND_NOISE:
       // Set the sound state and text
       g.is.sound = CFG_SND_BOTH;
       o = @MenuSoundBoth;
       // Play "Noise" sound
-      PlayNoise(1);
+//      PlayNoise(1);
       break;
     case CFG_SND_BOTH:
       // Set the sound state and text
@@ -1124,8 +1039,14 @@ word _pascal LoadFontConfig(word index)
   // Handle message type
   if (message == MSG_LAD_PLAY_STOP)
   {
+
+
+/*
     // Stop the music
     StopAndFreeMusic();
+*/
+
+
     // Update last score
     @send LadderMenuRank::MSG_RNK_SAVE_LAST(g.ss.game.score);
     // Reset the image of the mouse cursor / pointer if not maximized
@@ -1166,7 +1087,7 @@ word _pascal LoadFontConfig(word index)
   // Set the text of the info line
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@DoneInfo);
   // Play the game done music
-  PlayMusic(@DoneSong);
+//  PlayMusic(@DoneSong);
 }
 
 /***********************************************************************
@@ -1246,7 +1167,7 @@ word _pascal LoadFontConfig(word index)
   // Set the text of the info line
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@HighInfo);
   // Play the high score music
-  PlayMusic(@HighSong);
+//  PlayMusic(@HighSong);
 }
 
 /***********************************************************************

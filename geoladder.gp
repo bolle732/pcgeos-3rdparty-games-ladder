@@ -53,7 +53,6 @@ resource APPLICATION ui-object
 resource INTERFACE ui-object
 resource ICON ui-object read-only shared
 resource GAME lmem
-# resource SONG lmem
 resource SONG_DONE lmem
 resource SONG_HIGH lmem
 resource TEXT lmem

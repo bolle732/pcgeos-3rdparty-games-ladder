@@ -50,14 +50,7 @@
 #include <sound.h>
 
 
-
-
 #define SW_NOISE_VOICE_MAX_VOICES   10
-
-#define SW_NOISE_VOICE_STATE_NULL    0
-#define SW_NOISE_VOICE_STATE_FREE    1
-#define SW_NOISE_VOICE_STATE_ADDED   2
-#define SW_NOISE_VOICE_STATE_PLAYING 3
 
 
 typedef struct
@@ -76,25 +69,6 @@ typedef struct
   word noise;
   dword startTicks;
 } SWNoiseVoice;
-
-
-#define SW_NOISE_VOICE_NUM_NOISES 12
-
-static SWNoise SW_NOISES_MULTI[] =
-{
-  { IP_LOW_CONGA, FR_LOW_CONGA, DYNAMIC_FFFF, 1, 27 },            // Menu sound noise
-  { IP_OPEN_CUICA, FR_OPEN_CUICA, DYNAMIC_FFFF, 1, 30 },          // Menu sound noise and music
-  { IP_LOW_BONGO, FR_LOW_BONGO, DYNAMIC_FFFF, 1, 21 },            // Play get ready
-  { IP_LOW_BONGO, FR_HI_BONGO, DYNAMIC_FFFF, 1, 21 },             // Play ready go
-  { IP_RIDE_BELL, FR_RIDE_BELL, DYNAMIC_FFFF, 2, 57 },            // Play earn gold statue
-  { IP_MUTE_CUICA, FR_MUTE_CUICA, DYNAMIC_FFFF, 3, 24 },          // Play jump over Der
-  { IP_HIGH_AGOGO, FR_HIGH_AGOGO, DYNAMIC_FFFF, 1, 36 },          // Play last seconds
-  { IP_BASS_DRUM_1, FR_BASS_DRUM_1, DYNAMIC_FFFF, 4, 78 },        // Play Der release
-  { IP_SIDE_STICK, FR_SIDE_STICK, DYNAMIC_FFFF, 5, 21 },          // Play Der recycle
-  { IP_VIBRASLAP, FR_VIBRASLAP, DYNAMIC_FFFF, 1, 75 },            // Play Lad hooka
-  { IP_ELECTRIC_SNARE, FR_ELECTRIC_SNARE, DYNAMIC_FFFF, 1, 30 },  // Play Lad dies
-  { IP_RIDE_BELL, FR_RIDE_BELL, DYNAMIC_FFFF, 2, 57 }             // Play Lad new -> XXX: still to be found...
-};
 
 
 @class SoundWorkerClass, MetaClass;
@@ -118,6 +92,33 @@ static SWNoise SW_NOISES_MULTI[] =
   @message void MSG_SOUND_WORKER_NOISE_PLAY_SINGLE_NOISE(word noise);
 @endc;
 @classdecl SoundWorkerClass, neverSaved;
+
+
+
+#define SW_NOISE_VOICE_STATE_NULL    0
+#define SW_NOISE_VOICE_STATE_FREE    1
+#define SW_NOISE_VOICE_STATE_ADDED   2
+#define SW_NOISE_VOICE_STATE_PLAYING 3
+
+
+
+#define SW_NOISE_VOICE_NUM_NOISES 12
+
+static SWNoise SW_NOISES_MULTI[] =
+{
+  { IP_LOW_CONGA, FR_LOW_CONGA, DYNAMIC_FFFF, 1, 27 },            // Menu sound noise
+  { IP_OPEN_CUICA, FR_OPEN_CUICA, DYNAMIC_FFFF, 1, 30 },          // Menu sound noise and music
+  { IP_LOW_BONGO, FR_LOW_BONGO, DYNAMIC_FFFF, 1, 21 },            // Play get ready
+  { IP_LOW_BONGO, FR_HI_BONGO, DYNAMIC_FFFF, 1, 21 },             // Play ready go
+  { IP_RIDE_BELL, FR_RIDE_BELL, DYNAMIC_FFFF, 2, 57 },            // Play earn gold statue
+  { IP_MUTE_CUICA, FR_MUTE_CUICA, DYNAMIC_FFFF, 3, 24 },          // Play jump over Der
+  { IP_HIGH_AGOGO, FR_HIGH_AGOGO, DYNAMIC_FFFF, 1, 36 },          // Play last seconds
+  { IP_BASS_DRUM_1, FR_BASS_DRUM_1, DYNAMIC_FFFF, 4, 78 },        // Play Der release
+  { IP_SIDE_STICK, FR_SIDE_STICK, DYNAMIC_FFFF, 5, 21 },          // Play Der recycle
+  { IP_VIBRASLAP, FR_VIBRASLAP, DYNAMIC_FFFF, 1, 75 },            // Play Lad hooka
+  { IP_ELECTRIC_SNARE, FR_ELECTRIC_SNARE, DYNAMIC_FFFF, 1, 30 },  // Play Lad dies
+  { IP_RIDE_BELL, FR_RIDE_BELL, DYNAMIC_FFFF, 2, 57 }             // Play Lad new -> XXX: still to be found...
+};
 
 
 @start SOUND;

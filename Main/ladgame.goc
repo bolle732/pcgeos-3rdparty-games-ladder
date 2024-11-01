@@ -70,21 +70,6 @@ extern void _pascal StopTimer(void);
  ***************************************************************************
  */
 
-// Lookup table for playing noises
-static word NEI[][2] =
-{
-  { IP_LOW_CONGA, FR_LOW_CONGA },           // Menu sound noise
-  { IP_OPEN_CUICA, FR_OPEN_CUICA },         // Menu sound noise and music
-  { IP_LOW_BONGO, FR_LOW_BONGO },           // Play get ready
-  { IP_LOW_BONGO, FR_HI_BONGO },            // Play ready go
-  { IP_RIDE_BELL, FR_RIDE_BELL },           // Play earn gold statue
-  { IP_MUTE_CUICA, FR_MUTE_CUICA },         // Play jump over Der
-  { IP_HIGH_AGOGO, FR_HIGH_AGOGO },         // Play last seconds
-  { IP_BASS_DRUM_1, FR_BASS_DRUM_1 },       // Play Der release
-  { IP_SIDE_STICK, FR_SIDE_STICK },         // Play Der recycle
-  { IP_VIBRASLAP, FR_VIBRASLAP },           // Play Lad hooka
-  { IP_ELECTRIC_SNARE, FR_ELECTRIC_SNARE }  // Play Lad dies
-};
 // Lookup table for Lad dying characters
 static char LDC[] =
 {
@@ -92,7 +77,6 @@ static char LDC[] =
 };
 
 word _pascal Random(word max);
-void _pascal PlayNoise(word noise);
 static word _pascal LevelAndTimeReductionByRound(word round);
 static byte _pascal NewLadByScoreIncrease(word incr);
 static void _pascal IncreaseLads(void);
@@ -148,41 +132,6 @@ word _pascal Random(word max)
   FloatRandomN();        // S1 = rnd(m)
   // Return the result from the FP stack
   return FloatFloatToDword();
-}
-
-/***********************************************************************
- *                  PlayNoise
- ***********************************************************************
- * SYNOPSIS:        Play a noise identified by the parameter.
- * CALLED BY:       Internal
- * PARAMETERS:      void ( word noise )
- * RETURN:          nothing
- * SIDE EFFECTS:    The global MemHandle "g.ns.noiseHandle" for the music
- *                  note must be allocated.
- *
- * STRATEGY:        1/ Check if playing of noise is enabled.
- *                  2/ Stop an already playing noise.
- *                  3/ Play the noise.
- *
- * REVISION HISTORY:
- *      Name    Date          Description
- *      ----    ----          -----------
- *      boa     2011-01-18    Initial Revision
- *
- ***********************************************************************/
-void _pascal PlayNoise(word noise)
-{
-  MemHandle mh;
-  // Play noise only if option is activated
-  if (g.is.sound != CFG_SND_OFF)
-  {
-    mh = g.ns.noiseHandle;
-    SoundStopMusicNote(mh);
-    // Control (MemHandle), Frequency (word), Volume (word), Timer (word), Duration (word), Instrument (word), Instrument Table
-    SoundReallocMusicNote(mh, NEI[noise][1], DYNAMIC_FFF, SSDTT_TICKS, 4, NEI[noise][0], IT_STANDARD_TABLE);
-    // Control (MemHandle), Priority (word), Tempo (word), Flags (EndOfSongFlags)
-    SoundPlayMusicNote(mh, SP_STANDARD + SP_IMMEDIATE, 0, UNLOCK_ON_EOS);
-  }
 }
 
 /***********************************************************************
@@ -834,7 +783,7 @@ static void _pascal MoveDers(void)
     case DER_S_LEAVE:
       g.ss.ders[i].state--;
       // Play "Der release" sound
-      PlayNoise(7);
+//      PlayNoise(7);
       break;
     // ::: HANDLE RECYCLE ::: (by an emitter)
     case DER_S_RECYCLE:
@@ -842,7 +791,7 @@ static void _pascal MoveDers(void)
       g.ss.ders[i].lpos = POS_NONE;
       g.ss.ders[i].state = g.ss.level.ders;
       // Play "Der recycle" sound
-      PlayNoise(8);
+//      PlayNoise(8);
       continue;
     // ::: HANDLE ARMED :::
     default:
@@ -1209,7 +1158,7 @@ static void _pascal MoveDers(void)
     // Update the info line with the go text
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayGo);
     // Play "Start" sound
-    PlayNoise(3);
+//    PlayNoise(3);
     // Initialize ready ticks
     g.ns.readyTicks = 0;
     // Set restore point and start the game
@@ -1223,7 +1172,7 @@ static void _pascal MoveDers(void)
     // Update the info line with the get ready text
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayReady);
     // Play "Get ready" sound
-    PlayNoise(2);
+//    PlayNoise(2);
   }
   else
   {
@@ -1403,7 +1352,7 @@ static void _pascal MoveDers(void)
     pnts += PNT_GOLD;
     *(g.ns.levelBuffer + g.ss.lad.cpos) = LSD_C_SPACE;
     // Play "Earn gold statue" sound
-    PlayNoise(4);
+//    PlayNoise(4);
     break;
   case LSD_C_EXIT:
     // Set restore point and message to do the hooka
@@ -1446,7 +1395,7 @@ static void _pascal MoveDers(void)
     {
       pnts += PNT_DER;
       // Play "Jump over Der" sound
-      PlayNoise(5);
+//      PlayNoise(5);
     }
     // Handle collision of Lad and Der
     if (g.ss.lad.cpos == g.ss.ders[i].cpos)
@@ -1503,7 +1452,7 @@ static void _pascal MoveDers(void)
     if (g.ss.game.time < 10)
     {
       // Play "Last seconds" sound
-      PlayNoise(6);
+//      PlayNoise(6);
       if (message == MSG_LAD_PLAY_EXEC)
       {
         if (g.ss.game.time % 2 == 1)
@@ -1651,7 +1600,7 @@ static void _pascal MoveDers(void)
     // Increase the state
     g.ss.lad.die++;
     // Play "Lad dies" sound
-    PlayNoise(10);
+//    PlayNoise(10);
     // Call our self
     g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_B_DIES + g.ss.game.delay, message, 0, &g.ns.timerId);
     // Return from method
@@ -1776,7 +1725,7 @@ static void _pascal MoveDers(void)
     // Update the status line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(o);
     // Play "Lad hooka" sound
-    PlayNoise(9);
+//    PlayNoise(9);
     // Start the timer for our self
     g.ss.restorePoint = MSG_LAD_PLAY_HOOKA;
     g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_B_HOOKA + g.ss.game.delay, message, 0, &g.ns.timerId);
