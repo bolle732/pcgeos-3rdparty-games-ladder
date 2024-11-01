@@ -514,6 +514,7 @@ word _pascal LoadFontConfig(word index)
 
     // Initialize the sound worker obejct
     @call SoundWorker::MSG_META_INITIALIZE();
+    @call SoundWorker::MSG_SOUND_WORKER_NOISE_INIT_VOICES(1);
 
 
     // Let's start the menu or continue where we left the application
@@ -722,6 +723,7 @@ word _pascal LoadFontConfig(word index)
       o = @MenuSoundNoise;
       // Play "Noise and music" sound
 //      PlayNoise(0);
+      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE_NOISE(0);
       break;
     case CFG_SND_NOISE:
       // Set the sound state and text
@@ -729,6 +731,7 @@ word _pascal LoadFontConfig(word index)
       o = @MenuSoundBoth;
       // Play "Noise" sound
 //      PlayNoise(1);
+      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE_NOISE(1);
       break;
     case CFG_SND_BOTH:
       // Set the sound state and text

@@ -127,4 +127,8 @@
 @extern chunk GameLevelBuffer;
 
 
+// RESOURCE Sound
+@extern object SoundWorker;
+
 /* End of 'appui.goh' */
+
