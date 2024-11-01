@@ -1178,7 +1178,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************
  * SYNOPSIS:        Save the last score into our file.
  * CALLED BY:       Internal
- * PARAMETERS:      void ( word score, )
+ * PARAMETERS:      void ( word score )
  * RETURN:          nothing
  * SIDE EFFECTS:    No error is thrown if the last score could not be
  *                  written to the file.
