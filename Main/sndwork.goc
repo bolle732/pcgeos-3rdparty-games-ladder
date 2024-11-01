@@ -122,7 +122,7 @@ static SWNoise SW_NOISES_MULTI[] =
 {
   pself->SWI_musicData = music;
   pself->SWI_musicPartIndex = 0;
-  @send process::MSG_SOUND_WORKER_MUSIC_PLAY_EXEC();
+  @send oself::MSG_SOUND_WORKER_MUSIC_PLAY_EXEC();
 }
 
 
@@ -162,10 +162,9 @@ static SWNoise SW_NOISES_MULTI[] =
     }
   }
 
-/*
+
   SoundAllocMusic(p_music, 4, &pself->SWI_musicHandle);
   SoundPlayMusic(pself->SWI_musicHandle, SP_STANDARD + SP_IMMEDIATE, EIGHTH, UNLOCK_ON_EOS);  // DESTROY_ON_EOS
-*/
 
 
   pself->SWI_musicPartIndex = ((pself->SWI_musicPartIndex + 1) < numParts) ? pself->SWI_musicPartIndex + 1 : 0;
