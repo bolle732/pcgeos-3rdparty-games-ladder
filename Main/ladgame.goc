@@ -1117,7 +1117,10 @@ static void _pascal MoveDers(void)
   // Set the input state for the handling of key presses
   g.ss.inputState = INP_S_PLAY;
   // Initialize the sound worker voices
-  @call SoundWorker::MSG_SOUND_WORKER_NOISE_INIT_VOICES(3);
+  if (g.is.sound != CFG_SND_OFF)
+  {
+    @call SoundWorker::MSG_SOUND_WORKER_NOISE_INIT_VOICES(3);
+  }
   // Start get ready count down
   @send process::MSG_LAD_PLAY_READY_EXEC();
 }

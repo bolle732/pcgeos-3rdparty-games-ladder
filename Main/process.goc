@@ -699,8 +699,6 @@ word _pascal LoadFontConfig(word index)
     @send LadderMenuDiff::MSG_VAL_UPDATE_VALUE(g.is.diff);
     break;
   case MSG_LAD_MENU_SOUND:
-    // Initialize the sound worker voices
-    @call SoundWorker::MSG_SOUND_WORKER_NOISE_INIT_VOICES(1);
     // Rotate the sound state
     switch (g.is.sound)
     {
@@ -708,6 +706,8 @@ word _pascal LoadFontConfig(word index)
       // Set the sound state and text
       g.is.sound = CFG_SND_NOISE;
       o = @MenuSoundNoise;
+      // Initialize the sound worker voices
+      @call SoundWorker::MSG_SOUND_WORKER_NOISE_INIT_VOICES(1);
       // Play "Noise" sound
       @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(0);
       break;
@@ -715,6 +715,8 @@ word _pascal LoadFontConfig(word index)
       // Set the sound state and text
       g.is.sound = CFG_SND_BOTH;
       o = @MenuSoundBoth;
+      // Initialize the sound worker voices
+      @call SoundWorker::MSG_SOUND_WORKER_NOISE_INIT_VOICES(1);
       // Play "Noise and music" sound
       @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(1);
       break;
@@ -722,6 +724,8 @@ word _pascal LoadFontConfig(word index)
       // Set the sound state and text
       g.is.sound = CFG_SND_OFF;
       o = @MenuSoundOff;
+      // Free the sound worker voices
+      @call SoundWorker::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
 //    break;
     }
     // Update the text on screen
@@ -1075,7 +1079,10 @@ word _pascal LoadFontConfig(word index)
   // Set the text of the info line
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@DoneInfo);
   // Play the game done music
-  @send SoundWorker::MSG_SOUND_WORKER_MUSIC_PLAY(@DoneSong);
+  if (g.is.sound == CFG_SND_BOTH)
+  {
+    @send SoundWorker::MSG_SOUND_WORKER_MUSIC_PLAY(@DoneSong);
+  }
 }
 
 /***********************************************************************
@@ -1155,7 +1162,10 @@ word _pascal LoadFontConfig(word index)
   // Set the text of the info line
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@HighInfo);
   // Play the high score music
-  @send SoundWorker::MSG_SOUND_WORKER_MUSIC_PLAY(@HighSong);
+  if (g.is.sound == CFG_SND_BOTH)
+  {
+    @send SoundWorker::MSG_SOUND_WORKER_MUSIC_PLAY(@HighSong);
+  }
 }
 
 /***********************************************************************
