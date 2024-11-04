@@ -311,7 +311,7 @@
 @localize not;
 @chunk char MenuText4[] = "Terminal";
 @localize { "The terminal label" 3-9 };
-// This chunk will be resized and filled during startup if the product name is found the INI file.
+// This chunk will be resized and filled during startup if the product name is found in the INI file
 @chunk char MenuTerminal[] = "Not found";
 @localize { "The terminal name if no product name is found in the INI file" 3-23 };
 @chunk char MenuText6[] = "Difficulty Level";

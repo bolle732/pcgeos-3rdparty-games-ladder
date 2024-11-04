@@ -342,7 +342,7 @@ word _pascal LoadFontConfig(word index)
  *                  2/ Get the our version number from the system.
  *                  3/ Get the GEOS product name from the INI file.
  *                  4/ Reallocate level buffer to the full space.
- *                  5/ Allocate a MemHandle for playing noises.
+ *                  5/ Initialize SoundWorker object.
  *                  6/ Load the difficulty, sound and last score from
  *                     the INI file and set the objects to display them.
  *                     If the values can't be read from the INI file,
