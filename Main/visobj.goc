@@ -752,7 +752,7 @@ static void _pascal DrawValue(word pos, word val, word suf)
  ***********************************************************************
  * SYNOPSIS:        Mark us and our children dirty.
  * CALLED BY:       Internal
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *

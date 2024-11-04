@@ -601,7 +601,7 @@ word _pascal LoadFontConfig(word index)
  ***********************************************************************
  * SYNOPSIS:        Initialize and load the menu screen.
  * CALLED BY:       Startup or when returning from help or play.
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -650,7 +650,7 @@ word _pascal LoadFontConfig(word index)
  *                      User by pressing the key 'd' in the menu.
  *                  (b) MSG_LAD_MENU_SOUND:
  *                      User by pressing the key 's' in the menu.
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -734,7 +734,7 @@ word _pascal LoadFontConfig(word index)
  ***********************************************************************
  * SYNOPSIS:        Close the application.
  * CALLED BY:       User by pressing the key 'e' in the menu.
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -771,7 +771,7 @@ word _pascal LoadFontConfig(word index)
  * SYNOPSIS:        Start a demo game or show a random joke in the info
  *                  line.
  * CALLED BY:       Internal or by our self
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -852,7 +852,7 @@ word _pascal LoadFontConfig(word index)
  ***********************************************************************
  * SYNOPSIS:        Stop the jokes or demo.
  * CALLED BY:       Internal
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -882,7 +882,7 @@ word _pascal LoadFontConfig(word index)
  ***********************************************************************
  * SYNOPSIS:        Load the instruction screen.
  * CALLED BY:       User by pressing the key 'i' in the menu.
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -919,7 +919,7 @@ word _pascal LoadFontConfig(word index)
  *                      from MSG_LAD_MENU_EXEC
  *                  (b) MSG_LAD_PLAY:
  *                      User by pressing the key 'p' in the menu.
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -997,7 +997,7 @@ word _pascal LoadFontConfig(word index)
  *                  (b) MSG_LAD_PLAY_STOP:
  *                      User by pressing the key 'ESC' during a game or
  *                      when returning from a finished game.
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1043,7 +1043,7 @@ word _pascal LoadFontConfig(word index)
  ***********************************************************************
  * SYNOPSIS:        The user finished the last level.
  * CALLED BY:       Internal
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1077,7 +1077,7 @@ word _pascal LoadFontConfig(word index)
  ***********************************************************************
  * SYNOPSIS:        The user lost the game.
  * CALLED BY:       Internal
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1106,7 +1106,7 @@ word _pascal LoadFontConfig(word index)
  ***********************************************************************
  * SYNOPSIS:        We have a new high score.
  * CALLED BY:       Internal
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -1160,7 +1160,7 @@ word _pascal LoadFontConfig(word index)
  ***********************************************************************
  * SYNOPSIS:        Save the high score.
  * CALLED BY:       User by pressing the key 'ENTER' in the high score.
- * PARAMETERS:      void (  )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
