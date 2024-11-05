@@ -77,7 +77,7 @@
   SSE_GENERAL, GE_SET_TEMPO, EIGHTH * 0.75,
 
 
-/* ------------------------- HIGH - OFFBEAT ------------------------ */
+/* ------------------------- HIGH - OFFBEAT -------------------------- */
 
 // HIGH - P 1 - T 1 - OFFBEAT
   SSE_VOICE_ON, 2, LOW_A / 2, DYNAMIC_FFFF,  // A2: LOW_A / 4
@@ -256,7 +256,7 @@
 };
 
 
-/* ------------------------- DONE - OFFBEAT ------------------------ */
+/* ------------------------- DONE - OFFBEAT -------------------------- */
 
 @chunk word DoneSongP1[] = {
 // DONE - INIT
