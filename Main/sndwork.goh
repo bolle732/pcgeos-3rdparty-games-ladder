@@ -36,7 +36,7 @@
  ***************************************************************************
  */
 
-#define SW_NOISE_VOICE_MAX_VOICES   3
+#define SW_NOISE_MAX_SIMULTAN_NOISES 3
 
 
 /*
@@ -77,7 +77,7 @@ typedef struct
   @instance word SWI_musicPartIndex = 0;
   @instance word SWI_maxNoiseVoices = 0;
   @instance word SWI_numNoiseVoices = 0;
-  @instance SWNoiseVoice SWI_noiseVoices[SW_NOISE_VOICE_MAX_VOICES];
+  @instance SWNoiseVoice SWI_noiseVoices[SW_NOISE_MAX_SIMULTAN_NOISES];
   @message word MSG_SOUND_WORKER_GET_MAX_VOICES();
   @message word MSG_SOUND_WORKER_GET_NUM_VOICES();
   @message void MSG_SOUND_WORKER_MUSIC_PLAY(optr music);

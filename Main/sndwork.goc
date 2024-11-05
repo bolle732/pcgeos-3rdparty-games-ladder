@@ -364,9 +364,9 @@ static SWNoise SW_NOISES[] =
   // Stop and rree all allocated voices
   @call oself::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
   // We can not have more voices then we can store
-  if (voices > SW_NOISE_VOICE_MAX_VOICES)
+  if (voices > SW_NOISE_MAX_SIMULTAN_NOISES)
   {
-    voices = SW_NOISE_VOICE_MAX_VOICES;
+    voices = SW_NOISE_MAX_SIMULTAN_NOISES;
   }
   // We can not have more voices then the synth driver has
   if (voices > pself->SWI_maxNoiseVoices)
