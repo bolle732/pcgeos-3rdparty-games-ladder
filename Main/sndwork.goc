@@ -73,7 +73,7 @@
  ***************************************************************************
  */
 
-static SWNoise SW_NOISES_MULTI[] =
+static SWNoise SW_NOISES[] =
 {
   { IP_LOW_CONGA, FR_LOW_CONGA, DYNAMIC_FFF, 1, 27 },            // Menu sound noise
   { IP_OPEN_CUICA, FR_OPEN_CUICA, DYNAMIC_FFF, 1, 30 },          // Menu sound noise and music
@@ -475,7 +475,7 @@ static SWNoise SW_NOISES_MULTI[] =
   for (i = 0; i < pself->SWI_numNoiseVoices; i++)
   {
     v = &pself->SWI_noiseVoices[i];
-    if (v->state == SW_NOISE_VOICE_STATE_PLAYING && ((currentTicks - v->startTicks) > SW_NOISES_MULTI[v->noise].duration))
+    if (v->state == SW_NOISE_VOICE_STATE_PLAYING && ((currentTicks - v->startTicks) > SW_NOISES[v->noise].duration))
     {
       v->state = SW_NOISE_VOICE_STATE_FREE;
       v->noise = 0;  // XXX: Unneeded?
@@ -509,7 +509,7 @@ static SWNoise SW_NOISES_MULTI[] =
   for (i = 0; i < pself->SWI_numNoiseVoices; i++)
   {
     v = &pself->SWI_noiseVoices[i];
-    if (SW_NOISES_MULTI[v->noise].priority > SW_NOISES_MULTI[noise].priority)
+    if (SW_NOISES[v->noise].priority > SW_NOISES[noise].priority)
     {
       v->state = SW_NOISE_VOICE_STATE_ADDED;
       v->noise = noise;
@@ -556,7 +556,7 @@ static SWNoise SW_NOISES_MULTI[] =
         continue;
       }
       SoundStopMusicNote(v->soundHandle);
-      n = &SW_NOISES_MULTI[v->noise];
+      n = &SW_NOISES[v->noise];
       SoundReallocMusicNote(v->soundHandle, n->frequency, n->loudness, SSDTT_TICKS, n->duration, n->instrument, IT_STANDARD_TABLE);
       SoundPlayMusicNote(v->soundHandle, SP_STANDARD + SP_IMMEDIATE, 0, UNLOCK_ON_EOS);
       v->state = SW_NOISE_VOICE_STATE_PLAYING;
@@ -595,7 +595,7 @@ static SWNoise SW_NOISES_MULTI[] =
     return;
   }
   SoundStopMusicNote(v->soundHandle);
-  n = &SW_NOISES_MULTI[noise];
+  n = &SW_NOISES[noise];
   SoundReallocMusicNote(v->soundHandle, n->frequency, n->loudness, SSDTT_TICKS, n->duration, n->instrument, IT_STANDARD_TABLE);
   SoundPlayMusicNote(v->soundHandle, SP_STANDARD + SP_IMMEDIATE, 0, UNLOCK_ON_EOS);
   v->state = SW_NOISE_VOICE_STATE_PLAYING;
