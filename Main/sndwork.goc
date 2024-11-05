@@ -64,7 +64,7 @@
 #define SW_NOISE_VOICE_STATE_PLAYING 3
 
 
-#define SW_NOISE_VOICE_NUM_NOISES 12
+#define SW_NOISE_NUM_NOISES 12
 
 
 /*
@@ -465,7 +465,7 @@ static SWNoise SW_NOISES[] =
   word i;
   SWNoiseVoice *v;
   // Verify noise
-  if (!(noise < SW_NOISE_VOICE_NUM_NOISES))
+  if (!(noise < SW_NOISE_NUM_NOISES))
   {
     return;
   }
