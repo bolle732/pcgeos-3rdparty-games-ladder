@@ -454,14 +454,9 @@ word _pascal LoadFontConfig(word index)
   // Setup colors according the available ones (monochrome)
   g.ns.areaColor = C_BLACK;
   @call application::MSG_GEN_APPLICATION_GET_DISPLAY_SCHEME(&ds);
-  if ((ds.DS_displayType & DT_DISP_CLASS) > DC_COLOR_2)
-  {
-    g.ns.textColor = C_LIGHT_GREEN;
-  }
-  else
-  {
-    g.ns.textColor = C_WHITE;
-  }
+  g.ns.textColor = ((ds.DS_displayType & DT_DISP_CLASS) > DC_COLOR_2)
+    ? C_LIGHT_GREEN
+    : C_WHITE;
   // Clear global GState
   g.ns.gstateHandle = NullHandle;
   // Warn user if current video resolution is too small
@@ -486,7 +481,7 @@ word _pascal LoadFontConfig(word index)
     optr o = NullOptr;
     // Initialize the sound worker object
     @call SoundWorker::MSG_META_INITIALIZE();
-   // Set the difficulty
+    // Set the difficulty
     @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.is.diff);
     // Set the sound
     switch (g.is.sound)
