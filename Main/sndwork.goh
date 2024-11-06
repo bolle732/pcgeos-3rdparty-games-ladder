@@ -36,6 +36,7 @@
  ***************************************************************************
  */
 
+#define SW_MUSIC_NUM_VOICES          4
 #define SW_NOISE_MAX_SIMULTAN_NOISES 3
 
 

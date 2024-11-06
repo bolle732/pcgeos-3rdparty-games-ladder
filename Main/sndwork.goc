@@ -288,7 +288,7 @@ static SWNoise SW_NOISES[] =
     }
   }
   // Play the music part
-  SoundAllocMusic(p_music, 4, &pself->SWI_musicHandle);
+  SoundAllocMusic(p_music, SW_MUSIC_NUM_VOICES, &pself->SWI_musicHandle);
   SoundPlayMusic(pself->SWI_musicHandle, SP_STANDARD + SP_IMMEDIATE, EIGHTH, UNLOCK_ON_EOS);  // DESTROY_ON_EOS
   // Increase the part index or set it to 0 if we reached the last one
   pself->SWI_musicPartIndex = ((pself->SWI_musicPartIndex + 1) < pself->SWI_musicPartCount)
