@@ -1164,7 +1164,7 @@ static void _pascal MoveDers(void)
     // Update the info line with the go text
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayGo);
     // Play "Start" sound
-      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(3);
+    @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(3);
     // Initialize ready ticks
     g.ns.readyTicks = 0;
     // Set restore point and start the game
@@ -1178,7 +1178,7 @@ static void _pascal MoveDers(void)
     // Update the info line with the get ready text
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayReady);
     // Play "Get ready" sound
-      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(2);
+    @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(2);
   }
   else
   {
@@ -1359,7 +1359,7 @@ static void _pascal MoveDers(void)
     pnts += PNT_GOLD;
     *(g.ns.levelBuffer + g.ss.lad.cpos) = LSD_C_SPACE;
     // Add "Earn gold statue" sound
-      @send SoundWorker::MSG_SOUND_WORKER_NOISE_ADD_MULTI(4);
+    @send SoundWorker::MSG_SOUND_WORKER_NOISE_ADD_MULTI(4);
     break;
   case LSD_C_EXIT:
     // Set restore point and message to do the hooka
@@ -1609,7 +1609,7 @@ static void _pascal MoveDers(void)
     // Increase the state
     g.ss.lad.die++;
     // Play "Lad dies" sound
-      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(10);
+    @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(10);
     // Call our self
     g.ns.timerHandle = TimerStart(TIMER_EVENT_ONE_SHOT, oself, DLY_B_DIES + g.ss.game.delay, message, 0, &g.ns.timerId);
     // Return from method
