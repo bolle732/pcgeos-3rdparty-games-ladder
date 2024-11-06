@@ -235,7 +235,7 @@ static SWNoise SW_NOISES[] =
  * SYNOPSIS:        Lock the current music part. Patch the notification
  *                  message. Play the music part.
  * CALLED BY:       MSG_SOUND_WORKER_MUSIC_PLAY for first part, then
- *                  by patched notificaation in music data.
+ *                  by patched notification in music data.
  * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -245,7 +245,7 @@ static SWNoise SW_NOISES[] =
  *                     and store it in the instance variable..
  *                  3/ Lock the music part.
  *                  4/ Patch the notification message.
- *                  5/ Play the music part and store the music hanle in
+ *                  5/ Play the music part and store the music handle in
  *                     the instance variable.
  *                  6/ Increase the part index or set it to zero if last.
  *
@@ -301,7 +301,7 @@ static SWNoise SW_NOISES[] =
  *                  for SoundWorkerClass
  ***********************************************************************
  * SYNOPSIS:        Stop playing the music and unlock the music part.
- * CALLED BY:       Internal or by patched notificaation in music data.
+ * CALLED BY:       Internal or by patched notification in music data.
  * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
@@ -310,7 +310,7 @@ static SWNoise SW_NOISES[] =
  *                  2/ Free the music handle.
  *                  3/ Set the instance variable of the music handle to null.
  *                  4/ Unlock the music part.
- *                  5/ Set the instance variable of the music part to nall.
+ *                  5/ Set the instance variable of the music part to null.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
@@ -442,7 +442,7 @@ static SWNoise SW_NOISES[] =
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
- * STRATEGY:        1/ Verifay that the noise is on of our list.
+ * STRATEGY:        1/ Verify that the noise is one of our list.
  *                  2/ Get the current time.
  *                  3/ Loop through the voices and free them if the
  *                     containing noise is expired.
@@ -451,7 +451,7 @@ static SWNoise SW_NOISES[] =
  *                  5/ Loop through the voices and search for an equal
  *                     noise to replace.
  *                  6/ Loop through the voices and search for an noise
- *                     with lower priority te replace.
+ *                     with lower priority to replace.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
@@ -523,7 +523,7 @@ static SWNoise SW_NOISES[] =
  *                  MSG_SOUND_WORKER_NOISE_PLAY_MULTI
  *                  for SoundWorkerClass
  ***********************************************************************
- * SYNOPSIS:        Play all voices with newly added noiese.
+ * SYNOPSIS:        Play all voices with newly added noise.
  * CALLED BY:       Internal
  * PARAMETERS:      void ( void )
  * RETURN:          nothing
@@ -576,7 +576,7 @@ static SWNoise SW_NOISES[] =
  *
  * STRATEGY:        1/ Get sound handle of first voice and verify it is
  *                     allocated.
- *                  2/ Stop an already plaing noise.
+ *                  2/ Stop an already playing noise.
  *                  3/ Reallocated noise handle and play the noise.
  *
  * REVISION HISTORY:
