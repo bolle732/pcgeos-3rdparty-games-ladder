@@ -196,7 +196,7 @@ static SWNoise SW_NOISES[] =
  *                  MSG_SOUND_WORKER_MUSIC_PLAY
  *                  for SoundWorkerClass
  ***********************************************************************
- * SYNOPSIS:        Get and store the naumber of music part. Initialize
+ * SYNOPSIS:        Get and store the number of music part. Initialize
  *                  and start playing the first music part.
  * CALLED BY:       Internal
  * PARAMETERS:      void ( optr music )
@@ -531,7 +531,7 @@ static SWNoise SW_NOISES[] =
  *
  * STRATEGY:        1/ Loop through the voices and search for added
  *                     noises.
- *                  2/ If newly added, eeallocate noise handle and play
+ *                  2/ If newly added, allocate noise handle and play
  *                     the noise.
  *                  3/ Set state of the voice to be played.
  *
