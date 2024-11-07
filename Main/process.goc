@@ -1568,9 +1568,12 @@ static void _pascal MenuSoundSetMode(word mode)
       }
 //    break;
     }
-    // Send the message
+    // We have a message
     if (msg != NULL)
     {
+      // Stop a potentially running timer
+      StopTimer();
+      // Send the message
       @send process::{MSG_LAD_PROTO} msg();
       return;
     }
