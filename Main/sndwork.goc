@@ -139,9 +139,13 @@ static SWNoise SW_NOISES[] =
   word v;
   SupportedEnvelopeFormat f;
   SoundDriverCapability c;
+  // So super
   @callsuper();
+  // Get infos from synth driver
   SoundSynthDriverInfo(&v, &f, &c);
+  // Save number of available voices
   pself->SWI_availableVoices = v;
+  // Calculate capabilities and set the bits for noise and/or music  
   pself->SWI_capabilities |= (v > 0) ? SW_CAPABILITY_NOISE : 0;
   pself->SWI_capabilities |= (v >= SW_MUSIC_MIN_VOICES) ? SW_CAPABILITY_MUSIC : 0;
 }
@@ -174,8 +178,9 @@ static SWNoise SW_NOISES[] =
  *                  MSG_SOUND_WORKER_INIT_MODES
  *                  for SoundWorkerClass
  ***********************************************************************
- * SYNOPSIS:        Initialize the requested sound modes of supported
- *                  and save the mode in the instance variable.
+ * SYNOPSIS:        Setup the requested sound modes dependeing of the
+ *                  supported capabilities and update the instance
+ *                  variable of it.
  * CALLED BY:       Internal
  * PARAMETERS:      void ( word modes )
  * RETURN:          nothing

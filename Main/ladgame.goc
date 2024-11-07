@@ -1156,10 +1156,6 @@ static void _pascal MoveDers(void)
   // Start the play when the count down has reached 1
   if (g.ns.readyCount == 1)
   {
-    // Update the info line with the go text
-    @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayGo);
-    // Play "Start" sound
-    @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(3);
     // Initialize ready ticks
     g.ns.readyTicks = 0;
     // Set restore point and start the game
@@ -1214,6 +1210,11 @@ static void _pascal MoveDers(void)
                                    MSG_LAD_PLAY_START
 {
   Message msg = NULL;
+  // Initialize the sound worker voices
+  if (g.is.sound != CFG_SND_OFF)
+  {
+    @call SoundWorker::MSG_SOUND_WORKER_INIT_MODES(SW_MODE_NOISE_MULTI);
+  }
   // Handle message type
   switch (message)
   {
@@ -1226,15 +1227,14 @@ static void _pascal MoveDers(void)
   case MSG_LAD_PLAY_START:
     // Set the input state for the handling of key presses
     g.ss.inputState = INP_S_EXEC;
+    // Update the info line with the go text
+    @send LadderInfo::MSG_TXT_UPDATE_TEXT(@PlayGo);
+    // Play "Start" sound
+    @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(3);
     // Set restore point and start the execution of the play
     g.ss.restorePoint = MSG_LAD_PLAY_EXEC;
     msg = MSG_LAD_PLAY_EXEC;
 //  break;
-  }
-  // Initialize the sound worker voices
-  if (g.is.sound != CFG_SND_OFF)
-  {
-    @call SoundWorker::MSG_SOUND_WORKER_INIT_MODES(SW_MODE_NOISE_MULTI);
   }
   g.ns.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, 0, msg, g.ss.game.delay, &g.ns.timerId);
 }
