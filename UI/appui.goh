@@ -74,6 +74,7 @@
 
 // RESOURCE Text
 @extern chunk ScreenMenu;
+@extern chunk MenuSoundNotAvailable;
 @extern chunk MenuSoundOff;
 @extern chunk MenuSoundNoise;
 @extern chunk MenuSoundBoth;

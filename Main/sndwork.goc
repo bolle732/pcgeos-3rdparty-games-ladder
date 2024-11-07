@@ -123,7 +123,7 @@ static SWNoise SW_NOISES[] =
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ Call super for default actions.
- *                  2/ Get the maximum number of voices from the sound
+ *                  2/ Get the available number of voices from the sound
  *                     synth driver.
  *                  3/ Store the number of synth voices in the instance
  *                     variable.
@@ -141,55 +141,91 @@ static SWNoise SW_NOISES[] =
   SoundDriverCapability c;
   @callsuper();
   SoundSynthDriverInfo(&v, &f, &c);
-  pself->SWI_maxNoiseVoices = v;
+  pself->SWI_availableVoices = v;
+  pself->SWI_capabilities |= (v > 0) ? SW_CAPABILITY_NOISE : 0;
+  pself->SWI_capabilities |= (v >= SW_MUSIC_MIN_VOICES) ? SW_CAPABILITY_MUSIC : 0;
 }
 
 /***********************************************************************
- *                  MSG_SOUND_WORKER_GET_MAX_VOICES
+ *                  MSG_SOUND_WORKER_GET_CAPABILITIES
  *                  for SoundWorkerClass
  ***********************************************************************
- * SYNOPSIS:        Return the number of maximum voices.
+ * SYNOPSIS:        Return the sound capabilities.
  * CALLED BY:       Internal
- * PARAMETERS:      void ( void )
- * RETURN:          A word containing the number maximum voices.
+ * PARAMETERS:      word ( void )
+ * RETURN:          A word containing the capabilities.
  * SIDE EFFECTS:    none
  *
- * STRATEGY:        1/ Return the number of maximum synth voices stored
- *                     in the instance variable.
+ * STRATEGY:        1/ Return the sound capabilities storend in the
+ *                     instance variable.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
  *      ----    ----          -----------
- *      boa     2024-11-01    Initial Revision
+ *      boa     2024-11-07    Initial Revision
  *
  ***********************************************************************/
-@method SoundWorkerClass, MSG_SOUND_WORKER_GET_MAX_VOICES
+@method SoundWorkerClass, MSG_SOUND_WORKER_GET_CAPABILITIES
 {
-  return pself->SWI_maxNoiseVoices;
+  return pself->SWI_capabilities;
 }
 
+
+
+
 /***********************************************************************
- *                  MSG_SOUND_WORKER_GET_NUM_VOICES
+ *                  MSG_SOUND_WORKER_INIT_MODES
  *                  for SoundWorkerClass
  ***********************************************************************
- * SYNOPSIS:        Return the number of allocated voices.
+ * SYNOPSIS:        Initialize the requested sound modes of supported
+ *                  and save the mode in the instance variable.
  * CALLED BY:       Internal
- * PARAMETERS:      void ( void )
- * RETURN:          A word containing the number allocated voices.
+ * PARAMETERS:      void ( word modes )
+ * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
- * STRATEGY:        1/ Return the number of allocated synth voices
- *                     stored in the instance variable.
+ * STRATEGY:        1/ Handle sound off mode.
+ *                  2/ Handle noise modes.
+ *                  3/ Handle music mode.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
  *      ----    ----          -----------
- *      boa     2024-11-01    Initial Revision
+ *      boa     2024-11-07    Initial Revision
  *
  ***********************************************************************/
-@method SoundWorkerClass, MSG_SOUND_WORKER_GET_NUM_VOICES
+@method SoundWorkerClass, MSG_SOUND_WORKER_INIT_MODES
 {
-  return pself->SWI_numNoiseVoices;
+  if (modes == SW_MODE_OFF)
+  {
+    pself->SWI_modes = SW_MODE_OFF;
+    @call oself::MSG_SOUND_WORKER_MUSIC_STOP();
+    @call oself::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
+    return;
+  }
+  if ((modes & SW_MODE_NOISE_SINGLE) && (pself->SWI_capabilities & SW_CAPABILITY_NOISE))
+  {
+    pself->SWI_modes |= SW_MODE_NOISE_SINGLE;
+    @call oself::MSG_SOUND_WORKER_NOISE_INIT_VOICES(1);
+  }
+  else if ((modes & SW_MODE_NOISE_MULTI) && (pself->SWI_capabilities & SW_CAPABILITY_NOISE))
+  {
+    pself->SWI_modes |= SW_MODE_NOISE_MULTI;
+    @call oself::MSG_SOUND_WORKER_NOISE_INIT_VOICES(SW_NOISE_MAX_SIMULTAN_NOISES);
+  }
+  else
+  {
+    pself->SWI_modes &= ~(SW_MODE_NOISE_SINGLE | SW_MODE_NOISE_MULTI);
+    @call oself::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
+  }
+  if ((modes & SW_MODE_MUSIC) && (pself->SWI_capabilities & SW_CAPABILITY_MUSIC))
+  { 
+    pself->SWI_modes |= SW_MODE_MUSIC;
+  }
+  else
+  {
+    pself->SWI_modes &= ~SW_MODE_MUSIC;
+  }
 }
 
 /***********************************************************************
@@ -217,6 +253,11 @@ static SWNoise SW_NOISES[] =
  ***********************************************************************/
 @method SoundWorkerClass, MSG_SOUND_WORKER_MUSIC_PLAY
 {
+  // Verify that music is enabled
+  if (!(pself->SWI_modes & SW_MODE_MUSIC))
+  {
+    return;
+  }
   // Save the object pointer of the music and set the index to the first element
   pself->SWI_musicData = music;
   pself->SWI_musicPartIndex = 0;
@@ -288,7 +329,7 @@ static SWNoise SW_NOISES[] =
     }
   }
   // Play the music part
-  SoundAllocMusic(p_music, SW_MUSIC_NUM_VOICES, &pself->SWI_musicHandle);
+  SoundAllocMusic(p_music, SW_MUSIC_MIN_VOICES, &pself->SWI_musicHandle);
   SoundPlayMusic(pself->SWI_musicHandle, SP_STANDARD + SP_IMMEDIATE, EIGHTH, UNLOCK_ON_EOS);  // DESTROY_ON_EOS
   // Increase the part index or set it to 0 if we reached the last one
   pself->SWI_musicPartIndex = ((pself->SWI_musicPartIndex + 1) < pself->SWI_musicPartCount)
@@ -361,17 +402,12 @@ static SWNoise SW_NOISES[] =
 {
   word i;
   SWNoiseVoice *v;
-  // Stop and rree all allocated voices
+  // Stop and free all allocated voices
   @call oself::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
-  // We can not have more voices then we can store
-  if (voices > SW_NOISE_MAX_SIMULTAN_NOISES)
-  {
-    voices = SW_NOISE_MAX_SIMULTAN_NOISES;
-  }
   // We can not have more voices then the synth driver has
-  if (voices > pself->SWI_maxNoiseVoices)
+  if (voices > pself->SWI_availableVoices)
   {
-    voices = pself->SWI_maxNoiseVoices;
+    voices = pself->SWI_availableVoices;
   }
   // Initialize active voices
   for (i = 0; i < voices; i++)
@@ -464,6 +500,11 @@ static SWNoise SW_NOISES[] =
   dword currentTicks;
   word i;
   SWNoiseVoice *v;
+  // Verify that multi noise is enabled
+  if (!(pself->SWI_modes & SW_MODE_NOISE_MULTI))
+  {
+    return;
+  }
   // Verify noise
   if (!(noise < SW_NOISE_NUM_NOISES))
   {
@@ -546,6 +587,11 @@ static SWNoise SW_NOISES[] =
   word i;
   SWNoise *n;
   SWNoiseVoice *v;
+  // Verify that multi noise is enabled
+  if (!(pself->SWI_modes & SW_MODE_NOISE_MULTI))
+  {
+    return;
+  }
   for (i = 0; i < pself->SWI_numNoiseVoices; i++)
   {
     v = &pself->SWI_noiseVoices[i];
@@ -589,6 +635,11 @@ static SWNoise SW_NOISES[] =
 {
   SWNoise *n;
   SWNoiseVoice *v;
+  // Verify that single noise is enabled
+  if (!(pself->SWI_modes & SW_MODE_NOISE_SINGLE))
+  {
+    return;
+  }
   v = &pself->SWI_noiseVoices[0];
   if (v->soundHandle == NullHandle)
   {

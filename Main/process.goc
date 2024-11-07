@@ -67,6 +67,7 @@
 extern GLGlobals g;
 
 extern word _pascal Random(word max);
+static void _pascal MenuSoundSetMode(word mode);
 
 
 /*
@@ -165,7 +166,7 @@ static word _pascal TicksByDifficulty(word diff)
  *                  with the window mode.
  * CALLED BY:       Internal
  * PARAMETERS:      void ( word index )
- * RETURN:          Nothing.
+ * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
  * STRATEGY:        1/ Search the smallest font config.
@@ -293,6 +294,73 @@ word _pascal LoadFontConfig(word index)
     return index;
   }
   return FNT_R_NONE;
+}
+
+/***********************************************************************
+ *                  MenuSoundSetMode
+ ***********************************************************************
+ * SYNOPSIS:        Set the global variable, update the menu sound text
+ *                  and witch the sound mode depending the capabilities
+ *                  of the sound driver. 
+ * CALLED BY:       Internal
+ * PARAMETERS:      void ( word mode )
+ * RETURN:          nothing
+ * SIDE EFFECTS:    none
+ *
+ * STRATEGY:        1/ If no sound capabilities are available, set the
+ *                     menu sound text to not available.
+ *                  2/ Depending the capabilities switch to the requested
+ *                     sound mode if possible.
+ *
+ * REVISION HISTORY:
+ *      Name    Date          Description
+ *      ----    ----          -----------
+ *      boa     2024-11-07    Initial Revision
+ *
+ ***********************************************************************/
+static void _pascal MenuSoundSetMode(word mode)
+{
+  word c = SW_CAPABILITY_NONE;
+  optr o = NullOptr;
+  // Get the sound capabilities
+  c = @call SoundWorker::MSG_SOUND_WORKER_GET_CAPABILITIES();
+  // Verify we have sound support
+  if (c == SW_CAPABILITY_NONE)
+  {
+    // No sound supported
+    g.is.sound = CFG_SND_OFF;
+    o = @MenuSoundNotAvailable;
+  }
+  else
+  {
+    // Try to fulfill the requested mode, fallback to noise only or disable sound
+    switch (mode)
+    {
+    case CFG_SND_BOTH:
+      if (c & SW_CAPABILITY_MUSIC)
+      {
+        g.is.sound = CFG_SND_BOTH;
+        o = @MenuSoundBoth;
+        @call SoundWorker::MSG_SOUND_WORKER_INIT_MODES(SW_MODE_NOISE_SINGLE | SW_MODE_MUSIC);
+        break;
+      }
+    case CFG_SND_NOISE:
+      if (c & SW_CAPABILITY_NOISE && mode != CFG_SND_BOTH)
+      {
+        g.is.sound = CFG_SND_NOISE;
+        o = @MenuSoundNoise;
+        @call SoundWorker::MSG_SOUND_WORKER_INIT_MODES(SW_MODE_NOISE_SINGLE);
+        break;
+      }
+    default:
+      g.is.sound = CFG_SND_OFF;
+      o = @MenuSoundOff;
+      @call SoundWorker::MSG_SOUND_WORKER_INIT_MODES(SW_MODE_OFF);
+//    break;
+    }
+  }
+  // Update the text on screen
+  @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(o);
 }
 
 
@@ -448,7 +516,6 @@ word _pascal LoadFontConfig(word index)
     g.is.sound = state & 0x0F;
   }
   // Get the video resolution
-  //  @call application::MSG_VIS_GET_BOUNDS(&g.ns.screen);
   @call application::MSG_GEN_GUP_QUERY(&grp, GUQT_FIELD);
   WinGetWinScreenBounds(grp.GRP_bp, &g.ns.screen);
   // Setup colors according the available ones (monochrome)
@@ -478,25 +545,12 @@ word _pascal LoadFontConfig(word index)
   // Setup user interface if no error has occurred
   if (g.ns.startupError == L_FALSE)
   {
-    optr o = NullOptr;
     // Initialize the sound worker object
     @call SoundWorker::MSG_META_INITIALIZE();
     // Set the difficulty
     @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.is.diff);
-    // Set the sound
-    switch (g.is.sound)
-    {
-    case CFG_SND_OFF:
-      o = @MenuSoundOff;
-      break;
-    case CFG_SND_NOISE:
-      o = @MenuSoundNoise;
-      break;
-    case CFG_SND_BOTH:
-      o = @MenuSoundBoth;
-//    break;
-    }
-    @send LadderMenuSound::MSG_TXT_SET_TEXT(o);
+    // Set the sound mode
+    MenuSoundSetMode(g.is.sound);
     // Load the high and last scores from the file
     @send LadderMenuRank::MSG_RNK_LOAD();
     @send process::{MSG_LAD_PROTO} msg();
@@ -545,21 +599,20 @@ word _pascal LoadFontConfig(word index)
 {
   GLExtraState *es;
   MemHandle mh;
+  // In we are called due to an error during startup, simply return without saving any states
+  if (g.ns.startupError == L_TRUE)
+  {
+    return NullHandle;
+  }
   // Stop the current timer
   StopTimer();
   // Stop the music and free noise voices
-  @call SoundWorker::MSG_SOUND_WORKER_MUSIC_STOP();
-  @call SoundWorker::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
+  @call SoundWorker::MSG_SOUND_WORKER_INIT_MODES(SW_MODE_OFF);
   // Return to not maximized
   if (g.ss.windowState == WIN_S_MAXI)
   {
     g.is.fontCurrent = g.ns.fontSaved;
     g.ss.windowState = WIN_S_NORM;
-  }
-  // In case of an error simply return without saving any states
-  if (g.ns.startupError == L_TRUE)
-  {
-    return NullHandle;
   }
   // Write the font size to the INI file
   InitFileWriteInteger(&ICA, &IKF, g.is.fontCurrent);
@@ -636,6 +689,7 @@ word _pascal LoadFontConfig(word index)
   }
 }
 
+
 /***********************************************************************
  *                  MSG_LAD_MENU_DIFF, MSG_LAD_MENU_SOUND
  *                  for LadderProcessClass
@@ -668,7 +722,6 @@ word _pascal LoadFontConfig(word index)
 @method LadderProcessClass, MSG_LAD_MENU_DIFF,
                             MSG_LAD_MENU_SOUND
 {
-  optr o = NullOptr;
   // Stop the jokes or demo
   @send process::MSG_LAD_MENU_STOP();
   // Handle message type
@@ -682,41 +735,26 @@ word _pascal LoadFontConfig(word index)
     {
       g.is.diff = CFG_DIFF_MIN;
     }
+    // Play "Difficulty" sound
+    @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(2);
     // Update the value on screen
     @send LadderMenuDiff::MSG_VAL_UPDATE_VALUE(g.is.diff);
     break;
   case MSG_LAD_MENU_SOUND:
-    // Rotate the sound state
+    // Try to switch to the next higher sound state
+    MenuSoundSetMode(g.is.sound + 1);
+    // Play a noise for the current sound state
     switch (g.is.sound)
     {
-    case CFG_SND_OFF:
-      // Set the sound state and text
-      g.is.sound = CFG_SND_NOISE;
-      o = @MenuSoundNoise;
-      // Initialize the sound worker voices
-      @call SoundWorker::MSG_SOUND_WORKER_NOISE_INIT_VOICES(1);
+    case CFG_SND_NOISE:
       // Play "Noise" sound
       @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(0);
       break;
-    case CFG_SND_NOISE:
-      // Set the sound state and text
-      g.is.sound = CFG_SND_BOTH;
-      o = @MenuSoundBoth;
-      // Initialize the sound worker voices
-      @call SoundWorker::MSG_SOUND_WORKER_NOISE_INIT_VOICES(1);
+    case CFG_SND_BOTH:
       // Play "Noise and music" sound
       @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(1);
-      break;
-    case CFG_SND_BOTH:
-      // Set the sound state and text
-      g.is.sound = CFG_SND_OFF;
-      o = @MenuSoundOff;
-      // Free the sound worker voices
-      @call SoundWorker::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
 //    break;
     }
-    // Update the text on screen
-    @send LadderMenuSound::MSG_TXT_UPDATE_TEXT(o);
 //  break;
   }
   // Disarm the jokes or demo

@@ -1119,7 +1119,7 @@ static void _pascal MoveDers(void)
   // Initialize the sound worker voices
   if (g.is.sound != CFG_SND_OFF)
   {
-    @call SoundWorker::MSG_SOUND_WORKER_NOISE_INIT_VOICES(3);
+    @call SoundWorker::MSG_SOUND_WORKER_INIT_MODES(SW_MODE_NOISE_MULTI);
   }
   // Start get ready count down
   @send process::MSG_LAD_PLAY_READY_EXEC();
