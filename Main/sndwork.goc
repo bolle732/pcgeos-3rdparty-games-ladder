@@ -139,20 +139,20 @@ static SWNoise SW_NOISES[] =
   word v;
   SupportedEnvelopeFormat f;
   SoundDriverCapability c;
-  // So super
+  // Do super
   @callsuper();
   // Get infos from synth driver
   SoundSynthDriverInfo(&v, &f, &c);
   // Save number of available voices
   pself->SWI_availableVoices = v;
-  // Calculate capabilities and set the bits for music and/or noise  
+  // Determine capabilities and set the bits for music and/or noise
   pself->SWI_capabilities |= (v >= SW_MUSIC_MIN_VOICES)
     ? SW_CAPABILITY_MUSIC
     : 0;
   pself->SWI_capabilities |= (v > 0)
     ? SW_CAPABILITY_NOISE
     : 0;
-  // Calculate the available voices for noise
+  // Determine number of voices for multi noise
   pself->SWI_numNoiseVoices = (v > SW_NOISE_MAX_SIMULTAN_NOISES)
     ? SW_NOISE_MAX_SIMULTAN_NOISES
     : v;
