@@ -75,9 +75,8 @@
 
 static SWNoise SW_NOISES[] =
 {
-  { IP_LOW_CONGA,      FR_LOW_CONGA,      DYNAMIC_FFF, 1, 27 },  // Menu sound noise
-  { IP_OPEN_CUICA,     FR_OPEN_CUICA,     DYNAMIC_FFF, 1, 30 },  // Menu sound noise and music
-//  { IP_OPEN_CUICA,     FR_OPEN_CUICA,     DYNAMIC_FFF, 1, 30 },  // Menu difficulty
+  { IP_OPEN_CUICA,     FR_OPEN_CUICA,     DYNAMIC_FFF, 1, 30 },  // Menu sound noise
+  { IP_HI_MID_TOM,     FR_HI_MID_TOM,     DYNAMIC_FFF, 1, 24 },  // Menu difficulty
   { IP_LOW_BONGO,      FR_LOW_BONGO,      DYNAMIC_FFF, 1, 21 },  // Play get ready
   { IP_LOW_BONGO,      FR_HI_BONGO,       DYNAMIC_FFF, 1, 21 },  // Play ready go
   { IP_RIDE_BELL,      FR_RIDE_BELL,      DYNAMIC_FFF, 2, 57 },  // Play earn gold statue

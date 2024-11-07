@@ -736,7 +736,7 @@ static void _pascal MenuSoundSetMode(word mode)
       g.is.diff = CFG_DIFF_MIN;
     }
     // Play "Difficulty" sound
-    @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(2);
+    @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(1);
     // Update the value on screen
     @send LadderMenuDiff::MSG_VAL_UPDATE_VALUE(g.is.diff);
     break;
@@ -751,8 +751,8 @@ static void _pascal MenuSoundSetMode(word mode)
       @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(0);
       break;
     case CFG_SND_BOTH:
-      // Play "Noise and music" sound
-      @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(1);
+      // Play the menu music
+      @send SoundWorker::MSG_SOUND_WORKER_MUSIC_PLAY(@MenuSong);
 //    break;
     }
 //  break;
@@ -1098,10 +1098,7 @@ static void _pascal MenuSoundSetMode(word mode)
   // Set the text of the info line
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@DoneInfo);
   // Play the game done music
-  if (g.is.sound == CFG_SND_BOTH)
-  {
-    @send SoundWorker::MSG_SOUND_WORKER_MUSIC_PLAY(@DoneSong);
-  }
+  @send SoundWorker::MSG_SOUND_WORKER_MUSIC_PLAY(@DoneSong);
 }
 
 /***********************************************************************
@@ -1181,10 +1178,7 @@ static void _pascal MenuSoundSetMode(word mode)
   // Set the text of the info line
   @send LadderInfo::MSG_TXT_UPDATE_TEXT(@HighInfo);
   // Play the high score music
-  if (g.is.sound == CFG_SND_BOTH)
-  {
-    @send SoundWorker::MSG_SOUND_WORKER_MUSIC_PLAY(@HighSong);
-  }
+  @send SoundWorker::MSG_SOUND_WORKER_MUSIC_PLAY(@HighSong);
 }
 
 /***********************************************************************

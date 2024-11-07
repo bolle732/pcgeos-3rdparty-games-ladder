@@ -100,9 +100,10 @@
 @extern chunk HighSave;
 
 
-// RESOURCE Song
-@extern chunk DoneSong;  // chunkArray
+// RESOURCE Song Xyz
+@extern chunk MenuSong;  // chunkArray
 @extern chunk HighSong;  // chunkArray
+@extern chunk DoneSong;  // chunkArray
 
 
 // RESOURCE Game
