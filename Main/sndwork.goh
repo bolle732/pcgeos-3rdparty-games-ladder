@@ -40,10 +40,9 @@
 #define SW_CAPABILITY_NOISE  1
 #define SW_CAPABILITY_MUSIC  2
 
-#define SW_MODE_OFF          0
-#define SW_MODE_NOISE_SINGLE 1
-#define SW_MODE_NOISE_MULTI  2
-#define SW_MODE_MUSIC        4
+#define SW_MODE_OFF   0
+#define SW_MODE_NOISE 1
+#define SW_MODE_MUSIC 2
 
 #define SW_MUSIC_MIN_VOICES          4
 #define SW_NOISE_MAX_SIMULTAN_NOISES 3
@@ -95,7 +94,7 @@ typedef struct
   @message void MSG_SOUND_WORKER_MUSIC_PLAY(optr music);
   @message void MSG_SOUND_WORKER_MUSIC_PLAY_EXEC();
   @message void MSG_SOUND_WORKER_MUSIC_STOP();
-  @message void MSG_SOUND_WORKER_NOISE_INIT_VOICES(word voices);
+  @message void MSG_SOUND_WORKER_NOISE_INIT_VOICES();
   @message void MSG_SOUND_WORKER_NOISE_FREE_VOICES();
   @message void MSG_SOUND_WORKER_NOISE_ADD_MULTI(word noise);
   @message void MSG_SOUND_WORKER_NOISE_PLAY_MULTI();

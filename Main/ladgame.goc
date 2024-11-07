@@ -1210,11 +1210,6 @@ static void _pascal MoveDers(void)
                                    MSG_LAD_PLAY_START
 {
   Message msg = NULL;
-  // Initialize the sound worker voices
-  if (g.is.sound != CFG_SND_OFF)
-  {
-    @call SoundWorker::MSG_SOUND_WORKER_INIT_MODES(SW_MODE_NOISE_MULTI);
-  }
   // Handle message type
   switch (message)
   {

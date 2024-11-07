@@ -145,9 +145,17 @@ static SWNoise SW_NOISES[] =
   SoundSynthDriverInfo(&v, &f, &c);
   // Save number of available voices
   pself->SWI_availableVoices = v;
-  // Calculate capabilities and set the bits for noise and/or music  
-  pself->SWI_capabilities |= (v > 0) ? SW_CAPABILITY_NOISE : 0;
-  pself->SWI_capabilities |= (v >= SW_MUSIC_MIN_VOICES) ? SW_CAPABILITY_MUSIC : 0;
+  // Calculate capabilities and set the bits for music and/or noise  
+  pself->SWI_capabilities |= (v >= SW_MUSIC_MIN_VOICES)
+    ? SW_CAPABILITY_MUSIC
+    : 0;
+  pself->SWI_capabilities |= (v > 0)
+    ? SW_CAPABILITY_NOISE
+    : 0;
+  // Calculate the available voices for noise
+  pself->SWI_numNoiseVoices = (v > SW_NOISE_MAX_SIMULTAN_NOISES)
+    ? SW_NOISE_MAX_SIMULTAN_NOISES
+    : v;
 }
 
 /***********************************************************************
@@ -207,19 +215,14 @@ static SWNoise SW_NOISES[] =
     return;
   }
   // Handle noise modes
-  if ((modes & SW_MODE_NOISE_SINGLE) && (pself->SWI_capabilities & SW_CAPABILITY_NOISE))
+  if ((modes & SW_MODE_NOISE) && (pself->SWI_capabilities & SW_CAPABILITY_NOISE))
   {
-    pself->SWI_modes |= SW_MODE_NOISE_SINGLE;
-    @call oself::MSG_SOUND_WORKER_NOISE_INIT_VOICES(1);
-  }
-  else if ((modes & SW_MODE_NOISE_MULTI) && (pself->SWI_capabilities & SW_CAPABILITY_NOISE))
-  {
-    pself->SWI_modes |= SW_MODE_NOISE_MULTI;
-    @call oself::MSG_SOUND_WORKER_NOISE_INIT_VOICES(SW_NOISE_MAX_SIMULTAN_NOISES);
+    pself->SWI_modes |= SW_MODE_NOISE;
+    @call oself::MSG_SOUND_WORKER_NOISE_INIT_VOICES();
   }
   else
   {
-    pself->SWI_modes &= ~(SW_MODE_NOISE_SINGLE | SW_MODE_NOISE_MULTI);
+    pself->SWI_modes &= ~SW_MODE_NOISE;
     @call oself::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
   }
   // Handle music mode
@@ -386,7 +389,7 @@ static SWNoise SW_NOISES[] =
  ***********************************************************************
  * SYNOPSIS:        Allocate the number of voices.
  * CALLED BY:       Internal
- * PARAMETERS:      void ( word voices )
+ * PARAMETERS:      void ( void )
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
@@ -407,15 +410,8 @@ static SWNoise SW_NOISES[] =
 {
   word i;
   SWNoiseVoice *v;
-  // Stop and free all allocated voices
-  @call oself::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
-  // We can not have more voices then the synth driver has
-  if (voices > pself->SWI_availableVoices)
-  {
-    voices = pself->SWI_availableVoices;
-  }
-  // Initialize active voices
-  for (i = 0; i < voices; i++)
+  // Initialize the voices
+  for (i = 0; i < pself->SWI_numNoiseVoices; i++)
   {
     v = &pself->SWI_noiseVoices[i];
     SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &v->soundHandle);
@@ -423,7 +419,6 @@ static SWNoise SW_NOISES[] =
     v->noise = 0;
     v->startTicks = 0;
   }
-  pself->SWI_numNoiseVoices = voices;
 }
 
 /***********************************************************************
@@ -439,8 +434,6 @@ static SWNoise SW_NOISES[] =
  * STRATEGY:        1/ Stop and free all allocated voices.
  *                  2/ Reset the voices and store them in the
  *                     instance variable.
- *                  3/ Set the number of allocated voices in the
- *                     instance variable to zero.
  *
  * REVISION HISTORY:
  *      Name    Date          Description
@@ -466,7 +459,6 @@ static SWNoise SW_NOISES[] =
     v->noise = 0;
     v->startTicks = 0;
   }
-  pself->SWI_numNoiseVoices = 0;
 }
 
 /***********************************************************************
@@ -502,7 +494,7 @@ static SWNoise SW_NOISES[] =
   word i;
   SWNoiseVoice *v;
   // Verify that multi noise is enabled
-  if (!(pself->SWI_modes & SW_MODE_NOISE_MULTI))
+  if (!(pself->SWI_modes & SW_MODE_NOISE))
   {
     return;
   }
@@ -589,7 +581,7 @@ static SWNoise SW_NOISES[] =
   SWNoise *n;
   SWNoiseVoice *v;
   // Verify that multi noise is enabled
-  if (!(pself->SWI_modes & SW_MODE_NOISE_MULTI))
+  if (!(pself->SWI_modes & SW_MODE_NOISE))
   {
     return;
   }
@@ -637,16 +629,19 @@ static SWNoise SW_NOISES[] =
   SWNoise *n;
   SWNoiseVoice *v;
   // Verify that single noise is enabled
-  if (!(pself->SWI_modes & (SW_MODE_NOISE_SINGLE | SW_MODE_NOISE_MULTI)))
+  if (!(pself->SWI_modes & SW_MODE_NOISE))
   {
     return;
   }
+  // Verify we have a valid sound handle
   v = &pself->SWI_noiseVoices[0];
   if (v->soundHandle == NullHandle)
   {
     return;
   }
+  // Make sure no other noise is playing
   SoundStopMusicNote(v->soundHandle);
+  // Get the nois and play it
   n = &SW_NOISES[noise];
   SoundReallocMusicNote(v->soundHandle, n->frequency, n->loudness, SSDTT_TICKS, n->duration, n->instrument, IT_STANDARD_TABLE);
   SoundPlayMusicNote(v->soundHandle, SP_STANDARD + SP_IMMEDIATE, 0, UNLOCK_ON_EOS);

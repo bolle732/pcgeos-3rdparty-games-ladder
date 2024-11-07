@@ -341,7 +341,7 @@ static void _pascal MenuSoundSetMode(word mode)
       {
         g.is.sound = CFG_SND_BOTH;
         o = @MenuSoundBoth;
-        @call SoundWorker::MSG_SOUND_WORKER_INIT_MODES(SW_MODE_NOISE_SINGLE | SW_MODE_MUSIC);
+        @call SoundWorker::MSG_SOUND_WORKER_INIT_MODES(SW_MODE_NOISE | SW_MODE_MUSIC);
         break;
       }
     case CFG_SND_NOISE:
@@ -349,7 +349,7 @@ static void _pascal MenuSoundSetMode(word mode)
       {
         g.is.sound = CFG_SND_NOISE;
         o = @MenuSoundNoise;
-        @call SoundWorker::MSG_SOUND_WORKER_INIT_MODES(SW_MODE_NOISE_SINGLE);
+        @call SoundWorker::MSG_SOUND_WORKER_INIT_MODES(SW_MODE_NOISE);
         break;
       }
     default:
