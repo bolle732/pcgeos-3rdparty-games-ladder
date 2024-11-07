@@ -1116,11 +1116,6 @@ static void _pascal MoveDers(void)
   g.ns.readyCount = CNT_S_READY;
   // Set the input state for the handling of key presses
   g.ss.inputState = INP_S_PLAY;
-  // Initialize the sound worker voices
-  if (g.is.sound != CFG_SND_OFF)
-  {
-    @call SoundWorker::MSG_SOUND_WORKER_INIT_MODES(SW_MODE_NOISE_MULTI);
-  }
   // Start get ready count down
   @send process::MSG_LAD_PLAY_READY_EXEC();
 }
@@ -1218,6 +1213,7 @@ static void _pascal MoveDers(void)
 @extern method LadderProcessClass, MSG_LAD_DEMO_START,
                                    MSG_LAD_PLAY_START
 {
+  Message msg = NULL;
   // Handle message type
   switch (message)
   {
@@ -1225,16 +1221,22 @@ static void _pascal MoveDers(void)
     // Set the text in the info line
     @send LadderInfo::MSG_TXT_UPDATE_TEXT(@DemoInfo);
     // Start the execution of the demo
-    g.ns.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, 0, MSG_LAD_DEMO_EXEC, g.ss.game.delay, &g.ns.timerId);
+    msg = MSG_LAD_DEMO_EXEC;
     break;
   case MSG_LAD_PLAY_START:
     // Set the input state for the handling of key presses
     g.ss.inputState = INP_S_EXEC;
     // Set restore point and start the execution of the play
     g.ss.restorePoint = MSG_LAD_PLAY_EXEC;
-    g.ns.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, 0, MSG_LAD_PLAY_EXEC, g.ss.game.delay, &g.ns.timerId);
+    msg = MSG_LAD_PLAY_EXEC;
 //  break;
   }
+  // Initialize the sound worker voices
+  if (g.is.sound != CFG_SND_OFF)
+  {
+    @call SoundWorker::MSG_SOUND_WORKER_INIT_MODES(SW_MODE_NOISE_MULTI);
+  }
+  g.ns.timerHandle = TimerStart(TIMER_EVENT_CONTINUAL, oself, 0, msg, g.ss.game.delay, &g.ns.timerId);
 }
 
 /***********************************************************************

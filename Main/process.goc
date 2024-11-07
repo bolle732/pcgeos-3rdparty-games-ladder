@@ -300,7 +300,7 @@ word _pascal LoadFontConfig(word index)
  *                  MenuSoundSetMode
  ***********************************************************************
  * SYNOPSIS:        Set the global variable, update the menu sound text
- *                  and witch the sound mode depending the capabilities
+ *                  and switch the sound mode depending the capabilities
  *                  of the sound driver. 
  * CALLED BY:       Internal
  * PARAMETERS:      void ( word mode )

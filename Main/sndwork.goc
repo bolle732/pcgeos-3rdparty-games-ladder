@@ -170,9 +170,6 @@ static SWNoise SW_NOISES[] =
   return pself->SWI_capabilities;
 }
 
-
-
-
 /***********************************************************************
  *                  MSG_SOUND_WORKER_INIT_MODES
  *                  for SoundWorkerClass
@@ -184,7 +181,7 @@ static SWNoise SW_NOISES[] =
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
- * STRATEGY:        1/ Handle sound off mode.
+ * STRATEGY:        1/ Handle sound off.
  *                  2/ Handle noise modes.
  *                  3/ Handle music mode.
  *
@@ -196,6 +193,7 @@ static SWNoise SW_NOISES[] =
  ***********************************************************************/
 @method SoundWorkerClass, MSG_SOUND_WORKER_INIT_MODES
 {
+  // Handle sound off
   if (modes == SW_MODE_OFF)
   {
     pself->SWI_modes = SW_MODE_OFF;
@@ -203,6 +201,7 @@ static SWNoise SW_NOISES[] =
     @call oself::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
     return;
   }
+  // Handle noise modes
   if ((modes & SW_MODE_NOISE_SINGLE) && (pself->SWI_capabilities & SW_CAPABILITY_NOISE))
   {
     pself->SWI_modes |= SW_MODE_NOISE_SINGLE;
@@ -218,6 +217,7 @@ static SWNoise SW_NOISES[] =
     pself->SWI_modes &= ~(SW_MODE_NOISE_SINGLE | SW_MODE_NOISE_MULTI);
     @call oself::MSG_SOUND_WORKER_NOISE_FREE_VOICES();
   }
+  // Handle music mode
   if ((modes & SW_MODE_MUSIC) && (pself->SWI_capabilities & SW_CAPABILITY_MUSIC))
   { 
     pself->SWI_modes |= SW_MODE_MUSIC;
@@ -261,7 +261,7 @@ static SWNoise SW_NOISES[] =
   // Save the object pointer of the music and set the index to the first element
   pself->SWI_musicData = music;
   pself->SWI_musicPartIndex = 0;
-  // Get the total number of music parts
+  // Get and save the total number of music parts
   MemLock(OptrToHandle(pself->SWI_musicData));
   pself->SWI_musicPartCount = ChunkArrayGetCount(pself->SWI_musicData);
   MemUnlock(OptrToHandle(pself->SWI_musicData));
@@ -413,10 +413,6 @@ static SWNoise SW_NOISES[] =
   for (i = 0; i < voices; i++)
   {
     v = &pself->SWI_noiseVoices[i];
-    if (v->soundHandle != NullHandle)
-    {
-      SoundStopMusicNote(v->soundHandle);
-    }
     SoundAllocMusicNote(0, 0, 0, 0, 0, 0, &v->soundHandle);
     v->state = SW_NOISE_VOICE_STATE_FREE;
     v->noise = 0;
@@ -478,7 +474,7 @@ static SWNoise SW_NOISES[] =
  * RETURN:          nothing
  * SIDE EFFECTS:    none
  *
- * STRATEGY:        1/ Verify that the noise is one of our list.
+ * STRATEGY:        1/ Verify mode and that the noise is one in our list.
  *                  2/ Get the current time.
  *                  3/ Loop through the voices and free them if the
  *                     containing noise is expired.
@@ -512,7 +508,7 @@ static SWNoise SW_NOISES[] =
   }
   // Get current up time ticks
   currentTicks = TimerGetCount();
-  // Free voices with expired noises
+  // Free voices with finished noises
   for (i = 0; i < pself->SWI_numNoiseVoices; i++)
   {
     v = &pself->SWI_noiseVoices[i];
@@ -636,7 +632,7 @@ static SWNoise SW_NOISES[] =
   SWNoise *n;
   SWNoiseVoice *v;
   // Verify that single noise is enabled
-  if (!(pself->SWI_modes & SW_MODE_NOISE_SINGLE))
+  if (!(pself->SWI_modes & (SW_MODE_NOISE_SINGLE | SW_MODE_NOISE_MULTI)))
   {
     return;
   }
