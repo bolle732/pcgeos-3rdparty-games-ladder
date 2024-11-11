@@ -183,10 +183,10 @@ static word _pascal TicksByDifficulty(word diff)
  ***********************************************************************/
 void _pascal InitFontConfig(word index)
 {
-  word i, min;
+  word i;
+  word min = FNT_R_NONE;
   GLFont font;
   MemLock(OptrToHandle(@FontConfigs));
-  min = FNT_R_NONE;
   for (i = 0; i < ChunkArrayGetCount(@FontConfigs); i++)
   {
     ChunkArrayGetElement(@FontConfigs, i, &font);
