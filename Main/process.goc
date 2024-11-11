@@ -186,6 +186,7 @@ void _pascal InitFontConfig(word index)
   word i, min;
   GLFont font;
   MemLock(OptrToHandle(@FontConfigs));
+  min = FNT_R_NONE;
   for (i = 0; i < ChunkArrayGetCount(@FontConfigs); i++)
   {
     ChunkArrayGetElement(@FontConfigs, i, &font);
@@ -235,7 +236,7 @@ void _pascal InitFontConfig(word index)
   // There must be found always at least the font for fullscreen mode
   if (g.ns.fontFull != FNT_R_NONE)
   {
-    // If we haven't found a 40% font we allow the absolut smallest
+    // If we haven't found a 40% font we allow the absolute smallest
     if (g.ns.fontWinMin == FNT_R_NONE)
     {
       g.ns.fontWinMin = min;
@@ -254,6 +255,11 @@ void _pascal InitFontConfig(word index)
     {
       g.is.fontCurrent = (g.ns.fontWinMin + g.ns.fontWinMax) / 2;
     }
+  }
+  // No font for fullscreen mode found (we should terminate...)  
+  else
+  {
+    g.is.fontCurrent = FNT_R_NONE;
   }
   MemUnlock(OptrToHandle(@FontConfigs));
 }
