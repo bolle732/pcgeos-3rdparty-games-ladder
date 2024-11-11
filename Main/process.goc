@@ -256,7 +256,7 @@ void _pascal InitFontConfig(word index)
       g.is.fontCurrent = (g.ns.fontWinMin + g.ns.fontWinMax) / 2;
     }
   }
-  // No font for fullscreen mode found (we should terminate...)  
+  // No font found for fullscreen mode (we should terminate in this case...)  
   else
   {
     g.is.fontCurrent = FNT_R_NONE;
