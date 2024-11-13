@@ -131,10 +131,30 @@
   LVI_value = CFG_DIFF_MIN;
 }
 
+@object LadderEnumClass LadderMenuDiff2 = {
+  LTE_position = GPOS(11, 23);
+  LTE_length = 15;
+  LTE_alignment = TSD_A_LEFT;
+  LTE_element = 0;
+  LTE_chunks = @MenuDiffs;
+//  LTE_iniCategory = INI_CAT_APP;
+//  LTE_iniKey = INI_KEY_DIFF;
+}
+
 @object LadderTextClass LadderMenuSound = {
   LTI_position = GPOS(12, 23);
   LTI_length = 13;
   LTI_text = @MenuSoundOff;
+}
+
+@object LadderEnumClass LadderMenuSound2 = {
+  LTE_position = GPOS(12, 23);
+  LTE_length = 15;
+  LTE_alignment = TSD_A_LEFT;
+  LTE_element = 0;
+  LTE_chunks = @MenuSounds;
+//  LTE_iniCategory = INI_CAT_APP;
+//  LTE_iniKey = INI_KEY_SOUND;
 }
 
 @object LadderRankClass LadderMenuRank = {
@@ -527,8 +547,8 @@
 @chunk char MenuDiff5[] = "Hyper";
 @localize { "The difficulty hyper text" 1-15 };
 
-// Lookup table for translatable strings in Ladder menu difficulty enumeration
-@chunkArray optr MenuDiffStrings =
+// Difficulty
+@chunkArray optr MenuDiffs =
 {
   @MenuDiff1, @MenuDiff2, @MenuDiff3, MenuDiff4, MenuDiff5
 };
@@ -547,10 +567,10 @@
 @chunk char MenuSoundBoth[] = "Noise & Music";
 @localize { "The sound noise and music text" 1-15 };
 
-// Lookup table for translatable strings in Ladder menu sound enumeration
-@chunkArray optr MenuSoundStrings =
+// Sound
+@chunkArray optr MenuSounds =
 {
-  @MenuSoundNotAvailable, @MenuSoundOff, @MenuSoundBoth
+  @MenuSoundNotAvailable, @MenuSoundOff, @MenuSoundOff, @MenuSoundBoth
 };
 
 
