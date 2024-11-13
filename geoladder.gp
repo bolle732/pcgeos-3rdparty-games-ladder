@@ -63,6 +63,7 @@ export LadderPrimaryClass
 export SoundWorkerClass
 
 export LadderScreenClass
+# export LadderEnumClass
 export LadderTextClass
 export LadderValueClass
 export LadderRankClass

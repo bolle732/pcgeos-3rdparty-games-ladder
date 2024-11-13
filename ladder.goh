@@ -102,8 +102,10 @@
 // INI file entries
 #define INI_CAT_APP         APP_NAME  // Category in the GEOS.INI
 #define INI_KEY_FONT        "font"    // Key to save the font size
-#define INI_KEY_STATE       "state"   // Key to save the state of difficulty and sound
-#define INI_KEY_LAST        "last"    // Key to save the last score
+#define INI_KEY_DIFF        "diff"    // Key to save the difficulty level
+#define INI_KEY_SOUND       "sound"   // Key to save the sound output
+
+#define INI_KEY_STATE       "state"   // Key to save the state of difficulty and sound (deprecated)
 
 #define INI_CAT_UI          "ui"  // Category in the GEOS.INI
 #define INI_KEY_PRODUCT     "productName"  // Key of the product name
@@ -530,6 +532,33 @@ typedef struct                 // Extra state structure
   @instance optr LSI_screen = NullOptr;
   @instance optr LSI_chunks = NullOptr;
   @message void MSG_SCN_MARK_DIRTY();
+@endc
+
+
+/*
+ ***************************************************************************
+ *                  DEFINITION of LadderEnumClass
+ ***************************************************************************
+ */
+
+@class LadderEnumClass, VisClass;
+  @default VI_attrs = (@default) & ~(VA_DETECTABLE | VA_MANAGED | VA_OLD_BOUNDS_SAVED);
+  @default VI_geoAttrs = (@default)
+    | VGA_NO_SIZE_HINTS
+    | VGA_ONLY_RECALC_SIZE_WHEN_INVALID;
+  @instance word LTE_position = 0;
+  @instance word LTE_length = 0;
+  @instance byte LTE_alignment = TSD_A_LEFT;
+  @instance optr LTE_element = word;
+  @instance optr LTE_chunks = NullOptr;
+  @instance char LTE_iniCategory = "";
+  @instance char LTE_iniKey = "";
+  @prototype void MSG_ENU_PROTO(word element);
+  @message void MSG_ENU_INI_LOAD();
+  @message void MSG_ENU_INI_SAVE();
+  @message word MSG_ENU_GET_ELEMENT();
+  @message (MSG_ENU_PROTO) MSG_ENU_SET_ELEMENT;
+  @message (MSG_ENU_PROTO) MSG_ENU_UPDATE_ELEMENT;
 @endc
 
 

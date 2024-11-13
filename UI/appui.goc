@@ -511,6 +511,29 @@
 };
 
 
+// I8N_DE  "Neuling"
+@chunk char MenuDiff1[] = "Novice";
+@localize { "The difficulty novice text" 1-15 };
+// I8N_DE  "Anfänger"
+@chunk char MenuDiff2[] = "Beginner";
+@localize { "The difficulty beginner text" 1-15 };
+// I8N_DE  "Experte"
+@chunk char MenuDiff3[] = "Expert";
+@localize { "The difficulty expert text" 1-15 };
+// I8N_DE  "Veteran"
+@chunk char MenuDiff4[] = "Veteran";
+@localize { "The difficulty veteran text" 1-15 };
+// I8N_DE  "Hyper"
+@chunk char MenuDiff5[] = "Hyper";
+@localize { "The difficulty hyper text" 1-15 };
+
+// Lookup table for translatable strings in Ladder menu difficulty enumeration
+@chunkArray optr MenuDiffStrings =
+{
+  @MenuDiff1, @MenuDiff2, @MenuDiff3, MenuDiff4, MenuDiff5
+};
+
+
 // I8N_DE  "n/v"
 @chunk char MenuSoundNotAvailable[] = "n/a";
 @localize { "The sound not available text" 1-15 };
@@ -523,6 +546,13 @@
 // I8N_DE  "Töne & Musik"
 @chunk char MenuSoundBoth[] = "Noise & Music";
 @localize { "The sound noise and music text" 1-15 };
+
+// Lookup table for translatable strings in Ladder menu sound enumeration
+@chunkArray optr MenuSoundStrings =
+{
+  @MenuSoundNotAvailable, @MenuSoundOff, @MenuSoundBoth
+};
+
 
 // I8N_DE  "Du isst Quiche!"
 @chunk char MenuJoke1[] = "You eat quiche!";
