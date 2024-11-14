@@ -537,33 +537,6 @@ typedef struct                 // Extra state structure
 
 /*
  ***************************************************************************
- *                  DEFINITION of LadderEnumClass
- ***************************************************************************
- */
-
-@class LadderEnumClass, VisClass;
-  @default VI_attrs = (@default) & ~(VA_DETECTABLE | VA_MANAGED | VA_OLD_BOUNDS_SAVED);
-  @default VI_geoAttrs = (@default)
-    | VGA_NO_SIZE_HINTS
-    | VGA_ONLY_RECALC_SIZE_WHEN_INVALID;
-  @instance word LTE_position = 0;
-  @instance word LTE_length = 0;
-  @instance byte LTE_alignment = TSD_A_LEFT;
-  @instance word LTE_element = 0;
-  @instance optr LTE_chunks = NullOptr;
-//  @instance char LTE_iniCategory = "";
-//  @instance char LTE_iniKey = "";
-  @prototype void MSG_ENU_PROTO(word element);
-  @message void MSG_ENU_INI_LOAD();
-  @message void MSG_ENU_INI_SAVE();
-  @message word MSG_ENU_GET_ELEMENT();
-  @message (MSG_ENU_PROTO) MSG_ENU_SET_ELEMENT;
-  @message (MSG_ENU_PROTO) MSG_ENU_UPDATE_ELEMENT;
-@endc
-
-
-/*
- ***************************************************************************
  *                  DEFINITION of LadderTextClass
  ***************************************************************************
  */

@@ -335,7 +335,7 @@ static void _pascal MenuSoundSetMode(word mode)
   {
     // No sound supported
     g.is.sound = CFG_SND_OFF;
-    o = @MenuSoundNotAvailable;
+    o = @MenuSoundUnavailable;
   }
   else
   {
@@ -551,10 +551,14 @@ static void _pascal MenuSoundSetMode(word mode)
   // Setup user interface if no error has occurred
   if (g.ns.startupError == L_FALSE)
   {
+    optr o;
     // Initialize the sound worker object
     @call SoundWorker::MSG_META_INITIALIZE();
     // Set the difficulty
-    @send LadderMenuDiff::MSG_VAL_SET_VALUE(g.is.diff);
+    MemLock(OptrToHandle(@MenuDiffTexts));
+    ChunkArrayGetElement(@MenuDiffTexts, g.is.diff - 1, &o);
+    MemUnlock(OptrToHandle(@MenuDiffTexts));
+    @send LadderMenuDiff::MSG_TXT_SET_TEXT(o);
     // Set the sound mode
     MenuSoundSetMode(g.is.sound);
     // Load the high and last scores from the file
@@ -728,6 +732,7 @@ static void _pascal MenuSoundSetMode(word mode)
 @method LadderProcessClass, MSG_LAD_MENU_DIFF,
                             MSG_LAD_MENU_SOUND
 {
+  optr o;
   // Stop the jokes or demo
   @send process::MSG_LAD_MENU_STOP();
   // Handle message type
@@ -743,8 +748,11 @@ static void _pascal MenuSoundSetMode(word mode)
     }
     // Play "Difficulty" sound
     @send SoundWorker::MSG_SOUND_WORKER_NOISE_PLAY_SINGLE(1);
-    // Update the value on screen
-    @send LadderMenuDiff::MSG_VAL_UPDATE_VALUE(g.is.diff);
+    // Update the text on screen
+    MemLock(OptrToHandle(@MenuDiffTexts));
+    ChunkArrayGetElement(@MenuDiffTexts, g.is.diff - 1, &o);
+    MemUnlock(OptrToHandle(@MenuDiffTexts));
+    @send LadderMenuDiff::MSG_TXT_UPDATE_TEXT(o);
     break;
   case MSG_LAD_MENU_SOUND:
     // Try to switch to the next higher sound state
