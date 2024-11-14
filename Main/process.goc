@@ -78,7 +78,8 @@ static void _pascal MenuSoundSetMode(word mode);
 
 static char ICA[] = INI_CAT_APP;
 static char IKF[] = INI_KEY_FONT;
-static char IKS[] = INI_KEY_STATE;
+static char IKD[] = INI_KEY_DIFF;
+static char IKS[] = INI_KEY_SOUND;
 
 static char ICU[] = INI_CAT_UI;
 static char IKP[] = INI_KEY_PRODUCT;
@@ -435,7 +436,7 @@ static void _pascal MenuSoundSetMode(word mode)
 @method LadderProcessClass, MSG_GEN_PROCESS_OPEN_APPLICATION
 {
   static char buf[32] = "";
-  word size, state;
+  word size;
   GenReturnParams grp;
   DisplayScheme ds;
   MemHandle mh;
@@ -507,19 +508,17 @@ static void _pascal MenuSoundSetMode(word mode)
     // No entry found, set defaults
     g.is.fontCurrent = FNT_R_NONE;
   }
-  // Get the difficulty and sound state from the INI file
-  if (InitFileReadInteger(&ICA, &IKS, &state))
+  // Get the difficulty from the INI file
+  if (InitFileReadInteger(&ICA, &IKD, &g.is.diff))
   {
     // No entry found, set defaults
     g.is.diff = 1;
-    g.is.sound = CFG_SND_OFF;
   }
-  else
+  // Get the sound from the INI file
+  if (InitFileReadInteger(&ICA, &IKS, &g.is.sound))
   {
-    // Get the difficulty from the high byte
-    g.is.diff = state >> 8;
-    // Get the sound from the low byte
-    g.is.sound = state & 0x0F;
+    // No entry found, set defaults
+    g.is.sound = CFG_SND_OFF;
   }
   // Get the video resolution
   @call application::MSG_GEN_GUP_QUERY(&grp, GUQT_FIELD);
@@ -627,7 +626,8 @@ static void _pascal MenuSoundSetMode(word mode)
   // Write the font size to the INI file
   InitFileWriteInteger(&ICA, &IKF, g.is.fontCurrent);
   // Write the difficulty and sound state to the INI file
-  InitFileWriteInteger(&ICA, &IKS, (g.is.diff << 8) | (g.is.sound & 0x0F));
+  InitFileWriteInteger(&ICA, &IKD, g.is.diff);
+  InitFileWriteInteger(&ICA, &IKS, g.is.sound);
   // Do super
   @callsuper();
   // Allocate memory for our struct to save the extra state

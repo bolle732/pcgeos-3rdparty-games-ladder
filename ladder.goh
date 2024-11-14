@@ -105,8 +105,6 @@
 #define INI_KEY_DIFF        "diff"    // Key to save the difficulty level
 #define INI_KEY_SOUND       "sound"   // Key to save the sound output
 
-#define INI_KEY_STATE       "state"   // Key to save the state of difficulty and sound (deprecated)
-
 #define INI_CAT_UI          "ui"  // Category in the GEOS.INI
 #define INI_KEY_PRODUCT     "productName"  // Key of the product name
 
