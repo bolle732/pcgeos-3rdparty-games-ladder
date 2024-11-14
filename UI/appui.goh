@@ -75,11 +75,6 @@
 // RESOURCE Text
 @extern chunk ScreenMenu;
 @extern chunk MenuDiffTexts;
-//@extern chunk MenuDiff1;
-//@extern chunk MenuDiff2;
-//@extern chunk MenuDiff3;
-//@extern chunk MenuJoke4;
-//@extern chunk MenuDiff5;
 @extern chunk MenuSoundUnavailable;
 @extern chunk MenuSoundOff;
 @extern chunk MenuSoundNoise;
